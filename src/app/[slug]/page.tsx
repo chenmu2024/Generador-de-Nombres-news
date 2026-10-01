@@ -12,6 +12,7 @@ import DataQualityNote from'@/components/DataQualityNote';
 import DecisionGuide from'@/components/DecisionGuide';
 import FaqSection from'@/components/FaqSection';
 import AdSlot from'@/components/AdSlot';
+import IntentCollections from'@/components/IntentCollections';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -71,6 +72,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
 
     <NameGrid items={items} mode={page.tool}/>
+    <IntentCollections page={page} items={items}/>
     {page.tool==='culture'&&<DataQualityNote/>}
 
     <DecisionGuide page={page}/>
