@@ -55,12 +55,15 @@ export default function HomeFreeFireStudio(){
         </div>
 
         <div className="mt-5 space-y-3">
-          {[['Usar símbolos',symbols,setSymbols],['Incluir espacios invisibles',invisible,setInvisible],['Solo nombres cortos',shortOnly,setShortOnly]].map(([label,value,setter])=><button key={label as string} onClick={()=>setter(!(value as boolean))} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
-            <span>{label as string}</span>
-            <span className={'relative h-6 w-10 rounded-full transition '+((value as boolean)?'bg-[#5b4df5]':'bg-[#303546]')}>
-              <span className={'absolute top-1 size-4 rounded-full bg-white transition '+((value as boolean)?'left-5':'left-1')}/>
-            </span>
-          </button>)}
+          <button onClick={()=>setSymbols(v=>!v)} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+            <span>Usar símbolos</span><span className={'relative h-6 w-10 rounded-full transition '+(symbols?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(symbols?'left-5':'left-1')}/></span>
+          </button>
+          <button onClick={()=>setInvisible(v=>!v)} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+            <span>Incluir espacios invisibles</span><span className={'relative h-6 w-10 rounded-full transition '+(invisible?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(invisible?'left-5':'left-1')}/></span>
+          </button>
+          <button onClick={()=>setShortOnly(v=>!v)} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+            <span>Solo nombres cortos</span><span className={'relative h-6 w-10 rounded-full transition '+(shortOnly?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(shortOnly?'left-5':'left-1')}/></span>
+          </button>
         </div>
 
         <button className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#5b4df5] text-[13px] font-semibold shadow-[0_10px_30px_rgba(91,77,245,.3)]">
