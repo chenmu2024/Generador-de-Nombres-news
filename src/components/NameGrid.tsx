@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect,useMemo,useState} from 'react';
-import {Check,ClipboardCopy,Heart,HeartPlus,RotateCcw,Search,Shuffle,SlidersHorizontal} from 'lucide-react';
+import {Check,ClipboardCopy,Heart,HeartPlus,RotateCcw,Scale,Search,Shuffle,SlidersHorizontal,X} from 'lucide-react';
 import type{NameRecord} from '@/data/nameDataset';
 import type{ToolMode} from '@/data/keywordMaster';
 import CopyButton from './CopyButton';
@@ -55,6 +55,7 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
   const[favorites,setFavorites]=useState<string[]>([]);
   const[randomPick,setRandomPick]=useState('');
   const[actionFeedback,setActionFeedback]=useState('');
+  const[compareNames,setCompareNames]=useState<string[]>([]);
   const[limit,setLimit]=useState(18);
 
   useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
@@ -134,6 +135,7 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
   async function copyFiltered(){
     if(!filtered.length)return;
     await navigator.clipboard.writeText(filtered.map(item=>item.name).join('\n'));
+    setRandomPick('');
     flash(filtered.length+' nombres copiados');
   }
 
@@ -142,7 +144,25 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
     const next=Array.from(new Set([...favorites,...filtered.map(item=>item.name)]));
     setFavorites(next);
     localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    setRandomPick('');
     flash(filtered.length+' nombres guardados');
+  }
+
+  function toggleCompare(name:string){
+    if(compareNames.includes(name)){
+      setCompareNames(compareNames.filter(item=>item!==name));
+      return;
+    }
+    if(compareNames.length>=4){
+      setRandomPick('');
+      flash('Puedes comparar hasta 4 nombres');
+      return;
+    }
+    setCompareNames([...compareNames,name]);
+  }
+
+  function clearCompare(){
+    setCompareNames([]);
   }
 
   useEffect(()=>{
@@ -162,6 +182,11 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
     const matchesPersonality=!personalityFilter||item.tags.includes(personalityFilter);
     return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality;
   }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter]);
+
+  const compareRecords=useMemo(
+    ()=>compareNames.map(name=>items.find(item=>item.name===name)).filter((item):item is NameRecord=>Boolean(item)),
+    [compareNames,items]
+  );
 
   if(!items.length)return null;
   const showGender=items.some(item=>inferredGender(item));
@@ -270,6 +295,55 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
         </div>
       </div>}
 
+      {(mode==='people'||mode==='pet')&&compareRecords.length>0&&<div className="border-b border-[#e7e2f3] bg-[#f8f6ff] px-4 py-4">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[.12em] text-[#6b60d7]">Comparador</p>
+            <p className="mt-1 text-[11px] text-[#77798b]">{compareRecords.length} de 4 nombres seleccionados</p>
+          </div>
+          <button onClick={clearCompare} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-[#ddd8ee] bg-white px-3 text-[10px] font-semibold text-[#696b7d] hover:border-[#cfc8fb] hover:text-[#5146d6]"><X size={11}/>Limpiar comparación</button>
+        </div>
+
+        <div className="overflow-x-auto pb-1">
+          <div className="flex min-w-max gap-3">
+            {compareRecords.map(item=>{
+              const itemGender=inferredGender(item);
+              const personStyle=item.tags.find(tag=>personStyles.includes(tag as typeof personStyles[number]));
+              const petColor=item.tags.find(tag=>petColors.includes(tag as typeof petColors[number]));
+              const petSize=item.tags.find(tag=>petSizes.includes(tag as typeof petSizes[number]));
+              const petPersonality=item.tags.find(tag=>petPersonalities.includes(tag as typeof petPersonalities[number]));
+              const rows=mode==='people'
+                ?[
+                  ['Longitud',lengthLabels[lengthBucket(item.name)]],
+                  ['Origen',item.origin||'—'],
+                  ['Estilo',personStyle?tagLabels[personStyle]:'—'],
+                  ['Género',itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':'—'],
+                ]
+                :[
+                  ['Color',petColor?tagLabels[petColor]:'—'],
+                  ['Tamaño',petSize?tagLabels[petSize]:'—'],
+                  ['Personalidad',petPersonality?tagLabels[petPersonality]:'—'],
+                  ['Género',itemGender==='F'?'Hembra':itemGender==='M'?'Macho':itemGender==='U'?'Unisex':'—'],
+                ];
+
+              return <article key={item.name} className="w-[190px] shrink-0 rounded-[15px] border border-[#e2ddf1] bg-white p-4 shadow-[0_8px_22px_rgba(69,58,129,.05)]">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="brand-serif truncate text-[20px] font-bold text-[#292a3a]">{item.name}</h3>
+                  <button onClick={()=>toggleCompare(item.name)} aria-label={'Quitar '+item.name+' de la comparación'} className="grid size-7 shrink-0 place-items-center rounded-full border border-[#e3dfec] text-[#8a8c9b] hover:bg-[#f7f5ff]"><X size={11}/></button>
+                </div>
+                <dl className="mt-3 divide-y divide-[#efedf5]">
+                  {rows.map(([label,value])=><div key={label} className="flex items-start justify-between gap-3 py-2">
+                    <dt className="text-[9px] font-bold uppercase tracking-[.08em] text-[#a0a1af]">{label}</dt>
+                    <dd className="max-w-[105px] text-right text-[10px] font-semibold leading-4 text-[#565869]">{value}</dd>
+                  </div>)}
+                </dl>
+                <div className="mt-3"><CopyButton value={item.name}/></div>
+              </article>;
+            })}
+          </div>
+        </div>
+      </div>}
+
       {filtered.length===0
         ?<div className="px-6 py-14 text-center">
           <p className="text-[13px] font-semibold text-[#5c5f70]">No encontramos resultados con esa combinación.</p>
@@ -323,6 +397,12 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
               <div className="mt-4 flex flex-wrap gap-2">
                 <CopyButton value={item.name} label={mode==='culture'&&item.script?'Copiar nombre':'Copiar'}/>
                 {mode==='culture'&&item.script&&<CopyButton value={item.script} label="Copiar escritura"/>}
+                {(mode==='people'||mode==='pet')&&<button
+                  onClick={()=>toggleCompare(item.name)}
+                  aria-pressed={compareNames.includes(item.name)}
+                  disabled={compareNames.length>=4&&!compareNames.includes(item.name)}
+                  className={'inline-flex min-h-11 items-center gap-1.5 rounded-[10px] border px-4 text-[12px] font-semibold transition sm:min-h-8 sm:px-3 sm:text-[10px] '+(compareNames.includes(item.name)?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#d9d5e6] bg-white text-[#5f6273] hover:border-[#cfc8fb] hover:text-[#5146d6] disabled:cursor-not-allowed disabled:opacity-40')}
+                ><Scale size={12}/>{compareNames.includes(item.name)?'Comparando':'Comparar'}</button>}
               </div>
             </article>;
           })}
