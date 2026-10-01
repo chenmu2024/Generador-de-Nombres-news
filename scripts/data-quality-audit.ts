@@ -36,11 +36,22 @@ const minimums:Record<string,number>={
   '/nombres-unisex':8,
   '/nombres-raros':16,
   '/nombres-con-en':4,
+  '/nombres-japoneses':8,
 };
 
 for(const [path,min] of Object.entries(minimums)){
   const count=getNamesForPath(path).length;
   if(count<min)errors.push('Core page dataset too thin: '+path+' has '+count+', expected at least '+min);
+}
+
+const culturalPaths=[
+  '/nombres-japoneses','/nombres-coreanos','/nombres-franceses','/nombres-italianos',
+  '/nombres-mayas','/nombres-rusos','/nombres-griegos','/nombres-ingles',
+  '/nombres-turcos','/nombres-chinos','/nombres-de-dioses',
+];
+for(const path of culturalPaths){
+  const wrongType=getNamesForPath(path).filter(item=>item.type!=='culture');
+  if(wrongType.length)errors.push('Cultural page contains non-cultural records: '+path+' -> '+wrongType.map(item=>item.name).join(', '));
 }
 
 const coverageChecks=[
