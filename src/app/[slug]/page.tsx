@@ -9,6 +9,7 @@ import PlatformNameTool from'@/components/PlatformNameTool';
 import FreeFireNameTool from'@/components/FreeFireNameTool';
 import BrandNameTool from'@/components/BrandNameTool';
 import CultureDataNote from'@/components/CultureDataNote';
+import DatasetTrustNote from'@/components/DatasetTrustNote';
 import DecisionGuide from'@/components/DecisionGuide';
 import FaqSection from'@/components/FaqSection';
 import AdSlot from'@/components/AdSlot';
@@ -74,6 +75,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
 
     <NameGrid items={items} mode={page.tool}/>
+    <DatasetTrustNote items={items} mode={page.tool}/>
     {isEnye&&<EnyeGuide/>}
     <IntentCollections page={page} items={items}/>
     {page.tool==='culture'&&<CultureDataNote items={items}/>}
