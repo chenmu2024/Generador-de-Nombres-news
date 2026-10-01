@@ -1,70 +1,52 @@
 @import "tailwindcss";
 
 :root{
-  --bg:#f8f8fa;
-  --surface:#ffffff;
-  --surface-2:#f3f4f6;
-  --surface-3:#eceef2;
-  --text:#17181c;
-  --text-2:#4f535d;
-  --muted:#777b85;
-  --border:#e3e5e9;
-  --border-strong:#d5d8de;
-  --accent:#5b4df5;
-  --accent-hover:#4e41db;
-  --accent-soft:#eeecff;
-  --success:#0f7b4b;
-  --success-soft:#ecf8f2;
-  --danger:#ad3d32;
-  --danger-soft:#fff1ef;
-  --shadow-xs:0 1px 2px rgba(20,22,26,.035);
-  --shadow-sm:0 1px 3px rgba(20,22,26,.055),0 1px 2px rgba(20,22,26,.035);
-  --shadow-md:0 10px 30px rgba(20,22,26,.08);
+  --paper:#f4efe6;
+  --paper-2:#ebe3d5;
+  --surface:#fffdf8;
+  --ink:#18221c;
+  --ink-2:#4f5c54;
+  --muted:#7d867f;
+  --line:#d9d1c4;
+  --forest:#173128;
+  --forest-2:#24483b;
+  --sage:#87a18f;
+  --orange:#d97849;
+  --gold:#dfb55d;
+  --cream:#fbf7ef;
+  --shadow:0 18px 50px rgba(42,48,40,.08);
 }
-
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0;
-  color:var(--text);
-  background:var(--bg);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
-  font-feature-settings:"ss01" 1,"cv02" 1,"cv03" 1;
+  color:var(--ink);
+  background:var(--paper);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   text-rendering:optimizeLegibility;
 }
 a{color:inherit;text-decoration:none}
 button,input,select{font:inherit}
 button{cursor:pointer}
-::selection{background:#dcd7ff;color:#211b61}
+::selection{background:#d6c9ae;color:#17231c}
 
-.gdn-shell{width:min(1120px,calc(100% - 32px));margin-inline:auto}
-.gdn-card{background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-xs)}
-.gdn-soft{background:var(--surface-2);border:1px solid var(--border)}
-.gdn-dark{background:#17181c;color:#fff;border:1px solid #26282f;box-shadow:var(--shadow-sm)}
-.gdn-gradient{color:var(--accent)}
-.gdn-eyebrow{font-size:.75rem;line-height:1rem;font-weight:700;letter-spacing:.01em;color:var(--accent)}
-.gdn-input{
-  width:100%;
-  border:1px solid var(--border-strong);
-  background:var(--surface);
-  color:var(--text);
-  outline:none;
-  transition:border-color .16s ease,box-shadow .16s ease,background .16s ease;
-}
-.gdn-input::placeholder{color:#a0a4ad}
-.gdn-input:hover{border-color:#c7cad1}
-.gdn-input:focus{border-color:#8f86fa;box-shadow:0 0 0 3px rgba(91,77,245,.11)}
-.gdn-chip{
-  border:1px solid var(--border);
-  background:var(--surface);
-  color:var(--text-2);
-  transition:background .16s ease,border-color .16s ease,color .16s ease;
-}
-.gdn-chip:hover{background:var(--surface-2);border-color:var(--border-strong)}
-.gdn-chip[data-active="true"]{border-color:#c8c2ff;background:var(--accent-soft);color:#493dc6}
-.gdn-section-title{font-size:1.5rem;line-height:2rem;font-weight:700;letter-spacing:-.025em}
-.gdn-caption{font-size:.75rem;line-height:1.1rem;color:var(--muted)}
+.gdn-shell{width:min(1180px,calc(100% - 40px));margin-inline:auto}
+.gdn-card{background:var(--surface);border:1px solid rgba(73,77,69,.14);box-shadow:0 1px 0 rgba(255,255,255,.7) inset}
+.gdn-soft{background:#ece5d8;border:1px solid rgba(73,77,69,.12)}
+.gdn-dark{background:var(--forest);color:#fff;border:1px solid rgba(255,255,255,.08)}
+.gdn-eyebrow{font-size:.72rem;line-height:1rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--forest-2)}
+.gdn-input{width:100%;border:1px solid #d7d0c3;background:#fffdf8;color:var(--ink);outline:none;transition:.16s ease}
+.gdn-input::placeholder{color:#a49d92}
+.gdn-input:hover{border-color:#c4bbad}
+.gdn-input:focus{border-color:#6d8b79;box-shadow:0 0 0 3px rgba(77,107,88,.13)}
+.gdn-chip{border:1px solid #d9d1c4;background:#fffdf8;color:#566158;transition:.16s ease}
+.gdn-chip:hover{background:#f7f2e9;border-color:#c5bcaf}
+.gdn-chip[data-active="true"]{border-color:#769181;background:#e6eee7;color:#24483b}
+
+.brand-serif{font-family:Georgia,"Times New Roman",serif}
+.brand-shadow{box-shadow:var(--shadow)}
+.paper-grid{background-image:linear-gradient(rgba(72,76,66,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(72,76,66,.035) 1px,transparent 1px);background-size:32px 32px}
 
 @media(max-width:640px){
-  .gdn-shell{width:min(100% - 24px,1120px)}
+  .gdn-shell{width:min(100% - 24px,1180px)}
 }
