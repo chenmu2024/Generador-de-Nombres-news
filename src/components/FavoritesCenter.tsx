@@ -15,6 +15,9 @@ export default function FavoritesCenter(){
     setItems(next);
     localStorage.setItem('gdn-favorites',JSON.stringify(next));
   }
+  async function copyAll(){
+    await navigator.clipboard.writeText(items.join('\n'));
+  }
   function clear(){
     setItems([]);
     localStorage.removeItem('gdn-favorites');
@@ -34,7 +37,7 @@ export default function FavoritesCenter(){
   return <section className="gdn-card rounded-[28px] p-5 md:p-7">
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div><p className="gdn-eyebrow">Guardados en este dispositivo</p><h2 className="mt-2 text-2xl font-black">Mis nombres favoritos</h2></div>
-      <div className="flex gap-2"><button onClick={exportTxt} className="rounded-xl border border-[#dedfe5] bg-white px-3 py-2 text-xs font-extrabold">Exportar TXT</button><button onClick={clear} className="rounded-xl border border-[#ead8d6] bg-[#fff7f6] px-3 py-2 text-xs font-extrabold text-[#9c4a41]">Vaciar</button></div>
+      <div className="flex flex-wrap gap-2"><button onClick={copyAll} className="rounded-xl border border-[#dedfe5] bg-white px-3 py-2 text-xs font-extrabold">Copiar todos</button><button onClick={exportTxt} className="rounded-xl border border-[#dedfe5] bg-white px-3 py-2 text-xs font-extrabold">Exportar TXT</button><button onClick={clear} className="rounded-xl border border-[#ead8d6] bg-[#fff7f6] px-3 py-2 text-xs font-extrabold text-[#9c4a41]">Vaciar</button></div>
     </div>
     <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {items.map(name=><div key={name} className="rounded-2xl border border-[#e4e5e9] bg-[#fbfbfc] p-4">
