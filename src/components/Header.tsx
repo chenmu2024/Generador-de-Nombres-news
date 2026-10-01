@@ -32,6 +32,7 @@ export default function Header(){
           <summary className="grid size-10 list-none place-items-center rounded-full border border-[#e4e1ee] bg-white text-[#5b5d70]"><Menu size={17}/></summary>
           <div className="absolute right-0 mt-2 w-56 rounded-[14px] border border-[#e5e2ed] bg-white p-1.5 shadow-[0_18px_50px_rgba(43,39,74,.16)]">
             {nav.map(item=><Link key={item.href} className="block rounded-[10px] px-3 py-2.5 text-[12px] font-medium text-[#55576a] hover:bg-[#f7f5ff]" href={item.href}>{item.label}</Link>)}
+            <Link href="/favoritos" className="mt-1 flex items-center gap-2 border-t border-[#eceaf3] px-3 py-3 text-[12px] font-semibold text-[#5b4df5]"><Heart size={14}/>Favoritos</Link>
           </div>
         </details>
       </div>

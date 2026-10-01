@@ -84,18 +84,18 @@ export default function HomeFreeFireStudio(){
         <div className="mt-4">
           <span className="mb-2 block text-[11px] font-semibold text-[#d1d4df]">Estilo</span>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-3">
-            {styles.map(item=><button key={item} onClick={()=>setStyle(item)} className={'h-11 rounded-[8px] border text-[12px] font-medium transition sm:h-9 sm:text-[11px] '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/16 bg-[#1a1f2e] text-[#d8dbe5] hover:border-[#665ce0] hover:bg-[#22283a]')}>{item}</button>)}
+            {styles.map(item=><button key={item} onClick={()=>setStyle(item)} aria-pressed={style===item} className={'h-11 rounded-[8px] border text-[12px] font-medium transition sm:h-9 sm:text-[11px] '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/16 bg-[#1a1f2e] text-[#d8dbe5] hover:border-[#665ce0] hover:bg-[#22283a]')}>{item}</button>)}
           </div>
         </div>
 
         <div className="mt-5 space-y-3">
-          <button onClick={()=>setSymbols(v=>!v)} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+          <button onClick={()=>setSymbols(v=>!v)} aria-pressed={symbols} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
             <span>Usar símbolos</span><span className={'relative h-6 w-10 rounded-full transition '+(symbols?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(symbols?'left-5':'left-1')}/></span>
           </button>
-          <button onClick={()=>setInvisible(v=>!v)} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+          <button onClick={()=>setInvisible(v=>!v)} aria-pressed={invisible} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
             <span>Incluir espacios invisibles</span><span className={'relative h-6 w-10 rounded-full transition '+(invisible?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(invisible?'left-5':'left-1')}/></span>
           </button>
-          <button onClick={()=>setShortOnly(v=>!v)} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+          <button onClick={()=>setShortOnly(v=>!v)} aria-pressed={shortOnly} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
             <span>Solo nombres cortos</span><span className={'relative h-6 w-10 rounded-full transition '+(shortOnly?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(shortOnly?'left-5':'left-1')}/></span>
           </button>
         </div>
@@ -120,7 +120,7 @@ export default function HomeFreeFireStudio(){
                 <div className="mt-1 flex gap-1"><span className="rounded-full bg-[#3e2f71] px-2 py-0.5 text-[10px] text-[#cfc8ff] sm:text-[9px]">{style}</span><span className="rounded-full bg-[#123d3d] px-2 py-0.5 text-[10px] text-[#7fe0cc] sm:text-[9px]">{index%2?'Popular':'Único'}</span></div>
               </div>
               <div className="flex items-center gap-1.5">
-                <button onClick={()=>toggleFavorite(value)} className={'grid size-10 place-items-center rounded-[9px] border transition sm:size-7 sm:rounded-[7px] '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'}><Heart size={12} fill={saved?'currentColor':'none'}/></button>
+                <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} className={'grid size-10 place-items-center rounded-[9px] border transition sm:size-7 sm:rounded-[7px] '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'}><Heart size={12} fill={saved?'currentColor':'none'}/></button>
                 <button onClick={()=>copy(value)} className="inline-flex h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[11px] text-[#d3d6df] hover:bg-white/[.05] sm:h-7 sm:rounded-[7px] sm:px-2 sm:text-[10px]">
                   {copied===value?<Check size={11}/>:<Copy size={11}/>} {copied===value?'Copiado':'Copiar'}
                 </button>
