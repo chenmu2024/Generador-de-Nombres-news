@@ -74,7 +74,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {isFreeFire&&<FreeFireNameTool variant={freeFireVariant(page.path)}/>}
     {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
 
-    <NameGrid items={items} mode={page.tool}/>
+    <NameGrid items={items} mode={page.tool} pagePath={page.path}/>
     <DatasetTrustNote items={items} mode={page.tool}/>
     {isEnye&&<EnyeGuide/>}
     <IntentCollections page={page} items={items}/>

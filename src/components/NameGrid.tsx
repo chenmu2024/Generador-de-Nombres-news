@@ -42,7 +42,7 @@ function FacetRow({label,children}:{label:string;children:React.ReactNode}){
   </div>
 }
 
-export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}){
+export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:ToolMode;pagePath?:string}){
   const[query,setQuery]=useState('');
   const[gender,setGender]=useState<'ALL'|'F'|'M'|'U'>('ALL');
   const[activeTag,setActiveTag]=useState('');
@@ -101,6 +101,59 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
 
   const hasPersonFacets=mode==='people';
   const hasPetFacets=mode==='pet';
+
+  type QuickPreset={label:string;length?:LengthFilter;style?:string;color?:string;size?:string;personality?:string};
+  const quickPresets:QuickPreset[]=pagePath==='/nombres-de-mujer'
+    ?[
+      {label:'Cortos',length:'short'},
+      {label:'Modernos',style:'modern'},
+      {label:'Clásicos',style:'classic'},
+      {label:'Poco comunes',style:'rare'},
+    ]
+    :pagePath==='/nombres-de-nina'
+      ?[
+        {label:'3–4 letras',length:'short'},
+        {label:'Modernos',style:'modern'},
+        {label:'Poco comunes',style:'rare'},
+      ]
+      :pagePath==='/nombres-gatos'
+        ?[
+          {label:'Negros',color:'black'},
+          {label:'Naranjas',color:'orange'},
+          {label:'Tiernos',personality:'cute'},
+          {label:'Juguetones',personality:'playful'},
+        ]
+        :pagePath==='/nombres-perritas'
+          ?[
+            {label:'Pequeñas',size:'small'},
+            {label:'Tiernas',personality:'cute'},
+            {label:'Elegantes',personality:'elegant'},
+            {label:'Juguetonas',personality:'playful'},
+          ]
+          :[];
+
+  function applyQuickPreset(preset:QuickPreset){
+    setQuery('');
+    setGender('ALL');
+    setActiveTag('');
+    setLengthFilter(preset.length??'ALL');
+    setStyleFilter(preset.style??'');
+    setOriginFilter('');
+    setColorFilter(preset.color??'');
+    setSizeFilter(preset.size??'');
+    setPersonalityFilter(preset.personality??'');
+    setRandomPick('');
+    setActionFeedback('');
+  }
+
+  function isQuickPresetActive(preset:QuickPreset){
+    return !query&&gender==='ALL'&&!activeTag&&!originFilter&&
+      lengthFilter===(preset.length??'ALL')&&
+      styleFilter===(preset.style??'')&&
+      colorFilter===(preset.color??'')&&
+      sizeFilter===(preset.size??'')&&
+      personalityFilter===(preset.personality??'');
+  }
 
   const hasActiveFilters=
     Boolean(query)||gender!=='ALL'||Boolean(activeTag)||lengthFilter!=='ALL'||Boolean(styleFilter)||
@@ -217,6 +270,16 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
             )}
           </div>}
         </div>
+
+        {quickPresets.length>0&&<div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-[9px] font-black uppercase tracking-[.12em] text-[#9a9bac]">Atajos</span>
+          {quickPresets.map(preset=><button
+            key={preset.label}
+            onClick={()=>applyQuickPreset(preset)}
+            aria-pressed={isQuickPresetActive(preset)}
+            className={'min-h-10 rounded-full border px-3.5 text-[10px] font-semibold transition '+(isQuickPresetActive(preset)?'border-[#c8c0ff] bg-[#5b4df5] text-white shadow-[0_5px_14px_rgba(91,77,245,.18)]':'border-[#dfdbea] bg-white text-[#66697b] hover:border-[#cfc8fb] hover:bg-[#f7f5ff] hover:text-[#5146d6]')}
+          >{preset.label}</button>)}
+        </div>}
 
         {(hasPersonFacets||hasPetFacets)&&<div className="mt-4 rounded-[14px] border border-[#e6e2f3] bg-white/75 p-3">
           <div className="mb-2 flex items-center gap-2 text-[10px] font-bold text-[#6f7190]"><SlidersHorizontal size={13} className="text-[#6558f5]"/>Filtros avanzados</div>
