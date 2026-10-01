@@ -105,6 +105,17 @@ for(const check of coverageChecks){
   if(count<check.min)errors.push('Intent coverage too thin: '+check.label+' has '+count+', expected at least '+check.min);
 }
 
+const sourcedPeopleChecks=[
+  {label:'people / sourced female meanings',items:getNamesForPath('/nombres-de-mujer'),min:12},
+  {label:'people / sourced girl meanings',items:getNamesForPath('/nombres-de-nina'),min:8},
+  {label:'people / sourced male meanings',items:getNamesForPath('/nombres-de-nino'),min:12},
+];
+
+for(const check of sourcedPeopleChecks){
+  const count=check.items.filter(item=>item.type==='person'&&Boolean(item.meaning)&&Boolean(item.sourceUrl)&&item.verified===true).length;
+  if(count<check.min)errors.push('Sourced people coverage too thin: '+check.label+' has '+count+', expected at least '+check.min);
+}
+
 if(warnings.length){
   console.warn('[Data Quality] WARNINGS');
   for(const warning of warnings.slice(0,30))console.warn(' - '+warning);
