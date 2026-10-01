@@ -23,13 +23,13 @@ const popular=[
 export default function HomePage(){
   return <>
     <section className="home-hero">
-      <div className="gdn-shell grid items-center gap-10 py-14 lg:grid-cols-[1.03fr_.97fr] lg:py-16">
+      <div className="gdn-shell grid items-center gap-9 py-10 sm:py-14 lg:grid-cols-[1.03fr_.97fr] lg:py-16">
         <div className="max-w-[620px]">
           <p className="text-[11px] font-black uppercase tracking-[.32em] text-[#695cff]">Generador de nombres en español</p>
-          <h1 className="mt-4 font-serif text-[47px] font-bold leading-[.98] tracking-[-.045em] text-[#171827] sm:text-[58px] lg:text-[64px]">
+          <h1 className="mt-4 font-serif text-[40px] font-bold leading-[.98] tracking-[-.045em] text-[#171827] sm:text-[58px] lg:text-[64px]">
             Encuentra un nombre que <span className="text-[#6558f5]">realmente</span> quieras usar.
           </h1>
-          <p className="mt-5 max-w-[590px] text-[15px] leading-7 text-[#66697b]">
+          <p className="mt-5 max-w-[590px] text-[16px] leading-7 text-[#66697b]">
             Genera nombres únicos y con significado para juegos, personas, mascotas, negocios y muchas más ideas. Gratis, sin registro y listos para copiar.
           </p>
 
@@ -45,18 +45,18 @@ export default function HomePage(){
           </div>
         </div>
 
-        <div className="grid min-h-[390px] grid-cols-12 grid-rows-10 gap-3">
+        <div className="grid grid-cols-2 auto-rows-[160px] gap-3 sm:min-h-[390px] sm:grid-cols-12 sm:grid-rows-10 sm:auto-rows-auto">
           {heroCards.map((item,index)=>{
             const Icon=item.icon;
-            const area=index===0?'col-span-7 row-span-5':index===1?'col-span-5 row-span-5':index===2?'col-span-4 row-span-5':index===3?'col-span-4 row-span-5': 'col-span-4 row-span-5';
+            const area=index===0?'col-span-2 sm:col-span-7 sm:row-span-5':index===1?'col-span-1 sm:col-span-5 sm:row-span-5':index===2?'col-span-1 sm:col-span-4 sm:row-span-5':index===3?'col-span-1 sm:col-span-4 sm:row-span-5':'col-span-1 sm:col-span-4 sm:row-span-5';
             return <Link key={item.href} href={item.href} className={'group relative overflow-hidden rounded-[22px] border-2 border-white shadow-[0_16px_38px_rgba(58,48,112,.14)] '+area}>
               <img src={item.image} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"/>
-              <div className="absolute inset-x-3 bottom-3 rounded-[13px] bg-white/94 p-2.5 shadow-[0_8px_20px_rgba(27,25,52,.14)] backdrop-blur">
+              <div className="absolute inset-x-2.5 bottom-2.5 rounded-[13px] sm:inset-x-3 sm:bottom-3 bg-white/94 p-2.5 shadow-[0_8px_20px_rgba(27,25,52,.14)] backdrop-blur">
                 <div className="flex items-center gap-2">
                   <span className={'grid size-7 shrink-0 place-items-center rounded-[9px] '+item.tone}><Icon size={14}/></span>
                   <div className="min-w-0">
                     <p className="truncate font-serif text-[13px] font-bold text-[#242532]">{item.label}</p>
-                    <p className="mt-0.5 line-clamp-2 text-[9px] leading-3.5 text-[#717486]">{item.desc}</p>
+                    <p className="mt-0.5 line-clamp-2 text-[10px] leading-4 sm:text-[9px] sm:leading-3.5 text-[#717486]">{item.desc}</p>
                   </div>
                 </div>
               </div>

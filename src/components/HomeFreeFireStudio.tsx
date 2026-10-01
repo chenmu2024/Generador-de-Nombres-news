@@ -50,7 +50,7 @@ export default function HomeFreeFireStudio(){
         <div className="mt-4">
           <span className="mb-2 block text-[11px] font-semibold text-[#d1d4df]">Estilo</span>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-3">
-            {styles.map(item=><button key={item} onClick={()=>setStyle(item)} className={'h-9 rounded-[8px] border text-[11px] font-medium transition '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/12 bg-[#181c2a] text-[#c8cbd7] hover:bg-[#202536]')}>{item}</button>)}
+            {styles.map(item=><button key={item} onClick={()=>setStyle(item)} className={'h-11 rounded-[8px] border text-[12px] sm:h-9 sm:text-[11px] font-medium transition '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/12 bg-[#181c2a] text-[#c8cbd7] hover:bg-[#202536]')}>{item}</button>)}
           </div>
         </div>
 
@@ -85,13 +85,13 @@ export default function HomeFreeFireStudio(){
             <div className="min-w-0">
               <p className="truncate text-[12px] font-medium">{value}</p>
               <div className="mt-1 flex gap-1">
-                <span className="rounded-full bg-[#3e2f71] px-2 py-0.5 text-[9px] text-[#cfc8ff]">{style}</span>
-                <span className="rounded-full bg-[#123d3d] px-2 py-0.5 text-[9px] text-[#7fe0cc]">{index%2?'Popular':'Único'}</span>
+                <span className="rounded-full bg-[#3e2f71] px-2 py-0.5 text-[10px] sm:text-[9px] text-[#cfc8ff]">{style}</span>
+                <span className="rounded-full bg-[#123d3d] px-2 py-0.5 text-[10px] sm:text-[9px] text-[#7fe0cc]">{index%2?'Popular':'Único'}</span>
               </div>
             </div>
             <div className="flex items-center gap-1.5">
-              <button className="grid size-7 place-items-center rounded-[7px] border border-white/10 text-[#aeb2c1] hover:bg-white/[.05]" aria-label="Guardar"><Heart size={12}/></button>
-              <button onClick={()=>copy(value)} className="inline-flex h-7 items-center gap-1.5 rounded-[7px] border border-white/10 px-2 text-[10px] text-[#d3d6df] hover:bg-white/[.05]">
+              <button className="grid size-10 place-items-center rounded-[9px] sm:size-7 sm:rounded-[7px] border border-white/10 text-[#aeb2c1] hover:bg-white/[.05]" aria-label="Guardar"><Heart size={12}/></button>
+              <button onClick={()=>copy(value)} className="inline-flex h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[11px] sm:h-7 sm:rounded-[7px] sm:px-2 sm:text-[10px] text-[#d3d6df] hover:bg-white/[.05]">
                 {copied===value?<Check size={11}/>:<Copy size={11}/>} {copied===value?'Copiado':'Copiar'}
               </button>
             </div>
