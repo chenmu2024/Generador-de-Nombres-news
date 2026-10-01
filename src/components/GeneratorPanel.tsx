@@ -52,7 +52,7 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
         <div className="mt-5">
           <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Estilo</span>
           <div className="flex flex-wrap gap-2">
-            {styles.map(item=><button key={item} onClick={()=>setStyle(item)} className={'min-h-11 rounded-[9px] border px-3 text-[11px] font-semibold transition sm:min-h-0 sm:py-2 sm:text-[10px] '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/12 bg-white/5 text-[#c8cbd8] hover:bg-white/10')}>{item}</button>)}
+            {styles.map(item=><button key={item} onClick={()=>setStyle(item)} className={'min-h-11 rounded-[9px] border px-3 text-[11px] font-semibold transition sm:min-h-0 sm:py-2 sm:text-[10px] '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/18 bg-white/[.07] text-[#e0e2ea] hover:border-[#665ce0] hover:bg-white/[.12]')}>{item}</button>)}
           </div>
         </div>
 
