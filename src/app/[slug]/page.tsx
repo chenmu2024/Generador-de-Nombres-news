@@ -1,1 +1,64 @@
-import type{Metadata}from'next';import{notFound}from'next/navigation';import PageIntro from'@/components/PageIntro';import GeneratorPanel from'@/components/GeneratorPanel';import NameGrid from'@/components/NameGrid';import RelatedLinks from'@/components/RelatedLinks';import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';import{getNamesForPath}from'@/data/nameDataset';import{topicClusters}from'@/data/topicClusters';export const dynamicParams=false;export function generateStaticParams(){return keywordPages.filter(i=>i.path!=='/').map(i=>({slug:i.path.slice(1)}))}export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const{slug}=await params;const p=keywordPageBySlug.get(slug);if(!p)return{title:'Página no encontrada',robots:{index:false,follow:false}};return{title:p.title,description:p.description,alternates:{canonical:p.path},openGraph:{title:p.title,description:p.description,url:p.path,type:'website'}}}function tips(tool:string){if(tool==='pet')return['Prueba nombres cortos de 1–2 sílabas.','Filtra por tamaño, color o personalidad.','Di el nombre en voz alta antes de decidir.'];if(tool==='culture')return['Compara escritura y romanización.','No asumas que un nombre funciona igual en todos los países.','Revisa el contexto cultural antes de usarlo.'];if(tool==='gaming')return['Prueba versiones cortas y legibles.','Comprueba en el juego qué símbolos acepta.','Guarda 2–3 variantes antes de cambiar tu nickname.'];if(tool==='store')return['Busca que sea fácil de pronunciar.','Evita nombres demasiado parecidos a marcas existentes.','Comprueba dominio y redes antes de decidir.'];return['Empieza con una palabra base.','Genera varias variantes.','Copia tus favoritas y compáralas.']}export default async function KeywordPageView({params}:{params:Promise<{slug:string}>}){const{slug}=await params;const p=keywordPageBySlug.get(slug);if(!p)notFound();const items=getNamesForPath(p.path);const cluster=topicClusters[p.cluster];const schema={'@context':'https://schema.org','@type':'WebApplication',name:p.h1,description:p.description,url:`https://generadordenombres.net${p.path}`,applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}};return <div className="gdn-shell"><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema)}}/><PageIntro page={p}/><GeneratorPanel mode={p.tool} defaultValue={p.tool==='store'?'Luna':p.tool==='football'?'Barrio':p.tool==='pet'?'Nala':p.tool==='gaming'?'Vortex':'Alma'}/><NameGrid items={items}/><section className="mt-12 grid gap-6 lg:grid-cols-[1.3fr_.7fr]"><article className="gdn-card rounded-3xl p-6 md:p-8"><span className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">Cómo usar esta página</span><h2 className="mt-2 text-2xl font-black">De la idea al nombre final</h2><p className="mt-4 leading-7 text-zinc-400">Esta página está enfocada en <strong className="text-zinc-200">{p.primaryKeyword}</strong>. Usa primero la herramienta y después compara los ejemplos. Los términos relacionados se integran como filtros, ejemplos y preguntas, no como páginas duplicadas.</p><div className="mt-6 flex flex-wrap gap-2">{p.secondaryKeywords.slice(0,6).map(k=><span key={k} className="rounded-full border border-white/8 bg-white/[.03] px-3 py-1.5 text-xs text-zinc-400">{k}</span>)}</div></article><aside className="gdn-card rounded-3xl p-6 md:p-8"><p className="text-xs font-bold uppercase tracking-[.2em] text-blue-300">{cluster.label}</p><h2 className="mt-2 text-xl font-black">Consejos rápidos</h2><ul className="mt-5 space-y-3 text-sm leading-6 text-zinc-400">{tips(p.tool).map(t=><li key={t} className="flex gap-3"><span className="text-violet-300">✓</span><span>{t}</span></li>)}</ul></aside></section><RelatedLinks currentPath={p.path} cluster={p.cluster}/></div>}
+import type{Metadata}from'next';
+import{notFound}from'next/navigation';
+import PageIntro from'@/components/PageIntro';
+import GeneratorPanel from'@/components/GeneratorPanel';
+import NameGrid from'@/components/NameGrid';
+import RelatedLinks from'@/components/RelatedLinks';
+import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
+import{getNamesForPath}from'@/data/nameDataset';
+import{topicClusters}from'@/data/topicClusters';
+
+export const dynamicParams=false;
+export function generateStaticParams(){return keywordPages.filter(i=>i.path!=='/').map(i=>({slug:i.path.slice(1)}))}
+
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{
+  const{slug}=await params;
+  const page=keywordPageBySlug.get(slug);
+  if(!page)return{title:'Página no encontrada',robots:{index:false,follow:false}};
+  return{title:page.title,description:page.description,alternates:{canonical:page.path},openGraph:{title:page.title,description:page.description,url:page.path,type:'website'}};
+}
+
+function tips(tool:string){
+  if(tool==='pet')return['Prueba nombres cortos y fáciles de reconocer.','Piensa en personalidad, tamaño y color.','Di tus favoritos en voz alta antes de decidir.'];
+  if(tool==='culture')return['Compara escritura, romanización y pronunciación.','Revisa el contexto cultural antes de usar un nombre.','Guarda varias opciones antes de elegir.'];
+  if(tool==='gaming')return['Prioriza legibilidad además de estilo.','Comprueba qué símbolos acepta tu juego.','Guarda 2–3 variantes antes de cambiar tu nickname.'];
+  if(tool==='store')return['Busca que sea fácil de pronunciar y recordar.','Evita confusiones con marcas existentes.','Comprueba dominio y redes antes de decidir.'];
+  if(tool==='football')return['Hazlo fácil de gritar y recordar.','Prueba una versión corta para escudos y camisetas.','Evita nombres demasiado parecidos a equipos conocidos.'];
+  return['Empieza con una idea clara.','Compara varias opciones.','Guarda las que te funcionen mejor.'];
+}
+
+export default async function KeywordPageView({params}:{params:Promise<{slug:string}>}){
+  const{slug}=await params;
+  const page=keywordPageBySlug.get(slug);
+  if(!page)notFound();
+
+  const items=getNamesForPath(page.path);
+  const cluster=topicClusters[page.cluster];
+  const showGenerator=['general','gaming','invisible','store','football'].includes(page.tool);
+  const schema={'@context':'https://schema.org','@type':'WebApplication',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}};
+
+  return <div className="gdn-shell">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema)}}/>
+    <PageIntro page={page}/>
+
+    {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='store'?'Luna':page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
+    <NameGrid items={items} mode={page.tool}/>
+
+    <section className="mt-12 grid gap-5 lg:grid-cols-[1.25fr_.75fr]">
+      <article className="gdn-card rounded-[28px] p-6 md:p-8">
+        <p className="gdn-eyebrow">Cómo elegir mejor</p>
+        <h2 className="mt-2 text-2xl font-black tracking-[-.02em]">No te quedes con la primera opción</h2>
+        <p className="mt-4 max-w-2xl leading-7 text-[#70747e]">Compara varias alternativas, pruébalas en el contexto donde las vas a usar y guarda las que sigan funcionando después de unos minutos. Un buen nombre suele ser fácil de reconocer, recordar y volver a escribir.</p>
+      </article>
+      <aside className="rounded-[28px] border border-[#e3e4e9] bg-[#f0edff] p-6 md:p-8">
+        <p className="text-xs font-extrabold uppercase tracking-[.16em] text-[#6446d8]">{cluster.label}</p>
+        <h2 className="mt-2 text-xl font-black">Consejos rápidos</h2>
+        <ul className="mt-5 space-y-3 text-sm leading-6 text-[#626675]">
+          {tips(page.tool).map(tip=><li key={tip} className="flex gap-3"><span className="text-[#6d4aff]">✓</span><span>{tip}</span></li>)}
+        </ul>
+      </aside>
+    </section>
+
+    <RelatedLinks currentPath={page.path} cluster={page.cluster}/>
+  </div>
+}

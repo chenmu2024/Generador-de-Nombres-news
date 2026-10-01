@@ -1,1 +1,50 @@
-import Link from'next/link';import GeneratorPanel from'@/components/GeneratorPanel';import{topicClusters}from'@/data/topicClusters';export default function HomePage(){return <><section className="gdn-shell py-16 md:py-24"><div className="mx-auto max-w-4xl text-center"><div className="mx-auto mb-5 w-fit rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-1.5 text-xs font-bold text-violet-300">Nombres · Apodos · Juegos · Mascotas · Negocios</div><h1 className="text-5xl font-black leading-[.98] tracking-[-.04em] md:text-7xl">Genera un nombre que <span className="gdn-gradient">sí quieras usar.</span></h1><p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-zinc-400 md:text-lg">Herramientas rápidas para crear nombres, nicknames e identidades en español. Sin formularios largos y con copia en un clic.</p></div><div className="mx-auto mt-10 max-w-4xl"><GeneratorPanel mode="general" defaultValue="Nova"/></div></section><section className="gdn-shell"><div className="mb-6"><span className="text-xs font-bold uppercase tracking-[.2em] text-blue-300">Explora por intención</span><h2 className="mt-2 text-3xl font-black">Elige lo que necesitas</h2></div><div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{Object.values(topicClusters).map(c=><Link key={c.hubPath} href={c.hubPath} className="gdn-card group rounded-3xl p-6 transition hover:-translate-y-1 hover:border-violet-400/30"><div className="mb-8 size-10 rounded-xl bg-gradient-to-br from-violet-500/30 to-blue-500/20"/><h3 className="text-xl font-black group-hover:text-violet-300">{c.label}</h3><p className="mt-2 text-sm leading-6 text-zinc-500">{c.description}</p><p className="mt-5 text-sm font-bold text-zinc-300">Abrir herramientas →</p></Link>)}</div></section><section className="gdn-shell mt-16 grid gap-6 md:grid-cols-3">{[['01','Herramienta primero','El generador aparece antes que el contenido largo.'],['02','Datos reutilizables','Los nombres viven en un dataset y no en páginas duplicadas.'],['03','SEO sin inflar páginas','Cada URL existe para una intención de búsqueda validada.']].map(([n,t,d])=><div key={n} className="rounded-3xl border border-white/8 p-6"><span className="text-sm font-black text-violet-300">{n}</span><h2 className="mt-4 text-xl font-black">{t}</h2><p className="mt-2 text-sm leading-6 text-zinc-500">{d}</p></div>)}</section></>}
+import Link from 'next/link';
+import GeneratorPanel from '@/components/GeneratorPanel';
+import IntentRouter from '@/components/IntentRouter';
+
+const popular=[
+  {label:'Free Fire',href:'/nombres-free-fire',desc:'Nicknames, símbolos y clanes'},
+  {label:'Gatos negros',href:'/nombres-gatos-negros',desc:'Místicos, cortos y originales'},
+  {label:'Nombres japoneses',href:'/nombres-japoneses',desc:'Kanji, romaji y contexto'},
+  {label:'Tiendas',href:'/nombres-para-tiendas',desc:'Ideas para marcas y negocios'},
+];
+
+export default function HomePage(){
+  return <>
+    <section className="gdn-shell pb-10 pt-14 md:pb-14 md:pt-20">
+      <div className="mx-auto max-w-4xl text-center">
+        <p className="gdn-eyebrow">Nombres para la vida real y digital</p>
+        <h1 className="mt-4 text-5xl font-black leading-[.98] tracking-[-.055em] text-[#17171b] md:text-7xl">Genera un nombre que <span className="gdn-gradient">sí quieras usar.</span></h1>
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#696d77] md:text-lg">Encuentra nombres para juegos, bebés, mascotas, perfiles y negocios. Empieza por tu intención y llega a opciones que puedas comparar y copiar.</p>
+      </div>
+      <div className="mx-auto mt-10 max-w-5xl"><IntentRouter/></div>
+    </section>
+
+    <section className="gdn-shell grid gap-5 lg:grid-cols-[1.25fr_.75fr]">
+      <GeneratorPanel mode="general" defaultValue="Nova"/>
+      <aside className="rounded-[28px] bg-[#17171b] p-6 text-white md:p-7">
+        <p className="text-xs font-extrabold uppercase tracking-[.16em] text-[#b9acff]">Popular ahora</p>
+        <h2 className="mt-2 text-2xl font-black">Atajos para empezar rápido</h2>
+        <div className="mt-5 space-y-2">
+          {popular.map(item=><Link key={item.href} href={item.href} className="block rounded-2xl border border-white/10 bg-white/[.04] p-4 transition hover:bg-white/[.08]">
+            <div className="flex items-center justify-between gap-3">
+              <div><p className="font-extrabold">{item.label}</p><p className="mt-1 text-xs leading-5 text-[#b7bac4]">{item.desc}</p></div>
+              <span className="text-[#b9acff]">↗</span>
+            </div>
+          </Link>)}
+        </div>
+      </aside>
+    </section>
+
+    <section className="gdn-shell mt-16">
+      <div className="max-w-2xl">
+        <p className="gdn-eyebrow">Más útil, menos ruido</p>
+        <h2 className="mt-2 text-3xl font-black tracking-[-.03em]">Cada tipo de nombre merece una herramienta distinta.</h2>
+        <p className="mt-4 leading-7 text-[#70747e]">Un nickname necesita símbolos y estilos; un nombre de bebé necesita origen y significado; una mascota necesita personalidad; una tienda necesita tono de marca. Por eso las herramientas cambian según lo que quieras nombrar.</p>
+      </div>
+      <div className="mt-7 grid gap-4 md:grid-cols-3">
+        {[['🎮','Para jugar','Combina estilos, símbolos y versiones fáciles de copiar.'],['🐾','Para mascotas','Busca por personalidad, género, color o sensación.'],['👶','Para personas','Compara origen, significado, pronunciación y longitud.']].map(([icon,title,desc])=><div key={title} className="gdn-card rounded-3xl p-6"><span className="text-3xl">{icon}</span><h3 className="mt-5 text-xl font-black">{title}</h3><p className="mt-2 text-sm leading-6 text-[#737782]">{desc}</p></div>)}
+      </div>
+    </section>
+  </>
+}
