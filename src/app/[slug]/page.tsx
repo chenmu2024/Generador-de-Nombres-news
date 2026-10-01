@@ -8,7 +8,7 @@ import AlphabetMatrix from'@/components/AlphabetMatrix';
 import PlatformNameTool from'@/components/PlatformNameTool';
 import FreeFireNameTool from'@/components/FreeFireNameTool';
 import BrandNameTool from'@/components/BrandNameTool';
-import DataQualityNote from'@/components/DataQualityNote';
+import CultureDataNote from'@/components/CultureDataNote';
 import DecisionGuide from'@/components/DecisionGuide';
 import FaqSection from'@/components/FaqSection';
 import AdSlot from'@/components/AdSlot';
@@ -76,7 +76,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     <NameGrid items={items} mode={page.tool}/>
     {isEnye&&<EnyeGuide/>}
     <IntentCollections page={page} items={items}/>
-    {page.tool==='culture'&&<DataQualityNote/>}
+    {page.tool==='culture'&&<CultureDataNote items={items}/>}
 
     <DecisionGuide page={page}/>
     <AdSlot/>

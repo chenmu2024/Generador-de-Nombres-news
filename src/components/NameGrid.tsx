@@ -58,16 +58,29 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
             const itemGender=inferredGender(item);
             const meta=[item.origin,itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':undefined].filter(Boolean).join(' · ');
             const saved=favorites.includes(item.name);
-            return <article key={item.name+(item.origin??'')} className="min-h-[186px] bg-white p-5 transition hover:bg-[#fcfbff]">
+            return <article key={item.name+(item.origin??'')} className={'min-h-[186px] bg-white p-5 transition hover:bg-[#fcfbff] '+(mode==='culture'?'relative':'')}>
               <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0"><h3 className="brand-serif truncate text-[23px] font-bold tracking-[-.025em] text-[#252634]">{item.script?(item.name+' · '+item.script):item.name}</h3>{meta&&<p className="mt-1 text-[11px] font-bold uppercase sm:text-[9px] tracking-[.08em] text-[#9294a4]">{meta}</p>}</div>
-                <button onClick={()=>toggle(item.name)} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 shrink-0 place-items-center rounded-full sm:size-9 border transition '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e1ddea] bg-white text-[#8f91a0] hover:border-[#cfc8fb] hover:bg-[#f7f5ff]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
+                <div className="min-w-0">
+                  <h3 className="brand-serif truncate text-[23px] font-bold tracking-[-.025em] text-[#252634]">{item.name}</h3>
+                  {meta&&<p className="mt-1 text-[11px] font-bold uppercase tracking-[.08em] text-[#9294a4] sm:text-[9px]">{meta}</p>}
+                </div>
+                <button onClick={()=>toggle(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 shrink-0 place-items-center rounded-full border transition sm:size-9 '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e1ddea] bg-white text-[#8f91a0] hover:border-[#cfc8fb] hover:bg-[#f7f5ff]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
               </div>
+
+              {mode==='culture'&&item.script&&<div className="mt-4 rounded-[13px] border border-[#e6e1f7] bg-[#f8f6ff] px-4 py-3">
+                <p className="text-[9px] font-black uppercase tracking-[.14em] text-[#8a80d8]">Escritura</p>
+                <p className="mt-1.5 break-words text-[24px] font-semibold leading-tight text-[#302b5f]">{item.script}</p>
+              </div>}
+
               <div className="mt-4 min-h-12 text-[12px] leading-5 text-[#747788]">
                 {item.meaning&&<p><strong className="text-[#444655]">Significado:</strong> {item.meaning}</p>}
-                {item.pronunciation&&<p><strong className="text-[#444655]">Pronunciación:</strong> {item.pronunciation}</p>}
-                {!item.meaning&&!item.pronunciation&&<p>{item.tags.filter(tag=>!internalTags.has(tag)).slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
-                {item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
+                {item.pronunciation&&<p className={item.meaning?'mt-1':''}><strong className="text-[#444655]">Pronunciación:</strong> {item.pronunciation}</p>}
+                {!item.meaning&&!item.pronunciation&&mode!=='culture'&&<p>{item.tags.filter(tag=>!internalTags.has(tag)).slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
+                {mode==='culture'&&item.source&&<div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className={'rounded-full px-2.5 py-1 text-[9px] font-bold '+(item.verified===true?'bg-[#eaf8f0] text-[#27764d]':item.verified===false?'bg-[#fff3e8] text-[#a86328]':'bg-[#f2f1f7] text-[#727486]')}>{item.verified===true?'Fuente verificada':item.verified===false?'En revisión':'Fuente documentada'}</span>
+                  {item.sourceUrl?<a className="text-[10px] font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:<span className="text-[10px] text-[#8e90a0]">{item.source}</span>}
+                </div>}
+                {mode!=='culture'&&item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
               </div>
               <div className="mt-4"><CopyButton value={item.name}/></div>
             </article>

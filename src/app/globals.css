@@ -21,8 +21,9 @@ body{
   margin:0;
   color:var(--text);
   background:var(--bg);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI Variable","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
 }
 a{color:inherit;text-decoration:none}
 button,input,select{font:inherit}
@@ -49,7 +50,7 @@ button{cursor:pointer}
 .gdn-chip{border:1px solid var(--border);background:#fff;color:var(--text-2);transition:.16s ease}
 .gdn-chip:hover{background:#f7f5ff;border-color:#d8d2f0}
 .gdn-chip[data-active="true"]{border-color:#c9c1ff;background:var(--accent-soft);color:#5146d6}
-.gdn-section-title{font-family:Georgia,"Times New Roman",serif;font-size:1.65rem;line-height:2rem;font-weight:700;letter-spacing:-.025em}
+.gdn-section-title{font-family:"Iowan Old Style","Palatino Linotype","Book Antiqua",Cambria,Georgia,serif;font-size:1.65rem;line-height:2rem;font-weight:700;letter-spacing:-.025em}
 .gdn-caption{font-size:.75rem;line-height:1.1rem;color:var(--muted)}
 .font-serif{font-family:Georgia,"Times New Roman",serif}
 .brand-serif{font-family:Georgia,"Times New Roman",serif}
