@@ -1,0 +1,42 @@
+name: One-time migrate site baseline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/migrate-from-old.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout new repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Clone current site baseline
+        run: |
+          git clone --depth 1 https://github.com/chenmu2024/Generador-de-Nombres.git /tmp/gdn-source
+
+      - name: Copy baseline into new repository
+        run: |
+          rsync -a --delete             --exclude='.git'             --exclude='.github/workflows/migrate-from-old.yml'             /tmp/gdn-source/ ./
+
+      - name: Commit migrated baseline
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing to migrate."
+            exit 0
+          fi
+          git commit -m "chore: migrate GeneradorDeNombres baseline"
+          git push origin main
