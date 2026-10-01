@@ -50,7 +50,7 @@ export default function HomePage(){
             const Icon=item.icon;
             const area=index===0?'col-span-2 sm:col-span-7 sm:row-span-5':index===1?'col-span-1 sm:col-span-5 sm:row-span-5':index===2?'col-span-1 sm:col-span-4 sm:row-span-5':index===3?'col-span-1 sm:col-span-4 sm:row-span-5':'col-span-1 sm:col-span-4 sm:row-span-5';
             return <Link key={item.href} href={item.href} className={'group relative overflow-hidden rounded-[22px] border-2 border-white shadow-[0_16px_38px_rgba(58,48,112,.14)] '+area}>
-              <img src={item.image} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"/>
+              <img src={item.image} alt="" width="900" height="700" loading={index===0?'eager':'lazy'} decoding="async" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"/>
               <div className="absolute inset-x-2.5 bottom-2.5 rounded-[13px] sm:inset-x-3 sm:bottom-3 bg-white/94 p-2.5 shadow-[0_8px_20px_rgba(27,25,52,.14)] backdrop-blur">
                 <div className="flex items-center gap-2">
                   <span className={'grid size-7 shrink-0 place-items-center rounded-[9px] '+item.tone}><Icon size={14}/></span>
