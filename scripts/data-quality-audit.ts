@@ -1,4 +1,4 @@
-import { nameDataset } from '../src/data/nameDataset';
+import { nameDataset, getNamesForPath } from '../src/data/nameDataset';
 
 const errors:string[]=[];
 const warnings:string[]=[];
@@ -20,6 +20,46 @@ for(const item of nameDataset){
   }
 }
 
+const minimums:Record<string,number>={
+  '/nombres-free-fire':20,
+  '/nombres-ff-unicos':8,
+  '/nombres-ff-mujeres':8,
+  '/nombres-clanes-ff':8,
+  '/nombres-gatos':24,
+  '/nombres-gatos-negros':10,
+  '/nombres-gatos-machos':10,
+  '/nombres-perritas':24,
+  '/perritas-chihuahua':8,
+  '/nombres-de-mujer':28,
+  '/nombres-de-nina':18,
+  '/nombres-de-nino':18,
+  '/nombres-unisex':8,
+  '/nombres-raros':16,
+};
+
+for(const [path,min] of Object.entries(minimums)){
+  const count=getNamesForPath(path).length;
+  if(count<min)errors.push('Core page dataset too thin: '+path+' has '+count+', expected at least '+min);
+}
+
+const coverageChecks=[
+  {label:'black cats / mystic',items:getNamesForPath('/nombres-gatos-negros'),tag:'mystic',min:6},
+  {label:'black cats / female',items:getNamesForPath('/nombres-gatos-negros'),tag:'female',min:3},
+  {label:'black cats / male',items:getNamesForPath('/nombres-gatos-negros'),tag:'male',min:3},
+  {label:'female dogs / small',items:getNamesForPath('/nombres-perritas'),tag:'small',min:8},
+  {label:'female dogs / cute',items:getNamesForPath('/nombres-perritas'),tag:'cute',min:8},
+  {label:'Free Fire / unique',items:getNamesForPath('/nombres-free-fire'),tag:'unique',min:6},
+  {label:'Free Fire / female',items:getNamesForPath('/nombres-free-fire'),tag:'female',min:6},
+  {label:'Free Fire / clan',items:getNamesForPath('/nombres-free-fire'),tag:'clan',min:6},
+  {label:'people / modern female',items:getNamesForPath('/nombres-de-mujer'),tag:'modern',min:8},
+  {label:'people / classic female',items:getNamesForPath('/nombres-de-mujer'),tag:'classic',min:8},
+];
+
+for(const check of coverageChecks){
+  const count=check.items.filter(item=>item.tags.includes(check.tag)).length;
+  if(count<check.min)errors.push('Intent coverage too thin: '+check.label+' has '+count+', expected at least '+check.min);
+}
+
 if(warnings.length){
   console.warn('[Data Quality] WARNINGS');
   for(const warning of warnings.slice(0,30))console.warn(' - '+warning);
@@ -32,4 +72,4 @@ if(errors.length){
   process.exit(1);
 }
 
-console.log('[Data Quality] PASS — '+nameDataset.length+' records checked; verified records respect source rules.');
+console.log('[Data Quality] PASS — '+nameDataset.length+' records checked; core-page coverage and verified-source rules passed.');
