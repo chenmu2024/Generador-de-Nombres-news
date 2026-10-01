@@ -2,7 +2,6 @@
 
 import {useMemo,useState} from 'react';
 import CopyButton from './CopyButton';
-import {generateStyledNames} from '@/lib/generator';
 
 type Platform='roblox'|'instagram';
 
@@ -27,16 +26,19 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
 
   const suggestions=useMemo(()=>{
     if(platform==='roblox'){
-      if(mode==='display')return generateStyledNames(seed,8);
       const base=cleanRoblox(seed)||'Nova';
+      if(mode==='display'){
+        const clean=seed.trim().replace(/\s+/g,' ')||'Nova';
+        return Array.from(new Set([clean,clean+' Play',clean+' Pro',clean+' Studio','Team '+clean,clean+' X'])).slice(0,8);
+      }
       return Array.from(new Set([base,base+'Play',base+'X',base+'7','Pro_'+base,base+'_YT'].map(cleanRoblox))).filter(Boolean);
     }
     const base=cleanInstagram(seed)||'luna';
     return Array.from(new Set([base,base+'.studio',base+'_daily','soy.'+base,base+'.co',base+'_online'].map(cleanInstagram))).filter(Boolean);
   },[seed,mode,platform]);
 
-  const typed=platform==='roblox'&&mode==='username'?cleanRoblox(seed):platform==='instagram'?cleanInstagram(seed):seed.trim();
-  const issues=platform==='roblox'&&mode==='username'?robloxFormat(typed):[];
+  const raw=seed.trim();
+  const issues=platform==='roblox'&&mode==='username'?robloxFormat(raw):[];
 
   return <section className="gdn-card rounded-[28px] p-5 md:p-7">
     <div className="flex flex-wrap items-end justify-between gap-4">
@@ -69,9 +71,9 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
     <p className="mt-5 text-xs leading-5 text-[#858995]">
       {platform==='roblox'
         ? mode==='username'
-          ? 'La comprobación es solo de formato. Roblox también filtra contenido y la disponibilidad depende de la plataforma.'
-          : 'El Display Name es distinto del Username y no tiene que ser único. Roblox aplica filtros de contenido; algunas opciones de caracteres pueden variar.'
-        : 'Estas sugerencias evitan caracteres decorativos en el @username. Confirma siempre la disponibilidad y las reglas vigentes dentro de Instagram.'}
+          ? 'Reglas de formato revisadas en octubre de 2026. La disponibilidad y el filtro de contenido dependen de Roblox.'
+          : 'El Display Name es distinto del Username y puede repetirse. Roblox aplica filtros de contenido y el soporte de caracteres puede variar.'
+        : 'Estas sugerencias son una ayuda de formato, no un comprobador oficial. Confirma disponibilidad y reglas vigentes dentro de Instagram.'}
     </p>
   </section>
 }

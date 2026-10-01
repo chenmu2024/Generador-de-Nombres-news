@@ -12,16 +12,16 @@ export default function AlphabetMatrix(){
       <div>
         <p className="gdn-eyebrow">Directorio A–Z</p>
         <h2 className="mt-2 text-2xl font-black tracking-[-.02em]">Explora nombres por inicial</h2>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-[#737782]">Las letras con página propia ya tienen demanda validada. Las demás se mantienen dentro del directorio hasta justificar una URL independiente.</p>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-[#737782]">Las letras con página propia ya tienen una URL dedicada. El resto sigue disponible dentro del directorio general sin crear páginas vacías.</p>
       </div>
-      <span className="text-xs font-semibold text-[#858995]">Sin crear páginas innecesarias</span>
+      <span className="text-xs font-semibold text-[#858995]">Una ruta solo cuando aporta valor propio</span>
     </div>
-    <div className="mt-6 grid grid-cols-5 gap-2 sm:grid-cols-9 md:grid-cols-14">
+    <div className="mt-6 grid grid-cols-5 gap-2 sm:grid-cols-9 md:grid-cols-[repeat(14,minmax(0,1fr))]">
       {letters.map(letter=>{
         const href=routes[letter];
         return href
           ? <Link key={letter} href={href} className="grid aspect-square place-items-center rounded-2xl border border-[#cfc7ff] bg-[#f2efff] text-sm font-black text-[#5b3bd2] transition hover:-translate-y-0.5 hover:bg-[#ebe6ff]">{letter}</Link>
-          : <span key={letter} title="Disponible en el buscador general" className="grid aspect-square place-items-center rounded-2xl border border-[#e5e6ea] bg-[#fafafb] text-sm font-black text-[#a0a3ac]">{letter}</span>;
+          : <span key={letter} title="Disponible en el directorio general" className="grid aspect-square place-items-center rounded-2xl border border-[#e5e6ea] bg-[#fafafb] text-sm font-black text-[#a0a3ac]">{letter}</span>;
       })}
     </div>
   </section>

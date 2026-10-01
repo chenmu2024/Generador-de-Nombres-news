@@ -8,6 +8,7 @@ import AlphabetMatrix from'@/components/AlphabetMatrix';
 import PlatformNameTool from'@/components/PlatformNameTool';
 import FreeFireNameTool from'@/components/FreeFireNameTool';
 import BrandNameTool from'@/components/BrandNameTool';
+import DataQualityNote from'@/components/DataQualityNote';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -66,6 +67,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
 
     <NameGrid items={items} mode={page.tool}/>
+    {page.tool==='culture'&&<DataQualityNote/>}
 
     <section className="mt-12 grid gap-5 lg:grid-cols-[1.25fr_.75fr]">
       <article className="gdn-card rounded-[28px] p-6 md:p-8">
