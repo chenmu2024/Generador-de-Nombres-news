@@ -6,6 +6,8 @@ import NameGrid from'@/components/NameGrid';
 import RelatedLinks from'@/components/RelatedLinks';
 import AlphabetMatrix from'@/components/AlphabetMatrix';
 import PlatformNameTool from'@/components/PlatformNameTool';
+import FreeFireNameTool from'@/components/FreeFireNameTool';
+import BrandNameTool from'@/components/BrandNameTool';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -29,6 +31,13 @@ function tips(tool:string){
   return['Empieza con una idea clara.','Compara varias opciones.','Guarda las que te funcionen mejor.'];
 }
 
+function freeFireVariant(path:string):'general'|'unique'|'women'|'clan'{
+  if(path==='/nombres-ff-unicos')return'unique';
+  if(path==='/nombres-ff-mujeres')return'women';
+  if(path==='/nombres-clanes-ff')return'clan';
+  return'general';
+}
+
 export default async function KeywordPageView({params}:{params:Promise<{slug:string}>}){
   const{slug}=await params;
   const page=keywordPageBySlug.get(slug);
@@ -39,7 +48,10 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isRoblox=page.path==='/nombres-roblox';
   const isInstagram=page.path==='/nombres-instagram';
   const isAlphabet=page.path==='/nombres-por-letra';
-  const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&['general','gaming','invisible','store','football'].includes(page.tool);
+  const isStore=page.path==='/nombres-para-tiendas';
+  const isFreeFire=page.cluster==='freeFire'&&page.path!=='/espacios-invisible-ff';
+  const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&!isStore&&!isFreeFire&&['general','gaming','invisible','store','football'].includes(page.tool);
+
   const schema={'@context':'https://schema.org','@type':'WebApplication',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}};
 
   return <div className="gdn-shell">
@@ -49,7 +61,9 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {isRoblox&&<PlatformNameTool platform="roblox"/>}
     {isInstagram&&<PlatformNameTool platform="instagram"/>}
     {isAlphabet&&<AlphabetMatrix/>}
-    {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='store'?'Luna':page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
+    {isStore&&<BrandNameTool/>}
+    {isFreeFire&&<FreeFireNameTool variant={freeFireVariant(page.path)}/>}
+    {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
 
     <NameGrid items={items} mode={page.tool}/>
 
