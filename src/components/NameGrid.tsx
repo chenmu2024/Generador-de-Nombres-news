@@ -8,7 +8,8 @@ import CopyButton from './CopyButton';
 const tagLabels:Record<string,string>={
   short:'Corto',modern:'Moderno',classic:'Clásico',cute:'Tierno',small:'Pequeño',
   black:'Negro',mystic:'Místico',strong:'Fuerte',elegant:'Elegante',kawaii:'Kawaii',
-  mythology:'Mitológico',anime:'Anime',aesthetic:'Aesthetic',dark:'Dark'
+  mythology:'Mitológico',anime:'Anime',aesthetic:'Aesthetic',dark:'Dark',rare:'Poco común',
+  orange:'Naranja',white:'Blanco',gray:'Gris',brown:'Marrón',playful:'Juguetón',calm:'Tranquilo',large:'Grande'
 };
 
 export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}){
@@ -35,16 +36,18 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
 
   useEffect(()=>{setLimit(18)},[query,gender,activeTag]);
 
+  const inferredGender=(item:NameRecord):'F'|'M'|'U'|undefined=>item.gender??(item.tags.includes('female')?'F':item.tags.includes('male')?'M':item.tags.includes('unisex')?'U':undefined);
+
   const filtered=useMemo(()=>items.filter(item=>{
     const haystack=[item.name,item.origin,item.meaning,...item.tags].filter(Boolean).join(' ').toLocaleLowerCase('es');
     const matchesText=!query||haystack.includes(query.toLocaleLowerCase('es'));
-    const matchesGender=gender==='ALL'||item.gender===gender;
+    const matchesGender=gender==='ALL'||inferredGender(item)===gender;
     const matchesTag=!activeTag||item.tags.includes(activeTag);
     return matchesText&&matchesGender&&matchesTag;
   }),[items,query,gender,activeTag]);
 
   if(!items.length)return null;
-  const showGender=items.some(item=>item.gender);
+  const showGender=items.some(item=>inferredGender(item));
 
   return <section className="mt-12">
     <div className="flex flex-wrap items-end justify-between gap-4">
@@ -73,7 +76,8 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
 
     <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {filtered.slice(0,limit).map(item=>{
-        const meta=[item.origin,item.gender==='F'?'Femenino':item.gender==='M'?'Masculino':item.gender==='U'?'Unisex':undefined].filter(Boolean).join(' · ');
+        const itemGender=inferredGender(item);
+        const meta=[item.origin,itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':undefined].filter(Boolean).join(' · ');
         return <article key={item.name+(item.origin??'')} className="gdn-card rounded-2xl p-5 transition hover:-translate-y-0.5">
           <div className="flex items-start justify-between gap-3">
             <div>
