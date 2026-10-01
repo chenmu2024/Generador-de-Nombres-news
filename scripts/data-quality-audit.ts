@@ -106,9 +106,9 @@ for(const check of coverageChecks){
 }
 
 const sourcedPeopleChecks=[
-  {label:'people / sourced female meanings',items:getNamesForPath('/nombres-de-mujer'),min:12},
-  {label:'people / sourced girl meanings',items:getNamesForPath('/nombres-de-nina'),min:8},
-  {label:'people / sourced male meanings',items:getNamesForPath('/nombres-de-nino'),min:12},
+  {label:'people / sourced female meanings',items:getNamesForPath('/nombres-de-mujer'),min:24},
+  {label:'people / sourced girl meanings',items:getNamesForPath('/nombres-de-nina'),min:12},
+  {label:'people / sourced male meanings',items:getNamesForPath('/nombres-de-nino'),min:24},
 ];
 
 for(const check of sourcedPeopleChecks){
