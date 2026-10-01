@@ -4,6 +4,8 @@ import PageIntro from'@/components/PageIntro';
 import GeneratorPanel from'@/components/GeneratorPanel';
 import NameGrid from'@/components/NameGrid';
 import RelatedLinks from'@/components/RelatedLinks';
+import AlphabetMatrix from'@/components/AlphabetMatrix';
+import PlatformNameTool from'@/components/PlatformNameTool';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -34,14 +36,21 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
 
   const items=getNamesForPath(page.path);
   const cluster=topicClusters[page.cluster];
-  const showGenerator=['general','gaming','invisible','store','football'].includes(page.tool);
+  const isRoblox=page.path==='/nombres-roblox';
+  const isInstagram=page.path==='/nombres-instagram';
+  const isAlphabet=page.path==='/nombres-por-letra';
+  const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&['general','gaming','invisible','store','football'].includes(page.tool);
   const schema={'@context':'https://schema.org','@type':'WebApplication',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}};
 
   return <div className="gdn-shell">
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema)}}/>
     <PageIntro page={page}/>
 
+    {isRoblox&&<PlatformNameTool platform="roblox"/>}
+    {isInstagram&&<PlatformNameTool platform="instagram"/>}
+    {isAlphabet&&<AlphabetMatrix/>}
     {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='store'?'Luna':page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
+
     <NameGrid items={items} mode={page.tool}/>
 
     <section className="mt-12 grid gap-5 lg:grid-cols-[1.25fr_.75fr]">
