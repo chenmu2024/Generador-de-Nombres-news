@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect,useMemo,useState} from 'react';
-import {Heart,Search} from 'lucide-react';
+import {Heart,RotateCcw,Search,SlidersHorizontal} from 'lucide-react';
 import type{NameRecord} from '@/data/nameDataset';
 import type{ToolMode} from '@/data/keywordMaster';
 import CopyButton from './CopyButton';
@@ -14,50 +14,234 @@ const tagLabels:Record<string,string>={
   orange:'Naranja',white:'Blanco',gray:'Gris',brown:'Marrón',playful:'Juguetón',calm:'Tranquilo',large:'Grande'
 };
 
+const personStyles=['modern','classic','rare'] as const;
+const petColors=['black','orange','white','gray','brown'] as const;
+const petSizes=['small','large'] as const;
+const petPersonalities=['cute','playful','calm','strong','elegant','mystic','kawaii'] as const;
+
+type LengthFilter='ALL'|'short'|'medium'|'long';
+
+function lengthBucket(name:string):Exclude<LengthFilter,'ALL'>{
+  const length=Array.from(name.replace(/[^\p{L}]/gu,'')).length;
+  if(length<=4)return 'short';
+  if(length<=6)return 'medium';
+  return 'long';
+}
+
+const lengthLabels:Record<LengthFilter,string>={
+  ALL:'Todas',
+  short:'3–4 letras',
+  medium:'5–6 letras',
+  long:'7+ letras',
+};
+
+function FacetRow({label,children}:{label:string;children:React.ReactNode}){
+  return <div className="grid gap-2 border-t border-[#eceaf3] pt-3 sm:grid-cols-[92px_1fr] sm:items-center">
+    <span className="text-[9px] font-black uppercase tracking-[.12em] text-[#9294a5]">{label}</span>
+    <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">{children}</div>
+  </div>
+}
+
 export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}){
   const[query,setQuery]=useState('');
   const[gender,setGender]=useState<'ALL'|'F'|'M'|'U'>('ALL');
   const[activeTag,setActiveTag]=useState('');
+  const[lengthFilter,setLengthFilter]=useState<LengthFilter>('ALL');
+  const[styleFilter,setStyleFilter]=useState('');
+  const[originFilter,setOriginFilter]=useState('');
+  const[colorFilter,setColorFilter]=useState('');
+  const[sizeFilter,setSizeFilter]=useState('');
+  const[personalityFilter,setPersonalityFilter]=useState('');
   const[favorites,setFavorites]=useState<string[]>([]);
   const[limit,setLimit]=useState(18);
 
   useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
-  function toggle(name:string){const next=favorites.includes(name)?favorites.filter(x=>x!==name):[...favorites,name];setFavorites(next);localStorage.setItem('gdn-favorites',JSON.stringify(next))}
-  const availableTags=useMemo(()=>{const all=new Set(items.flatMap(item=>item.tags));return Object.keys(tagLabels).filter(tag=>all.has(tag)).slice(0,7)},[items]);
-  useEffect(()=>{setLimit(18)},[query,gender,activeTag]);
-  const inferredGender=(item:NameRecord):'F'|'M'|'U'|undefined=>item.gender??(item.tags.includes('female')?'F':item.tags.includes('male')?'M':item.tags.includes('unisex')?'U':undefined);
+
+  function toggle(name:string){
+    const next=favorites.includes(name)?favorites.filter(x=>x!==name):[...favorites,name];
+    setFavorites(next);
+    localStorage.setItem('gdn-favorites',JSON.stringify(next));
+  }
+
+  const inferredGender=(item:NameRecord):'F'|'M'|'U'|undefined=>
+    item.gender??(item.tags.includes('female')?'F':item.tags.includes('male')?'M':item.tags.includes('unisex')?'U':undefined);
+
+  const availableTags=useMemo(()=>{
+    const all=new Set(items.flatMap(item=>item.tags));
+    return Object.keys(tagLabels).filter(tag=>all.has(tag)).slice(0,7);
+  },[items]);
+
+  const availablePersonStyles=useMemo(()=>{
+    const all=new Set(items.flatMap(item=>item.tags));
+    return personStyles.filter(tag=>all.has(tag));
+  },[items]);
+
+  const availablePetColors=useMemo(()=>{
+    const all=new Set(items.flatMap(item=>item.tags));
+    return petColors.filter(tag=>all.has(tag));
+  },[items]);
+
+  const availablePetSizes=useMemo(()=>{
+    const all=new Set(items.flatMap(item=>item.tags));
+    return petSizes.filter(tag=>all.has(tag));
+  },[items]);
+
+  const availablePetPersonalities=useMemo(()=>{
+    const all=new Set(items.flatMap(item=>item.tags));
+    return petPersonalities.filter(tag=>all.has(tag));
+  },[items]);
+
+  const origins=useMemo(
+    ()=>Array.from(new Set(items.map(item=>item.origin).filter((value):value is string=>Boolean(value)))).sort((a,b)=>a.localeCompare(b,'es')),
+    [items]
+  );
+
+  const hasPersonFacets=mode==='people';
+  const hasPetFacets=mode==='pet';
+
+  const hasActiveFilters=
+    Boolean(query)||gender!=='ALL'||Boolean(activeTag)||lengthFilter!=='ALL'||Boolean(styleFilter)||
+    Boolean(originFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter);
+
+  function clearFilters(){
+    setQuery('');
+    setGender('ALL');
+    setActiveTag('');
+    setLengthFilter('ALL');
+    setStyleFilter('');
+    setOriginFilter('');
+    setColorFilter('');
+    setSizeFilter('');
+    setPersonalityFilter('');
+  }
+
+  useEffect(()=>{
+    setLimit(18);
+  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter]);
+
   const filtered=useMemo(()=>items.filter(item=>{
     const haystack=[item.name,item.origin,item.meaning,...item.tags].filter(Boolean).join(' ').toLocaleLowerCase('es');
-    return(!query||haystack.includes(query.toLocaleLowerCase('es')))&&(gender==='ALL'||inferredGender(item)===gender)&&(!activeTag||item.tags.includes(activeTag));
-  }),[items,query,gender,activeTag]);
+    const matchesQuery=!query||haystack.includes(query.toLocaleLowerCase('es'));
+    const matchesGender=gender==='ALL'||inferredGender(item)===gender;
+    const matchesTag=!activeTag||item.tags.includes(activeTag);
+    const matchesLength=lengthFilter==='ALL'||lengthBucket(item.name)===lengthFilter;
+    const matchesStyle=!styleFilter||item.tags.includes(styleFilter);
+    const matchesOrigin=!originFilter||item.origin===originFilter;
+    const matchesColor=!colorFilter||item.tags.includes(colorFilter);
+    const matchesSize=!sizeFilter||item.tags.includes(sizeFilter);
+    const matchesPersonality=!personalityFilter||item.tags.includes(personalityFilter);
+    return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality;
+  }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter]);
 
   if(!items.length)return null;
   const showGender=items.some(item=>inferredGender(item));
 
   return <section className="mt-10 md:mt-12">
     <div className="mb-5 flex items-end justify-between gap-4">
-      <div><p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora y compara':'Explora nombres'}</p><h2 className="brand-serif mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">Resultados</h2></div>
-      <span className="text-[11px] font-semibold text-[#9294a4]">{filtered.length} disponibles</span>
+      <div>
+        <p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora y compara':'Explora nombres'}</p>
+        <h2 className="brand-serif mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">Resultados</h2>
+      </div>
+      <div className="text-right">
+        <span className="block text-[11px] font-semibold text-[#747789]">{filtered.length} disponibles</span>
+        {hasActiveFilters&&<button onClick={clearFilters} className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-[#6558f5] hover:underline"><RotateCcw size={10}/>Limpiar filtros</button>}
+      </div>
     </div>
 
     <div className="overflow-hidden rounded-[20px] border border-[#e3e0ec] bg-white shadow-[0_12px_34px_rgba(55,49,91,.05)]">
       <div className="border-b border-[#eceaf3] bg-[#faf9ff] p-4">
         <div className="flex flex-col gap-3 lg:flex-row">
-          <label className="relative min-w-0 flex-1"><Search size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9698a8]"/><input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':'Buscar por nombre, origen o estilo...'}/></label>
+          <label className="relative min-w-0 flex-1">
+            <Search size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9698a8]"/>
+            <input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':'Buscar por nombre, origen o estilo...'}/>
+          </label>
           {showGender&&<div className="flex gap-2 overflow-x-auto">
-            {([['ALL','Todos'],['F','Femenino'],['M','Masculino'],['U','Unisex']] as const).map(([value,label])=><button key={value} onClick={()=>setGender(value)} data-active={gender===value} className="gdn-chip h-11 whitespace-nowrap rounded-full px-4 text-[12px] font-semibold sm:text-[10px]">{label}</button>)}
+            {([['ALL','Todos'],['F','Femenino'],['M','Masculino'],['U','Unisex']] as const).map(([value,label])=>
+              <button key={value} onClick={()=>setGender(value)} aria-pressed={gender===value} data-active={gender===value} className="gdn-chip h-11 whitespace-nowrap rounded-full px-4 text-[12px] font-semibold sm:text-[10px]">{label}</button>
+            )}
           </div>}
         </div>
-        {availableTags.length>0&&<div className="mt-3 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0"><button onClick={()=>setActiveTag('')} data-active={!activeTag} className="gdn-chip min-h-11 shrink-0 rounded-full px-4 py-2 text-[12px] font-semibold sm:min-h-0 sm:px-3 sm:text-[10px]">Todos</button>{availableTags.map(tag=><button key={tag} onClick={()=>setActiveTag(tag)} data-active={activeTag===tag} className="gdn-chip min-h-11 shrink-0 rounded-full px-4 py-2 text-[12px] font-semibold sm:min-h-0 sm:px-3 sm:text-[10px]">{tagLabels[tag]}</button>)}</div>}
+
+        {(hasPersonFacets||hasPetFacets)&&<div className="mt-4 rounded-[14px] border border-[#e6e2f3] bg-white/75 p-3">
+          <div className="mb-2 flex items-center gap-2 text-[10px] font-bold text-[#6f7190]"><SlidersHorizontal size={13} className="text-[#6558f5]"/>Filtros avanzados</div>
+
+          {hasPersonFacets&&<>
+            <FacetRow label="Longitud">
+              {(Object.keys(lengthLabels) as LengthFilter[]).map(value=>
+                <button key={value} onClick={()=>setLengthFilter(value)} aria-pressed={lengthFilter===value} data-active={lengthFilter===value} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">{lengthLabels[value]}</button>
+              )}
+            </FacetRow>
+
+            {availablePersonStyles.length>0&&<FacetRow label="Estilo">
+              <button onClick={()=>setStyleFilter('')} aria-pressed={!styleFilter} data-active={!styleFilter} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Todos</button>
+              {availablePersonStyles.map(tag=>
+                <button key={tag} onClick={()=>setStyleFilter(tag)} aria-pressed={styleFilter===tag} data-active={styleFilter===tag} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">{tagLabels[tag]}</button>
+              )}
+            </FacetRow>}
+
+            {origins.length>=3&&<FacetRow label="Origen">
+              <select value={originFilter} onChange={e=>setOriginFilter(e.target.value)} className="gdn-input h-10 min-w-[210px] rounded-full px-3 text-[10px] font-semibold">
+                <option value="">Todos los orígenes</option>
+                {origins.map(origin=><option key={origin} value={origin}>{origin}</option>)}
+              </select>
+            </FacetRow>}
+          </>}
+
+          {hasPetFacets&&<>
+            {availablePetColors.length>0&&<FacetRow label="Color">
+              <button onClick={()=>setColorFilter('')} aria-pressed={!colorFilter} data-active={!colorFilter} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Todos</button>
+              {availablePetColors.map(tag=>
+                <button key={tag} onClick={()=>setColorFilter(tag)} aria-pressed={colorFilter===tag} data-active={colorFilter===tag} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">{tagLabels[tag]}</button>
+              )}
+            </FacetRow>}
+
+            {availablePetSizes.length>0&&<FacetRow label="Tamaño">
+              <button onClick={()=>setSizeFilter('')} aria-pressed={!sizeFilter} data-active={!sizeFilter} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Todos</button>
+              {availablePetSizes.map(tag=>
+                <button key={tag} onClick={()=>setSizeFilter(tag)} aria-pressed={sizeFilter===tag} data-active={sizeFilter===tag} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">{tagLabels[tag]}</button>
+              )}
+            </FacetRow>}
+
+            {availablePetPersonalities.length>0&&<FacetRow label="Personalidad">
+              <button onClick={()=>setPersonalityFilter('')} aria-pressed={!personalityFilter} data-active={!personalityFilter} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Todas</button>
+              {availablePetPersonalities.map(tag=>
+                <button key={tag} onClick={()=>setPersonalityFilter(tag)} aria-pressed={personalityFilter===tag} data-active={personalityFilter===tag} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">{tagLabels[tag]}</button>
+              )}
+            </FacetRow>}
+          </>}
+        </div>}
+
+        {!hasPersonFacets&&!hasPetFacets&&availableTags.length>0&&
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
+            <button onClick={()=>setActiveTag('')} aria-pressed={!activeTag} data-active={!activeTag} className="gdn-chip min-h-11 shrink-0 rounded-full px-4 py-2 text-[12px] font-semibold sm:min-h-0 sm:px-3 sm:text-[10px]">Todos</button>
+            {availableTags.map(tag=>
+              <button key={tag} onClick={()=>setActiveTag(tag)} aria-pressed={activeTag===tag} data-active={activeTag===tag} className="gdn-chip min-h-11 shrink-0 rounded-full px-4 py-2 text-[12px] font-semibold sm:min-h-0 sm:px-3 sm:text-[10px]">{tagLabels[tag]}</button>
+            )}
+          </div>
+        }
       </div>
 
       {filtered.length===0
-        ?<div className="px-6 py-14 text-center text-[13px] text-[#7d8091]">No encontramos resultados con esos filtros.</div>
+        ?<div className="px-6 py-14 text-center">
+          <p className="text-[13px] font-semibold text-[#5c5f70]">No encontramos resultados con esa combinación.</p>
+          <button onClick={clearFilters} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dcd7f0] bg-[#f7f5ff] px-4 text-[10px] font-semibold text-[#5b4df5]"><RotateCcw size={12}/>Restablecer filtros</button>
+        </div>
         :<div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">
           {filtered.slice(0,limit).map(item=>{
             const itemGender=inferredGender(item);
             const meta=[item.origin,itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':undefined].filter(Boolean).join(' · ');
             const saved=favorites.includes(item.name);
+            const personBadges=mode==='people'
+              ?[tagLabels[item.tags.find(tag=>personStyles.includes(tag as typeof personStyles[number]))||''],lengthLabels[lengthBucket(item.name)]].filter(Boolean)
+              :[];
+            const petBadges=mode==='pet'
+              ?[
+                item.tags.find(tag=>petColors.includes(tag as typeof petColors[number])),
+                item.tags.find(tag=>petSizes.includes(tag as typeof petSizes[number])),
+                item.tags.find(tag=>petPersonalities.includes(tag as typeof petPersonalities[number])),
+              ].filter((tag):tag is string=>Boolean(tag)).map(tag=>tagLabels[tag])
+              :[];
+
             return <article key={item.name+(item.origin??'')} className={'min-h-[186px] bg-white p-5 transition hover:bg-[#fcfbff] '+(mode==='culture'?'relative':'')}>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
@@ -67,6 +251,10 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
                 <button onClick={()=>toggle(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 shrink-0 place-items-center rounded-full border transition sm:size-9 '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e1ddea] bg-white text-[#8f91a0] hover:border-[#cfc8fb] hover:bg-[#f7f5ff]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
               </div>
 
+              {(personBadges.length>0||petBadges.length>0)&&<div className="mt-3 flex flex-wrap gap-1.5">
+                {[...personBadges,...petBadges].map(label=><span key={label} className="rounded-full border border-[#e6e2f3] bg-[#faf9ff] px-2.5 py-1 text-[9px] font-semibold text-[#74758a]">{label}</span>)}
+              </div>}
+
               {mode==='culture'&&item.script&&<div className="mt-4 rounded-[13px] border border-[#e6e1f7] bg-[#f8f6ff] px-4 py-3">
                 <p className="text-[9px] font-black uppercase tracking-[.14em] text-[#8a80d8]">Escritura</p>
                 <p className="mt-1.5 break-words text-[24px] font-semibold leading-tight text-[#302b5f]">{item.script}</p>
@@ -75,23 +263,26 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
               <div className="mt-4 min-h-12 text-[12px] leading-5 text-[#747788]">
                 {item.meaning&&<p><strong className="text-[#444655]">Significado:</strong> {item.meaning}</p>}
                 {item.pronunciation&&<p className={item.meaning?'mt-1':''}><strong className="text-[#444655]">Pronunciación:</strong> {item.pronunciation}</p>}
-                {!item.meaning&&!item.pronunciation&&mode!=='culture'&&<p>{item.tags.filter(tag=>!internalTags.has(tag)).slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
+                {!item.meaning&&!item.pronunciation&&mode!=='culture'&&mode!=='people'&&mode!=='pet'&&<p>{item.tags.filter(tag=>!internalTags.has(tag)).slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
                 {mode==='culture'&&item.source&&<div className="mt-3 flex flex-wrap items-center gap-2">
                   <span className={'rounded-full px-2.5 py-1 text-[9px] font-bold '+(item.verified===true?'bg-[#eaf8f0] text-[#27764d]':item.verified===false?'bg-[#fff3e8] text-[#a86328]':'bg-[#f2f1f7] text-[#727486]')}>{item.verified===true?'Fuente verificada':item.verified===false?'En revisión':'Fuente documentada'}</span>
                   {item.sourceUrl?<a className="text-[10px] font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:<span className="text-[10px] text-[#8e90a0]">{item.source}</span>}
                 </div>}
                 {mode!=='culture'&&item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
               </div>
+
               <div className="mt-4 flex flex-wrap gap-2">
                 <CopyButton value={item.name} label={mode==='culture'&&item.script?'Copiar nombre':'Copiar'}/>
                 {mode==='culture'&&item.script&&<CopyButton value={item.script} label="Copiar escritura"/>}
               </div>
-            </article>
+            </article>;
           })}
         </div>
       }
 
-      {filtered.length>limit&&<div className="border-t border-[#eceaf3] bg-[#faf9ff] p-4 text-center"><button onClick={()=>setLimit(v=>v+18)} className="min-h-11 rounded-[10px] border border-[#dedaf0] bg-white px-5 py-2.5 text-[12px] font-semibold text-[#5f6273] hover:border-[#cfc8fb] hover:text-[#5146d6]">Mostrar más</button></div>}
+      {filtered.length>limit&&<div className="border-t border-[#eceaf3] bg-[#faf9ff] p-4 text-center">
+        <button onClick={()=>setLimit(v=>v+18)} className="min-h-11 rounded-[10px] border border-[#dedaf0] bg-white px-5 py-2.5 text-[12px] font-semibold text-[#5f6273] hover:border-[#cfc8fb] hover:text-[#5146d6]">Mostrar más</button>
+      </div>}
     </div>
   </section>
 }
