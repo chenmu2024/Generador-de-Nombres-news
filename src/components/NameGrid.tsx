@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect,useMemo,useState} from 'react';
-import {Heart,RotateCcw,Search,SlidersHorizontal} from 'lucide-react';
+import {Check,ClipboardCopy,Heart,HeartPlus,RotateCcw,Search,Shuffle,SlidersHorizontal} from 'lucide-react';
 import type{NameRecord} from '@/data/nameDataset';
 import type{ToolMode} from '@/data/keywordMaster';
 import CopyButton from './CopyButton';
@@ -53,6 +53,8 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
   const[sizeFilter,setSizeFilter]=useState('');
   const[personalityFilter,setPersonalityFilter]=useState('');
   const[favorites,setFavorites]=useState<string[]>([]);
+  const[randomPick,setRandomPick]=useState('');
+  const[actionFeedback,setActionFeedback]=useState('');
   const[limit,setLimit]=useState(18);
 
   useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
@@ -113,6 +115,34 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
     setColorFilter('');
     setSizeFilter('');
     setPersonalityFilter('');
+    setRandomPick('');
+    setActionFeedback('');
+  }
+
+  function flash(message:string){
+    setActionFeedback(message);
+    window.setTimeout(()=>setActionFeedback(''),1400);
+  }
+
+  function pickRandom(){
+    if(!filtered.length)return;
+    const chosen=filtered[Math.floor(Math.random()*filtered.length)].name;
+    setRandomPick(chosen);
+    flash('Nombre elegido');
+  }
+
+  async function copyFiltered(){
+    if(!filtered.length)return;
+    await navigator.clipboard.writeText(filtered.map(item=>item.name).join('\n'));
+    flash(filtered.length+' nombres copiados');
+  }
+
+  function saveFiltered(){
+    if(!filtered.length||!hasActiveFilters)return;
+    const next=Array.from(new Set([...favorites,...filtered.map(item=>item.name)]));
+    setFavorites(next);
+    localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    flash(filtered.length+' nombres guardados');
   }
 
   useEffect(()=>{
@@ -220,6 +250,25 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
           </div>
         }
       </div>
+
+      {(mode==='people'||mode==='pet')&&filtered.length>0&&<div className="flex flex-col gap-3 border-b border-[#eceaf3] bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap gap-2">
+          <button onClick={pickRandom} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dedaf0] bg-[#faf9ff] px-3.5 text-[10px] font-semibold text-[#5d6072] transition hover:border-[#cfc8fb] hover:text-[#5146d6]">
+            <Shuffle size={13}/>Elegir uno
+          </button>
+          <button onClick={copyFiltered} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dedaf0] bg-white px-3.5 text-[10px] font-semibold text-[#5d6072] transition hover:border-[#cfc8fb] hover:text-[#5146d6]">
+            <ClipboardCopy size={13}/>Copiar resultados
+          </button>
+          {hasActiveFilters&&<button onClick={saveFiltered} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#d8d2ff] bg-[#f4f2ff] px-3.5 text-[10px] font-semibold text-[#5b4df5] transition hover:bg-[#ece8ff]">
+            <HeartPlus size={13}/>Guardar filtrados
+          </button>}
+        </div>
+
+        <div className="min-h-7 text-right">
+          {randomPick&&<span className="inline-flex items-center gap-2 rounded-full bg-[#eefaf3] px-3 py-1.5 text-[10px] font-bold text-[#2d7650]"><Check size={11}/>Sugerencia: {randomPick}</span>}
+          {!randomPick&&actionFeedback&&<span className="text-[10px] font-semibold text-[#2d7650]">{actionFeedback}</span>}
+        </div>
+      </div>}
 
       {filtered.length===0
         ?<div className="px-6 py-14 text-center">
