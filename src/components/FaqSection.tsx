@@ -1,3 +1,4 @@
+import {Plus} from 'lucide-react';
 import type { KeywordPage } from '@/data/keywordMaster';
 import { getFaqs } from '@/data/contentModules';
 
@@ -6,17 +7,20 @@ export default function FaqSection({page}:{page:KeywordPage}){
   if(!faqs.length)return null;
 
   return <section className="mt-14">
-    <div className="max-w-2xl">
+    <div className="mb-4">
       <p className="gdn-eyebrow">Preguntas frecuentes</p>
-      <h2 className="mt-2 text-2xl font-black tracking-[-.02em]">Dudas antes de elegir</h2>
+      <h2 className="mt-1.5 text-[24px] font-semibold tracking-[-.03em] text-[#1d1f24]">Dudas antes de elegir</h2>
     </div>
-    <div className="mt-5 divide-y divide-[#ececf0] overflow-hidden rounded-[28px] border border-[#e2e3e8] bg-white">
-      {faqs.map((faq,index)=><details key={faq.question} className="group p-5 md:px-6">
-        <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-extrabold text-[#292b32]">
+
+    <div className="divide-y divide-[#eceef1] overflow-hidden rounded-[14px] border border-[#e1e3e7] bg-white">
+      {faqs.map(faq=><details key={faq.question} className="group">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-5 px-4 py-4 text-[13px] font-semibold text-[#303238] transition hover:bg-[#fafafa] sm:px-5">
           <span>{faq.question}</span>
-          <span className="text-xl font-normal text-[#8a8e98] transition group-open:rotate-45">+</span>
+          <span className="grid size-7 shrink-0 place-items-center rounded-[8px] border border-[#e2e4e8] bg-white text-[#7c8089] transition group-open:rotate-45">
+            <Plus size={14}/>
+          </span>
         </summary>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-[#6f737e]">{faq.answer}</p>
+        <p className="max-w-3xl px-4 pb-5 text-[13px] leading-6 text-[#6e727c] sm:px-5">{faq.answer}</p>
       </details>)}
     </div>
   </section>

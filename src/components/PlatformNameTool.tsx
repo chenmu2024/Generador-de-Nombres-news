@@ -1,6 +1,7 @@
 'use client';
 
 import {useMemo,useState} from 'react';
+import {AtSign,BadgeCheck,ShieldAlert} from 'lucide-react';
 import CopyButton from './CopyButton';
 
 type Platform='roblox'|'instagram';
@@ -33,6 +34,7 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
       }
       return Array.from(new Set([base,base+'Play',base+'X',base+'7','Pro_'+base,base+'_YT'].map(cleanRoblox))).filter(Boolean);
     }
+
     const base=cleanInstagram(seed)||'luna';
     return Array.from(new Set([base,base+'.studio',base+'_daily','soy.'+base,base+'.co',base+'_online'].map(cleanInstagram))).filter(Boolean);
   },[seed,mode,platform]);
@@ -40,40 +42,47 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
   const raw=seed.trim();
   const issues=platform==='roblox'&&mode==='username'?robloxFormat(raw):[];
 
-  return <section className="gdn-card rounded-[28px] p-5 md:p-7">
-    <div className="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <p className="gdn-eyebrow">{platform==='roblox'?'Roblox':'Instagram'}</p>
-        <h2 className="mt-2 text-2xl font-black tracking-[-.02em]">{platform==='roblox'?'Crea y revisa tu nombre':'Crea ideas de username'}</h2>
+  return <section className="overflow-hidden rounded-[14px] border border-[#dfe1e6] bg-white shadow-[0_1px_2px_rgba(20,22,26,.03)]">
+    <div className="grid lg:grid-cols-[330px_1fr]">
+      <div className="border-b border-[#eceef1] p-5 lg:border-b-0 lg:border-r">
+        <div className="flex items-center gap-2.5">
+          <span className="grid size-8 place-items-center rounded-[9px] bg-[#eeecff] text-[#5146c8]"><AtSign size={15}/></span>
+          <div>
+            <p className="text-[11px] font-semibold text-[#5b4df5]">{platform==='roblox'?'Roblox':'Instagram'}</p>
+            <h2 className="text-[16px] font-semibold tracking-[-.015em]">{platform==='roblox'?'Crea y revisa tu nombre':'Crea ideas de username'}</h2>
+          </div>
+        </div>
+
+        {platform==='roblox'&&<div className="mt-5 grid grid-cols-2 rounded-[9px] bg-[#f3f4f6] p-1">
+          <button onClick={()=>setMode('username')} className={'rounded-[7px] px-3 py-2 text-[11px] font-medium transition '+(mode==='username'?'bg-white text-[#383b43] shadow-sm':'text-[#838791]')}>Username</button>
+          <button onClick={()=>setMode('display')} className={'rounded-[7px] px-3 py-2 text-[11px] font-medium transition '+(mode==='display'?'bg-white text-[#383b43] shadow-sm':'text-[#838791]')}>Display Name</button>
+        </div>}
+
+        <label className="mt-5 block">
+          <span className="mb-2 block text-[11px] font-medium text-[#777b85]">Palabra base</span>
+          <input value={seed} onChange={e=>setSeed(e.target.value)} className="gdn-input h-11 rounded-[9px] px-3 text-[13px]" placeholder={platform==='roblox'?'Escribe una base...':'Escribe una palabra...'}/>
+        </label>
+
+        {platform==='roblox'&&mode==='username'&&<div className={'mt-3 flex gap-2 rounded-[9px] px-3 py-2.5 text-[11px] leading-4 '+(issues.length?'bg-[#fff1ef] text-[#9d4036]':'bg-[#ecf8f2] text-[#0f7045]')}>
+          {issues.length?<ShieldAlert size={14} className="mt-0.5 shrink-0"/>:<BadgeCheck size={14} className="mt-0.5 shrink-0"/>}
+          <span>{issues.length?issues[0]:'El formato cumple las comprobaciones locales.'}</span>
+        </div>}
+
+        <p className="mt-4 text-[10px] leading-4 text-[#9599a2]">Solo revisamos formato. La disponibilidad y los filtros reales dependen de la plataforma.</p>
       </div>
-      <span className="rounded-full bg-[#f1efff] px-3 py-1.5 text-xs font-bold text-[#5f45cc]">Formato, no disponibilidad real</span>
+
+      <div className="min-w-0">
+        <div className="flex items-center justify-between border-b border-[#eceef1] px-4 py-3">
+          <span className="text-[12px] font-medium text-[#4e525b]">Sugerencias</span>
+          <span className="text-[11px] text-[#92969f]">{suggestions.length} opciones</span>
+        </div>
+        <div className="divide-y divide-[#eceef1]">
+          {suggestions.map(value=><div key={value} className="flex min-h-12 items-center justify-between gap-3 px-4 py-2.5 hover:bg-[#fafafa]">
+            <span className="min-w-0 break-all text-[13px] font-medium text-[#2d2f35]">{platform==='instagram'?'@':''}{value}</span>
+            <CopyButton value={value}/>
+          </div>)}
+        </div>
+      </div>
     </div>
-
-    {platform==='roblox'&&<div className="mt-5 inline-flex rounded-xl border border-[#dedfe5] bg-[#f7f7f9] p-1">
-      <button onClick={()=>setMode('username')} className={'rounded-lg px-4 py-2 text-xs font-extrabold '+(mode==='username'?'bg-white text-[#4f35c9] shadow-sm':'text-[#747882]')}>Username</button>
-      <button onClick={()=>setMode('display')} className={'rounded-lg px-4 py-2 text-xs font-extrabold '+(mode==='display'?'bg-white text-[#4f35c9] shadow-sm':'text-[#747882]')}>Display Name</button>
-    </div>}
-
-    <div className="mt-5">
-      <input value={seed} onChange={e=>setSeed(e.target.value)} className="gdn-input h-14 rounded-2xl px-4" placeholder={platform==='roblox'?'Escribe una base para Roblox...':'Escribe una palabra para Instagram...'}/>
-      {platform==='roblox'&&mode==='username'&&<div className={'mt-3 rounded-xl px-4 py-3 text-sm '+(issues.length?'bg-[#fff3f1] text-[#a04439]':'bg-[#edf8f1] text-[#35704a]')}>
-        {issues.length?issues[0]:'El formato cumple las comprobaciones locales.'}
-      </div>}
-    </div>
-
-    <div className="mt-5 grid gap-3 sm:grid-cols-2">
-      {suggestions.map(value=><div key={value} className="flex min-h-16 items-center justify-between gap-3 rounded-2xl border border-[#e4e5e9] bg-[#fbfbfc] px-4 py-3">
-        <span className="min-w-0 break-all font-extrabold text-[#292b32]">{platform==='instagram'?'@':''}{value}</span>
-        <CopyButton value={value}/>
-      </div>)}
-    </div>
-
-    <p className="mt-5 text-xs leading-5 text-[#858995]">
-      {platform==='roblox'
-        ? mode==='username'
-          ? 'Reglas de formato revisadas en octubre de 2026. La disponibilidad y el filtro de contenido dependen de Roblox.'
-          : 'El Display Name es distinto del Username y puede repetirse. Roblox aplica filtros de contenido y el soporte de caracteres puede variar.'
-        : 'Estas sugerencias son una ayuda de formato, no un comprobador oficial. Confirma disponibilidad y reglas vigentes dentro de Instagram.'}
-    </p>
   </section>
 }
