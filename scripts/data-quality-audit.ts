@@ -37,6 +37,7 @@ const minimums:Record<string,number>={
   '/nombres-raros':16,
   '/nombres-con-en':4,
   '/nombres-japoneses':8,
+  '/nombres-coreanos':7,
 };
 
 for(const [path,min] of Object.entries(minimums)){
@@ -52,6 +53,12 @@ const culturalPaths=[
 for(const path of culturalPaths){
   const wrongType=getNamesForPath(path).filter(item=>item.type!=='culture');
   if(wrongType.length)errors.push('Cultural page contains non-cultural records: '+path+' -> '+wrongType.map(item=>item.name).join(', '));
+}
+
+for(const path of ['/nombres-japoneses','/nombres-coreanos']){
+  const items=getNamesForPath(path);
+  const missingSource=items.filter(item=>!item.source||!item.sourceUrl);
+  if(missingSource.length)errors.push('Sourced cultural page has records without source: '+path+' -> '+missingSource.map(item=>item.name).join(', '));
 }
 
 const coverageChecks=[
