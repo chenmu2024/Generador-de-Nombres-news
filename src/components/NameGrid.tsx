@@ -353,7 +353,7 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
         :<div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">
           {filtered.slice(0,limit).map(item=>{
             const itemGender=inferredGender(item);
-            const meta=[item.origin,itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':undefined].filter(Boolean).join(' · ');
+            const genderLabel=itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':undefined;
             const saved=favorites.includes(item.name);
             const personBadges=mode==='people'
               ?[tagLabels[item.tags.find(tag=>personStyles.includes(tag as typeof personStyles[number]))||''],lengthLabels[lengthBucket(item.name)]].filter(Boolean)
@@ -370,7 +370,10 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h3 className="brand-serif truncate text-[23px] font-bold tracking-[-.025em] text-[#252634]">{item.name}</h3>
-                  {meta&&<p className="mt-1 text-[11px] font-bold uppercase tracking-[.08em] text-[#9294a4] sm:text-[9px]">{meta}</p>}
+                  {(item.origin||genderLabel)&&<div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1 text-[10px] font-semibold text-[#9294a4] sm:text-[9px]">
+                    {item.origin&&<span><span className="font-black uppercase tracking-[.08em]">Origen:</span> {item.origin}</span>}
+                    {genderLabel&&<span>{genderLabel}</span>}
+                  </div>}
                 </div>
                 <button onClick={()=>toggle(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 shrink-0 place-items-center rounded-full border transition sm:size-9 '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e1ddea] bg-white text-[#8f91a0] hover:border-[#cfc8fb] hover:bg-[#f7f5ff]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
               </div>
@@ -392,7 +395,11 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
                   <span className={'rounded-full px-2.5 py-1 text-[9px] font-bold '+(item.verified===true?'bg-[#eaf8f0] text-[#27764d]':item.verified===false?'bg-[#fff3e8] text-[#a86328]':'bg-[#f2f1f7] text-[#727486]')}>{item.verified===true?'Fuente verificada':item.verified===false?'En revisión':'Fuente documentada'}</span>
                   {item.sourceUrl?<a className="text-[10px] font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:<span className="text-[10px] text-[#8e90a0]">{item.source}</span>}
                 </div>}
-                {mode!=='culture'&&item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
+                {mode==='people'&&item.sourceUrl&&item.verified===true&&<div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-[#eaf8f0] px-2.5 py-1 text-[9px] font-bold text-[#27764d]">Significado verificado</span>
+                  <a className="text-[10px] font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">Ver fuente</a>
+                </div>}
+                {mode!=='culture'&&mode!=='people'&&item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
               </div>
 
               <div className="mt-4 flex flex-wrap gap-2">
