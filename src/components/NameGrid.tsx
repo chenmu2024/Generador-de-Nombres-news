@@ -16,6 +16,7 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
   const[gender,setGender]=useState<'ALL'|'F'|'M'|'U'>('ALL');
   const[activeTag,setActiveTag]=useState('');
   const[favorites,setFavorites]=useState<string[]>([]);
+  const[limit,setLimit]=useState(18);
 
   useEffect(()=>{
     try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}
@@ -31,6 +32,8 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
     const all=new Set(items.flatMap(item=>item.tags));
     return Object.keys(tagLabels).filter(tag=>all.has(tag)).slice(0,6);
   },[items]);
+
+  useEffect(()=>{setLimit(18)},[query,gender,activeTag]);
 
   const filtered=useMemo(()=>items.filter(item=>{
     const haystack=[item.name,item.origin,item.meaning,...item.tags].filter(Boolean).join(' ').toLocaleLowerCase('es');
@@ -69,7 +72,7 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
     {filtered.length===0&&<div className="mt-4 rounded-2xl border border-dashed border-[#d8d9df] bg-white/60 p-8 text-center text-sm text-[#777b85]">No encontramos resultados con esos filtros. Prueba otra combinación.</div>}
 
     <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {filtered.slice(0,18).map(item=>{
+      {filtered.slice(0,limit).map(item=>{
         const meta=[item.origin,item.gender==='F'?'Femenino':item.gender==='M'?'Masculino':item.gender==='U'?'Unisex':undefined].filter(Boolean).join(' · ');
         return <article key={item.name+(item.origin??'')} className="gdn-card rounded-2xl p-5 transition hover:-translate-y-0.5">
           <div className="flex items-start justify-between gap-3">
@@ -88,5 +91,6 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
         </article>
       })}
     </div>
+    {filtered.length>limit&&<div className="mt-6 text-center"><button onClick={()=>setLimit(value=>value+18)} className="rounded-xl border border-[#d9dbe2] bg-white px-5 py-3 text-sm font-extrabold text-[#4f535d] transition hover:border-[#a999ff] hover:text-[#5b3bd2]">Mostrar más</button></div>}
   </section>
 }
