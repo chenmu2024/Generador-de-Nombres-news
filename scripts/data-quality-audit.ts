@@ -38,6 +38,12 @@ const minimums:Record<string,number>={
   '/nombres-con-en':4,
   '/nombres-japoneses':8,
   '/nombres-coreanos':7,
+  '/nombres-franceses':2,
+  '/nombres-italianos':2,
+  '/nombres-rusos':2,
+  '/nombres-griegos':2,
+  '/nombres-turcos':2,
+  '/nombres-chinos':2,
 };
 
 for(const [path,min] of Object.entries(minimums)){
@@ -55,10 +61,15 @@ for(const path of culturalPaths){
   if(wrongType.length)errors.push('Cultural page contains non-cultural records: '+path+' -> '+wrongType.map(item=>item.name).join(', '));
 }
 
-for(const path of ['/nombres-japoneses','/nombres-coreanos']){
+for(const path of [
+  '/nombres-japoneses','/nombres-coreanos','/nombres-franceses','/nombres-italianos',
+  '/nombres-rusos','/nombres-griegos','/nombres-turcos','/nombres-chinos',
+]){
   const items=getNamesForPath(path);
   const missingSource=items.filter(item=>!item.source||!item.sourceUrl);
   if(missingSource.length)errors.push('Sourced cultural page has records without source: '+path+' -> '+missingSource.map(item=>item.name).join(', '));
+  const notVerified=items.filter(item=>item.verified!==true);
+  if(notVerified.length)errors.push('Sourced cultural page has unverified records: '+path+' -> '+notVerified.map(item=>item.name).join(', '));
 }
 
 const coverageChecks=[
