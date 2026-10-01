@@ -1,5 +1,5 @@
 import Link from'next/link';
-import {Camera,CirclePlay,Leaf} from 'lucide-react';
+import {Leaf} from 'lucide-react';
 
 export default function Footer(){
   return <footer className="border-t border-[#eceaf2] bg-white">
@@ -17,8 +17,6 @@ export default function Footer(){
         <Link href="/politica-de-privacidad" className="hover:text-[#5b4df5]">Privacidad</Link>
         <Link href="/terminos-y-condiciones" className="hover:text-[#5b4df5]">Términos</Link>
         <Link href="/contacto" className="hover:text-[#5b4df5]">Contacto</Link>
-        <span className="mx-1 h-5 w-px bg-[#e2e0e8]"/>
-        <CirclePlay size={14}/><Camera size={14}/>
       </div>
     </div>
   </footer>

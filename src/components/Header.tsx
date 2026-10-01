@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import {Heart,Leaf,Menu,Sun} from 'lucide-react';
+import {Heart,Leaf,Menu} from 'lucide-react';
 import HeaderSearch from './HeaderSearch';
 
 const nav=[
@@ -28,7 +28,6 @@ export default function Header(){
         <Link href="/favoritos" className="hidden h-10 items-center gap-2 rounded-full border border-[#e4e1ee] bg-white px-4 text-[12px] font-semibold text-[#282939] shadow-[0_2px_10px_rgba(50,43,100,.04)] transition hover:border-[#d1cbed] sm:inline-flex">
           <Heart size={15} className="text-[#ff4f80]"/> Favoritos
         </Link>
-        <button aria-label="Apariencia" className="grid size-10 place-items-center rounded-full border border-[#e4e1ee] bg-white text-[#5b5d70]"><Sun size={16}/></button>
         <details className="relative xl:hidden">
           <summary className="grid size-10 list-none place-items-center rounded-full border border-[#e4e1ee] bg-white text-[#5b5d70]"><Menu size={17}/></summary>
           <div className="absolute right-0 mt-2 w-56 rounded-[14px] border border-[#e5e2ed] bg-white p-1.5 shadow-[0_18px_50px_rgba(43,39,74,.16)]">
