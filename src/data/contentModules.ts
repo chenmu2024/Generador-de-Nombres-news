@@ -59,6 +59,26 @@ const specificFaqs: Record<string, PageFaq[]> = {
   '/nombres-para-tiendas': [
     {question:'¿Puedo usar directamente uno de los nombres generados?',answer:'Úsalo primero como candidato. Antes de adoptarlo comercialmente revisa marcas, dominios, redes sociales y posibles conflictos legales.'},
   ],
+  '/nombres-gatos-negros': [
+    {question:'¿Qué tipo de nombres combinan con un gato negro?',answer:'Puedes comparar opciones místicas, elegantes, cortas o fuertes. El color puede inspirar el estilo, pero no tiene que determinar el nombre.'},
+    {question:'¿Cómo elegir entre un nombre tierno y uno oscuro?',answer:'Prueba ambos estilos con la personalidad real del gato. Un nombre que contraste con su apariencia también puede funcionar muy bien.'},
+  ],
+  '/nombres-perritas': [
+    {question:'¿Es mejor un nombre corto para una perrita?',answer:'Un nombre breve puede ser cómodo para usar todos los días, aunque también importa que su sonido sea fácil de distinguir de órdenes habituales.'},
+    {question:'¿Puedo filtrar por tamaño o personalidad?',answer:'Sí. La página permite explorar etiquetas como pequeña, tierna, elegante, fuerte o juguetona cuando existen en la base de datos.'},
+  ],
+  '/perritas-chihuahua': [
+    {question:'¿Qué nombres funcionan bien para una chihuahua pequeña?',answer:'Puedes empezar por nombres cortos, tiernos o juguetones y probar cuáles son más fáciles de repetir en voz alta.'},
+  ],
+  '/nombres-de-nina': [
+    {question:'¿Cómo comparar nombres cortos y nombres poco comunes?',answer:'Guarda candidatos de ambos grupos y compáralos junto con los apellidos. La página separa opciones cortas, modernas y menos comunes para facilitar esa comparación.'},
+  ],
+  '/nombres-raros': [
+    {question:'¿Raro significa inventado?',answer:'No. Aquí “poco común” se usa como una categoría de exploración; no implica que el nombre sea inventado ni garantiza una frecuencia concreta en un país.'},
+  ],
+  '/nombres-free-fire': [
+    {question:'¿Puedo añadir símbolos y espacio invisible al mismo nickname?',answer:'La herramienta permite generar variantes con ambos recursos, pero debes probar el resultado dentro del juego porque la compatibilidad puede cambiar.'},
+  ],
 };
 
 export function getFaqs(page: KeywordPage): PageFaq[] {
