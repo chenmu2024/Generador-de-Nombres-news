@@ -7,10 +7,10 @@ export const metadata={
 };
 
 export default function Page(){
-  return <div className="gdn-shell py-14 md:py-16">
+  return <div className="gdn-shell py-12 md:py-16">
     <p className="gdn-eyebrow">Colección personal</p>
-    <h1 className="mt-3 text-4xl font-black tracking-[-.035em] md:text-5xl">Mis favoritos</h1>
-    <p className="mt-4 max-w-2xl leading-7 text-[#6d717b]">Reúne aquí los nombres que quieras comparar. No necesitas cuenta: se guardan únicamente en el almacenamiento local de tu navegador.</p>
+    <h1 className="brand-serif mt-3 text-[42px] font-bold tracking-[-.04em] text-[#1b1c2b] md:text-[54px]">Mis favoritos</h1>
+    <p className="mt-4 max-w-2xl text-[14px] leading-7 text-[#737687]">Reúne aquí los nombres que quieras comparar. No necesitas cuenta: se guardan únicamente en el almacenamiento local de tu navegador.</p>
     <div className="mt-8"><FavoritesCenter/></div>
   </div>
 }
