@@ -52,6 +52,7 @@ button{cursor:pointer}
 .gdn-section-title{font-family:Georgia,"Times New Roman",serif;font-size:1.65rem;line-height:2rem;font-weight:700;letter-spacing:-.025em}
 .gdn-caption{font-size:.75rem;line-height:1.1rem;color:var(--muted)}
 .font-serif{font-family:Georgia,"Times New Roman",serif}
+.brand-serif{font-family:Georgia,"Times New Roman",serif}
 .home-hero{background:#fbfbff}
 
 @media(max-width:640px){

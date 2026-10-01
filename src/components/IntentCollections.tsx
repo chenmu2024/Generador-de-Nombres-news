@@ -71,14 +71,14 @@ export default function IntentCollections({page,items}:{page:KeywordPage;items:N
   if(!groups.length)return null;
   return <section className="mt-14">
     <p className="gdn-eyebrow">Explora por intención</p>
-    <h2 className="brand-serif mt-2 text-[36px] font-bold tracking-[-.035em] text-[#17231c]">Compara grupos antes de elegir</h2>
+    <h2 className="brand-serif mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">Compara grupos antes de elegir</h2>
     <div className="mt-5 grid gap-4 lg:grid-cols-3">
-      {groups.map(group=><article key={group.title} className="overflow-hidden rounded-[24px] border border-[#d5cbbb] bg-[#fffaf2]">
-        <div className="border-b border-[#dfd6c9] bg-[#efe7da] px-5 py-4">
-          <h3 className="brand-serif text-[23px] font-bold text-[#2a3b31]">{group.title}</h3>
-          <p className="mt-1 text-[11px] leading-5 text-[#778179]">{group.description}</p>
+      {groups.map(group=><article key={group.title} className="overflow-hidden rounded-[20px] border border-[#e4e1ed] bg-white shadow-[0_8px_24px_rgba(55,49,91,.04)]">
+        <div className="border-b border-[#eceaf3] bg-[#faf9ff] px-5 py-4">
+          <h3 className="brand-serif text-[22px] font-bold text-[#292a39]">{group.title}</h3>
+          <p className="mt-1 text-[11px] leading-5 text-[#838697]">{group.description}</p>
         </div>
-        <div className="divide-y divide-[#e2dacd]">{group.items.map(item=><div key={item.name} className="flex items-center justify-between gap-3 px-4 py-3.5"><span className="text-[12px] font-bold text-[#46544b]">{item.name}</span><CopyButton value={item.name}/></div>)}</div>
+        <div className="divide-y divide-[#eceaf3]">{group.items.map(item=><div key={item.name} className="flex items-center justify-between gap-3 px-4 py-3.5"><span className="text-[12px] font-semibold text-[#515363]">{item.name}</span><CopyButton value={item.name}/></div>)}</div>
       </article>)}
     </div>
   </section>

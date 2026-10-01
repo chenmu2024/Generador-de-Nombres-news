@@ -21,10 +21,7 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
   const[limit,setLimit]=useState(18);
 
   useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
-  function toggle(name:string){
-    const next=favorites.includes(name)?favorites.filter(x=>x!==name):[...favorites,name];
-    setFavorites(next);localStorage.setItem('gdn-favorites',JSON.stringify(next));
-  }
+  function toggle(name:string){const next=favorites.includes(name)?favorites.filter(x=>x!==name):[...favorites,name];setFavorites(next);localStorage.setItem('gdn-favorites',JSON.stringify(next))}
   const availableTags=useMemo(()=>{const all=new Set(items.flatMap(item=>item.tags));return Object.keys(tagLabels).filter(tag=>all.has(tag)).slice(0,7)},[items]);
   useEffect(()=>{setLimit(18)},[query,gender,activeTag]);
   const inferredGender=(item:NameRecord):'F'|'M'|'U'|undefined=>item.gender??(item.tags.includes('female')?'F':item.tags.includes('male')?'M':item.tags.includes('unisex')?'U':undefined);
@@ -38,42 +35,46 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
 
   return <section className="mt-14">
     <div className="mb-5 flex items-end justify-between gap-4">
-      <div><p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora y compara':'Explora nombres'}</p><h2 className="brand-serif mt-2 text-[36px] font-bold tracking-[-.035em] text-[#17231c]">Resultados</h2></div>
-      <span className="text-[11px] font-bold text-[#89918a]">{filtered.length} disponibles</span>
+      <div><p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora y compara':'Explora nombres'}</p><h2 className="brand-serif mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">Resultados</h2></div>
+      <span className="text-[11px] font-semibold text-[#9294a4]">{filtered.length} disponibles</span>
     </div>
 
-    <div className="overflow-hidden rounded-[26px] border border-[#d6cdbf] bg-[#fffaf2]">
-      <div className="border-b border-[#e2dacd] bg-[#f0e8dc] p-4">
+    <div className="overflow-hidden rounded-[20px] border border-[#e3e0ec] bg-white shadow-[0_12px_34px_rgba(55,49,91,.05)]">
+      <div className="border-b border-[#eceaf3] bg-[#faf9ff] p-4">
         <div className="flex flex-col gap-3 lg:flex-row">
-          <label className="relative min-w-0 flex-1"><Search size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#89918a]"/><input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-full pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':'Buscar por nombre, origen o estilo...'}/></label>
+          <label className="relative min-w-0 flex-1"><Search size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9698a8]"/><input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':'Buscar por nombre, origen o estilo...'}/></label>
           {showGender&&<div className="flex gap-2 overflow-x-auto">
-            {([['ALL','Todos'],['F','Femenino'],['M','Masculino'],['U','Unisex']] as const).map(([value,label])=><button key={value} onClick={()=>setGender(value)} data-active={gender===value} className="gdn-chip h-11 whitespace-nowrap rounded-full px-4 text-[10px] font-bold">{label}</button>)}
+            {([['ALL','Todos'],['F','Femenino'],['M','Masculino'],['U','Unisex']] as const).map(([value,label])=><button key={value} onClick={()=>setGender(value)} data-active={gender===value} className="gdn-chip h-11 whitespace-nowrap rounded-[11px] px-4 text-[10px] font-semibold">{label}</button>)}
           </div>}
         </div>
-        {availableTags.length>0&&<div className="mt-3 flex flex-wrap gap-2"><button onClick={()=>setActiveTag('')} data-active={!activeTag} className="gdn-chip rounded-full px-3 py-2 text-[10px] font-bold">Todos</button>{availableTags.map(tag=><button key={tag} onClick={()=>setActiveTag(tag)} data-active={activeTag===tag} className="gdn-chip rounded-full px-3 py-2 text-[10px] font-bold">{tagLabels[tag]}</button>)}</div>}
+        {availableTags.length>0&&<div className="mt-3 flex flex-wrap gap-2"><button onClick={()=>setActiveTag('')} data-active={!activeTag} className="gdn-chip rounded-full px-3 py-2 text-[10px] font-semibold">Todos</button>{availableTags.map(tag=><button key={tag} onClick={()=>setActiveTag(tag)} data-active={activeTag===tag} className="gdn-chip rounded-full px-3 py-2 text-[10px] font-semibold">{tagLabels[tag]}</button>)}</div>}
       </div>
 
-      {filtered.length===0?<div className="px-6 py-14 text-center text-[13px] text-[#7a847c]">No encontramos resultados con esos filtros.</div>:<div className="grid md:grid-cols-2 lg:grid-cols-3">
-        {filtered.slice(0,limit).map((item,index)=>{
-          const itemGender=inferredGender(item);
-          const meta=[item.origin,itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':undefined].filter(Boolean).join(' · ');
-          const saved=favorites.includes(item.name);
-          return <article key={item.name+(item.origin??'')} className={'relative min-h-[190px] border-b border-[#e1d8cb] p-5 transition hover:bg-white '+(index%3!==2?'lg:border-r':'')+(index%2===0?' md:border-r lg:border-r':'')}>
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0"><h3 className="brand-serif truncate text-[24px] font-bold tracking-[-.025em] text-[#203027]">{item.script?(item.name+' · '+item.script):item.name}</h3>{meta&&<p className="mt-1 text-[10px] font-bold uppercase tracking-[.08em] text-[#8a938b]">{meta}</p>}</div>
-              <button onClick={()=>toggle(item.name)} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-9 shrink-0 place-items-center rounded-full border transition '+(saved?'border-[#7f9887] bg-[#dfe8e1] text-[#365946]':'border-[#d7cdbf] bg-[#fffaf2] text-[#8a938b] hover:bg-white')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
-            </div>
-            <div className="mt-4 min-h-12 text-[12px] leading-5 text-[#6d786f]">
-              {item.meaning&&<p><strong className="text-[#46544b]">Significado:</strong> {item.meaning}</p>}
-              {item.pronunciation&&<p><strong className="text-[#46544b]">Pronunciación:</strong> {item.pronunciation}</p>}
-              {!item.meaning&&!item.pronunciation&&<p>{item.tags.filter(tag=>tag!=='enye').slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
-              {item.source&&<p className="mt-2 text-[10px] text-[#929a93]">Fuente: {item.sourceUrl?<a className="font-bold text-[#446653] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
-            </div>
-            <div className="mt-4"><CopyButton value={item.name}/></div>
-          </article>
-        })}
-      </div>}
-      {filtered.length>limit&&<div className="border-t border-[#ddd4c7] p-4 text-center"><button onClick={()=>setLimit(v=>v+18)} className="rounded-full border border-[#cabfaf] bg-[#fffaf2] px-5 py-2.5 text-[11px] font-bold text-[#566259] hover:bg-white">Mostrar más</button></div>}
+      {filtered.length===0
+        ?<div className="px-6 py-14 text-center text-[13px] text-[#7d8091]">No encontramos resultados con esos filtros.</div>
+        :<div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">
+          {filtered.slice(0,limit).map(item=>{
+            const itemGender=inferredGender(item);
+            const meta=[item.origin,itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':undefined].filter(Boolean).join(' · ');
+            const saved=favorites.includes(item.name);
+            return <article key={item.name+(item.origin??'')} className="min-h-[186px] bg-white p-5 transition hover:bg-[#fcfbff]">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0"><h3 className="brand-serif truncate text-[23px] font-bold tracking-[-.025em] text-[#252634]">{item.script?(item.name+' · '+item.script):item.name}</h3>{meta&&<p className="mt-1 text-[9px] font-bold uppercase tracking-[.08em] text-[#9294a4]">{meta}</p>}</div>
+                <button onClick={()=>toggle(item.name)} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-9 shrink-0 place-items-center rounded-full border transition '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e1ddea] bg-white text-[#8f91a0] hover:border-[#cfc8fb] hover:bg-[#f7f5ff]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
+              </div>
+              <div className="mt-4 min-h-12 text-[12px] leading-5 text-[#747788]">
+                {item.meaning&&<p><strong className="text-[#444655]">Significado:</strong> {item.meaning}</p>}
+                {item.pronunciation&&<p><strong className="text-[#444655]">Pronunciación:</strong> {item.pronunciation}</p>}
+                {!item.meaning&&!item.pronunciation&&<p>{item.tags.filter(tag=>tag!=='enye').slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
+                {item.source&&<p className="mt-2 text-[10px] text-[#9698a6]">Fuente: {item.sourceUrl?<a className="font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
+              </div>
+              <div className="mt-4"><CopyButton value={item.name}/></div>
+            </article>
+          })}
+        </div>
+      }
+
+      {filtered.length>limit&&<div className="border-t border-[#eceaf3] bg-[#faf9ff] p-4 text-center"><button onClick={()=>setLimit(v=>v+18)} className="rounded-[10px] border border-[#dedaf0] bg-white px-5 py-2.5 text-[11px] font-semibold text-[#5f6273] hover:border-[#cfc8fb] hover:text-[#5146d6]">Mostrar más</button></div>}
     </div>
   </section>
 }
