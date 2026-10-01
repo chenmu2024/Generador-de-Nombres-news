@@ -1,0 +1,1 @@
+export default function Footer(){return <footer className="mt-24 border-t border-white/8"><div className="gdn-shell grid gap-5 py-10 text-sm text-zinc-500 md:grid-cols-2"><p>© 2026 GeneradorDeNombres.net — herramientas gratuitas de nombres e identidad digital.</p><p className="md:text-right">Diseñado para ser rápido, útil y fácil de usar desde móvil.</p></div></footer>}

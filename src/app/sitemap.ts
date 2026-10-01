@@ -1,0 +1,1 @@
+import type{MetadataRoute}from'next';import{keywordPages}from'@/data/keywordMaster';export default function sitemap():MetadataRoute.Sitemap{const b='https://generadordenombres.net';return keywordPages.filter(i=>i.indexable&&i.status==='VERIFIED').map(i=>({url:i.path==='/'?b+'/':b+i.path,changeFrequency:i.path==='/'?'daily':'weekly',priority:i.path==='/'?1:.8}))}
