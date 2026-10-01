@@ -58,3 +58,19 @@ button{cursor:pointer}
 @media(max-width:640px){
   .gdn-shell{width:min(100% - 24px,1200px)}
 }
+
+
+/* Interaction quality */
+a,button,summary,input,select{-webkit-tap-highlight-color:transparent}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid #6d61ff;
+  outline-offset:3px;
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
