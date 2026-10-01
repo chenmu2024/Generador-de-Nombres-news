@@ -51,12 +51,22 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isAlphabet=page.path==='/nombres-por-letra';
   const isStore=page.path==='/nombres-para-tiendas';
   const isFreeFire=page.cluster==='freeFire'&&page.path!=='/espacios-invisible-ff';
+  const isToolPage=isRoblox||isInstagram||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
   const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&!isStore&&!isFreeFire&&['general','gaming','invisible','store','football'].includes(page.tool);
 
-  const schema={'@context':'https://schema.org','@type':'WebApplication',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}};
+  const primarySchema=isToolPage
+    ? {'@context':'https://schema.org','@type':'WebApplication',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}}
+    : {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,mainEntity:{'@type':'ItemList',itemListElement:items.slice(0,12).map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name}))}};
+
+  const breadcrumbItems=[
+    {'@type':'ListItem',position:1,name:'Inicio',item:'https://generadordenombres.net/'},
+    ...(cluster.hubPath!==page.path?[{'@type':'ListItem',position:2,name:cluster.label,item:'https://generadordenombres.net'+cluster.hubPath}]:[]),
+    {'@type':'ListItem',position:cluster.hubPath!==page.path?3:2,name:page.h1,item:'https://generadordenombres.net'+page.path},
+  ];
+  const breadcrumbSchema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:breadcrumbItems};
 
   return <div className="gdn-shell">
-    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema)}}/>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify([primarySchema,breadcrumbSchema])}}/>
     <PageIntro page={page}/>
 
     {isRoblox&&<PlatformNameTool platform="roblox"/>}
