@@ -35,6 +35,7 @@ const minimums:Record<string,number>={
   '/nombres-de-nino':18,
   '/nombres-unisex':8,
   '/nombres-raros':16,
+  '/nombres-con-en':4,
 };
 
 for(const [path,min] of Object.entries(minimums)){

@@ -89,7 +89,8 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
           <div className="mt-5 min-h-10 text-sm leading-6 text-[#686d78]">
             {item.meaning&&<p><span className="font-bold text-[#353842]">Significado:</span> {item.meaning}</p>}
             {item.pronunciation&&<p><span className="font-bold text-[#353842]">Pronunciación:</span> {item.pronunciation}</p>}
-            {!item.meaning&&!item.pronunciation&&<p>{item.tags.slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
+            {!item.meaning&&!item.pronunciation&&<p>{item.tags.filter(tag=>tag!=='enye').slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
+            {item.source&&<p className="mt-2 text-xs text-[#8a8e98]">Fuente: {item.sourceUrl?<a className="font-bold text-[#5b3bd2] underline decoration-[#cfc7ff] underline-offset-2" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión adicional':''}</p>}
           </div>
           <div className="mt-4"><CopyButton value={item.name}/></div>
         </article>

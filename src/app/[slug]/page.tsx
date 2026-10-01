@@ -13,6 +13,7 @@ import DecisionGuide from'@/components/DecisionGuide';
 import FaqSection from'@/components/FaqSection';
 import AdSlot from'@/components/AdSlot';
 import IntentCollections from'@/components/IntentCollections';
+import EnyeGuide from'@/components/EnyeGuide';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -45,6 +46,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isInstagram=page.path==='/nombres-instagram';
   const isAlphabet=page.path==='/nombres-por-letra';
   const isStore=page.path==='/nombres-para-tiendas';
+  const isEnye=page.path==='/nombres-con-en';
   const isFreeFire=page.cluster==='freeFire'&&page.path!=='/espacios-invisible-ff';
   const isToolPage=isRoblox||isInstagram||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
   const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&!isStore&&!isFreeFire&&['general','gaming','invisible','store','football'].includes(page.tool);
@@ -72,6 +74,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
 
     <NameGrid items={items} mode={page.tool}/>
+    {isEnye&&<EnyeGuide/>}
     <IntentCollections page={page} items={items}/>
     {page.tool==='culture'&&<DataQualityNote/>}
 

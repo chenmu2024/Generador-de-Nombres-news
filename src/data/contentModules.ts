@@ -76,6 +76,10 @@ const specificFaqs: Record<string, PageFaq[]> = {
   '/nombres-raros': [
     {question:'¿Raro significa inventado?',answer:'No. Aquí “poco común” se usa como una categoría de exploración; no implica que el nombre sea inventado ni garantiza una frecuencia concreta en un país.'},
   ],
+  '/nombres-con-en': [
+    {question:'¿Hay muchos nombres que empiecen por Ñ?',answer:'Son muy poco frecuentes. Por eso la página también reúne nombres reales que contienen Ñ, separándolos de las formas históricas que sí empiezan por esa letra.'},
+    {question:'¿Por qué Ñusta no aparece como un nombre corriente?',answer:'Las fuentes consultadas la describen principalmente como un título histórico inca relacionado con mujeres de sangre real, no como un nombre personal común.'},
+  ],
   '/nombres-free-fire': [
     {question:'¿Puedo añadir símbolos y espacio invisible al mismo nickname?',answer:'La herramienta permite generar variantes con ambos recursos, pero debes probar el resultado dentro del juego porque la compatibilidad puede cambiar.'},
   ],
