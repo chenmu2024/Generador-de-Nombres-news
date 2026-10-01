@@ -82,7 +82,10 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
                 </div>}
                 {mode!=='culture'&&item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
               </div>
-              <div className="mt-4"><CopyButton value={item.name}/></div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <CopyButton value={item.name} label={mode==='culture'&&item.script?'Copiar nombre':'Copiar'}/>
+                {mode==='culture'&&item.script&&<CopyButton value={item.script} label="Copiar escritura"/>}
+              </div>
             </article>
           })}
         </div>
