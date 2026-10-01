@@ -45,8 +45,8 @@ const minimums:Record<string,number>={
   '/nombres-turcos':6,
   '/nombres-chinos':6,
   '/nombres-mayas':6,
-  '/nombres-ingles':2,
-  '/nombres-de-dioses':4,
+  '/nombres-ingles':6,
+  '/nombres-de-dioses':8,
 };
 
 for(const [path,min] of Object.entries(minimums)){
