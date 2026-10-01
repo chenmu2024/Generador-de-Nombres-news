@@ -7,23 +7,25 @@ export default function PageIntro({page}:{page:KeywordPage}){
   const cluster=topicClusters[page.cluster];
   const showClusterLink=cluster.hubPath!==page.path;
 
-  return <header className="pb-8 pt-10 md:pb-10 md:pt-14">
-    <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-1.5 text-[12px] font-medium text-[#8a8e97]">
-      <Link href="/" className="transition hover:text-[#4f45c8]">Inicio</Link>
-      <ChevronRight size={12}/>
-      {showClusterLink&&<>
-        <Link href={cluster.hubPath} className="transition hover:text-[#4f45c8]">{cluster.label}</Link>
-        <ChevronRight size={12}/>
-      </>}
-      <span className="text-[#62666f]">{page.h1}</span>
+  return <header className="pb-10 pt-10 md:pb-12 md:pt-14">
+    <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-1.5 text-[10px] font-bold uppercase tracking-[.08em] text-[#8a918b]">
+      <Link href="/" className="hover:text-[#24483b]">Inicio</Link>
+      <ChevronRight size={11}/>
+      {showClusterLink&&<><Link href={cluster.hubPath} className="hover:text-[#24483b]">{cluster.label}</Link><ChevronRight size={11}/></>}
+      <span className="text-[#5e6961]">{page.h1}</span>
     </nav>
 
-    <div className="mb-4 flex flex-wrap items-center gap-2">
-      <span className="rounded-full bg-[#eeecff] px-2.5 py-1 text-[11px] font-semibold text-[#5146c8]">{cluster.label}</span>
-      <span className="text-[12px] font-medium text-[#858993]">Gratis · Sin registro</span>
+    <div className="grid gap-7 lg:grid-cols-[1fr_280px] lg:items-end">
+      <div>
+        <span className="inline-flex rounded-full border border-[#d4cbbb] bg-[#fffaf2] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.12em] text-[#546158]">{cluster.label}</span>
+        <h1 className="brand-serif mt-5 max-w-4xl text-[46px] font-bold leading-[1.01] tracking-[-.045em] text-[#17231c] md:text-[62px]">{page.h1}</h1>
+        <p className="mt-5 max-w-3xl text-[15px] leading-7 text-[#68736b] md:text-[16px]">{page.description}</p>
+      </div>
+      <div className="hidden border-l border-[#cfc6b8] pl-6 lg:block">
+        <p className="text-[10px] font-bold uppercase tracking-[.14em] text-[#8b938c]">Herramienta</p>
+        <p className="brand-serif mt-2 text-[22px] font-bold leading-tight text-[#294236]">Gratis, directa y sin registro.</p>
+        <p className="mt-2 text-[11px] leading-5 text-[#7b847d]">Genera, filtra, compara y guarda en tu navegador.</p>
+      </div>
     </div>
-
-    <h1 className="max-w-4xl text-[38px] font-semibold leading-[1.08] tracking-[-.045em] text-[#18191d] md:text-[52px]">{page.h1}</h1>
-    <p className="mt-4 max-w-3xl text-[15px] leading-7 text-[#666a74] md:text-[16px]">{page.description}</p>
   </header>
 }
