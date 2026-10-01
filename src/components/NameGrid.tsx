@@ -189,7 +189,8 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
   );
 
   if(!items.length)return null;
-  const showGender=items.some(item=>inferredGender(item));
+  const genderOptions=new Set(items.map(item=>inferredGender(item)).filter(Boolean));
+  const showGender=genderOptions.size>1;
 
   return <section className="mt-10 md:mt-12">
     <div className="mb-5 flex items-end justify-between gap-4">
@@ -198,7 +199,7 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
         <h2 className="brand-serif mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">Resultados</h2>
       </div>
       <div className="text-right">
-        <span className="block text-[11px] font-semibold text-[#747789]">{filtered.length} disponibles</span>
+        <span aria-live="polite" className="block text-[11px] font-semibold text-[#747789]">{hasActiveFilters?`${filtered.length} de ${items.length} disponibles`:`${items.length} disponibles`}</span>
         {hasActiveFilters&&<button onClick={clearFilters} className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-[#6558f5] hover:underline"><RotateCcw size={10}/>Limpiar filtros</button>}
       </div>
     </div>
@@ -250,7 +251,7 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
               )}
             </FacetRow>}
 
-            {availablePetSizes.length>0&&<FacetRow label="Tamaño">
+            {availablePetSizes.length>=2&&<FacetRow label="Tamaño">
               <button onClick={()=>setSizeFilter('')} aria-pressed={!sizeFilter} data-active={!sizeFilter} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Todos</button>
               {availablePetSizes.map(tag=>
                 <button key={tag} onClick={()=>setSizeFilter(tag)} aria-pressed={sizeFilter===tag} data-active={sizeFilter===tag} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">{tagLabels[tag]}</button>
@@ -284,12 +285,12 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
           <button onClick={copyFiltered} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dedaf0] bg-white px-3.5 text-[10px] font-semibold text-[#5d6072] transition hover:border-[#cfc8fb] hover:text-[#5146d6]">
             <ClipboardCopy size={13}/>Copiar resultados
           </button>
-          {hasActiveFilters&&<button onClick={saveFiltered} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#d8d2ff] bg-[#f4f2ff] px-3.5 text-[10px] font-semibold text-[#5b4df5] transition hover:bg-[#ece8ff]">
+          <button onClick={saveFiltered} disabled={!hasActiveFilters} title={!hasActiveFilters?'Aplica al menos un filtro para guardar este conjunto':undefined} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#d8d2ff] bg-[#f4f2ff] px-3.5 text-[10px] font-semibold text-[#5b4df5] transition hover:bg-[#ece8ff] disabled:cursor-not-allowed disabled:border-[#e5e2ec] disabled:bg-[#f7f6f9] disabled:text-[#aaacb8]">
             <HeartPlus size={13}/>Guardar filtrados
-          </button>}
+          </button>
         </div>
 
-        <div className="min-h-7 text-right">
+        <div aria-live="polite" className="min-h-7 text-right">
           {randomPick&&<span className="inline-flex items-center gap-2 rounded-full bg-[#eefaf3] px-3 py-1.5 text-[10px] font-bold text-[#2d7650]"><Check size={11}/>Sugerencia: {randomPick}</span>}
           {!randomPick&&actionFeedback&&<span className="text-[10px] font-semibold text-[#2d7650]">{actionFeedback}</span>}
         </div>
@@ -315,15 +316,15 @@ export default function NameGrid({items,mode}:{items:NameRecord[];mode:ToolMode}
               const rows=mode==='people'
                 ?[
                   ['Longitud',lengthLabels[lengthBucket(item.name)]],
-                  ['Origen',item.origin||'—'],
-                  ['Estilo',personStyle?tagLabels[personStyle]:'—'],
-                  ['Género',itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':'—'],
+                  ['Origen',item.origin||'No documentado'],
+                  ['Estilo',personStyle?tagLabels[personStyle]:'Sin clasificar'],
+                  ['Género',itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':'No documentado'],
                 ]
                 :[
-                  ['Color',petColor?tagLabels[petColor]:'—'],
-                  ['Tamaño',petSize?tagLabels[petSize]:'—'],
-                  ['Personalidad',petPersonality?tagLabels[petPersonality]:'—'],
-                  ['Género',itemGender==='F'?'Hembra':itemGender==='M'?'Macho':itemGender==='U'?'Unisex':'—'],
+                  ['Color',petColor?tagLabels[petColor]:'No especificado'],
+                  ['Tamaño',petSize?tagLabels[petSize]:'No especificado'],
+                  ['Personalidad',petPersonality?tagLabels[petPersonality]:'Sin clasificar'],
+                  ['Género',itemGender==='F'?'Hembra':itemGender==='M'?'Macho':itemGender==='U'?'Unisex':'No documentado'],
                 ];
 
               return <article key={item.name} className="w-[190px] shrink-0 rounded-[15px] border border-[#e2ddf1] bg-white p-4 shadow-[0_8px_22px_rgba(69,58,129,.05)]">
