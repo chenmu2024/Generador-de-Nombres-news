@@ -44,6 +44,7 @@ const minimums:Record<string,number>={
   '/nombres-griegos':2,
   '/nombres-turcos':2,
   '/nombres-chinos':2,
+  '/nombres-mayas':6,
 };
 
 for(const [path,min] of Object.entries(minimums)){
@@ -63,7 +64,7 @@ for(const path of culturalPaths){
 
 for(const path of [
   '/nombres-japoneses','/nombres-coreanos','/nombres-franceses','/nombres-italianos',
-  '/nombres-rusos','/nombres-griegos','/nombres-turcos','/nombres-chinos',
+  '/nombres-rusos','/nombres-griegos','/nombres-turcos','/nombres-chinos','/nombres-mayas',
 ]){
   const items=getNamesForPath(path);
   const missingSource=items.filter(item=>!item.source||!item.sourceUrl);
