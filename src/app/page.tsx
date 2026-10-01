@@ -1,101 +1,96 @@
 import Link from 'next/link';
-import {ArrowRight,Baby,Gamepad2,Globe2,PawPrint,Search,Store} from 'lucide-react';
-import GeneratorPanel from '@/components/GeneratorPanel';
+import {ArrowRight,Baby,CheckCircle2,Gamepad2,Landmark,Leaf,PawPrint,ShieldCheck,Store,Zap} from 'lucide-react';
+import IntentRouter from '@/components/IntentRouter';
+import HomeFreeFireStudio from '@/components/HomeFreeFireStudio';
 
-const categories=[
-  {label:'Juegos',href:'/nombres-free-fire',icon:Gamepad2},
-  {label:'Personas',href:'/nombres-de-mujer',icon:Baby},
-  {label:'Mascotas',href:'/nombres-gatos',icon:PawPrint},
-  {label:'Culturas',href:'/nombres-japoneses',icon:Globe2},
-  {label:'Negocios',href:'/nombres-para-tiendas',icon:Store},
+const heroCards=[
+  {label:'Juegos',desc:'Free Fire, Roblox, Instagram y más',href:'/nombres-free-fire',image:'https://images.unsplash.com/photo-1700087322375-8bdb366b6c60?auto=format&fit=crop&w=900&q=82',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
+  {label:'Personas',desc:'Bebés, mujer, hombre y significados',href:'/nombres-de-mujer',image:'https://images.unsplash.com/photo-1552788960-65fcafe071a5?auto=format&fit=crop&w=900&q=82',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]'},
+  {label:'Mascotas',desc:'Gatos, perros, caballos y más',href:'/nombres-gatos',image:'https://images.unsplash.com/photo-1561389881-dac6bb97f175?auto=format&fit=crop&w=900&q=82',icon:PawPrint,tone:'bg-[#fff3e8] text-[#f08b2f]'},
+  {label:'Culturas',desc:'Japonés, coreano, latino, nórdico y más',href:'/nombres-japoneses',image:'https://images.unsplash.com/photo-1741015012188-2b5e541fc1e3?auto=format&fit=crop&w=900&q=82',icon:Landmark,tone:'bg-[#f8edff] text-[#a242ce]'},
+  {label:'Negocios',desc:'Tiendas, marcas, proyectos y más',href:'/nombres-para-tiendas',image:'https://images.unsplash.com/photo-1761065110228-803e1fbc3d0a?auto=format&fit=crop&w=900&q=82',icon:Store,tone:'bg-[#e9fbf0] text-[#24a362]'},
 ];
 
 const popular=[
-  {label:'Free Fire',href:'/nombres-free-fire',desc:'Nicknames, símbolos, espacios y clanes',accent:'#d97849'},
-  {label:'Nombres para gatos',href:'/nombres-gatos',desc:'Tiernos, místicos, cortos y originales',accent:'#6c8977'},
-  {label:'Nombres japoneses',href:'/nombres-japoneses',desc:'Escritura, pronunciación y contexto',accent:'#bb8f55'},
-  {label:'Nombres para tiendas',href:'/nombres-para-tiendas',desc:'Ideas de marca por sector y estilo',accent:'#435c52'},
+  {label:'Nombres para Free Fire',desc:'Nicknames, símbolos y clanes más populares',href:'/nombres-free-fire',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
+  {label:'Nombres de niña',desc:'Bonitos, modernos y con significado',href:'/nombres-de-nina',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]'},
+  {label:'Nombres de gatos',desc:'Tiernos, originales y únicos',href:'/nombres-gatos',icon:PawPrint,tone:'bg-[#fff3e8] text-[#f08b2f]'},
+  {label:'Nombres para Roblox',desc:'Usernames y display names',href:'/nombres-roblox',icon:Zap,tone:'bg-[#edf2ff] text-[#3d70db]'},
+  {label:'Nombres para perros',desc:'Por tamaño, color y personalidad',href:'/nombres-perros-machos',icon:PawPrint,tone:'bg-[#fff2e9] text-[#b97442]'},
+  {label:'Nombres para tiendas',desc:'Ideas de marcas y negocios',href:'/nombres-para-tiendas',icon:Store,tone:'bg-[#eafaf0] text-[#27965d]'},
 ];
 
 export default function HomePage(){
   return <>
-    <section className="gdn-shell grid gap-10 pb-16 pt-12 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:pb-24 lg:pt-16">
-      <div className="max-w-[620px]">
-        <span className="inline-flex items-center gap-2 rounded-full border border-[#d5cbbb] bg-[#fffaf2] px-3.5 py-2 text-[10px] font-bold uppercase tracking-[.12em] text-[#657168]">
-          <span className="size-1.5 rounded-full bg-[#d97849]"/> Ideas que sí se sienten tuyas
-        </span>
-        <h1 className="brand-serif mt-6 text-[52px] font-bold leading-[.98] tracking-[-.045em] text-[#17231c] sm:text-[64px] lg:text-[74px]">
-          Encuentra un nombre con historia, estilo y personalidad.
-        </h1>
-        <p className="mt-6 max-w-[560px] text-[16px] leading-7 text-[#667168]">
-          No necesitas otra lista infinita. Empieza por la intención: un nickname que destaque, un nombre que suene bien, una marca que se recuerde o una idea para tu mascota.
-        </p>
+    <section className="home-hero">
+      <div className="gdn-shell grid items-center gap-10 py-14 lg:grid-cols-[1.03fr_.97fr] lg:py-16">
+        <div className="max-w-[620px]">
+          <p className="text-[11px] font-black uppercase tracking-[.32em] text-[#695cff]">Generador de nombres en español</p>
+          <h1 className="mt-4 font-serif text-[47px] font-bold leading-[.98] tracking-[-.045em] text-[#171827] sm:text-[58px] lg:text-[64px]">
+            Encuentra un nombre que <span className="text-[#6558f5]">realmente</span> quieras usar.
+          </h1>
+          <p className="mt-5 max-w-[590px] text-[15px] leading-7 text-[#66697b]">
+            Genera nombres únicos y con significado para juegos, personas, mascotas, negocios y muchas más ideas. Gratis, sin registro y listos para copiar.
+          </p>
 
-        <div className="mt-8 flex flex-wrap gap-2">
-          {categories.map(({label,href,icon:Icon})=><Link key={href} href={href} className="group inline-flex items-center gap-2 rounded-full border border-[#d2c8b9] bg-[#fffaf2] px-4 py-2.5 text-[12px] font-semibold text-[#4f5c54] transition hover:-translate-y-.5 hover:border-[#9eab9f] hover:bg-white">
-            <Icon size={14} className="text-[#4d6e5d]"/>{label}
-          </Link>)}
+          <div className="mt-6">
+            <IntentRouter/>
+          </div>
+
+          <div className="mt-5 grid gap-3 text-[11px] font-medium text-[#555869] sm:grid-cols-2 lg:grid-cols-4">
+            <span className="flex items-center gap-2"><span className="grid size-7 place-items-center rounded-full bg-[#e9fbf0] text-[#24a362]"><ShieldCheck size={14}/></span>100% gratis</span>
+            <span className="flex items-center gap-2"><span className="grid size-7 place-items-center rounded-full bg-[#f0edff] text-[#6558f5]"><Zap size={14}/></span>Sin registro</span>
+            <span className="flex items-center gap-2"><span className="grid size-7 place-items-center rounded-full bg-[#eef2ff] text-[#4967dc]"><CheckCircle2 size={14}/></span>Al instante</span>
+            <span className="flex items-center gap-2"><span className="grid size-7 place-items-center rounded-full bg-[#fff0f4] text-[#ff5c88]"><Leaf size={14}/></span>Favoritos</span>
+          </div>
         </div>
 
-        <Link href="#generador" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#173128] px-5 py-3 text-[12px] font-bold text-[#fffaf2] transition hover:bg-[#24483b]">
-          Empezar a crear <ArrowRight size={14}/>
-        </Link>
-      </div>
-
-      <div className="relative mx-auto h-[520px] w-full max-w-[560px] lg:h-[610px]">
-        <div className="absolute left-0 top-10 h-[300px] w-[56%] overflow-hidden rounded-[34px] border-[7px] border-[#f4efe6] bg-[#c8bba7] shadow-[0_22px_60px_rgba(38,48,40,.16)]">
-          <img src="/visuals/hero-gaming.webp" alt="Estilo creativo para nombres de juegos" className="h-full w-full object-cover"/>
-          <div className="absolute inset-x-4 bottom-4 rounded-full bg-[#17231c]/90 px-4 py-2 text-[11px] font-bold text-white backdrop-blur">Juegos & nicknames</div>
-        </div>
-        <div className="absolute right-0 top-0 h-[235px] w-[44%] overflow-hidden rounded-[30px] border-[7px] border-[#f4efe6] bg-[#ddc5af] shadow-[0_20px_50px_rgba(38,48,40,.13)]">
-          <img src="/visuals/hero-people.webp" alt="Inspiración para nombres de personas" className="h-full w-full object-cover"/>
-          <div className="absolute inset-x-3 bottom-3 rounded-full bg-[#fff8ec]/92 px-3 py-2 text-[10px] font-bold text-[#26362d]">Personas</div>
-        </div>
-        <div className="absolute bottom-0 right-3 h-[320px] w-[54%] overflow-hidden rounded-[34px] border-[7px] border-[#f4efe6] bg-[#a5b09f] shadow-[0_25px_65px_rgba(38,48,40,.17)]">
-          <img src="/visuals/hero-pets.webp" alt="Inspiración para nombres de mascotas" className="h-full w-full object-cover"/>
-          <div className="absolute inset-x-4 bottom-4 rounded-full bg-[#fff8ec]/92 px-4 py-2 text-[11px] font-bold text-[#26362d]">Mascotas</div>
-        </div>
-        <div className="absolute left-[14%] top-[68%] rounded-full border border-[#cbbfae] bg-[#fdf8ef] px-4 py-2 text-[10px] font-bold uppercase tracking-[.12em] text-[#6b756d] shadow-sm">+40 herramientas</div>
-      </div>
-    </section>
-
-    <section className="border-y border-[#d9d1c4] bg-[#ebe3d5]">
-      <div className="gdn-shell flex flex-col gap-4 py-6 md:flex-row md:items-center">
-        <div className="flex items-center gap-2 text-[12px] font-bold text-[#39483f]"><Search size={15}/> ¿Ya sabes qué buscas?</div>
-        <div className="flex flex-1 flex-wrap gap-2 md:justify-end">
-          {['nombres para free fire','nombres para gatos negros','nombres japoneses','nombres para tiendas'].map((item,index)=><span key={item} className="rounded-full border border-[#cec4b6] bg-[#f8f2e8] px-3.5 py-2 text-[11px] font-semibold text-[#677168]">{index+1}. {item}</span>)}
+        <div className="grid min-h-[390px] grid-cols-12 grid-rows-10 gap-3">
+          {heroCards.map((item,index)=>{
+            const Icon=item.icon;
+            const area=index===0?'col-span-7 row-span-5':index===1?'col-span-5 row-span-5':index===2?'col-span-4 row-span-5':index===3?'col-span-4 row-span-5': 'col-span-4 row-span-5';
+            return <Link key={item.href} href={item.href} className={'group relative overflow-hidden rounded-[22px] border-2 border-white shadow-[0_16px_38px_rgba(58,48,112,.14)] '+area}>
+              <img src={item.image} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"/>
+              <div className="absolute inset-x-3 bottom-3 rounded-[13px] bg-white/94 p-2.5 shadow-[0_8px_20px_rgba(27,25,52,.14)] backdrop-blur">
+                <div className="flex items-center gap-2">
+                  <span className={'grid size-7 shrink-0 place-items-center rounded-[9px] '+item.tone}><Icon size={14}/></span>
+                  <div className="min-w-0">
+                    <p className="truncate font-serif text-[13px] font-bold text-[#242532]">{item.label}</p>
+                    <p className="mt-0.5 line-clamp-2 text-[9px] leading-3.5 text-[#717486]">{item.desc}</p>
+                  </div>
+                </div>
+              </div>
+            </Link>;
+          })}
         </div>
       </div>
     </section>
 
-    <section id="generador" className="gdn-shell py-20">
-      <div className="grid gap-8 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
-        <div>
-          <p className="gdn-eyebrow">Estudio de nombres</p>
-          <h2 className="brand-serif mt-3 max-w-md text-[42px] font-bold leading-[1.02] tracking-[-.035em] text-[#17231c]">Empieza con una palabra. Nosotros hacemos el resto.</h2>
-          <p className="mt-4 max-w-md text-[14px] leading-6 text-[#6b756e]">Prueba estilos, compara resultados y copia tus favoritos. La herramienta responde al instante mientras escribes.</p>
-        </div>
-        <GeneratorPanel mode="general" defaultValue="Nova"/>
-      </div>
+    <section className="gdn-shell mt-2">
+      <HomeFreeFireStudio/>
     </section>
 
-    <section className="gdn-shell pb-8">
-      <div className="flex items-end justify-between gap-5">
-        <div>
-          <p className="gdn-eyebrow">Explora por intención</p>
-          <h2 className="brand-serif mt-2 text-[38px] font-bold tracking-[-.035em] text-[#17231c]">Herramientas populares</h2>
+    <section className="gdn-shell grid gap-7 py-12 lg:grid-cols-[220px_1fr] lg:items-start">
+      <div>
+        <div className="flex items-center gap-3">
+          <h2 className="font-serif text-[31px] font-bold leading-[1.02] tracking-[-.035em] text-[#1c1d2a]">Herramientas populares</h2>
+          <span className="grid size-8 shrink-0 place-items-center rounded-full border border-[#dad6f3] text-[#6558f5]"><ArrowRight size={15}/></span>
         </div>
-        <Link href="/nombres-por-letra" className="hidden items-center gap-2 text-[12px] font-bold text-[#405a4d] sm:inline-flex">Ver directorio <ArrowRight size={14}/></Link>
+        <p className="mt-4 text-[12px] leading-6 text-[#7c7f91]">Descubre las herramientas más usadas para cada necesidad.</p>
       </div>
 
-      <div className="mt-7 grid gap-4 md:grid-cols-2">
-        {popular.map((item,index)=><Link key={item.href} href={item.href} className="group relative overflow-hidden rounded-[26px] border border-[#d7cdbf] bg-[#fffaf2] p-6 transition hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(42,48,40,.10)]">
-          <div className="absolute right-0 top-0 h-full w-[34%] opacity-[.08]" style={{backgroundColor:item.accent}}/>
-          <span className="text-[10px] font-bold uppercase tracking-[.14em] text-[#879087]">0{index+1}</span>
-          <h3 className="brand-serif mt-8 text-[27px] font-bold tracking-[-.025em] text-[#1f2b24]">{item.label}</h3>
-          <p className="mt-2 max-w-[320px] text-[12px] leading-5 text-[#748077]">{item.desc}</p>
-          <span className="mt-7 inline-flex items-center gap-2 text-[11px] font-bold text-[#405a4d]">Abrir herramienta <ArrowRight size={13} className="transition group-hover:translate-x-1"/></span>
-        </Link>)}
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {popular.map(item=>{
+          const Icon=item.icon;
+          return <Link key={item.href} href={item.href} className="group flex min-h-[86px] items-center gap-3 rounded-[15px] border border-[#e6e4ee] bg-white p-3.5 shadow-[0_8px_24px_rgba(55,49,91,.05)] transition hover:-translate-y-0.5 hover:border-[#d7d1f0] hover:shadow-[0_14px_30px_rgba(55,49,91,.09)]">
+            <span className={'grid size-12 shrink-0 place-items-center rounded-[14px] '+item.tone}><Icon size={21}/></span>
+            <div className="min-w-0 flex-1">
+              <p className="font-serif text-[14px] font-bold text-[#292a37]">{item.label}</p>
+              <p className="mt-1 text-[10px] leading-4 text-[#86899a]">{item.desc}</p>
+            </div>
+            <ArrowRight size={15} className="shrink-0 text-[#7e82a0] transition group-hover:translate-x-0.5 group-hover:text-[#6558f5]"/>
+          </Link>;
+        })}
       </div>
     </section>
   </>

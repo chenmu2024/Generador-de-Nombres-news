@@ -1,0 +1,115 @@
+'use client';
+
+import {useMemo,useState} from 'react';
+import Link from 'next/link';
+import {Check,Copy,Gamepad2,Heart,Sparkles} from 'lucide-react';
+
+const styles=['Insano','Dark','Pro','Aesthetic','Minimal','Cortos','Clanes'] as const;
+
+export default function HomeFreeFireStudio(){
+  const[seed,setSeed]=useState('Nova');
+  const[style,setStyle]=useState<(typeof styles)[number]>('Insano');
+  const[symbols,setSymbols]=useState(true);
+  const[invisible,setInvisible]=useState(true);
+  const[shortOnly,setShortOnly]=useState(false);
+  const[copied,setCopied]=useState('');
+
+  const results=useMemo(()=>{
+    const raw=(seed.trim()||'Nova').replace(/\s+/g,'');
+    const base=shortOnly?raw.slice(0,6):raw;
+    const gap=invisible?'ㅤ':'';
+    const frames=symbols
+      ?[(s:string)=>'❖'+gap+s+gap+'❖',(s:string)=>'亗'+s+'亗',(s:string)=>'『'+s+'』',(s:string)=>'メ'+s+'メ',(s:string)=>'𓆩'+s+'𓆪']
+      :[(s:string)=>s];
+    const roots=[base,base+'99',base+'X',base+'God',base+'!',base.toUpperCase(),base+' Pro',base+' Clan'];
+    return Array.from(new Set(roots.flatMap((item,index)=>[item,frames[index%frames.length](item)]))).slice(0,10);
+  },[seed,symbols,invisible,shortOnly,style]);
+
+  async function copy(value:string){
+    await navigator.clipboard.writeText(value);
+    setCopied(value);
+    window.setTimeout(()=>setCopied(''),1000);
+  }
+
+  return <section className="gdn-studio overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_26px_65px_rgba(27,24,55,.18)]">
+    <div className="grid lg:grid-cols-[1.05fr_1.12fr_.67fr]">
+      <div className="border-b border-white/8 p-6 lg:border-b-0 lg:border-r">
+        <div className="flex items-center gap-3">
+          <span className="grid size-10 place-items-center rounded-[12px] bg-[#5b4df5] text-white shadow-[0_8px_22px_rgba(91,77,245,.32)]"><Gamepad2 size={19}/></span>
+          <div>
+            <h2 className="font-serif text-[23px] font-bold tracking-[-.02em]">Generador de nombres para Free Fire</h2>
+            <p className="mt-0.5 text-[12px] text-[#a8adc0]">Crea nicknames únicos, con símbolos y estilos profesionales.</p>
+          </div>
+        </div>
+
+        <label className="mt-5 block">
+          <span className="mb-2 block text-[11px] font-semibold text-[#d1d4df]">Palabra base</span>
+          <input value={seed} onChange={e=>setSeed(e.target.value)} className="h-11 w-full rounded-[9px] border border-white/13 bg-[#181c2a] px-3 text-[13px] outline-none focus:border-[#6d61ff]" placeholder="Nova"/>
+        </label>
+
+        <div className="mt-4">
+          <span className="mb-2 block text-[11px] font-semibold text-[#d1d4df]">Estilo</span>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-3">
+            {styles.map(item=><button key={item} onClick={()=>setStyle(item)} className={'h-9 rounded-[8px] border text-[11px] font-medium transition '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/12 bg-[#181c2a] text-[#c8cbd7] hover:bg-[#202536]')}>{item}</button>)}
+          </div>
+        </div>
+
+        <div className="mt-5 space-y-3">
+          {[['Usar símbolos',symbols,setSymbols],['Incluir espacios invisibles',invisible,setInvisible],['Solo nombres cortos',shortOnly,setShortOnly]].map(([label,value,setter])=><button key={label as string} onClick={()=>setter(!(value as boolean))} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+            <span>{label as string}</span>
+            <span className={'relative h-6 w-10 rounded-full transition '+((value as boolean)?'bg-[#5b4df5]':'bg-[#303546]')}>
+              <span className={'absolute top-1 size-4 rounded-full bg-white transition '+((value as boolean)?'left-5':'left-1')}/>
+            </span>
+          </button>)}
+        </div>
+
+        <button className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#5b4df5] text-[13px] font-semibold shadow-[0_10px_30px_rgba(91,77,245,.3)]">
+          <Sparkles size={15}/> Generar nombres
+        </button>
+      </div>
+
+      <div className="border-b border-white/8 lg:border-b-0 lg:border-r">
+        <div className="flex items-center justify-between border-b border-white/8 px-4 py-4">
+          <div>
+            <p className="text-[13px] font-semibold">Resultados</p>
+            <p className="mt-0.5 text-[10px] text-[#7f8498]">Nombres listos para copiar.</p>
+          </div>
+          <span className="rounded-[8px] border border-white/10 bg-white/[.04] px-3 py-2 text-[10px] text-[#aeb2c1]">Más recientes</span>
+        </div>
+        <div className="divide-y divide-white/7">
+          {results.map((value,index)=><div key={value} className="grid grid-cols-[26px_minmax(0,1fr)_auto] items-center gap-2 px-4 py-2.5 hover:bg-white/[.025]">
+            <span className="grid size-6 place-items-center rounded-full bg-white/[.045] text-[10px] text-[#8c91a4]">{index+1}</span>
+            <div className="min-w-0">
+              <p className="truncate text-[12px] font-medium">{value}</p>
+              <div className="mt-1 flex gap-1">
+                <span className="rounded-full bg-[#3e2f71] px-2 py-0.5 text-[9px] text-[#cfc8ff]">{style}</span>
+                <span className="rounded-full bg-[#123d3d] px-2 py-0.5 text-[9px] text-[#7fe0cc]">{index%2?'Popular':'Único'}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <button className="grid size-7 place-items-center rounded-[7px] border border-white/10 text-[#aeb2c1] hover:bg-white/[.05]" aria-label="Guardar"><Heart size={12}/></button>
+              <button onClick={()=>copy(value)} className="inline-flex h-7 items-center gap-1.5 rounded-[7px] border border-white/10 px-2 text-[10px] text-[#d3d6df] hover:bg-white/[.05]">
+                {copied===value?<Check size={11}/>:<Copy size={11}/>} {copied===value?'Copiado':'Copiar'}
+              </button>
+            </div>
+          </div>)}
+        </div>
+      </div>
+
+      <div className="relative min-h-[360px] overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1700087322375-8bdb366b6c60?auto=format&fit=crop&w=900&q=82" alt="Mujer gamer con auriculares" className="absolute inset-0 h-full w-full object-cover object-center"/>
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,12,22,.08),rgba(10,12,22,.86))]"/>
+        <div className="relative z-10 flex h-full min-h-[360px] flex-col justify-between p-5">
+          <p className="text-[10px] font-black tracking-[.42em] text-white/90">FREE FIRE</p>
+          <div>
+            <h3 className="max-w-[190px] font-serif text-[31px] font-bold leading-[1.02]">Nombres únicos para tu estilo</h3>
+            <div className="mt-4 space-y-2 text-[11px] text-white/90">
+              {['Con símbolos','Para clanes','Cortos y limpios','100% gratis'].map(item=><p key={item} className="flex items-center gap-2"><span className="grid size-5 place-items-center rounded-full bg-white/14"><Check size={11}/></span>{item}</p>)}
+            </div>
+            <Link href="/nombres-free-fire" className="mt-5 inline-flex items-center gap-2 rounded-[9px] bg-[#5b4df5] px-4 py-3 text-[11px] font-semibold text-white">Explorar más →</Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+}
