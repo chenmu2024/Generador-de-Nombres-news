@@ -2,7 +2,7 @@
 
 import{useEffect,useRef}from'react';
 import{usePathname}from'next/navigation';
-import{Menu}from'lucide-react';
+import{Grid2X2,Menu}from'lucide-react';
 import HeaderSearch from'./HeaderSearch';
 import FavoritesNavLink from'./FavoritesNavLink';
 import TrackedLink from'./TrackedLink';
@@ -43,6 +43,13 @@ export default function MobileNavMenu({items}:{items:readonly{readonly label:str
     <nav aria-label="Navegación móvil" className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-[14px] border border-[#e5e2ed] bg-white p-1.5 shadow-[0_18px_50px_rgba(43,39,74,.16)]">
       <div className="p-1.5"><HeaderSearch mobile/></div>
       <div className="my-1 border-t border-[#eceaf3]"/>
+      <TrackedLink
+        href="/#todas-las-herramientas"
+        placement="header-nav"
+        role="mobile-all-tools"
+        experimentId={EXPERIMENTS.nav}
+        className="mb-1 flex items-center gap-2 rounded-[10px] bg-[#f0edff] px-3 py-2.5 text-[12px] font-bold text-[#5146d6]"
+      ><Grid2X2 size={14}/>Todas las herramientas</TrackedLink>
       {items.map((item,index)=>{
         const active=pathname===item.href;
         return <TrackedLink
