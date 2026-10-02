@@ -8,7 +8,7 @@ import FavoritesNavLink from'./FavoritesNavLink';
 import TrackedLink from'./TrackedLink';
 import{EXPERIMENTS}from'@/data/experiments';
 
-export default function MobileNavMenu({items}:{items:{label:string;href:string}[]}){
+export default function MobileNavMenu({items}:{items:readonly{readonly label:string;readonly href:string}[]}){
   const pathname=usePathname();
   const detailsRef=useRef<HTMLDetailsElement|null>(null);
 
