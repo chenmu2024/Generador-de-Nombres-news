@@ -389,7 +389,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
           {hasCultureFacets&&<>
             {origins.length>=2&&<FacetRow label="Origen">
-              <select value={originFilter} onChange={e=>setOriginFilter(e.target.value)} className="gdn-input h-10 min-w-[210px] rounded-full px-3 text-[10px] font-semibold">
+              <select aria-label="Filtrar por origen" value={originFilter} onChange={e=>setOriginFilter(e.target.value)} className="gdn-input h-10 min-w-[210px] rounded-full px-3 text-[10px] font-semibold">
                 <option value="">Todos los orígenes</option>
                 {origins.map(origin=><option key={origin} value={origin}>{origin}</option>)}
               </select>
