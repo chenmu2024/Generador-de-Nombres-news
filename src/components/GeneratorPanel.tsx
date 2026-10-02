@@ -55,10 +55,40 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
   }
 
   if(mode==='invisible'){
-    const chars=[{label:'Invisible corto',value:'ㅤ',note:'U+3164'},{label:'Espacio ancho',value:'　',note:'U+3000'}];
+    const chars=[
+      {label:'Hangul Filler',value:'ㅤ',code:'U+3164',level:'Popular',note:'Se ve vacío y suele usarse como separador visual.'},
+      {label:'Halfwidth Hangul Filler',value:'ﾠ',code:'U+FFA0',level:'Alternativa',note:'Variante de ancho reducido; la plataforma puede normalizarla.'},
+      {label:'Braille Blank',value:'⠀',code:'U+2800',level:'Alternativa',note:'Patrón braille vacío que visualmente funciona como espacio.'},
+      {label:'Ideographic Space',value:'　',code:'U+3000',level:'Ancho',note:'Espacio Unicode de ancho completo.'},
+      {label:'Zero Width Space',value:'​',code:'U+200B',level:'Experimental',note:'No ocupa ancho; algunas plataformas lo eliminan.'},
+      {label:'Word Joiner',value:'⁠',code:'U+2060',level:'Experimental',note:'Carácter sin ancho; no está pensado como espacio normal.'},
+    ];
     return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_64px_rgba(27,24,55,.15)]">
-      <div className="border-b border-white/8 px-6 py-5"><p className="text-[10px] font-bold uppercase tracking-[.15em] text-[#a99fff]">Caracteres</p><h2 className="brand-serif mt-1 text-[26px] font-bold">Espacios invisibles</h2></div>
-      <div className="grid gap-px bg-white/8 md:grid-cols-2">{chars.map(item=><button key={item.label} onClick={()=>copy(item.value)} className="min-h-[100px] bg-[#151927] p-6 text-left transition hover:bg-[#1b2030]"><span className="block text-[13px] font-semibold">{item.label}</span><span className="mt-1 block text-[11px] text-[#8f94a8]">{item.note}</span><span className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-[9px] border border-white/10 px-3 text-[11px] text-[#d2d5df]"><Copy size={12}/>{copied===item.value?'Copiado':'Copiar'}</span></button>)}</div>
+      <div className="border-b border-white/8 px-5 py-5 sm:px-6">
+        <p className="text-[10px] font-bold uppercase tracking-[.15em] text-[#a99fff]">Laboratorio Unicode</p>
+        <h2 className="brand-serif mt-1 text-[26px] font-bold">Espacios y caracteres invisibles</h2>
+        <p className="mt-2 max-w-2xl text-[10px] leading-5 text-[#8f94a8]">Copia el carácter solo o prueba un nickname de ejemplo. Ningún carácter está garantizado: el juego puede filtrarlo, normalizarlo o dejar de aceptarlo.</p>
+      </div>
+      <div className="grid gap-px bg-white/8 md:grid-cols-2 xl:grid-cols-3">
+        {chars.map(item=>{
+          const example='Nova'+item.value+'X';
+          return <article key={item.code} className="bg-[#151927] p-5 transition hover:bg-[#1b2030]">
+            <div className="flex items-start justify-between gap-3">
+              <div><span className="block text-[13px] font-semibold">{item.label}</span><span className="mt-1 block text-[10px] font-semibold text-[#8f94a8]">{item.code}</span></div>
+              <span className={'rounded-full px-2 py-1 text-[8px] font-black uppercase tracking-[.08em] '+(item.level==='Popular'?'bg-[#153b31] text-[#85dec0]':item.level==='Experimental'?'bg-[#493333] text-[#efb1b1]':'bg-[#302e4e] text-[#bbb5ff]')}>{item.level}</span>
+            </div>
+            <p className="mt-3 min-h-10 text-[9px] leading-4 text-[#8f94a8]">{item.note}</p>
+            <div className="mt-3 rounded-[9px] border border-white/8 bg-black/10 px-3 py-2">
+              <span className="text-[8px] uppercase tracking-[.1em] text-[#676c80]">Ejemplo</span>
+              <p className="mt-1 text-[13px] font-semibold text-white">{example}</p>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button onClick={()=>copy(item.value)} className="inline-flex min-h-10 items-center gap-2 rounded-[9px] border border-white/10 px-3 text-[10px] text-[#d2d5df] hover:bg-white/[.05]"><Copy size={12}/>{copied===item.value?'Copiado':'Copiar carácter'}</button>
+              <button onClick={()=>copy(example)} className="inline-flex min-h-10 items-center gap-2 rounded-[9px] border border-white/10 px-3 text-[10px] text-[#d2d5df] hover:bg-white/[.05]"><Copy size={12}/>Copiar ejemplo</button>
+            </div>
+          </article>;
+        })}
+      </div>
     </section>
   }
 
