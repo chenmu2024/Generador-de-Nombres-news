@@ -1,0 +1,168 @@
+export type UnicodeStyleId=
+  |'plain'|'bold'|'italic'|'boldItalic'
+  |'sans'|'sansBold'|'sansItalic'|'sansBoldItalic'
+  |'monospace'|'double'|'fraktur'|'frakturBold'
+  |'script'|'scriptBold'|'circled'|'fullwidth'
+  |'smallCaps'|'superscript'|'underline'|'strike'
+  |'squared'|'negativeSquared';
+
+export type UnicodeCompatibility='alta'|'media'|'experimental';
+
+export interface UnicodeStyle{
+  id:UnicodeStyleId;
+  label:string;
+  shortLabel:string;
+  compatibility:UnicodeCompatibility;
+  transform:(value:string)=>string;
+}
+
+export interface NameFrame{
+  id:string;
+  label:string;
+  transform:(value:string)=>string;
+}
+
+const U='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const L='abcdefghijklmnopqrstuvwxyz';
+const D='0123456789';
+
+function range(start:number,count:number){
+  return Array.from({length:count},(_,index)=>String.fromCodePoint(start+index));
+}
+
+function makeMap(upper:string[],lower:string[],digits?:string[]){
+  const map:Record<string,string>={};
+  [...U].forEach((char,index)=>map[char]=upper[index]??char);
+  [...L].forEach((char,index)=>map[char]=lower[index]??char);
+  if(digits)[...D].forEach((char,index)=>map[char]=digits[index]??char);
+  return map;
+}
+
+function rangedMap(upperStart:number,lowerStart:number,digitStart?:number){
+  return makeMap(range(upperStart,26),range(lowerStart,26),digitStart===undefined?undefined:range(digitStart,10));
+}
+
+function replaceLegacy(map:Record<string,string>,values:Record<string,number>){
+  for(const[key,codePoint]of Object.entries(values))map[key]=String.fromCodePoint(codePoint);
+  return map;
+}
+
+function mapped(value:string,map:Record<string,string>){
+  return Array.from(value.normalize('NFD')).map(char=>map[char]??char).join('');
+}
+
+const bold=rangedMap(0x1d400,0x1d41a,0x1d7ce);
+const italic=replaceLegacy(rangedMap(0x1d434,0x1d44e),{h:0x210e});
+const boldItalic=rangedMap(0x1d468,0x1d482);
+const script=replaceLegacy(rangedMap(0x1d49c,0x1d4b6),{
+  B:0x212c,E:0x2130,F:0x2131,H:0x210b,I:0x2110,L:0x2112,M:0x2133,R:0x211b,
+  e:0x212f,g:0x210a,o:0x2134,
+});
+const scriptBold=rangedMap(0x1d4d0,0x1d4ea);
+const fraktur=replaceLegacy(rangedMap(0x1d504,0x1d51e),{
+  C:0x212d,H:0x210c,I:0x2111,R:0x211c,Z:0x2128,
+});
+const doubleStruck=replaceLegacy(rangedMap(0x1d538,0x1d552,0x1d7d8),{
+  C:0x2102,H:0x210d,N:0x2115,P:0x2119,Q:0x211a,R:0x211d,Z:0x2124,
+});
+const frakturBold=rangedMap(0x1d56c,0x1d586);
+const sans=rangedMap(0x1d5a0,0x1d5ba,0x1d7e2);
+const sansBold=rangedMap(0x1d5d4,0x1d5ee,0x1d7ec);
+const sansItalic=rangedMap(0x1d608,0x1d622);
+const sansBoldItalic=rangedMap(0x1d63c,0x1d656);
+const monospace=rangedMap(0x1d670,0x1d68a,0x1d7f6);
+
+const circled=makeMap(range(0x24b6,26),range(0x24d0,26),[
+  String.fromCodePoint(0x24ea),...range(0x2460,9),
+]);
+
+const fullwidth:Record<string,string>={};
+for(let code=33;code<=126;code++)fullwidth[String.fromCharCode(code)]=String.fromCodePoint(code+0xfee0);
+fullwidth[' ']=String.fromCodePoint(0x3000);
+
+const smallCapsChars:Record<string,string>={
+  a:'ᴀ',b:'ʙ',c:'ᴄ',d:'ᴅ',e:'ᴇ',f:'ꜰ',g:'ɢ',h:'ʜ',i:'ɪ',j:'ᴊ',k:'ᴋ',l:'ʟ',m:'ᴍ',
+  n:'ɴ',o:'ᴏ',p:'ᴘ',q:'ǫ',r:'ʀ',s:'ꜱ',t:'ᴛ',u:'ᴜ',v:'ᴠ',w:'ᴡ',x:'x',y:'ʏ',z:'ᴢ',
+};
+const smallCaps:Record<string,string>={};
+for(const char of L){smallCaps[char]=smallCapsChars[char];smallCaps[char.toUpperCase()]=smallCapsChars[char]}
+
+const superscriptChars:Record<string,string>={
+  a:'ᵃ',b:'ᵇ',c:'ᶜ',d:'ᵈ',e:'ᵉ',f:'ᶠ',g:'ᵍ',h:'ʰ',i:'ⁱ',j:'ʲ',k:'ᵏ',l:'ˡ',m:'ᵐ',
+  n:'ⁿ',o:'ᵒ',p:'ᵖ',q:'q',r:'ʳ',s:'ˢ',t:'ᵗ',u:'ᵘ',v:'ᵛ',w:'ʷ',x:'ˣ',y:'ʸ',z:'ᶻ',
+  '0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹',
+};
+const superscript:Record<string,string>={};
+for(const char of L){superscript[char]=superscriptChars[char];superscript[char.toUpperCase()]=superscriptChars[char]}
+for(const char of D)superscript[char]=superscriptChars[char];
+
+const squared:Record<string,string>={};
+const negativeSquared:Record<string,string>={};
+[...U].forEach((char,index)=>{
+  squared[char]=String.fromCodePoint(0x1f130+index);
+  squared[char.toLowerCase()]=String.fromCodePoint(0x1f130+index);
+  negativeSquared[char]=String.fromCodePoint(0x1f170+index);
+  negativeSquared[char.toLowerCase()]=String.fromCodePoint(0x1f170+index);
+});
+
+function combining(value:string,mark:string){
+  return Array.from(value).map(char=>/\s/u.test(char)?char:char+mark).join('');
+}
+
+const definitions:Array<[UnicodeStyleId,string,string,UnicodeCompatibility,(value:string)=>string]>= [
+  ['plain','Normal','Normal','alta',value=>value],
+  ['bold','Negrita','𝐁','media',value=>mapped(value,bold)],
+  ['italic','Cursiva','𝐼','media',value=>mapped(value,italic)],
+  ['boldItalic','Negrita cursiva','𝑩𝑰','media',value=>mapped(value,boldItalic)],
+  ['sans','Sans Unicode','𝖲','media',value=>mapped(value,sans)],
+  ['sansBold','Sans negrita','𝗦','media',value=>mapped(value,sansBold)],
+  ['sansItalic','Sans cursiva','𝘚','media',value=>mapped(value,sansItalic)],
+  ['sansBoldItalic','Sans negrita cursiva','𝙎','media',value=>mapped(value,sansBoldItalic)],
+  ['monospace','Monoespaciada','𝙼','media',value=>mapped(value,monospace)],
+  ['double','Doble trazo','𝔻','media',value=>mapped(value,doubleStruck)],
+  ['fraktur','Gótica','𝔊','media',value=>mapped(value,fraktur)],
+  ['frakturBold','Gótica negrita','𝕲','media',value=>mapped(value,frakturBold)],
+  ['script','Manuscrita','𝒮','media',value=>mapped(value,script)],
+  ['scriptBold','Manuscrita negrita','𝓢','media',value=>mapped(value,scriptBold)],
+  ['circled','Círculos','ⓢ','media',value=>mapped(value,circled)],
+  ['fullwidth','Ancha','Ｓ','media',value=>mapped(value,fullwidth)],
+  ['smallCaps','Versalitas','ꜱ','alta',value=>mapped(value,smallCaps)],
+  ['superscript','Superior','ˢ','experimental',value=>mapped(value,superscript)],
+  ['underline','Subrayada','S̲','experimental',value=>combining(value,'\u0332')],
+  ['strike','Tachada','S̶','experimental',value=>combining(value,'\u0336')],
+  ['squared','Cuadros','🄰','experimental',value=>mapped(value,squared)],
+  ['negativeSquared','Bloques','🅰','experimental',value=>mapped(value,negativeSquared)],
+];
+
+export const unicodeStyles:UnicodeStyle[]=definitions.map(([id,label,shortLabel,compatibility,transform])=>({
+  id,label,shortLabel,compatibility,transform,
+}));
+
+export const unicodeStyleById=new Map(unicodeStyles.map(style=>[style.id,style] as const));
+
+export function applyUnicodeStyle(value:string,id:UnicodeStyleId){
+  return (unicodeStyleById.get(id)??unicodeStyles[0]).transform(value);
+}
+
+export const nameFrames:NameFrame[]=[
+  {id:'none',label:'Sin marco',transform:value=>value},
+  {id:'pro',label:'Pro',transform:value=>'『'+value+'』'},
+  {id:'insano',label:'Insano',transform:value=>'꧁༺'+value+'༻꧂'},
+  {id:'dark',label:'Dark',transform:value=>'𓆩'+value+'𓆪'},
+  {id:'clan',label:'Clan',transform:value=>'亗'+value+'亗'},
+  {id:'blade',label:'Blade',transform:value=>'乂'+value+'乂'},
+  {id:'cross',label:'Cross',transform:value=>'×͜× '+value},
+  {id:'stars',label:'Stars',transform:value=>'✦ '+value+' ✦'},
+  {id:'hearts',label:'Hearts',transform:value=>'♡ '+value+' ♡'},
+  {id:'royal',label:'Royal',transform:value=>'♛ '+value+' ♛'},
+  {id:'lightning',label:'Volt',transform:value=>'⚡'+value+'⚡'},
+  {id:'kawaii',label:'Kawaii',transform:value=>'୨'+value+'୧'},
+];
+
+export function applyNameFrame(value:string,id:string){
+  return (nameFrames.find(frame=>frame.id===id)??nameFrames[0]).transform(value);
+}
+
+export function generateUnicodeVariants(value:string,styleIds:UnicodeStyleId[]=unicodeStyles.map(style=>style.id)){
+  return styleIds.map(id=>({id,value:applyUnicodeStyle(value,id),style:unicodeStyleById.get(id)!}));
+}
