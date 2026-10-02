@@ -8,7 +8,6 @@ import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
 import{clearFavorites,readFavorites,removeFavorite}from'@/lib/favorites';
 import{copyText}from'@/lib/clipboard';
-import{clearFavorites,readFavorites,removeFavorite}from'@/lib/favorites';
 
 export default function FavoritesCenter(){
   const[items,setItems]=useState<string[]>([]);
