@@ -10,7 +10,7 @@ for(const [key,value] of Object.entries(EXPERIMENTS)){
   seen.add(value);
 }
 
-const required=['homeHero','homePopular','homeResume','nextStep','related','emptyFavorites','nav','favoritesNav','searchRoute','productActions','sessionDepth'] as const;
+const required=['homeHero','homePopular','homeResume','nextStep','related','emptyFavorites','nav','favoritesNav','searchRoute','productActions','sessionDepth','webVitals'] as const;
 for(const key of required)if(!EXPERIMENTS[key])errors.push('Missing required experiment: '+key);
 
 if(values.length!==required.length)errors.push('Unexpected experiment count: '+values.length+' expected '+required.length);
