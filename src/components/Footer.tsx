@@ -12,12 +12,12 @@ export default function Footer(){
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-5 text-[10px] font-medium text-[#64677a]">
+      <nav aria-label="Información y políticas" className="flex flex-wrap items-center gap-5 text-[10px] font-medium text-[#64677a]">
         <Link href="/sobre-nosotros" className="hover:text-[#5b4df5]">Sobre nosotros</Link>
         <Link href="/politica-de-privacidad" className="hover:text-[#5b4df5]">Privacidad</Link>
         <Link href="/terminos-y-condiciones" className="hover:text-[#5b4df5]">Términos</Link>
         <Link href="/contacto" className="hover:text-[#5b4df5]">Contacto</Link>
-      </div>
+      </nav>
     </div>
   </footer>
 }
