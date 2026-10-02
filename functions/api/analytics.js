@@ -1,4 +1,4 @@
-const ALLOWED_EVENTS=new Set(['link_impression','link_click','page_arrival','tool_action','session_depth']);
+const ALLOWED_EVENTS=new Set(['link_impression','link_click','page_arrival','tool_action','session_depth','web_vital']);
 
 function cleanString(value,max){
   if(typeof value!=='string')return'';
@@ -42,6 +42,7 @@ export async function onRequestPost({request,env}){
   const sourcePath=cleanString(body?.sourcePath,256);
   const targetPath=cleanString(body?.targetPath,256);
   const ts=Number(body?.ts);
+  const value=Number(body?.value);
 
   if(!ALLOWED_EVENTS.has(event))return jsonResponse({ok:false,error:'invalid_event'},400);
   if(!placement||!role||!experimentId)return jsonResponse({ok:false,error:'missing_dimensions'},400);
@@ -50,7 +51,7 @@ export async function onRequestPost({request,env}){
   if(env&&env.ANALYTICS&&typeof env.ANALYTICS.writeDataPoint==='function'){
     env.ANALYTICS.writeDataPoint({
       blobs:[event,placement,role,experimentId,sourcePath,targetPath],
-      doubles:[1,Number.isFinite(ts)?ts:Date.now()],
+      doubles:[1,Number.isFinite(ts)?ts:Date.now(),Number.isFinite(value)?value:0],
       indexes:[url.hostname],
     });
   }
