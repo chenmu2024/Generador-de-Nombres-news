@@ -8,6 +8,7 @@ import NameFramePicker from './NameFramePicker';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
 import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
+import{copyText}from'@/lib/clipboard';
 import {
   applyNameFrame,
   applyUnicodeStyle,
