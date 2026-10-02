@@ -45,7 +45,7 @@ for(const page of keywordPages){
 }
 
 rows.sort((a,b)=>a.score-b.score||a.count-b.count);
-const thin=rows.filter(row=>row.score<72||row.count<row.target);
+const thin=rows.filter(row=>row.score<72);
 
 console.log('[Data Depth] Lowest-depth result pages');
 for(const row of rows.slice(0,15)){
@@ -61,7 +61,8 @@ if(thin.length){
   console.log('[Data Depth] Routes below target');
   for(const row of thin)console.log(' * '+row.path+' | '+row.count+'/'+row.target+' results | score '+row.score+' | '+Math.round(row.verifiedRate*100)+'% verified');
 }
-console.log('[Data Depth] '+rows.length+' result-backed topic routes audited; '+thin.length+' routes are below the route-aware depth target.');
+console.log('[Data Depth] '+rows.length+' result-backed topic routes audited; '+thin.length+' routes are below the quality depth target.');
+if(thin.length)errors.push('Routes below quality depth target: '+thin.map(row=>row.path+' ('+row.score+')').join(', '));
 
 const errors:string[]=[];
 for(const row of rows){
