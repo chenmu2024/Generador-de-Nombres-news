@@ -127,7 +127,7 @@ export default function BrandNameTool(){
     trackProductAction('generate-batch','brand-tool');
   }
 
-  return <section className="overflow-hidden rounded-[22px] border border-[#e2dfec] bg-white shadow-[0_14px_38px_rgba(55,49,91,.06)]">
+  return <section className="overflow-hidden rounded-[22px] border border-[var(--page-border)] bg-white shadow-[0_14px_38px_rgba(55,49,91,.06)]">
     <div className="flex flex-col gap-4 border-b border-[#e2eee7] bg-[#f5fbf7] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
       <div className="flex items-center gap-3">
         <span className="grid size-10 place-items-center rounded-[12px] bg-[#27885d] text-white shadow-[0_8px_20px_rgba(39,136,93,.2)]"><Store size={16}/></span>
@@ -158,10 +158,23 @@ export default function BrandNameTool(){
         return <article key={item.name} className="min-h-[148px] bg-white p-5 transition hover:bg-[#fcfbff]">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0"><h3 className="gdn-editorial truncate text-[24px] font-bold text-[#26342d]">{item.name}</h3><p className="mt-1 text-[10px] font-semibold text-[#9395a4]">{industry} · {style} · {channel}</p></div>
-            <button onClick={()=>toggleFavorite(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-full border sm:size-9 '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e0ddea] bg-white text-[#8c8e9d]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
+            <button onClick={()=>toggleFavorite(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-full border transition sm:size-9 '+(saved?'border-[var(--page-border)] bg-[var(--page-soft)] text-[var(--page-accent)]':'border-[#e0ddea] bg-white text-[#8c8e9d] hover:border-[var(--page-border)] hover:bg-[var(--page-soft)]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
           </div>
-          <p className="mt-4 text-[10px] text-[#87899a]">{item.chars} {item.chars===1?'carácter':'caracteres'} · {item.words} {item.words===1?'palabra':'palabras'} · @{item.handle}</p>
-          <div className="mt-4 flex flex-wrap gap-2"><CopyButton value={item.name} analyticsRole="copy-brand-name"/><CopyButton value={'@'+item.handle} analyticsRole="copy-brand-handle"/></div>
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <div className="rounded-[10px] border border-[#e2eee7] bg-[#f7fcf9] px-2.5 py-2">
+              <span className="gdn-tech block text-[8px] font-bold uppercase tracking-[.08em] text-[#8a958e]">Longitud</span>
+              <span className="mt-1 block text-[10px] font-semibold text-[#4f6256]">{item.chars} caracteres</span>
+            </div>
+            <div className="rounded-[10px] border border-[#e2eee7] bg-[#f7fcf9] px-2.5 py-2">
+              <span className="gdn-tech block text-[8px] font-bold uppercase tracking-[.08em] text-[#8a958e]">Estructura</span>
+              <span className="mt-1 block text-[10px] font-semibold text-[#4f6256]">{item.words} {item.words===1?'palabra':'palabras'}</span>
+            </div>
+            <div className="min-w-0 rounded-[10px] border border-[#e2eee7] bg-[#f7fcf9] px-2.5 py-2">
+              <span className="gdn-tech block text-[8px] font-bold uppercase tracking-[.08em] text-[#8a958e]">Handle</span>
+              <span className="mt-1 block truncate text-[10px] font-semibold text-[#4f6256]">@{item.handle}</span>
+            </div>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2"><CopyButton value={item.name} analyticsRole="copy-brand-name"/><CopyButton value={'@'+item.handle} label="Copiar handle" analyticsRole="copy-brand-handle"/></div>
         </article>;
       })}
     </div>
