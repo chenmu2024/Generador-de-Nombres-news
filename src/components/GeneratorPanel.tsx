@@ -78,7 +78,7 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
 
   if(mode==='invisible'){
     const chars=invisibleCharacters;
-    const base=seed.trim()||'Nova';    const base=seed.trim()||'Nova';
+    const base=seed.trim()||'Nova';
     const popular='ㅤ';
     const quickCopies=[
       {label:'1 espacio',value:popular},

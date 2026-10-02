@@ -14,7 +14,7 @@ import{
   generateBrandNames,
 }from'@/lib/brandGenerator';
 
-export default function BrandNameTool(){export default function BrandNameTool(){
+export default function BrandNameTool(){
   const[seed,setSeed]=useState('Luna');
   const[style,setStyle]=useState<(typeof styles)[number]>('Premium');
   const[industry,setIndustry]=useState<(typeof industries)[number]>('General');
