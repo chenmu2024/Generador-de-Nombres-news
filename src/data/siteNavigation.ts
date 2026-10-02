@@ -62,11 +62,19 @@ export const legalNavigation=[
   {label:'Contacto',href:'/contacto',role:'contact'},
 ] as const;
 
-export const staticAppRoutes=[
-  '/',
-  '/favoritos',
+export const indexableStaticRoutes=[
   '/sobre-nosotros',
   '/politica-de-privacidad',
   '/terminos-y-condiciones',
   '/contacto',
+] as const;
+
+export const noindexStaticRoutes=[
+  '/favoritos',
+] as const;
+
+export const staticAppRoutes=[
+  '/',
+  ...indexableStaticRoutes,
+  ...noindexStaticRoutes,
 ] as const;

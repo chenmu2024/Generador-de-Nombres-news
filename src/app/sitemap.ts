@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { keywordPages } from '@/data/keywordMaster';
+import {indexableStaticRoutes} from '@/data/siteNavigation';
 
 export const dynamic = 'force-static';
 
@@ -14,12 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: item.path === '/' ? 1 : 0.8,
     }));
 
-  const staticRoutes: MetadataRoute.Sitemap = [
-    '/sobre-nosotros',
-    '/politica-de-privacidad',
-    '/terminos-y-condiciones',
-    '/contacto',
-  ].map((path) => ({
+  const staticRoutes: MetadataRoute.Sitemap = indexableStaticRoutes.map((path) => ({
     url: base + path,
     changeFrequency: 'monthly',
     priority: 0.3,

@@ -206,48 +206,25 @@ export function getDecisionCards(page: KeywordPage): DecisionCard[] {
     {title:'Uso personal',description:'Origen mitológico no significa automáticamente uso habitual como nombre de persona.'},
   ];
 
-  switch (page.tool) {
-    case 'gaming':
-      return [
-        {title:'Legibilidad',description:'Que puedas reconocerlo rápido dentro de una partida o lista de jugadores.'},
-        {title:'Compatibilidad',description:'Prueba longitud, símbolos y caracteres en la plataforma antes de guardarlo.'},
-        {title:'Identidad',description:'Elige un estilo que siga funcionando sin depender solo de adornos.'},
-      ];
+  switch(page.tool){
     case 'pet':
-      return [
+      return[
         {title:'Personalidad',description:'Tierno, fuerte, tranquilo, místico o juguetón: empieza por cómo describes a tu mascota.'},
         {title:'Sonido',description:'Prueba nombres fáciles de distinguir cuando los dices en voz alta.'},
         {title:'Uso diario',description:'Piensa en cómo suena al llamarla en casa, en el parque o en el veterinario.'},
       ];
     case 'people':
-      return [
+      return[
         {title:'Sonoridad',description:'Dilo junto con los apellidos y comprueba que el ritmo te resulte natural.'},
         {title:'Contexto',description:'Compara origen, variantes, género de uso y posibles diminutivos.'},
         {title:'Duración',description:'No elijas solo por la primera impresión: guarda candidatos y vuelve a ellos después.'},
       ];
     case 'culture':
-      return [
+      return[
         {title:'Escritura',description:'Compara la forma original con su romanización o transliteración.'},
         {title:'Pronunciación',description:'No asumas que la escritura latina refleja exactamente el sonido original.'},
         {title:'Contexto cultural',description:'Revisa el uso real y la fuente antes de atribuir un significado definitivo.'},
       ];
-    case 'store':
-      return [
-        {title:'Memorable',description:'Debe ser fácil de pronunciar, recordar y volver a escribir.'},
-        {title:'Flexible',description:'Comprueba que siga funcionando si el negocio amplía productos o canales.'},
-        {title:'Disponible',description:'Después de elegir candidatos, revisa marcas, dominio y perfiles sociales.'},
-      ];
-    case 'football':
-      return [
-        {title:'Identidad',description:'Puede reflejar barrio, ciudad, valores, humor o historia del grupo.'},
-        {title:'Versión corta',description:'Comprueba cómo se vería abreviado en camiseta, marcador y escudo.'},
-        {title:'Diferenciación',description:'Evita nombres que se confundan fácilmente con equipos ya conocidos.'},
-      ];
     default:
-      return [
-        {title:'Reconocible',description:'Prioriza nombres que puedas identificar y recordar con facilidad.'},
-        {title:'Comparable',description:'Guarda varias opciones antes de elegir una sola.'},
-        {title:'Adecuado al contexto',description:'Prueba el nombre exactamente donde piensas usarlo.'},
-      ];
-  }
-}
+      return[];
+  }}
