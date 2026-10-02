@@ -334,7 +334,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
       });
     }
     return filtered;
-  },[filtered,sortMode,mode,items]);
+  },[filtered,sortMode,mode,items,pagePath]);
 
   const compareRecords=useMemo(
     ()=>compareNames.map(name=>items.find(item=>item.name===name)).filter((item):item is NameRecord=>Boolean(item)),
@@ -383,6 +383,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
             )}
           </div>}
         </div>
+        <p className="mt-2 text-[9px] leading-4 text-[#8d8f9f]">“Mejor ajuste” prioriza coincidencia con esta página y, cuando existe, calidad de datos. No mide popularidad ni frecuencia real.</p>
 
         {quickPresets.length>0&&<div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="mr-1 text-[10px] font-black uppercase tracking-[.12em] text-[#9a9bac]">Atajos</span>

@@ -2,6 +2,11 @@ import{CheckCircle2,ShieldCheck}from'lucide-react';
 import type{KeywordPage}from'@/data/keywordMaster';
 
 function criteria(page:KeywordPage):[string,string][]{
+  if(page.cluster==='letras')return[
+    ['Usa la inicial como primera criba','La letra reduce el universo; después compara género, longitud, origen y significado.'],
+    ['No elijas solo por forma','Dos nombres con la misma inicial pueden tener historias, pronunciaciones y usos muy diferentes.'],
+    ['Compara con apellidos','La misma inicial puede crear repeticiones o ritmos distintos al combinarse con el nombre completo.'],
+  ];
   if(page.tool==='culture')return[
     ['Separa escritura y lectura','La grafía original, la romanización y la pronunciación cumplen funciones distintas; no las trates como equivalentes.'],
     ['Da prioridad a la fuente','Si el significado influye en tu elección, revisa primero los registros con referencia documentada.'],
@@ -36,11 +41,6 @@ function criteria(page:KeywordPage):[string,string][]{
     ['Prioriza legibilidad','Símbolos y estilos sirven solo si el nombre sigue siendo reconocible en partida, chat o perfil.'],
     ['Comprueba compatibilidad','Longitud y Unicode dependen de la plataforma; prueba el resultado antes de darlo por definitivo.'],
     ['Guarda una versión simple','Mantén una alternativa limpia por si la versión decorada no se acepta o cuesta compartirla.'],
-  ];
-  if(page.cluster==='letras')return[
-    ['Usa la inicial como primera criba','La letra reduce el universo; después compara género, longitud, origen y significado.'],
-    ['No elijas solo por forma','Dos nombres con la misma inicial pueden tener historias, pronunciaciones y usos muy diferentes.'],
-    ['Compara con apellidos','La misma inicial puede crear repeticiones o ritmos distintos al combinarse con el nombre completo.'],
   ];
   return[
     ['Define el contexto','Decide dónde vas a usar el nombre antes de comparar variantes.'],
