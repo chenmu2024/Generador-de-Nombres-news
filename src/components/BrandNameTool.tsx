@@ -4,6 +4,7 @@ import {useEffect,useMemo,useState} from 'react';
 import {ClipboardCopy,Heart,RefreshCw,Store} from 'lucide-react';
 import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
+import{copyText}from'@/lib/clipboard';
 
 const styles=['Premium','Minimal','Juvenil','Artesanal','Elegante','Natural'] as const;
 const industries=['Ropa','Belleza','Comida','Hogar','Tecnología','Accesorios','Mascotas','Papelería','Café','General'] as const;
@@ -117,7 +118,8 @@ export default function BrandNameTool(){
   }
 
   async function copyAll(){
-    await navigator.clipboard.writeText(results.map(item=>item.name).join('\n'));
+    const ok=await copyText(results.map(item=>item.name).join('\n'));
+    if(!ok)return;
     setFeedback(results.length+' nombres copiados');
     trackProductAction('copy-all-brands','brand-tool');
     window.setTimeout(()=>setFeedback(''),1400);
