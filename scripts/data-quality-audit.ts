@@ -98,6 +98,18 @@ for(const [path,min] of Object.entries(minimums)){
   if(count<min)errors.push('Core page dataset too thin: '+path+' has '+count+', expected at least '+min);
 }
 
+const alphabetLetters='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+for(const letter of alphabetLetters){
+  const count=nameDataset.filter(item=>{
+    if(item.type!=='person')return false;
+    const initial=item.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').charAt(0).toUpperCase();
+    return initial===letter;
+  }).length;
+  if(count<3)errors.push('Alphabet directory too thin: '+letter+' has '+count+', expected at least 3');
+}
+const enyeCount=nameDataset.filter(item=>item.type==='person'&&item.tags.includes('enye')).length;
+if(enyeCount<4)errors.push('Alphabet directory too thin: Ñ has '+enyeCount+', expected at least 4');
+
 const culturalPaths=[
   '/nombres-japoneses','/nombres-coreanos','/nombres-franceses','/nombres-italianos',
   '/nombres-mayas','/nombres-rusos','/nombres-griegos','/nombres-ingles',
