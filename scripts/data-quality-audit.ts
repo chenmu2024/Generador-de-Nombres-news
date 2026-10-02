@@ -206,6 +206,29 @@ for(const check of sourcedPeopleChecks){
   if(count<check.min)errors.push('Sourced people coverage too thin: '+check.label+' has '+count+', expected at least '+check.min);
 }
 
+function sourceCoverage(items:ReturnType<typeof getNamesForPath>){
+  if(!items.length)return 0;
+  return items.filter(item=>item.verified===true&&Boolean(item.source)&&Boolean(item.sourceUrl)).length/items.length;
+}
+
+const peopleSourceCoverageChecks=[
+  {label:'women',path:'/nombres-de-mujer',min:.94},
+  {label:'girls',path:'/nombres-de-nina',min:.95},
+  {label:'boys',path:'/nombres-de-nino',min:.90},
+  {label:'unisex',path:'/nombres-unisex',min:1},
+  {label:'rare',path:'/nombres-raros',min:.90},
+];
+
+for(const check of peopleSourceCoverageChecks){
+  const items=getNamesForPath(check.path);
+  const rate=sourceCoverage(items);
+  if(rate<check.min){
+    errors.push(
+      'People source coverage below floor: '+check.label+' '+Math.round(rate*100)+'%, expected at least '+Math.round(check.min*100)+'%'
+    );
+  }
+}
+
 if(warnings.length){
   console.warn('[Data Quality] WARNINGS');
   for(const warning of warnings.slice(0,30))console.warn(' - '+warning);
