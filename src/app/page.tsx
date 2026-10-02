@@ -11,9 +11,15 @@ import{nameDataset}from'@/data/nameDataset';
 
 const homeSeo=keywordPageByPath.get('/')!;
 
-const quickPeople=Array.from(new Set(nameDataset.filter(item=>item.type==='person').map(item=>item.name))).slice(0,36);
-const quickPets=Array.from(new Set(nameDataset.filter(item=>item.type==='pet').map(item=>item.name))).slice(0,36);
-const quickGames=Array.from(new Set(nameDataset.filter(item=>item.type==='game').map(item=>item.name))).slice(0,36);
+function spreadPool(values:string[],count=36){
+  const unique=Array.from(new Set(values));
+  if(unique.length<=count)return unique;
+  return Array.from({length:count},(_,index)=>unique[Math.floor(index*unique.length/count)]);
+}
+
+const quickPeople=spreadPool(nameDataset.filter(item=>item.type==='person').map(item=>item.name));
+const quickPets=spreadPool(nameDataset.filter(item=>item.type==='pet').map(item=>item.name));
+const quickGames=spreadPool(nameDataset.filter(item=>item.type==='game').map(item=>item.name));
 
 export const metadata:Metadata={
   title:homeSeo.title,
