@@ -22,23 +22,61 @@ for(const page of keywordPages){
   const verified=items.filter(item=>item.verified===true&&item.source&&item.sourceUrl).length;
   const verifiedRate=items.length?verified/items.length:0;
   const genderKinds=new Set(items.map(item=>item.gender??(item.tags.includes('female')?'F':item.tags.includes('male')?'M':item.tags.includes('unisex')?'U':undefined)).filter(Boolean)).size;
-  const tagKinds=relevantTags(items).size;
+  const tags=relevantTags(items);
+  const tagKinds=tags.size;
   const origins=new Set(items.map(item=>item.origin).filter(Boolean)).size;
   const scripts=items.filter(item=>item.script).length;
   const pronunciations=items.filter(item=>item.pronunciation).length;
   const meanings=items.filter(item=>item.meaning).length;
   const short=items.filter(item=>letters(item.name)<=4).length;
-  const dimensions=[
-    genderKinds>=2,
-    tagKinds>=3,
-    origins>=3,
-    scripts>=3,
-    pronunciations>=3,
-    meanings>=Math.min(5,Math.ceil(items.length*.25)),
-  ].filter(Boolean).length;
+  const lengthKinds=new Set(items.map(item=>letters(item.name)<=4?'short':letters(item.name)<=6?'medium':'long')).size;
+  const petColors=new Set(['black','orange','white','gray','brown']);
+  const petSizes=new Set(['small','large']);
+  const petPersonalities=new Set(['cute','playful','calm','strong','elegant','mystic','kawaii']);
+  const colorKinds=new Set(items.flatMap(item=>item.tags.filter(tag=>petColors.has(tag)))).size;
+  const sizeKinds=new Set(items.flatMap(item=>item.tags.filter(tag=>petSizes.has(tag)))).size;
+  const personalityKinds=new Set(items.flatMap(item=>item.tags.filter(tag=>petPersonalities.has(tag)))).size;
+  const styleKinds=new Set(items.flatMap(item=>item.tags.filter(tag=>['modern','classic','rare'].includes(tag)))).size;
+  const gameStyleKinds=new Set(items.flatMap(item=>item.tags.filter(tag=>['short','dark','strong','unique','aesthetic','anime'].includes(tag)))).size;
+
+  const dimensionFlags=page.tool==='culture'
+    ?[
+      genderKinds>=2,
+      origins>=2,
+      scripts>=3,
+      pronunciations>=3,
+      meanings>=Math.min(5,Math.ceil(items.length*.25)),
+      verifiedRate>=.9,
+    ]
+    :page.tool==='people'
+      ?[
+        genderKinds>=2,
+        origins>=3,
+        styleKinds>=2,
+        lengthKinds>=2,
+        meanings>=Math.min(5,Math.ceil(items.length*.25)),
+        verifiedRate>=.7,
+      ]
+      :page.tool==='pet'
+        ?[
+          genderKinds>=2,
+          colorKinds>=2,
+          sizeKinds>=2,
+          personalityKinds>=3,
+          lengthKinds>=2,
+          short>=Math.min(5,Math.ceil(items.length*.15)),
+        ]
+        :[
+          gameStyleKinds>=3,
+          lengthKinds>=2,
+          short>=Math.min(5,Math.ceil(items.length*.15)),
+          tagKinds>=3,
+        ];
+  const dimensions=dimensionFlags.filter(Boolean).length;
   const countTarget=page.path==='/nombres-con-en'?5:page.tool==='culture'?20:page.tool==='pet'?24:page.tool==='people'?24:28;
   const countScore=Math.min(items.length/countTarget,1)*50;
-  const dimensionScore=Math.min(dimensions/4,1)*30;
+  const dimensionTarget=page.tool==='culture'||page.tool==='people'||page.tool==='pet'?5:4;
+  const dimensionScore=Math.min(dimensions/dimensionTarget,1)*30;
   const trustScore=(page.tool==='culture'||page.tool==='people')?verifiedRate*20:20;
   const score=Math.round(countScore+dimensionScore+trustScore);
   rows.push({path:page.path,tool:page.tool,count:items.length,verified,verifiedRate,dimensions,short,genderKinds,tagKinds,target:countTarget,score});
@@ -69,7 +107,9 @@ for(const row of rows){
   if(row.count===0)errors.push('Result-backed route has zero records: '+row.path);
   if(row.tool==='culture'&&row.verifiedRate<.9)errors.push('Cultural route source coverage below 90%: '+row.path+' -> '+Math.round(row.verifiedRate*100)+'%');
   if(row.path.startsWith('/nombres-con-')&&row.path!=='/nombres-con-en'&&row.verifiedRate<.5)errors.push('Letter route source coverage below 50%: '+row.path+' -> '+Math.round(row.verifiedRate*100)+'%');
-  if(row.count>=18&&row.dimensions===0)errors.push('Large route has no useful filter dimensions: '+row.path);
+  if(row.count>=18&&row.dimensions<2)errors.push('Large route has too few useful filter dimensions: '+row.path+' -> '+row.dimensions);
+  if(row.tool==='pet'&&row.count>=20&&row.dimensions<3)errors.push('Pet route lacks practical filtering depth: '+row.path+' -> '+row.dimensions+' dimensions');
+  if((row.tool==='gaming'||row.tool==='general')&&row.count>=20&&row.dimensions<3)errors.push('Gaming/social route lacks style or length depth: '+row.path+' -> '+row.dimensions+' dimensions');
 }
 if(errors.length){
   console.error('[Data Depth] FAILED');
