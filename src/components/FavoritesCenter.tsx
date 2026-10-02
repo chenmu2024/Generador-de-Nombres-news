@@ -5,14 +5,15 @@ import TrackedLink from './TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
 import {Copy,Download,Heart,Trash2,X} from 'lucide-react';
 import CopyButton from './CopyButton';
+import {trackProductAction} from '@/lib/analytics';
 
 export default function FavoritesCenter(){
   const[items,setItems]=useState<string[]>([]);
   useEffect(()=>{try{setItems(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
-  function remove(name:string){const next=items.filter(i=>i!==name);setItems(next);localStorage.setItem('gdn-favorites',JSON.stringify(next));window.dispatchEvent(new Event('gdn:favorites-updated'))}
-  async function copyAll(){await navigator.clipboard.writeText(items.join('\n'))}
-  function clear(){setItems([]);localStorage.removeItem('gdn-favorites');window.dispatchEvent(new Event('gdn:favorites-updated'))}
-  function exportTxt(){const blob=new Blob([items.join('\n')],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='mis-nombres-favoritos.txt';a.click();URL.revokeObjectURL(url)}
+  function remove(name:string){const next=items.filter(i=>i!==name);setItems(next);localStorage.setItem('gdn-favorites',JSON.stringify(next));window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-remove','favorites-center')}
+  async function copyAll(){await navigator.clipboard.writeText(items.join('\n'));trackProductAction('copy-all-favorites','favorites-center')}
+  function clear(){setItems([]);localStorage.removeItem('gdn-favorites');window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-clear-all','favorites-center')}
+  function exportTxt(){const blob=new Blob([items.join('\n')],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='mis-nombres-favoritos.txt';a.click();URL.revokeObjectURL(url);trackProductAction('export-favorites-txt','favorites-center')}
 
   if(!items.length)return <div className="rounded-[20px] border border-[#e4e1ed] bg-white px-6 py-12 text-center shadow-[0_10px_28px_rgba(55,49,91,.04)] sm:py-16">
     <span className="mx-auto grid size-12 place-items-center rounded-full bg-[#f0edff] text-[#5b4df5]"><Heart size={19}/></span>
@@ -41,7 +42,7 @@ export default function FavoritesCenter(){
     </div>
     <div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">{items.map(name=><div key={name} className="bg-white p-5">
       <div className="flex items-center justify-between gap-3"><p className="brand-serif truncate text-[23px] font-bold text-[#2a2b39]">{name}</p><button onClick={()=>remove(name)} aria-label="Quitar" className="grid size-9 place-items-center rounded-full border border-[#e0ddea] text-[#8c8e9e] hover:bg-[#f7f5ff]"><X size={13}/></button></div>
-      <div className="mt-4"><CopyButton value={name}/></div>
+      <div className="mt-4"><CopyButton value={name} analyticsRole="copy-favorite-name"/></div>
     </div>)}</div>
   </section>
 }

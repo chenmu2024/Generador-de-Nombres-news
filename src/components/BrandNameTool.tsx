@@ -36,7 +36,15 @@ export default function BrandNameTool(){
     return Array.from(new Set(names)).map(name=>({name,handle:handleFrom(name),chars:name.length,words:name.trim().split(/\s+/).length}));
   },[seed,style,industry,channel,language]);
 
-  function save(name:string){const current=JSON.parse(localStorage.getItem('gdn-favorites')||'[]') as string[];const next=Array.from(new Set([...current,name]));localStorage.setItem('gdn-favorites',JSON.stringify(next));setFavorites(next);window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-add','brand-tool')}
+  function toggleFavorite(name:string){
+    const current=JSON.parse(localStorage.getItem('gdn-favorites')||'[]') as string[];
+    const removing=current.includes(name);
+    const next=removing?current.filter(item=>item!==name):Array.from(new Set([...current,name]));
+    localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    setFavorites(next);
+    window.dispatchEvent(new Event('gdn:favorites-updated'));
+    trackProductAction(removing?'favorite-remove':'favorite-add','brand-tool');
+  }
 
   return <section className="overflow-hidden rounded-[22px] border border-[#e2dfec] bg-white shadow-[0_14px_38px_rgba(55,49,91,.06)]">
     <div className="flex items-center gap-3 border-b border-[#eceaf3] bg-[#faf9ff] px-6 py-5">
@@ -58,7 +66,7 @@ export default function BrandNameTool(){
         return <article key={item.name} className="min-h-[148px] bg-white p-5 transition hover:bg-[#fcfbff]">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0"><h3 className="brand-serif truncate text-[24px] font-bold text-[#2b2c3a]">{item.name}</h3><p className="mt-1 text-[10px] font-semibold text-[#9395a4]">{industry} · {style} · {channel}</p></div>
-            <button onClick={()=>save(item.name)} aria-label="Guardar nombre" className={'grid size-9 place-items-center rounded-full border '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e0ddea] bg-white text-[#8c8e9d]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
+            <button onClick={()=>toggleFavorite(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-9 place-items-center rounded-full border '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e0ddea] bg-white text-[#8c8e9d]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
           </div>
           <p className="mt-4 text-[10px] text-[#87899a]">{item.chars} caracteres · {item.words} palabras · @{item.handle}</p>
           <div className="mt-4 flex flex-wrap gap-2"><CopyButton value={item.name} analyticsRole="copy-brand-name"/><CopyButton value={'@'+item.handle} analyticsRole="copy-brand-handle"/></div>
