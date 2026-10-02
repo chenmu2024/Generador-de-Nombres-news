@@ -10,8 +10,9 @@ export default function SearchSuggestions({
   onHover,
   onSelect,
   compact=false,
-}:{results:SearchResult[];loading:boolean;activeIndex:number;onHover:(index:number)=>void;onSelect:(item:SearchResult,index:number)=>void;compact?:boolean}){
-  return <div className={'absolute left-0 right-0 z-[70] overflow-hidden rounded-[14px] border border-[#e5e3ec] bg-white p-1.5 shadow-[0_18px_44px_rgba(37,32,70,.14)] '+(compact?'top-[50px]':'top-[64px]')}>
+  listboxId,
+}:{results:SearchResult[];loading:boolean;activeIndex:number;onHover:(index:number)=>void;onSelect:(item:SearchResult,index:number)=>void;compact?:boolean;listboxId:string}){
+  return <div id={listboxId} role="listbox" aria-label="Resultados de búsqueda" className={'absolute left-0 right-0 z-[70] overflow-hidden rounded-[14px] border border-[#e5e3ec] bg-white p-1.5 shadow-[0_18px_44px_rgba(37,32,70,.14)] '+(compact?'top-[50px]':'top-[64px]')}>
     {loading&&results.length===0&&<div role="status" className="flex items-center gap-2 px-3 py-3 text-[11px] text-[#888a9a]"><LoaderCircle size={13} className="animate-spin"/>Buscando nombres y herramientas…</div>}
     {!loading&&results.length===0&&<div role="status" className="px-3 py-3"><p className="text-[11px] font-semibold text-[#4f5161]">No encontramos coincidencias.</p><p className="mt-1 text-[10px] leading-4 text-[#9092a2]">Prueba un nombre, una categoría o algo como “gato”, “japonés” o “Free Fire”.</p></div>}
     {results.map((item,index)=><button
@@ -19,6 +20,9 @@ export default function SearchSuggestions({
       type="button"
       onMouseEnter={()=>onHover(index)}
       onClick={()=>onSelect(item,index)}
+      id={listboxId+'-option-'+index}
+      role="option"
+      aria-selected={activeIndex===index}
       className={'flex w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-left transition '+(activeIndex===index?'bg-[#f3f0ff]':'hover:bg-[#f7f5ff]')}
     >
       <span className={'grid size-8 shrink-0 place-items-center rounded-[9px] '+(item.kind==='page'?'bg-[#eeeaff] text-[#5b4df5]':'bg-[#fff1f4] text-[#e35d81]')}>
