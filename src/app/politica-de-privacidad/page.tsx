@@ -1,26 +1,33 @@
-export const metadata={title:'Política de Privacidad | GDN',description:'Política de Privacidad de GeneradorDeNombres.net.'};
+import type{Metadata}from'next';
+
+export const metadata:Metadata={
+  title:'Política de Privacidad | GDN',
+  description:'Política de Privacidad de GeneradorDeNombres.net.',
+  alternates:{canonical:'/politica-de-privacidad'},
+};
 
 export default function Page(){
-  return <article className="gdn-shell max-w-3xl py-12 md:py-16">
-    <p className="gdn-eyebrow">Información legal</p>
-    <h1 className="brand-serif mt-3 text-[42px] font-bold tracking-[-.04em] text-[#1b1c2b] md:text-[54px]">Política de Privacidad</h1>
-    <p className="mt-6 text-[14px] leading-7 text-[#737687]">Las herramientas principales funcionan sin crear una cuenta y no necesitan que introduzcas datos personales para generar o copiar nombres.</p>
+  return <article className="gdn-shell max-w-4xl py-12 md:py-16">
+    <p className="gdn-tech text-[10px] font-black uppercase tracking-[.16em] text-[#5b4df5]">Información legal</p>
+    <h1 className="gdn-display mt-3 text-[42px] font-bold tracking-[-.04em] text-[#1b1c2b] md:text-[54px]">Política de Privacidad</h1>
+    <p className="mt-6 max-w-3xl text-[14px] leading-7 text-[#737687]">Las herramientas principales funcionan sin crear una cuenta y no necesitan que introduzcas datos personales para generar, guardar o copiar nombres.</p>
 
-    <div className="mt-10 space-y-4">
-      <section className="gdn-card rounded-[20px] p-6">
-        <h2 className="brand-serif text-[23px] font-bold text-[#292a39]">Datos locales</h2>
-        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">Funciones como favoritos pueden usar el almacenamiento local del navegador. Esa información permanece en tu dispositivo salvo que se indique expresamente lo contrario.</p>
+    <div className="mt-10 grid gap-4">
+      <section className="gdn-card rounded-[20px] p-6 md:p-7">
+        <h2 className="gdn-editorial text-[24px] font-bold text-[#292a39]">Datos guardados en tu navegador</h2>
+        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">Funciones como favoritos utilizan almacenamiento local del navegador. Los nombres guardados permanecen en ese dispositivo y no forman parte de los eventos de analítica del sitio.</p>
       </section>
 
-      <section className="gdn-card rounded-[20px] p-6">
-        <h2 className="brand-serif text-[23px] font-bold text-[#292a39]">Métricas de interacción</h2>
-        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">El sitio incorpora una capa técnica para medir acciones como ver o pulsar un enlace, llegar a una segunda página, copiar un resultado, usar un filtro, generar otra tanda o guardar un favorito. Esta capa está diseñada para trabajar con el tipo de acción y las rutas de página; no incluye el texto que escribes, los nombres generados, tus búsquedas ni el contenido de tus favoritos.</p>
-        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">Si no se configura un endpoint de analítica, estos eventos permanecen en el contexto del navegador y no se envían a un recolector propio. Si en el futuro se activa un servicio externo o un endpoint de medición, esta política deberá reflejar el proveedor, la finalidad y el tratamiento aplicable.</p>
+      <section className="gdn-card rounded-[20px] p-6 md:p-7">
+        <h2 className="gdn-editorial text-[24px] font-bold text-[#292a39]">Analítica propia y rendimiento</h2>
+        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">El sitio envía a un endpoint propio del mismo dominio eventos técnicos como impresiones y clics de enlaces, llegada a otra página, profundidad de sesión, acciones de herramientas y métricas de rendimiento como LCP, CLS o INP.</p>
+        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">Estos eventos contienen el tipo de acción, las rutas de página, identificadores internos del experimento y, cuando corresponde, el valor numérico de una métrica de rendimiento. No incluyen el texto que escribes, tus búsquedas, los nombres generados ni el contenido de tus favoritos.</p>
+        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">El recolector puede funcionar sin almacenamiento persistente. Cuando existe un almacén de métricas asociado al despliegue, los eventos técnicos pueden conservarse para analizar funcionamiento y uso agregado.</p>
       </section>
 
-      <section className="gdn-card rounded-[20px] p-6">
-        <h2 className="brand-serif text-[23px] font-bold text-[#292a39]">Servicios de terceros</h2>
-        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">Si el sitio incorpora publicidad, analítica de terceros u otros servicios externos, esta política se actualizará para explicar qué información se trata y con qué finalidad.</p>
+      <section className="gdn-card rounded-[20px] p-6 md:p-7">
+        <h2 className="gdn-editorial text-[24px] font-bold text-[#292a39]">Publicidad y terceros</h2>
+        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">La integración publicitaria está desactivada mientras no se configure. Si se activa publicidad, analítica de terceros u otro servicio externo que trate información adicional, esta política deberá actualizarse para identificar el servicio y su finalidad.</p>
       </section>
     </div>
   </article>
