@@ -2,21 +2,13 @@ import Link from 'next/link';
 import {ChevronRight,Sparkles} from 'lucide-react';
 import type{KeywordPage} from '@/data/keywordMaster';
 import{topicClusters}from'@/data/topicClusters';
+import{getPageBlueprint}from'@/data/pageBlueprints';
 
 export default function PageIntro({page}:{page:KeywordPage}){
   const cluster=topicClusters[page.cluster];
   const showClusterLink=cluster.hubPath!==page.path;
-  const helper=page.path==='/nombres-mayas'
-    ?{eyebrow:'Colección curada',title:'Selección documentada antes que volumen.',body:'Priorizamos registros con una referencia clara y señalamos cuándo se trata de una figura mitológica, histórica o de uso personal.'}
-    :page.tool==='culture'
-      ?{eyebrow:'Datos comprobables',title:'Origen, escritura y fuentes.',body:'Busca por origen y filtra los registros con escritura, pronunciación o fuente verificada.'}
-    :page.tool==='people'||page.tool==='pet'
-      ?{eyebrow:'Herramienta',title:'Filtra, compara y guarda.',body:'Reduce la lista por rasgos, compara hasta cuatro opciones y guarda tus favoritas en el navegador.'}
-      :page.tool==='store'
-        ?{eyebrow:'Branding',title:'Genera y valida ideas.',body:'Combina sector, canal, tono e idioma antes de comprobar marca, dominio y perfiles sociales.'}
-        :page.tool==='gaming'||page.tool==='invisible'||page.tool==='football'
-          ?{eyebrow:'Herramienta',title:'Crea, copia y prueba.',body:'Genera variantes rápidas, copia el resultado y comprueba su compatibilidad donde vayas a usarlo.'}
-          :{eyebrow:'Herramienta',title:'Gratis, directa y sin registro.',body:'Explora resultados, aplica filtros cuando estén disponibles y guarda tus favoritos localmente.'};
+  const blueprint=getPageBlueprint(page.path);
+  const helper=blueprint?.hero??{eyebrow:'Herramienta',title:'Explora, compara y decide.',body:'Usa los filtros y herramientas de esta página para reducir opciones y guardar tus favoritas.'};
 
   return <header className="pb-10 pt-10 md:pb-12 md:pt-14">
     <nav aria-label="Breadcrumb" className="mb-6 flex min-w-0 items-center gap-1.5 overflow-hidden whitespace-nowrap text-[11px] font-semibold sm:flex-wrap sm:overflow-visible sm:whitespace-normal text-[#9294a5]">

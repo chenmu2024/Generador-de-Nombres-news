@@ -1,4 +1,5 @@
 import type { KeywordPage, ToolMode } from './keywordMaster';
+import{getPageBlueprint}from'./pageBlueprints';
 
 export interface PageFaq {
   question: string;
@@ -176,7 +177,16 @@ const specificFaqs: Record<string, PageFaq[]> = {
 };
 
 export function getFaqs(page: KeywordPage): PageFaq[] {
-  return [...(specificFaqs[page.path] ?? []), ...sharedFaqs[page.tool]].slice(0, 4);
+  const blueprintFaq=getPageBlueprint(page.path)?.faq;
+  const specific=specificFaqs[page.path]??[];
+  const merged=blueprintFaq?[blueprintFaq,...specific,...sharedFaqs[page.tool]]:[...specific,...sharedFaqs[page.tool]];
+  const seen=new Set<string>();
+  return merged.filter(faq=>{
+    const key=faq.question.toLocaleLowerCase('es');
+    if(seen.has(key))return false;
+    seen.add(key);
+    return true;
+  }).slice(0,4);
 }
 
 export function getDecisionCards(page: KeywordPage): DecisionCard[] {
