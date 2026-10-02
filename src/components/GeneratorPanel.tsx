@@ -3,24 +3,55 @@
 import {useMemo,useState} from 'react';
 import {Copy,RefreshCw,Sparkles} from 'lucide-react';
 import type{ToolMode} from '@/data/keywordMaster';
-import {generateFootballNames,generateStoreNames,generateStyledNames} from '@/lib/generator';
+import {generateFootballNames,generateStoreNames} from '@/lib/generator';
 import {trackProductAction} from '@/lib/analytics';
+import UnicodeStylePicker from './UnicodeStylePicker';
+import {
+  applyNameFrame,
+  applyUnicodeStyle,
+  nameFrames,
+  type UnicodeStyleId,
+} from '@/lib/styledText';
 
-const gamingStyles=['Insano','Dark','Pro','Aesthetic','Minimal'];
 const storeStyles=['Premium','Minimal','Juvenil','Artesanal'];
 const footballStyles=['Serio','Barrio','Gracioso','Competitivo'];
 
 export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode;defaultValue?:string}){
   const[seed,setSeed]=useState(defaultValue);
-  const[style,setStyle]=useState(mode==='store'?'Premium':mode==='football'?'Competitivo':'Insano');
+  const[style,setStyle]=useState(mode==='store'?'Premium':mode==='football'?'Competitivo':'');
+  const[font,setFont]=useState<UnicodeStyleId>(mode==='gaming'?'bold':'plain');
+  const[frame,setFrame]=useState(mode==='gaming'?'pro':'none');
   const[copied,setCopied]=useState('');
 
+  const isStyled=mode==='gaming'||mode==='general';
+
   const results=useMemo(()=>{
-    const base=style&&seed.trim()?(seed.trim()+' '+(style==='Minimal'?'':style)).trim():seed;
-    if(mode==='store')return generateStoreNames(base);
-    if(mode==='football')return generateFootballNames(base);
-    return generateStyledNames(base);
-  },[seed,style,mode]);
+    if(mode==='store'){
+      const base=seed.trim()?(seed.trim()+' '+style).trim():seed;
+      return generateStoreNames(base);
+    }
+    if(mode==='football'){
+      const base=seed.trim()?(seed.trim()+' '+style).trim():seed;
+      return generateFootballNames(base);
+    }
+
+    const raw=seed.trim()||'Nova';
+    const bases=[
+      raw,
+      raw.toUpperCase(),
+      raw+'X',
+      raw+'7',
+      raw+'99',
+      raw.replace(/\s+/g,'_'),
+      raw.replace(/\s+/g,'ㅤ'),
+      'The '+raw,
+      raw+' Pro',
+      raw+' Max',
+      'x'+raw+'x',
+      raw+' ツ',
+    ];
+    return Array.from(new Set(bases.map(value=>applyNameFrame(applyUnicodeStyle(value,font),frame))));
+  },[seed,style,mode,font,frame]);
 
   async function copy(value:string){
     await navigator.clipboard.writeText(value);
@@ -37,26 +68,34 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
     </section>
   }
 
-  const styles=mode==='store'?storeStyles:mode==='football'?footballStyles:gamingStyles;
+  const styles=mode==='store'?storeStyles:footballStyles;
 
   return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_64px_rgba(27,24,55,.15)]">
-    <div className="grid lg:grid-cols-[320px_1fr]">
-      <div className="border-b border-white/8 p-6 lg:border-b-0 lg:border-r">
+    <div className="grid lg:grid-cols-[340px_1fr]">
+      <div className="border-b border-white/8 p-5 sm:p-6 lg:border-b-0 lg:border-r">
         <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#a99fff]">Generador en vivo</p>
         <h3 className="brand-serif mt-2 text-[28px] font-bold leading-tight">Da forma a tu idea.</h3>
-        <p className="mt-2 text-[11px] leading-5 text-[#9da2b5]">Escribe una base y cambia el tono hasta encontrar algo que encaje.</p>
+        <p className="mt-2 text-[11px] leading-5 text-[#9da2b5]">{isStyled?'Combina fuente, marco y variaciones sin salir del generador.':'Escribe una base y cambia el tono hasta encontrar algo que encaje.'}</p>
 
         <label className="mt-6 block">
           <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Palabra base</span>
           <input value={seed} onChange={e=>setSeed(e.target.value)} className="h-12 w-full rounded-[11px] border border-white/12 bg-[#181c2a] px-4 text-[13px] text-white outline-none placeholder:text-[#6f7488] focus:border-[#776cff]" placeholder="Escribe una palabra..."/>
         </label>
 
-        <div className="mt-5">
+        {isStyled?<>
+          <div className="mt-5"><UnicodeStylePicker value={font} onChange={value=>{setFont(value);trackProductAction('font-change','generator-panel')}} preview={seed} dark/></div>
+          <label className="mt-5 block">
+            <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Marco</span>
+            <select value={frame} onChange={e=>{setFrame(e.target.value);trackProductAction('frame-change','generator-panel')}} className="h-11 w-full rounded-[10px] border border-white/14 bg-[#181c2a] px-3 text-[11px] text-white outline-none focus:border-[#776cff]">
+              {nameFrames.map(item=><option key={item.id} value={item.id}>{item.label} · {item.transform('Nova')}</option>)}
+            </select>
+          </label>
+        </>:<div className="mt-5">
           <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Estilo</span>
           <div className="flex flex-wrap gap-2">
             {styles.map(item=><button key={item} onClick={()=>{setStyle(item);trackProductAction('style-change','generator-panel')}} className={'min-h-11 rounded-[9px] border px-3 text-[11px] font-semibold transition sm:min-h-0 sm:py-2 sm:text-[10px] '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/18 bg-white/[.07] text-[#e0e2ea] hover:border-[#665ce0] hover:bg-white/[.12]')}>{item}</button>)}
           </div>
-        </div>
+        </div>}
 
         <div className="mt-6 flex items-center gap-2 text-[10px] text-[#858a9d]"><RefreshCw size={12}/> Se actualiza mientras escribes</div>
       </div>
