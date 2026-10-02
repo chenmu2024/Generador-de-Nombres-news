@@ -7,22 +7,22 @@ export const internalLinkPriority:Record<string,string[]>={
   '/':['/nombres-free-fire','/nombres-de-mujer','/nombres-gatos','/nombres-japoneses','/nombres-para-tiendas','/nombres-roblox'],
 
   '/nombres-free-fire':['/generador-free-fire','/nombres-ff-unicos','/espacios-invisible-ff','/nombres-ff-mujeres','/nombres-clanes-ff'],
-  '/generador-free-fire':['/nombres-ff-unicos','/espacios-invisible-ff','/nombres-free-fire','/nombres-clanes-ff'],
+  '/generador-free-fire':['/nombres-ff-unicos','/espacios-invisible-ff','/nombres-free-fire','/nombres-ff-mujeres','/nombres-clanes-ff'],
   '/espacios-invisible-ff':['/generador-free-fire','/nombres-free-fire','/nombres-ff-unicos','/nombres-clanes-ff'],
-  '/nombres-ff-unicos':['/generador-free-fire','/nombres-free-fire','/espacios-invisible-ff','/nombres-clanes-ff'],
+  '/nombres-ff-unicos':['/generador-free-fire','/nombres-free-fire','/nombres-ff-mujeres','/espacios-invisible-ff','/nombres-clanes-ff'],
   '/nombres-ff-mujeres':['/nombres-ff-unicos','/generador-free-fire','/nombres-free-fire','/nombres-clanes-ff'],
-  '/nombres-clanes-ff':['/generador-free-fire','/nombres-free-fire','/nombres-ff-unicos','/espacios-invisible-ff'],
+  '/nombres-clanes-ff':['/generador-free-fire','/nombres-free-fire','/nombres-ff-unicos','/nombres-ff-mujeres','/espacios-invisible-ff'],
 
   '/nombres-roblox':['/nombres-anime','/nombres-instagram','/nombres-free-fire'],
   '/nombres-instagram':['/nombres-roblox','/nombres-anime','/nombres-de-mujer'],
-  '/nombres-anime':['/nombres-roblox','/nombres-free-fire','/nombres-japoneses'],
+  '/nombres-anime':['/nombres-roblox','/nombres-instagram','/nombres-free-fire','/nombres-japoneses'],
 
   '/nombres-de-mujer':['/nombres-de-nina','/nombres-unisex','/nombres-raros','/nombres-por-letra','/nombres-de-nino'],
   '/nombres-de-nina':['/nombres-de-mujer','/nombres-raros','/nombres-unisex','/nombres-por-letra','/nombres-de-nino'],
   '/nombres-de-nino':['/nombres-unisex','/nombres-raros','/nombres-por-letra','/nombres-de-mujer','/nombres-de-nina'],
   '/nombres-unisex':['/nombres-raros','/nombres-de-mujer','/nombres-de-nino','/nombres-por-letra','/nombres-de-nina'],
   '/nombres-raros':['/nombres-unisex','/nombres-de-nina','/nombres-de-nino','/nombres-de-mujer','/nombres-por-letra'],
-  '/nombres-por-letra':['/nombres-con-a','/nombres-con-m','/nombres-con-z','/nombres-de-mujer','/nombres-de-nino'],
+  '/nombres-por-letra':['/nombres-con-a','/nombres-con-m','/nombres-con-en','/nombres-con-z','/nombres-de-mujer','/nombres-de-nino'],
 
   '/nombres-con-a':['/nombres-por-letra','/nombres-con-b','/nombres-con-c','/nombres-de-mujer'],
   '/nombres-con-b':['/nombres-por-letra','/nombres-con-a','/nombres-con-c','/nombres-de-mujer'],
