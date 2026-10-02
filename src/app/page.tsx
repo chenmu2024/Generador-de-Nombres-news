@@ -4,6 +4,7 @@ import IntentRouter from '@/components/IntentRouter';
 import HomeFreeFireStudio from '@/components/HomeFreeFireStudio';
 import HomeQuickGenerator from '@/components/HomeQuickGenerator';
 import HomeSavedNames from '@/components/HomeSavedNames';
+import KeywordIntentCoverage from '@/components/KeywordIntentCoverage';
 import TrackedLink from '@/components/TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
 import{keywordPageByPath}from'@/data/keywordMaster';
@@ -121,6 +122,7 @@ export default function HomePage(){
 
     <section className="gdn-shell mt-6">
       <HomeQuickGenerator people={quickPeople} pets={quickPets} games={quickGames} cultures={quickCultures}/>
+      <KeywordIntentCoverage page={homeSeo}/>
     </section>
 
     <section className="gdn-shell grid gap-7 py-12 lg:grid-cols-[220px_1fr] lg:items-start">

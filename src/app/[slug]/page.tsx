@@ -15,6 +15,7 @@ import DecisionGuide from'@/components/DecisionGuide';
 import FaqSection from'@/components/FaqSection';
 import AdSlot from'@/components/AdSlot';
 import EnyeGuide from'@/components/EnyeGuide';
+import KeywordIntentCoverage from'@/components/KeywordIntentCoverage';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -103,6 +104,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {!isAlphabet&&<NameGrid items={items} mode={page.tool} pagePath={page.path}/>}
     {!isAlphabet&&<DatasetTrustNote items={items} mode={page.tool}/>} 
     {isEnye&&<EnyeGuide/>}
+    <KeywordIntentCoverage page={page}/>
 
     <DecisionGuide page={page}/>
     <AdSlot/>
