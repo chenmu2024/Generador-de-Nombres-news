@@ -127,6 +127,15 @@ function nameSubtitle(item:NameRecord){
 }
 
 export function buildSearchIndex():SiteSearchItem[]{
+  const staticPages:SiteSearchItem[]=[{
+    kind:'page',
+    title:'Directorio completo de generadores y nombres',
+    subtitle:'Todas las herramientas y páginas del sitio organizadas por juegos, personas, mascotas, culturas, letras y negocios.',
+    path:'/directorio',
+    titleKey:normalizeSearch('Directorio completo de generadores y nombres'),
+    searchText:normalizeSearch('directorio todas las herramientas todas las paginas mapa del sitio generadores nombres categorias'),
+  }];
+
   const pages:SiteSearchItem[]=keywordPages.filter(page=>page.path!=='/').map(page=>({
     kind:'page',
     title:page.h1,
@@ -158,5 +167,5 @@ export function buildSearchIndex():SiteSearchItem[]{
     });
   }
 
-  return[...pages,...names];
+  return[...staticPages,...pages,...names];
 }

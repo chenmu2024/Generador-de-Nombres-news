@@ -1,5 +1,6 @@
 import type{Metadata}from'next';
 import SiteDirectory from'@/components/SiteDirectory';
+import DirectoryQuickFinder from'@/components/DirectoryQuickFinder';
 import{keywordPages}from'@/data/keywordMaster';
 import{topicClusters}from'@/data/topicClusters';
 
@@ -51,6 +52,12 @@ export default function DirectoryPage(){
         </div>
       </div>
     </section>
+    <DirectoryQuickFinder pages={pages.map(page=>({
+      label:page.h1,
+      description:page.description,
+      href:page.path,
+      cluster:topicClusters[page.cluster].label,
+    }))}/>
     <SiteDirectory/>
   </>;
 }

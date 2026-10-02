@@ -15,7 +15,7 @@ export default function HeaderSearch({mobile=false}:{mobile?:boolean}){
   const[q,setQ]=useState('');
   const[activeIndex,setActiveIndex]=useState(0);
   const[focused,setFocused]=useState(false);
-  const{results,loading}=useSiteSearch(q,6);
+  const{results,loading}=useSiteSearch(q,8);
 
   useEffect(()=>{setActiveIndex(0)},[q,results.length]);
 

@@ -1,19 +1,22 @@
 import{buildSearchIndex}from'../src/lib/searchIndex';
 import{keywordPages,keywordPageByPath}from'../src/data/keywordMaster';
 import{nameDataset}from'../src/data/nameDataset';
+import{staticAppRoutes}from'../src/data/siteNavigation';
 
 const errors:string[]=[];
 const items=buildSearchIndex();
 const pages=items.filter(item=>item.kind==='page');
 const names=items.filter(item=>item.kind==='name');
 
-if(pages.length!==keywordPages.filter(page=>page.path!=='/').length){
-  errors.push('Search index page count mismatch: '+pages.length);
+const expectedPageCount=keywordPages.filter(page=>page.path!=='/').length+1;
+if(pages.length!==expectedPageCount){
+  errors.push('Search index page count mismatch: '+pages.length+' expected '+expectedPageCount);
 }
 if(names.length<600)errors.push('Search index has too few name records: '+names.length);
 
+const validRoutes=new Set<string>([...keywordPageByPath.keys(),...staticAppRoutes]);
 for(const item of items){
-  if(!keywordPageByPath.has(item.path))errors.push('Search item points to unknown route: '+item.title+' -> '+item.path);
+  if(!validRoutes.has(item.path))errors.push('Search item points to unknown route: '+item.title+' -> '+item.path);
   if(!item.titleKey||!item.searchText)errors.push('Search item missing normalized text: '+item.title);
 }
 
