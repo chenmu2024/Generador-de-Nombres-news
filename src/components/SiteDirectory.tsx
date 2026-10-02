@@ -19,8 +19,22 @@ function label(value:string){
   return value.charAt(0).toLocaleUpperCase('es')+value.slice(1);
 }
 
-function pageMeta(path:string,count:number){
-  if(count>0)return count+' opciones';
+function pageMeta(path:string,tool:string){
+  const items=getNamesForPath(path);
+  const count=items.length;
+  if(count>0){
+    if(tool==='culture'){
+      const sourced=items.filter(item=>item.verified===true&&item.source&&item.sourceUrl).length;
+      return count+' nombres · '+sourced+' con fuente';
+    }
+    if(tool==='people'){
+      const sourced=items.filter(item=>item.verified===true&&item.source&&item.sourceUrl).length;
+      return count+' opciones · '+sourced+' con fuente';
+    }
+    if(tool==='pet')return count+' ideas creativas';
+    if(tool==='gaming'||tool==='general')return count+' bases para personalizar';
+    return count+' opciones';
+  }
   if(path==='/nombres-por-letra')return'Directorio A–Z';
   if(path==='/espacios-invisible-ff')return'Unicode';
   return'Generador';
@@ -53,7 +67,6 @@ export default function SiteDirectory(){
             </div>
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
               {clusterPages.map((item,index)=>{
-                const count=getNamesForPath(item.path).length;
                 return <TrackedLink
                   key={item.path}
                   href={item.path}
@@ -64,7 +77,7 @@ export default function SiteDirectory(){
                 >
                   <span className="min-w-0">
                     <span className="block text-[10px] font-semibold leading-4 text-[#505263] group-hover:text-[#5b4df5]">{label(item.primaryKeyword)}</span>
-                    <span className="mt-1 block text-[8px] font-bold uppercase tracking-[.08em] text-[#a09eac]">{pageMeta(item.path,count)}</span>
+                    <span className="mt-1 block text-[8px] font-bold uppercase tracking-[.08em] text-[#a09eac]">{pageMeta(item.path,item.tool)}</span>
                   </span>
                   <ArrowUpRight size={11} className="shrink-0 text-[#aaa6b8] transition group-hover:-translate-y-.5 group-hover:translate-x-.5 group-hover:text-[#5b4df5]"/>
                 </TrackedLink>;
