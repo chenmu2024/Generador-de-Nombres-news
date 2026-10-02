@@ -33,6 +33,10 @@ async function loadIndex(){
   return indexPromise;
 }
 
+export function preloadSiteSearch(){
+  void loadIndex().catch(()=>{});
+}
+
 function score(item:SearchResult,query:string){
   if(item.titleKey===query)return 120;
   if(item.titleKey.startsWith(query))return 95;
