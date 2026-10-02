@@ -91,7 +91,7 @@ export default function HomeFreeFireStudio(){
         </div>
 
         <label className="mt-4 block">
-          <span className="mb-2 flex items-center justify-between text-[11px] font-semibold text-[#d1d4df]"><span>Marco</span><span className="text-[9px] font-medium text-[#7f8498]">{nameFrames.length} opciones</span></span>
+          <span className="mb-2 flex items-center justify-between text-[11px] font-semibold text-[#d1d4df]"><span>Marco</span><span className="text-[10px] font-medium text-[#7f8498]">{nameFrames.length} opciones</span></span>
           <select value={frame} onChange={e=>{setFrame(e.target.value);trackProductAction('frame-change','home-freefire')}} className="h-11 w-full rounded-[9px] border border-white/13 bg-[#181c2a] px-3 text-[11px] text-white outline-none focus:border-[#6d61ff]">
             {nameFrames.map(item=><option key={item.id} value={item.id}>{item.label} · {item.transform('Nova')}</option>)}
           </select>
@@ -114,7 +114,7 @@ export default function HomeFreeFireStudio(){
       <div className="border-b border-white/8 lg:border-b-0 lg:border-r">
         <div className="flex items-center justify-between border-b border-white/8 px-4 py-4">
           <div><p className="text-[13px] font-semibold">Resultados</p><p className="mt-0.5 text-[10px] text-[#7f8498]">Nombres listos para copiar y guardar.</p></div>
-          <span className="rounded-[8px] border border-white/10 bg-white/[.04] px-3 py-2 text-[9px] text-[#aeb2c1]">{selectedFont.label} · {selectedFrame.label}</span>
+          <span className="rounded-[8px] border border-white/10 bg-white/[.04] px-3 py-2 text-[10px] text-[#aeb2c1]">{selectedFont.label} · {selectedFrame.label}</span>
         </div>
         <div className="divide-y divide-white/7">
           {results.map((value,index)=>{
@@ -123,7 +123,7 @@ export default function HomeFreeFireStudio(){
               <span className="grid size-6 place-items-center rounded-full bg-white/[.045] text-[10px] text-[#8c91a4]">{index+1}</span>
               <div className="min-w-0">
                 <p className="truncate text-[12px] font-medium">{value}</p>
-                <div className="mt-1 flex gap-1"><span className="rounded-full bg-[#3e2f71] px-2 py-0.5 text-[9px] text-[#cfc8ff]">{selectedFont.label}</span><span className="rounded-full bg-[#123d3d] px-2 py-0.5 text-[9px] text-[#7fe0cc]">{index%2?'Popular':'Único'}</span></div>
+                <div className="mt-1 flex gap-1"><span className="rounded-full bg-[#3e2f71] px-2 py-0.5 text-[10px] text-[#cfc8ff]">{selectedFont.label}</span><span className="rounded-full bg-[#123d3d] px-2 py-0.5 text-[10px] text-[#7fe0cc]">{index%2?'Popular':'Único'}</span></div>
               </div>
               <div className="flex items-center gap-1.5">
                 <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-7 sm:rounded-[7px] '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'}><Heart size={12} fill={saved?'currentColor':'none'}/></button>
