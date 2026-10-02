@@ -1,29 +1,33 @@
 'use client';
 
-import {FormEvent,useMemo,useState} from 'react';
+import {FormEvent,useEffect,useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {Search} from 'lucide-react';
-import {keywordPages} from '@/data/keywordMaster';
 import {emitAnalyticsEvent,rememberTrackedNavigation} from '@/lib/analytics';
 import {EXPERIMENTS} from '@/data/experiments';
+import{useSiteSearch,type SearchResult}from'@/hooks/useSiteSearch';
+import SearchSuggestions from './SearchSuggestions';
 
 export default function HeaderSearch(){
   const router=useRouter();
   const[q,setQ]=useState('');
-  const match=useMemo(()=>{
-    const value=q.trim().toLocaleLowerCase('es');
-    if(!value)return null;
-    return keywordPages.find(item=>item.path!=='/'&&[item.h1,item.primaryKeyword,...item.secondaryKeywords].some(text=>text.toLocaleLowerCase('es').includes(value)))??null;
-  },[q]);
+  const[activeIndex,setActiveIndex]=useState(0);
+  const[focused,setFocused]=useState(false);
+  const{results,loading}=useSiteSearch(q,6);
 
-  function go(targetPath:string,role:string){
+  useEffect(()=>{setActiveIndex(0)},[q,results.length]);
+
+  function go(item:SearchResult,index:number,source:'submit'|'suggestion'){
     const sourcePath=window.location.pathname;
+    const role=source==='submit'
+      ?'search-submit-'+item.kind
+      :'search-'+item.kind+'-'+(index+1);
     rememberTrackedNavigation({
       placement:'header-search',
       role,
       experimentId:EXPERIMENTS.searchRoute,
       sourcePath,
-      targetPath,
+      targetPath:item.path,
     });
     emitAnalyticsEvent({
       event:'link_click',
@@ -31,19 +35,38 @@ export default function HeaderSearch(){
       role,
       experimentId:EXPERIMENTS.searchRoute,
       sourcePath,
-      targetPath,
+      targetPath:item.path,
       ts:Date.now(),
     });
-    router.push(targetPath);
+    setQ('');
+    setFocused(false);
+    router.push(item.path);
   }
 
   function submit(e:FormEvent){
     e.preventDefault();
-    if(match)go(match.path,'search-submit');
+    if(results[activeIndex])go(results[activeIndex],activeIndex,'submit');
   }
 
-  return <form onSubmit={submit} className="hidden w-[290px] items-center gap-2 rounded-full border border-[#e4e1ee] bg-[#fbfaff] px-3.5 py-2.5 lg:flex">
-    <Search size={15} className="text-[#81859a]"/>
-    <input value={q} onChange={e=>setQ(e.target.value)} className="min-w-0 flex-1 border-0 bg-transparent text-[12px] text-[#363746] outline-none placeholder:text-[#9a9bad]" placeholder="Buscar nombres, por ejemplo: gato negro..."/>
-  </form>
+  return <div className="relative hidden w-[290px] lg:block">
+    <form onSubmit={submit} className="flex items-center gap-2 rounded-full border border-[#e4e1ee] bg-[#fbfaff] px-3.5 py-2.5">
+      <Search size={15} className="text-[#81859a]"/>
+      <input
+        value={q}
+        onFocus={()=>setFocused(true)}
+        onBlur={()=>window.setTimeout(()=>setFocused(false),120)}
+        onChange={e=>setQ(e.target.value)}
+        onKeyDown={e=>{
+          if(e.key==='ArrowDown'&&results.length){e.preventDefault();setActiveIndex(index=>(index+1)%results.length)}
+          if(e.key==='ArrowUp'&&results.length){e.preventDefault();setActiveIndex(index=>(index-1+results.length)%results.length)}
+          if(e.key==='Escape'){setFocused(false);(e.currentTarget as HTMLInputElement).blur()}
+        }}
+        className="min-w-0 flex-1 border-0 bg-transparent text-[12px] text-[#363746] outline-none placeholder:text-[#9a9bad]"
+        placeholder="Buscar nombre o herramienta…"
+        aria-label="Buscar nombres y herramientas"
+        aria-expanded={focused&&q.trim().length>=2}
+      />
+    </form>
+    {focused&&q.trim().length>=2&&<SearchSuggestions results={results} loading={loading} activeIndex={activeIndex} onHover={setActiveIndex} onSelect={(item,index)=>go(item,index,'suggestion')} compact/>}
+  </div>
 }
