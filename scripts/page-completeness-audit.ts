@@ -49,7 +49,7 @@ if(!slug.includes('<TopicSubnav page={page}/>'))errors.push('Topic pages must ke
 if(!slug.includes('<PageSectionNav page={page}'))errors.push('Topic pages must render in-page section navigation');
 if(!slug.includes('<PageDataBrief page={page} items={items}/>'))errors.push('Topic pages must render page-specific data/capability brief');
 if(!slug.includes('const hasResultCollection=!isAlphabet&&items.length>0'))errors.push('Slug template must gate result collections by real data');
-if(!slug.includes('hasResultCollection&&<NameGrid'))errors.push('NameGrid must not render on dedicated no-list tool pages');
+if(!slug.includes('hasResultCollection&&<div id="coleccion"')||!slug.includes('<NameGrid items={items}'))errors.push('Result collection must gate NameGrid on real data and expose #coleccion');
 const intro=readFileSync(new URL('../src/components/PageIntro.tsx',import.meta.url),'utf8');
 if(!intro.includes('getPageBlueprint(page.path)'))errors.push('PageIntro does not consume page blueprint');
 if(!intro.includes("PageHeroVisual page={page}"))errors.push('Topic pages must render the resilient page-specific hero visual');

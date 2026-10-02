@@ -122,12 +122,15 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     </div>}
 
     <PageSpecificGuide page={page} items={items}/>
+    <PageDataBrief page={page} items={items}/>
 
     {page.tool==='culture'&&items.length>0&&<CultureDataNote items={items}/>}
     {isKorean&&<KoreanContextTool items={items}/>}
-    {hasResultCollection&&<CollectionSnapshot items={items} mode={page.tool} pagePath={page.path}/>}
-    {hasResultCollection&&<NameGrid items={items} mode={page.tool} pagePath={page.path} pageLabel={page.primaryKeyword}/>}
-    {hasResultCollection&&<DatasetTrustNote items={items} mode={page.tool}/>} 
+    {hasResultCollection&&<div id="coleccion" className="scroll-mt-24">
+      <CollectionSnapshot items={items} mode={page.tool} pagePath={page.path}/>
+      <NameGrid items={items} mode={page.tool} pagePath={page.path} pageLabel={page.primaryKeyword}/>
+      <DatasetTrustNote items={items} mode={page.tool}/>
+    </div>} 
     {(isCompoundFemale||isCompoundMale)&&<CompoundNameTool
       audience={isCompoundMale?'niño':'niña'}
       suggestions={items.filter(item=>item.verified===true&&Boolean(item.sourceUrl)).map(item=>item.name)}
