@@ -16,6 +16,7 @@ import {
   unicodeStyles,
   type UnicodeStyleId,
 } from '@/lib/styledText';
+import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 
 export default function HomeFreeFireStudio(){
   const[seed,setSeed]=useState('Nova');
