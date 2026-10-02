@@ -6,7 +6,7 @@ const frameIds=new Set<string>();
 const sample='Nova27';
 const outputs=new Set<string>();
 
-if(unicodeStyles.length<20)errors.push('Unicode style library is too small: '+unicodeStyles.length);
+if(unicodeStyles.length<30)errors.push('Unicode style library is too small: '+unicodeStyles.length);
 if(nameFrames.length<10)errors.push('Frame library is too small: '+nameFrames.length);
 
 for(const style of unicodeStyles){
