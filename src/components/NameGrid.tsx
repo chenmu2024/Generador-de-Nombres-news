@@ -659,7 +659,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                   <span className={'rounded-full px-2.5 py-1 text-[10px] font-bold '+(item.verified===true?'bg-[#eaf8f0] text-[#27764d]':item.verified===false?'bg-[#fff3e8] text-[#a86328]':'bg-[#f2f1f7] text-[#727486]')}>{item.verified===true?'Fuente verificada':item.verified===false?'En revisión':'Fuente documentada'}</span>
                   {item.sourceUrl?<a className="text-[10px] font-semibold text-[var(--page-accent)] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:<span className="text-[10px] text-[#8e90a0]">{item.source}</span>}
                 </div>}
-                {mode==='people'&&item.sourceUrl&&item.verified===true&&<div className="mt-3 flex flex-wrap items-center gap-2">
+                {mode==='people'&&item.meaning&&item.sourceUrl&&item.verified===true&&<div className="mt-3 flex flex-wrap items-center gap-2">
                   <span className="rounded-full bg-[#eaf8f0] px-2.5 py-1 text-[10px] font-bold text-[#27764d]">Significado verificado</span>
                   <a className="text-[10px] font-semibold text-[var(--page-accent)] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">Ver fuente</a>
                 </div>}
