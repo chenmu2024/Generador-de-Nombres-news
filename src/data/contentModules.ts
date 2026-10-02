@@ -84,7 +84,7 @@ const specificFaqs: Record<string, PageFaq[]> = {
   ],
   '/nombres-free-fire': [
     {question:'¿Puedo añadir símbolos y espacio invisible al mismo nickname?',answer:'La herramienta permite generar variantes con ambos recursos, pero debes probar el resultado dentro del juego porque la compatibilidad puede cambiar.'},
-    {question:'¿Qué son las 32 fuentes del generador?',answer:'Son transformaciones con caracteres Unicode, no archivos de fuente. Puedes comparar estilos y combinarlos con marcos, pero el juego puede aceptar unos caracteres y rechazar otros.'},
+    {question:'¿Qué son las fuentes del generador?',answer:'Son transformaciones con caracteres Unicode, no archivos de fuente. Puedes comparar decenas de estilos y combinarlos con marcos, pero el juego puede aceptar unos caracteres y rechazar otros.'},
   ],
   '/nombres-perros-machos': [
     {question:'¿Qué estilo funciona para un perro macho grande?',answer:'Puedes empezar por las opciones fuertes o elegantes y compararlas con nombres más cortos si quieres algo fácil de llamar a diario.'},
