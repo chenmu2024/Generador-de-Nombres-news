@@ -160,6 +160,17 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     setActionFeedback('');
   }
 
+  useEffect(()=>{
+    if(!pagePath)return;
+    const requested=new URLSearchParams(window.location.search).get('preset');
+    if(!requested)return;
+    const preset=quickPresets.find(item=>item.label===requested);
+    if(!preset)return;
+    applyQuickPreset(preset);
+    trackProductAction('preset-handoff','name-grid');
+    window.setTimeout(()=>resultsRef.current?.scrollIntoView({block:'start'}),60);
+  },[pagePath]);
+
   function isQuickPresetActive(preset:QuickPreset){
     return !query&&gender===(preset.gender??'ALL')&&activeTag===(preset.tag??'')&&!originFilter&&
       lengthFilter===(preset.length??'ALL')&&

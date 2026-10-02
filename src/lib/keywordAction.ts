@@ -1,9 +1,52 @@
 import type{KeywordPage}from'@/data/keywordMaster';
 import{normalizeKeyword}from'@/lib/keywordPlacement';
+import{getQuickPresets}from'@/data/nameGridPresets';
 
 export interface KeywordAction{
   href:string;
   label:string;
+}
+
+function presetAction(page:KeywordPage,value:string):KeywordAction|null{
+  const presets=getQuickPresets(page.path);
+  if(!presets.length)return null;
+  const normalizedLabels=new Map(presets.map(preset=>[normalizeKeyword(preset.label),preset] as const));
+
+  const pick=(labels:string[])=>{
+    for(const label of labels){
+      const preset=normalizedLabels.get(normalizeKeyword(label));
+      if(preset)return{
+        href:page.path+'?preset='+encodeURIComponent(preset.label)+'#resultados',
+        label:'Aplicar '+preset.label.toLocaleLowerCase('es'),
+      };
+    }
+    return null;
+  };
+
+  if(/mujer|mujeres|nina|femenin|hembra/.test(value))return pick(['Femeninos','Hembras']);
+  if(/hombre|hombres|nino|masculin|macho/.test(value))return pick(['Masculinos','Machos']);
+  if(/unisex|neutro|sin genero|androg/.test(value))return pick(['Unisex']);
+  if(/3 letras|4 letras|corto|corta|cortos|cortas|cortito/.test(value))return pick(['Cortos','3–4 letras']);
+  if(/modern/.test(value))return pick(['Modernos']);
+  if(/clasico|clasicos|clasica/.test(value))return pick(['Clásicos']);
+  if(/raro|raros|poco comun|poco comunes|exotic|extravag/.test(value))return pick(['Poco comunes']);
+  if(/negro|negra|negros|negras|pantera/.test(value))return pick(['Negros']);
+  if(/naranja|naranjas/.test(value))return pick(['Naranjas']);
+  if(/pequena|pequeno|pequenas|pequenos/.test(value))return pick(['Pequeñas','Pequeños']);
+  if(/grande|grandes/.test(value))return pick(['Grandes']);
+  if(/tierno|tierna|tiernos|tiernas|bonito|bonita|bonitos|bonitas/.test(value))return pick(['Tiernos']);
+  if(/jugueton|juguetona|juguetones|juguetonas/.test(value))return pick(['Juguetones']);
+  if(/fuerte|fuertes/.test(value))return pick(['Fuertes']);
+  if(/elegante|elegantes/.test(value))return pick(['Elegantes']);
+  if(/mistico|mistica|misticos|misticas|bruja|brujas/.test(value))return pick(['Místicos']);
+  if(/kawaii/.test(value))return pick(['Kawaii']);
+  if(/mitolog|dioses|diosas/.test(value))return pick(['Mitología']);
+  if(/pronunciacion|fonetica/.test(value))return pick(['Con pronunciación']);
+  if(/cirilico/.test(value))return pick(['Cirílico']);
+  if(/hanzi/.test(value))return pick(['Hanzi']);
+  if(/escritura/.test(value))return pick(['Con escritura']);
+
+  return null;
 }
 
 function fallbackTarget(page:KeywordPage){
@@ -67,6 +110,9 @@ export function getKeywordAction(page:KeywordPage,keyword:string):KeywordAction{
       return{href:'/nombres-clanes-ff#herramienta',label:'Abrir generador de clanes'};
     }
   }
+
+  const preset=presetAction(page,value);
+  if(preset)return preset;
 
   const href=fallbackTarget(page);
   return{

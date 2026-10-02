@@ -20,6 +20,7 @@ if(!home.includes('id="studio-nombres"'))errors.push('Missing #studio-nombres ta
 const nameGridSource=read('src/components/NameGrid.tsx');
 if(!nameGridSource.includes('id="resultados"'))errors.push('Missing #resultados target in NameGrid');
 if(!nameGridSource.includes("mode==='people'||mode==='pet'||mode==='culture'"))errors.push('Culture collections must keep compare support');
+if(!nameGridSource.includes("get('preset')"))errors.push('NameGrid must consume preset query handoff');
 if(!platform.includes("params.get('intent')")||!platform.includes("params.get('mode')"))errors.push('Platform tool no longer consumes intent/mode query handoff');
 if(!freeFire.includes("get('shortcut')"))errors.push('Free Fire tool no longer consumes shortcut query handoff');
 if(!anime.includes("get('intent')"))errors.push('Anime tool no longer consumes intent query handoff');
@@ -39,6 +40,7 @@ function fragmentFromHref(href:string){
   return href.includes('#')?'#'+href.split('#').pop():'';
 }
 
+let presetActionCount=0;
 for(const page of keywordPages){
   for(const keyword of page.secondaryKeywords){
     const action=getKeywordAction(page,keyword);
@@ -53,7 +55,18 @@ for(const page of keywordPages){
     if(fragment==='#resultados'){
       const target=keywordPageByPath.get(targetPath);
       if(!target)errors.push('Result action target missing page: '+action.href);
-      else if(getNamesForPath(target.path).length===0)errors.push('Result action points to route without results: '+action.href);
+      else{
+        const targetItems=getNamesForPath(target.path);
+        if(targetItems.length===0)errors.push('Result action points to route without results: '+action.href);
+        const query=action.href.includes('?')?(action.href.split('?')[1]?.split('#')[0]??''):'';
+        const presetName=new URLSearchParams(query).get('preset');
+        if(presetName){
+          presetActionCount++;
+          const preset=getQuickPresets(target.path).find(item=>item.label===presetName);
+          if(!preset)errors.push('Keyword action points to unknown preset: '+action.href);
+          else if(targetItems.filter(item=>matchesQuickPreset(item,preset)).length===0)errors.push('Keyword action preset returns zero results: '+action.href);
+        }
+      }
     }
 
     if(fragment==='#herramienta'){
@@ -89,10 +102,12 @@ for(const [path,presets]of Object.entries(quickPresetsByPath)){
   if(getQuickPresets(path).length!==presets.length)errors.push('Quick preset lookup mismatch: '+path);
 }
 
+if(presetActionCount<20)errors.push('Too few keyword intents hand off to validated presets: '+presetActionCount);
+
 if(errors.length){
   console.error('[Product QA] FAILED');
   for(const error of errors)console.error(' - '+error);
   process.exit(1);
 }
 
-console.log('[Product QA] PASS — '+presetCount+' quick presets return results and '+keywordPages.reduce((sum,page)=>sum+page.secondaryKeywords.length,0)+' keyword actions resolve to valid routes/fragments.');
+console.log('[Product QA] PASS — '+presetCount+' quick presets return results; '+presetActionCount+' long-tail actions open validated presets; '+keywordPages.reduce((sum,page)=>sum+page.secondaryKeywords.length,0)+' keyword actions resolve to valid routes/fragments.');
