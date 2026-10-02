@@ -21,6 +21,22 @@ const specialMinimums:Record<string,number>={
   '/nombres-ingles':16,
   '/nombres-chinos':16,
   '/nombres-griegos':17,
+  '/nombres-free-fire':50,
+  '/generador-free-fire':50,
+  '/nombres-ff-unicos':25,
+  '/nombres-ff-mujeres':18,
+  '/nombres-clanes-ff':16,
+  '/nombres-roblox':30,
+  '/nombres-instagram':28,
+  '/nombres-anime':40,
+  '/nombres-perritas':40,
+  '/nombres-perros-machos':35,
+  '/nombres-gatos':45,
+  '/nombres-gatos-negros':15,
+  '/nombres-gatos-machos':18,
+  '/perritas-chihuahua':18,
+  '/nombres-caballos':30,
+  '/nombres-peluches':28,
 };
 
 function minimumFor(path:string,tool:string){

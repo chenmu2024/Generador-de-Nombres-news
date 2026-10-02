@@ -81,6 +81,34 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
     trackProductAction(removed?'favorite-remove':'favorite-add','freefire-tool');
   }
 
+  function applyShortcut(id:'balanced'|'short'|'invisible'|'symbols'|'compatible'){
+    if(id==='balanced'){
+      setInvisible(false);
+      setShort(false);
+      setView('mix');
+      setCompatibility('all');
+      setFont(defaultFont(variant));
+      setFrame(defaultFrame(variant));
+    }else if(id==='short'){
+      setShort(true);
+      setInvisible(false);
+      setView('mix');
+    }else if(id==='invisible'){
+      setInvisible(true);
+      setView('mix');
+    }else if(id==='symbols'){
+      setInvisible(false);
+      setView('mix');
+      setFrame(variant==='clan'?'clan':'insano');
+    }else{
+      setInvisible(false);
+      setView('fonts');
+      setCompatibility('alta');
+    }
+    setBatch(value=>value+1);
+    trackProductAction('shortcut-'+id,'freefire-tool');
+  }
+
   const results=useMemo(()=>{
     const raw=seed.trim()||'Vortex';
     const base=short?raw.replace(/\s+/g,'').slice(0,8):raw;
@@ -139,6 +167,19 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
           <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Nombre base</span>
           <input value={seed} onChange={e=>setSeed(e.target.value)} className="h-12 w-full rounded-[11px] border border-white/12 bg-[#181c2a] px-4 text-[12px] text-white outline-none focus:border-[#776cff]" placeholder="Tu palabra o nickname..."/>
         </label>
+
+        <div className="mt-4">
+          <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Atajos</span>
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
+            {([
+              ['balanced','Equilibrado'],
+              ['short','Base corta'],
+              ['invisible','Invisible'],
+              ['symbols','Símbolos'],
+              ['compatible','Alta compatibilidad'],
+            ] as const).map(([id,label])=><button key={id} type="button" onClick={()=>applyShortcut(id)} className="min-h-9 shrink-0 rounded-full border border-white/12 bg-white/[.05] px-3 text-[10px] font-semibold text-[#c5c8d5] transition hover:border-[#756aff] hover:bg-[#5b4df5]/15 hover:text-white">{label}</button>)}
+          </div>
+        </div>
 
         <div className="mt-5">
           <UnicodeStylePicker

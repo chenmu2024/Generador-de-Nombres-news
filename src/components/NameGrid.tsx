@@ -175,6 +175,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                 {label:'Fuertes',personality:'strong'},
                 {label:'Elegantes',personality:'elegant'},
                 {label:'Tranquilos',personality:'calm'},
+                {label:'Negros',color:'black'},
                 {label:'Grandes',size:'large'},
               ]
               :pagePath==='/nombres-peluches'
@@ -204,7 +205,14 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                         {label:'Juguetones',personality:'playful'},
                         {label:'Tranquilos',personality:'calm'},
                       ]
-                      :pagePath==='/nombres-unisex'
+                      :pagePath==='/nombres-free-fire'||pagePath==='/generador-free-fire'
+                        ?[
+                          {label:'Cortos',tag:'short'},
+                          {label:'Dark',tag:'dark'},
+                          {label:'Fuertes',tag:'strong'},
+                          {label:'Únicos',tag:'unique'},
+                        ]
+                        :pagePath==='/nombres-unisex'
                         ?[
                           {label:'Cortos',length:'short'},
                           {label:'Modernos',style:'modern'},

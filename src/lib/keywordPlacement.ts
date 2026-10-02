@@ -29,10 +29,21 @@ export function explainKeywordIntent(keyword:string,page:KeywordPage){
   if(hasAny(value,['validador','validar username','validar usuario'])){
     return page.path==='/nombres-roblox'
       ?'El modo Username comprueba reglas locales de formato de Roblox; no consulta disponibilidad ni garantiza que el nombre esté libre.'
-      :'Usa las variantes como comprobación de formato visual. La disponibilidad real del username debe revisarse dentro de la plataforma.';
+      :page.path==='/nombres-instagram'
+        ?'El generador normaliza variantes sencillas para probar ideas, pero no consulta disponibilidad ni actúa como validador oficial de Instagram.'
+        :'Usa las variantes como comprobación de formato visual. La disponibilidad real del username debe revisarse dentro de la plataforma.';
   }
   if(hasAny(value,['acta de adopcion','certificado de adopcion'])){
     return'Elige primero el nombre del peluche y úsalo como dato principal del acta o certificado junto con fecha de adopción, adoptante y una pequeña promesa o nota.';
+  }
+  if(value.includes('cabeza de manzana')){
+    return'La colección no clasifica chihuahuas por forma de cabeza. Usa los filtros de tamaño, longitud y personalidad para elegir un nombre sin atribuir rasgos físicos que la base no documenta.';
+  }
+  if(value.includes('caballos de paso')){
+    return'La colección no infiere raza, disciplina ni aptitud por el nombre. Usa estilo, color y personalidad como filtros creativos y decide después según el caballo real.';
+  }
+  if(value.includes('squishmallows')){
+    return'Usa la colección de peluches para encontrar ideas de nombre; no es un directorio oficial de personajes o productos Squishmallows.';
   }
   if(hasAny(value,['3 letras','4 letras','cortos','cortas','cortitos','corto'])){
     return'Prioriza el filtro de longitud y compara opciones breves; un nombre corto suele ser más fácil de leer, repetir y recordar.';
