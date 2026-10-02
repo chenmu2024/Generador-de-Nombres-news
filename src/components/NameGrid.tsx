@@ -8,6 +8,7 @@ import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
 import{consumeNameSearch}from'@/lib/searchHandoff';
+import{readFavorites,toggleFavorite as toggleStoredFavorite,writeFavorites}from'@/lib/favorites';
 
 const internalTags=new Set(['cat','dog','pet','horse','plush','gaming','freefire','roblox','instagram','female','male','unisex','enye','clan']);
 const tagLabels:Record<string,string>={
@@ -65,7 +66,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const[limit,setLimit]=useState(18);
   const filterTrackingReady=useRef(false);
 
-  useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
+  useEffect(()=>{setFavorites(readFavorites())},[]);
 
   useEffect(()=>{
     if(!pagePath)return;
@@ -84,12 +85,9 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   },[gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
 
   function toggle(name:string){
-    const removing=favorites.includes(name);
-    const next=removing?favorites.filter(x=>x!==name):[...favorites,name];
+    const{items:next,removed}=toggleStoredFavorite(name,favorites);
     setFavorites(next);
-    localStorage.setItem('gdn-favorites',JSON.stringify(next));
-    window.dispatchEvent(new Event('gdn:favorites-updated'));
-    trackProductAction(removing?'favorite-remove':'favorite-add','name-grid');
+    trackProductAction(removed?'favorite-remove':'favorite-add','name-grid');
   }
 
   const inferredGender=(item:NameRecord):'F'|'M'|'U'|undefined=>
@@ -310,10 +308,8 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   function saveFiltered(){
     if(!sortedFiltered.length||!hasActiveFilters)return;
     trackProductAction('save-filtered','name-grid');
-    const next=Array.from(new Set([...favorites,...sortedFiltered.map(item=>item.name)]));
+    const next=writeFavorites([...favorites,...sortedFiltered.map(item=>item.name)]);
     setFavorites(next);
-    localStorage.setItem('gdn-favorites',JSON.stringify(next));
-    window.dispatchEvent(new Event('gdn:favorites-updated'));
     setRandomPick('');
     flash(sortedFiltered.length+' nombres guardados');
   }
