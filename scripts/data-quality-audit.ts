@@ -4,6 +4,7 @@ import{keywordPages}from'../src/data/keywordMaster';
 const errors:string[]=[];
 const warnings:string[]=[];
 const seen=new Set<string>();
+const trustedSourceHosts=new Set(['behindthename.com','www.behindthename.com']);
 
 for(const item of nameDataset){
   const key=[item.type,item.name,item.origin??''].join('|').toLocaleLowerCase('es');
@@ -12,8 +13,18 @@ for(const item of nameDataset){
 
   if(item.verified===true){
     if(!item.source)errors.push('Verified item missing source: '+item.name);
+    if(!item.sourceUrl)errors.push('Verified item missing sourceUrl: '+item.name);
     if(!item.lastReviewed)errors.push('Verified item missing lastReviewed: '+item.name);
     if(item.confidence==='needs-review')errors.push('Verified item cannot be needs-review: '+item.name);
+    if(item.sourceUrl){
+      try{
+        const url=new URL(item.sourceUrl);
+        if(url.protocol!=='https:')errors.push('Verified source must use HTTPS: '+item.name+' -> '+item.sourceUrl);
+        if(!trustedSourceHosts.has(url.hostname))errors.push('Verified source host is not approved: '+item.name+' -> '+url.hostname);
+      }catch{
+        errors.push('Verified source URL is invalid: '+item.name+' -> '+item.sourceUrl);
+      }
+    }
   }
 
   if(item.type==='culture'&&(item.meaning||item.script)&&!item.source){
