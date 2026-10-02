@@ -50,6 +50,11 @@ assert(point.blobs?.[5]==='/nombres-de-nina','blob6 must contain target path');
 assert(point.doubles?.[0]===1,'double1 must contain event count');
 assert(point.indexes?.[0]==='example.com','index1 must contain hostname');
 
+const depthPayload={...validPayload,event:'session_depth',placement:'session',role:'depth-2',experimentId:'session-depth-v1'};
+const depthOk=await collector.onRequestPost({request:request(depthPayload),env:boundEnv});
+assert(depthOk.status===204,'Session-depth analytics event must return 204');
+assert(writes.length===2,'Session-depth event must write a second datapoint');
+
 const invalidEvent=await collector.onRequestPost({
   request:request({...validPayload,event:'search_text'}),
   env:boundEnv,
