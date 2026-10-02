@@ -1,0 +1,49 @@
+name: Corrección o problema del sitio
+description: Reporta un dato, compatibilidad o problema de navegación en GeneradorDeNombres.net
+title: "[Corrección] "
+labels:
+  - correction
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por ayudar a mejorar GeneradorDeNombres.net. Este reporte será público en GitHub. No incluyas datos personales, contraseñas ni información sensible.
+  - type: dropdown
+    id: type
+    attributes:
+      label: Tipo de corrección
+      options:
+        - Significado u origen de un nombre
+        - Escritura, romanización o pronunciación
+        - Compatibilidad de símbolos o caracteres
+        - Navegación, filtros o herramienta
+        - Otro
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Página afectada
+      description: Pega la URL o la ruta, por ejemplo /nombres-japoneses
+      placeholder: /nombres-japoneses
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Qué está mal
+      description: Explica el problema de forma concreta.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Fuente o evidencia
+      description: Si se trata de un dato, añade una fuente fiable. Si es un problema visual o técnico, describe cómo reproducirlo.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Confirmación
+      options:
+        - label: Entiendo que este reporte será público y no he incluido información personal o sensible.
+          required: true
