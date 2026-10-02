@@ -87,6 +87,9 @@ button{cursor:pointer}
 .gdn-page .gdn-input:focus{border-color:var(--page-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--page-accent) 12%,transparent)}
 .gdn-page .gdn-eyebrow{color:var(--page-accent)}
 .gdn-page .gdn-themed-hover:hover{border-color:var(--page-border);background:var(--page-soft)}
+.gdn-copy-button:hover{border-color:#cfc8fb;background:#f7f5ff;color:#5146d6}
+.gdn-page .gdn-copy-button:hover{border-color:var(--page-border);background:var(--page-soft);color:var(--page-ink)}
+.gdn-page a:focus-visible,.gdn-page button:focus-visible,.gdn-page summary:focus-visible,.gdn-page input:focus-visible,.gdn-page select:focus-visible{outline-color:var(--page-accent)}
 
 @media(max-width:640px){
   .gdn-shell{width:min(100% - 24px,1200px)}
