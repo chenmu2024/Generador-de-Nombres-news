@@ -5,6 +5,7 @@ import {Copy,Heart,RefreshCw,Sparkles} from 'lucide-react';
 import type{ToolMode} from '@/data/keywordMaster';
 import {generateFootballNames,generateStoreNames} from '@/lib/generator';
 import {trackProductAction} from '@/lib/analytics';
+import{copyText}from'@/lib/clipboard';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import NameFramePicker from './NameFramePicker';
 import {
@@ -60,7 +61,8 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
   },[seed,style,mode,font,frame]);
 
   async function copy(value:string){
-    await navigator.clipboard.writeText(value);
+    const ok=await copyText(value);
+    if(!ok)return;
     trackProductAction('copy-generated','generator-panel');
     setCopied(value);
     window.setTimeout(()=>setCopied(''),1200);
