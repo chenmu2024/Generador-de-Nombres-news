@@ -6,6 +6,7 @@ import {EXPERIMENTS} from '@/data/experiments';
 import {Copy,Download,Heart,Search,Trash2,X,Clock3,ArrowUpAZ} from 'lucide-react';
 import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
+import{clearFavorites,readFavorites,removeFavorite}from'@/lib/favorites';
 import{copyText}from'@/lib/clipboard';
 import{clearFavorites,readFavorites,removeFavorite}from'@/lib/favorites';
 
