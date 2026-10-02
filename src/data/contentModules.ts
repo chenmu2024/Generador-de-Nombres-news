@@ -227,4 +227,5 @@ export function getDecisionCards(page: KeywordPage): DecisionCard[] {
       ];
     default:
       return[];
-  }}
+  }
+}

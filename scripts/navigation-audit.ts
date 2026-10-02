@@ -2,7 +2,7 @@ import{readFileSync}from'node:fs';
 import{keywordPages}from'../src/data/keywordMaster';
 import{internalLinkPriority}from'../src/data/internalLinkGraph';
 import{topicClusters}from'../src/data/topicClusters';
-import{footerNavigationGroups,legalNavigation,primaryNavigation,staticAppRoutes}from'../src/data/siteNavigation';
+import{footerNavigationGroups,indexableStaticRoutes,legalNavigation,noindexStaticRoutes,primaryNavigation,staticAppRoutes}from'../src/data/siteNavigation';
 
 const errors:string[]=[];
 const keywordPaths=new Set(keywordPages.map(page=>page.path));
@@ -29,6 +29,15 @@ for(const group of footerNavigationGroups){
   }
 }
 for(const item of legalNavigation)assertRoute(item.href,'Legal navigation');
+
+const indexableStatic=new Set<string>(indexableStaticRoutes);
+for(const path of noindexStaticRoutes){
+  if(indexableStatic.has(path))errors.push('Static route cannot be both indexable and noindex: '+path);
+}
+const sitemapSource=readFileSync(new URL('../src/app/sitemap.ts',import.meta.url),'utf8');
+if(!sitemapSource.includes('indexableStaticRoutes'))errors.push('Sitemap must use shared indexableStaticRoutes');
+const favoritesSource=readFileSync(new URL('../src/app/favoritos/page.tsx',import.meta.url),'utf8');
+if(!favoritesSource.includes('index:false')||!favoritesSource.includes('follow:true'))errors.push('/favoritos must remain noindex,follow');
 
 for(const cluster of Object.values(topicClusters)){
   if(!keywordPaths.has(cluster.hubPath))errors.push('Topic cluster hub is not a keyword route: '+cluster.hubPath);
