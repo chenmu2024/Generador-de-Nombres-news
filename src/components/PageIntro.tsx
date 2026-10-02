@@ -6,8 +6,10 @@ import{topicClusters}from'@/data/topicClusters';
 export default function PageIntro({page}:{page:KeywordPage}){
   const cluster=topicClusters[page.cluster];
   const showClusterLink=cluster.hubPath!==page.path;
-  const helper=page.tool==='culture'
-    ?{eyebrow:'Datos comprobables',title:'Origen, escritura y fuentes.',body:'Busca por origen y filtra los registros con escritura, pronunciación o fuente verificada.'}
+  const helper=page.path==='/nombres-mayas'
+    ?{eyebrow:'Colección curada',title:'Pocos registros, mejor documentados.',body:'Esta colección prioriza nombres con una referencia clara. No ampliamos la lista con atribuciones dudosas solo para aumentar el volumen.'}
+    :page.tool==='culture'
+      ?{eyebrow:'Datos comprobables',title:'Origen, escritura y fuentes.',body:'Busca por origen y filtra los registros con escritura, pronunciación o fuente verificada.'}
     :page.tool==='people'||page.tool==='pet'
       ?{eyebrow:'Herramienta',title:'Filtra, compara y guarda.',body:'Reduce la lista por rasgos, compara hasta cuatro opciones y guarda tus favoritas en el navegador.'}
       :page.tool==='store'
