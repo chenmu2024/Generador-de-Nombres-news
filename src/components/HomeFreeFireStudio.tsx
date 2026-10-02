@@ -70,7 +70,7 @@ export default function HomeFreeFireStudio(){
         <div className="flex items-center gap-3">
           <span className="grid size-10 place-items-center rounded-[12px] bg-[#5b4df5] text-white shadow-[0_8px_22px_rgba(91,77,245,.32)]"><Gamepad2 size={19}/></span>
           <div>
-            <h2 className="brand-serif text-[23px] font-bold tracking-[-.02em]">Generador de nombres para Free Fire</h2>
+            <h2 className="gdn-editorial text-[23px] font-bold tracking-[-.02em]">Generador de nombres para Free Fire</h2>
             <p className="mt-0.5 text-[12px] text-[#a8adc0]">{unicodeStyles.length} fuentes Unicode · {nameFrames.length} marcos.</p>
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function HomeFreeFireStudio(){
 
       <div className="border-b border-white/8 lg:border-b-0 lg:border-r">
         <div className="flex items-center justify-between border-b border-white/8 px-4 py-4">
-          <div><p className="text-[13px] font-semibold">Resultados</p><p className="mt-0.5 text-[10px] text-[#7f8498]">Nombres listos para copiar y guardar.</p></div>
+          <div><p className="gdn-tech text-[13px] font-semibold">Resultados</p><p className="mt-0.5 text-[10px] text-[#7f8498]">Nombres listos para copiar y guardar.</p></div>
           <span className="rounded-[8px] border border-white/10 bg-white/[.04] px-3 py-2 text-[10px] text-[#aeb2c1]">{selectedFont.label} · {selectedFrame.label}</span>
         </div>
         <div className="divide-y divide-white/7">
@@ -140,9 +140,9 @@ export default function HomeFreeFireStudio(){
         <img src="/visuals/hero-gaming.webp" alt="" width="900" height="1200" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center"/>
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,12,22,.08),rgba(10,12,22,.86))]"/>
         <div className="relative z-10 flex h-full min-h-[360px] flex-col justify-between p-5">
-          <p className="text-[10px] font-black tracking-[.42em] text-white/90">FREE FIRE</p>
+          <p className="gdn-tech text-[10px] font-black tracking-[.34em] text-white/90">FREE FIRE</p>
           <div>
-            <h3 className="brand-serif max-w-[190px] text-[31px] font-bold leading-[1.02]">Nombres únicos para tu estilo</h3>
+            <h3 className="gdn-editorial max-w-[190px] text-[31px] font-bold leading-[1.02]">Nombres únicos para tu estilo</h3>
             <div className="mt-4 space-y-2 text-[11px] text-white/90">{[unicodeStyles.length+' fuentes Unicode',nameFrames.length+' marcos','Espacios invisibles','100% gratis'].map(item=><p key={item} className="flex items-center gap-2"><span className="grid size-5 place-items-center rounded-full bg-white/14"><Check size={11}/></span>{item}</p>)}</div>
             <Link href="/nombres-free-fire" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-[9px] bg-[#5b4df5] px-4 py-3 text-[11px] font-semibold text-white">Explorar todas →</Link>
           </div>
