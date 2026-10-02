@@ -1,4 +1,4 @@
-import AlphabetExplorer,type{AlphabetEntry}from'./AlphabetExplorer';
+import AlphabetExplorer,{type AlphabetEntry}from'./AlphabetExplorer';
 import {getNamesForPath,nameDataset} from '@/data/nameDataset';
 
 const routes:Record<string,string>={A:'/nombres-con-a',B:'/nombres-con-b',C:'/nombres-con-c',E:'/nombres-con-e',F:'/nombres-con-f',M:'/nombres-con-m','Ñ':'/nombres-con-en',Y:'/nombres-con-y',Z:'/nombres-con-z'};
