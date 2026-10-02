@@ -4,7 +4,8 @@ export type UnicodeStyleId=
   |'monospace'|'double'|'fraktur'|'frakturBold'
   |'script'|'scriptBold'|'circled'|'fullwidth'
   |'smallCaps'|'superscript'|'underline'|'strike'
-  |'squared'|'negativeSquared';
+  |'squared'|'negativeSquared'|'negativeCircled'|'parenthesized'|'regional'
+  |'overline'|'doubleUnderline'|'dotted'|'tilde'|'slash'|'spaced'|'middleDot';
 
 export type UnicodeCompatibility='alta'|'media'|'experimental';
 
@@ -98,15 +99,28 @@ for(const char of D)superscript[char]=superscriptChars[char];
 
 const squared:Record<string,string>={};
 const negativeSquared:Record<string,string>={};
+const negativeCircled:Record<string,string>={};
+const parenthesized:Record<string,string>={};
+const regional:Record<string,string>={};
 [...U].forEach((char,index)=>{
   squared[char]=String.fromCodePoint(0x1f130+index);
   squared[char.toLowerCase()]=String.fromCodePoint(0x1f130+index);
   negativeSquared[char]=String.fromCodePoint(0x1f170+index);
   negativeSquared[char.toLowerCase()]=String.fromCodePoint(0x1f170+index);
+  negativeCircled[char]=String.fromCodePoint(0x1f150+index);
+  negativeCircled[char.toLowerCase()]=String.fromCodePoint(0x1f150+index);
+  parenthesized[char]=String.fromCodePoint(0x249c+index);
+  parenthesized[char.toLowerCase()]=String.fromCodePoint(0x249c+index);
+  regional[char]=String.fromCodePoint(0x1f1e6+index);
+  regional[char.toLowerCase()]=String.fromCodePoint(0x1f1e6+index);
 });
 
 function combining(value:string,mark:string){
   return Array.from(value).map(char=>/\s/u.test(char)?char:char+mark).join('');
+}
+
+function separated(value:string,separator:string){
+  return Array.from(value).map(char=>char===' '?String.fromCodePoint(0x2003):char).join(separator);
 }
 
 const definitions:Array<[UnicodeStyleId,string,string,UnicodeCompatibility,(value:string)=>string]>= [
@@ -132,6 +146,16 @@ const definitions:Array<[UnicodeStyleId,string,string,UnicodeCompatibility,(valu
   ['strike','Tachada','S̶','experimental',value=>combining(value,'\u0336')],
   ['squared','Cuadros','🄰','experimental',value=>mapped(value,squared)],
   ['negativeSquared','Bloques','🅰','experimental',value=>mapped(value,negativeSquared)],
+  ['negativeCircled','Círculos oscuros','🅐','experimental',value=>mapped(value,negativeCircled)],
+  ['parenthesized','Entre paréntesis','⒩','experimental',value=>mapped(value,parenthesized)],
+  ['regional','Regional','🇳','experimental',value=>mapped(value,regional)],
+  ['overline','Línea superior','N̅','experimental',value=>combining(value,'\u0305')],
+  ['doubleUnderline','Doble subrayado','N̳','experimental',value=>combining(value,'\u0333')],
+  ['dotted','Punteada','Ṅ','experimental',value=>combining(value,'\u0307')],
+  ['tilde','Ondulada','Ñ','experimental',value=>combining(value,'\u0303')],
+  ['slash','Cruzada','N̸','experimental',value=>combining(value,'\u0338')],
+  ['spaced','Espaciada','N O V A','alta',value=>separated(value,' ')],
+  ['middleDot','Puntos medios','N·O·V·A','alta',value=>separated(value,'·')],
 ];
 
 export const unicodeStyles:UnicodeStyle[]=definitions.map(([id,label,shortLabel,compatibility,transform])=>({
