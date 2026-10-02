@@ -39,7 +39,7 @@ const lengthLabels:Record<LengthFilter,string>={
 
 function FacetRow({label,children}:{label:string;children:React.ReactNode}){
   return <div className="grid gap-2 border-t border-[#eceaf3] pt-3 sm:grid-cols-[92px_1fr] sm:items-center">
-    <span className="text-[9px] font-black uppercase tracking-[.12em] text-[#9294a5]">{label}</span>
+    <span className="text-[10px] font-black uppercase tracking-[.12em] text-[#9294a5]">{label}</span>
     <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">{children}</div>
   </div>
 }
@@ -330,7 +330,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
         </div>
 
         {quickPresets.length>0&&<div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="mr-1 text-[9px] font-black uppercase tracking-[.12em] text-[#9a9bac]">Atajos</span>
+          <span className="mr-1 text-[10px] font-black uppercase tracking-[.12em] text-[#9a9bac]">Atajos</span>
           {quickPresets.map(preset=><button
             key={preset.label}
             onClick={()=>applyQuickPreset(preset)}
@@ -478,7 +478,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                 </div>
                 <dl className="mt-3 divide-y divide-[#efedf5]">
                   {rows.map(([label,value])=><div key={label} className="flex items-start justify-between gap-3 py-2">
-                    <dt className="text-[9px] font-bold uppercase tracking-[.08em] text-[#a0a1af]">{label}</dt>
+                    <dt className="text-[10px] font-bold uppercase tracking-[.08em] text-[#a0a1af]">{label}</dt>
                     <dd className="max-w-[105px] text-right text-[10px] font-semibold leading-4 text-[#565869]">{value}</dd>
                   </div>)}
                 </dl>
@@ -514,7 +514,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h3 className="brand-serif truncate text-[21px] font-bold tracking-[-.025em] text-[#252634] sm:text-[23px]">{item.name}</h3>
-                  {(item.origin||genderLabel)&&<div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1 text-[10px] font-semibold text-[#9294a4] sm:text-[9px]">
+                  {(item.origin||genderLabel)&&<div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1 text-[10px] font-semibold text-[#9294a4] sm:text-[10px]">
                     {item.origin&&<span><span className="font-black uppercase tracking-[.08em]">Origen:</span> {item.origin}</span>}
                     {genderLabel&&<span>{genderLabel}</span>}
                   </div>}
@@ -523,11 +523,11 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               </div>
 
               {(personBadges.length>0||petBadges.length>0)&&<div className="mt-3 flex flex-wrap gap-1.5">
-                {[...personBadges,...petBadges].map(label=><span key={label} className="rounded-full border border-[#e6e2f3] bg-[#faf9ff] px-2.5 py-1 text-[9px] font-semibold text-[#74758a]">{label}</span>)}
+                {[...personBadges,...petBadges].map(label=><span key={label} className="rounded-full border border-[#e6e2f3] bg-[#faf9ff] px-2.5 py-1 text-[10px] font-semibold text-[#74758a]">{label}</span>)}
               </div>}
 
               {mode==='culture'&&item.script&&<div className="mt-3 rounded-[13px] border border-[#e6e1f7] bg-[#f8f6ff] px-4 py-3 sm:mt-4">
-                <p className="text-[9px] font-black uppercase tracking-[.14em] text-[#8a80d8]">Escritura</p>
+                <p className="text-[10px] font-black uppercase tracking-[.14em] text-[#8a80d8]">Escritura</p>
                 <p className="mt-1.5 break-words text-[21px] font-semibold leading-tight text-[#302b5f] sm:text-[24px]">{item.script}</p>
               </div>}
 
@@ -536,11 +536,11 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                 {item.pronunciation&&<p className={item.meaning?'mt-1':''}><strong className="text-[#444655]">Pronunciación:</strong> {item.pronunciation}</p>}
                 {!item.meaning&&!item.pronunciation&&mode!=='culture'&&mode!=='people'&&mode!=='pet'&&<p>{item.tags.filter(tag=>!internalTags.has(tag)).slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
                 {mode==='culture'&&item.source&&<div className="mt-3 flex flex-wrap items-center gap-2">
-                  <span className={'rounded-full px-2.5 py-1 text-[9px] font-bold '+(item.verified===true?'bg-[#eaf8f0] text-[#27764d]':item.verified===false?'bg-[#fff3e8] text-[#a86328]':'bg-[#f2f1f7] text-[#727486]')}>{item.verified===true?'Fuente verificada':item.verified===false?'En revisión':'Fuente documentada'}</span>
+                  <span className={'rounded-full px-2.5 py-1 text-[10px] font-bold '+(item.verified===true?'bg-[#eaf8f0] text-[#27764d]':item.verified===false?'bg-[#fff3e8] text-[#a86328]':'bg-[#f2f1f7] text-[#727486]')}>{item.verified===true?'Fuente verificada':item.verified===false?'En revisión':'Fuente documentada'}</span>
                   {item.sourceUrl?<a className="text-[10px] font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:<span className="text-[10px] text-[#8e90a0]">{item.source}</span>}
                 </div>}
                 {mode==='people'&&item.sourceUrl&&item.verified===true&&<div className="mt-3 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full bg-[#eaf8f0] px-2.5 py-1 text-[9px] font-bold text-[#27764d]">Significado verificado</span>
+                  <span className="rounded-full bg-[#eaf8f0] px-2.5 py-1 text-[10px] font-bold text-[#27764d]">Significado verificado</span>
                   <a className="text-[10px] font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">Ver fuente</a>
                 </div>}
                 {mode!=='culture'&&mode!=='people'&&item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
