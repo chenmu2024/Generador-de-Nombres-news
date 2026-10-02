@@ -3,6 +3,7 @@ import TrackedLink from'./TrackedLink';
 import{EXPERIMENTS}from'@/data/experiments';
 import{keywordPages}from'@/data/keywordMaster';
 import{topicClusters,type TopicClusterId}from'@/data/topicClusters';
+import{getNamesForPath}from'@/data/nameDataset';
 
 const clusterOrder:TopicClusterId[]=[
   'freeFire',
@@ -16,6 +17,13 @@ const clusterOrder:TopicClusterId[]=[
 
 function label(value:string){
   return value.charAt(0).toLocaleUpperCase('es')+value.slice(1);
+}
+
+function pageMeta(path:string,count:number){
+  if(count>0)return count+' opciones';
+  if(path==='/nombres-por-letra')return'Directorio A–Z';
+  if(path==='/espacios-invisible-ff')return'Unicode';
+  return'Generador';
 }
 
 export default function SiteDirectory(){
@@ -43,15 +51,24 @@ export default function SiteDirectory(){
               </div>
               <span className="rounded-full bg-[#f1effa] px-2.5 py-1 text-[9px] font-bold text-[#6a61b7]">{clusterPages.length}</span>
             </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {clusterPages.map((item,index)=><TrackedLink
-                key={item.path}
-                href={item.path}
-                placement="site-directory"
-                role={clusterId+'-'+(index+1)}
-                experimentId={EXPERIMENTS.homePopular}
-                className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-[#e2dfeb] bg-[#fbfaff] px-3 py-2 text-[10px] font-semibold leading-4 text-[#555768] transition hover:border-[#cfc8f1] hover:bg-[#f3f0ff] hover:text-[#5b4df5]"
-              >{label(item.primaryKeyword)}<ArrowUpRight size={10} className="shrink-0 opacity-45 transition group-hover:opacity-100"/></TrackedLink>)}
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {clusterPages.map((item,index)=>{
+                const count=getNamesForPath(item.path).length;
+                return <TrackedLink
+                  key={item.path}
+                  href={item.path}
+                  placement="site-directory"
+                  role={clusterId+'-'+(index+1)}
+                  experimentId={EXPERIMENTS.homePopular}
+                  className="group flex min-h-[58px] items-center justify-between gap-3 rounded-[13px] border border-[#e2dfeb] bg-[#fbfaff] px-3.5 py-3 transition hover:border-[#cfc8f1] hover:bg-[#f3f0ff] hover:shadow-[0_8px_18px_rgba(70,61,128,.05)]"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-[10px] font-semibold leading-4 text-[#505263] group-hover:text-[#5b4df5]">{label(item.primaryKeyword)}</span>
+                    <span className="mt-1 block text-[8px] font-bold uppercase tracking-[.08em] text-[#a09eac]">{pageMeta(item.path,count)}</span>
+                  </span>
+                  <ArrowUpRight size={11} className="shrink-0 text-[#aaa6b8] transition group-hover:-translate-y-.5 group-hover:translate-x-.5 group-hover:text-[#5b4df5]"/>
+                </TrackedLink>;
+              })}
             </div>
           </section>;
         })}
