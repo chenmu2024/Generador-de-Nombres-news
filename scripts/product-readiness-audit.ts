@@ -58,7 +58,7 @@ for(const page of keywordPages){
 const alphabetEntries=getAlphabetDirectoryEntries();
 for(const entry of alphabetEntries){
   if(alphabetRoutes[entry.letter])continue;
-  if(entry.count<3)errors.push('Alphabet quick view is too thin: '+entry.letter+' has '+entry.count+' names, expected at least 3');
+  if(entry.count<5)errors.push('Alphabet quick view is too thin: '+entry.letter+' has '+entry.count+' names, expected at least 5');
   if(entry.names.length!==Math.min(entry.count,18))errors.push('Alphabet quick view preview count mismatch: '+entry.letter);
 }
 
