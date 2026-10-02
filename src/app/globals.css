@@ -71,12 +71,14 @@ button{cursor:pointer}
   --page-border:#ddd8ff;
   --page-ink:#5146d6;
 }
-.gdn-page[data-tool="people"]{--page-accent:#cc5f78;--page-soft:#fff2f5;--page-border:#f0d7de;--page-ink:#b94e68}
-.gdn-page[data-tool="pet"]{--page-accent:#c77a33;--page-soft:#fff6ec;--page-border:#efddc7;--page-ink:#a9662d}
-.gdn-page[data-tool="culture"]{--page-accent:#8d5ab8;--page-soft:#faf1ff;--page-border:#ead8f5;--page-ink:#7b4ca5}
-.gdn-page[data-tool="store"]{--page-accent:#27885d;--page-soft:#eefaf3;--page-border:#d3eadc;--page-ink:#21744f}
-.gdn-page[data-tool="football"]{--page-accent:#3373b8;--page-soft:#eff6ff;--page-border:#d8e7f6;--page-ink:#2d65a2}
-.gdn-page[data-tool="gaming"],.gdn-page[data-tool="invisible"]{--page-accent:#5b4df5;--page-soft:#f1efff;--page-border:#dcd7ff;--page-ink:#5146d6}
+.gdn-page[data-theme="people"]{--page-accent:#cc5f78;--page-soft:#fff2f5;--page-border:#f0d7de;--page-ink:#b94e68}
+.gdn-page[data-theme="pet"]{--page-accent:#c77a33;--page-soft:#fff6ec;--page-border:#efddc7;--page-ink:#a9662d}
+.gdn-page[data-theme="culture"]{--page-accent:#8d5ab8;--page-soft:#faf1ff;--page-border:#ead8f5;--page-ink:#7b4ca5}
+.gdn-page[data-theme="store"]{--page-accent:#27885d;--page-soft:#eefaf3;--page-border:#d3eadc;--page-ink:#21744f}
+.gdn-page[data-theme="football"]{--page-accent:#3373b8;--page-soft:#eff6ff;--page-border:#d8e7f6;--page-ink:#2d65a2}
+.gdn-page[data-theme="gaming"],.gdn-page[data-theme="invisible"]{--page-accent:#5b4df5;--page-soft:#f1efff;--page-border:#dcd7ff;--page-ink:#5146d6}
+.gdn-page[data-theme="roblox"]{--page-accent:#3f6edb;--page-soft:#f2f6ff;--page-border:#dbe5f7;--page-ink:#315ebf}
+.gdn-page[data-theme="instagram"]{--page-accent:#b85a78;--page-soft:#fff4f7;--page-border:#f0d9e2;--page-ink:#9f4966}
 
 .gdn-theme-chip{border-color:var(--page-border);background:var(--page-soft);color:var(--page-ink)}
 .gdn-theme-panel{border-color:var(--page-border);background:linear-gradient(145deg,#fff,var(--page-soft))}
