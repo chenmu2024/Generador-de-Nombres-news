@@ -5,7 +5,7 @@ import {useRouter} from 'next/navigation';
 import {Search} from 'lucide-react';
 import {emitAnalyticsEvent,rememberTrackedNavigation} from '@/lib/analytics';
 import {EXPERIMENTS} from '@/data/experiments';
-import{useSiteSearch,type SearchResult}from'@/hooks/useSiteSearch';
+import{preloadSiteSearch,useSiteSearch,type SearchResult}from'@/hooks/useSiteSearch';
 import SearchSuggestions from './SearchSuggestions';
 import{rememberNameSearch}from'@/lib/searchHandoff';
 
@@ -56,7 +56,7 @@ export default function HeaderSearch({mobile=false}:{mobile?:boolean}){
       <Search size={15} className="text-[#81859a]"/>
       <input
         value={q}
-        onFocus={()=>setFocused(true)}
+        onFocus={()=>{setFocused(true);preloadSiteSearch()}}
         onBlur={()=>window.setTimeout(()=>setFocused(false),120)}
         onChange={e=>setQ(e.target.value)}
         onKeyDown={e=>{
