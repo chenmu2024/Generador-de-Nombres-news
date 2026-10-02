@@ -5,6 +5,7 @@ import Link from 'next/link';
 import {Check,Copy,Gamepad2,Heart,Sparkles} from 'lucide-react';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
+import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import NameFramePicker from './NameFramePicker';
 import {
@@ -26,9 +27,7 @@ export default function HomeFreeFireStudio(){
   const[batch,setBatch]=useState(0);
   const[favorites,setFavorites]=useState<string[]>([]);
 
-  useEffect(()=>{
-    try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}
-  },[]);
+  useEffect(()=>{setFavorites(readFavorites())},[]);
 
   const results=useMemo(()=>{
     const raw=(seed.trim()||'Nova').replace(/\s+/g,'');
@@ -59,12 +58,9 @@ export default function HomeFreeFireStudio(){
   }
 
   function toggleFavorite(value:string){
-    const removing=favorites.includes(value);
-    const next=removing?favorites.filter(item=>item!==value):[...favorites,value];
+    const{items:next,removed}=toggleStoredFavorite(value,favorites);
     setFavorites(next);
-    localStorage.setItem('gdn-favorites',JSON.stringify(next));
-    window.dispatchEvent(new Event('gdn:favorites-updated'));
-    trackProductAction(removing?'favorite-remove':'favorite-add','home-freefire');
+    trackProductAction(removed?'favorite-remove':'favorite-add','home-freefire');
   }
 
   return <section className="gdn-studio overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_26px_65px_rgba(27,24,55,.18)]">
