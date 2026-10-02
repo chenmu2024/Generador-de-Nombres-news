@@ -1,7 +1,7 @@
 'use client';
 
 import {useMemo,useState} from 'react';
-import {Gamepad2,Layers3,Scissors,Sparkles,Space,Type} from 'lucide-react';
+import {Copy,Gamepad2,Layers3,Scissors,Shuffle,Sparkles,Space,Type} from 'lucide-react';
 import CopyButton from './CopyButton';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import {trackProductAction} from '@/lib/analytics';
@@ -37,6 +37,26 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   const[invisible,setInvisible]=useState(false);
   const[short,setShort]=useState(variant==='unique');
   const[view,setView]=useState<ResultView>('mix');
+  const[feedback,setFeedback]=useState('');
+
+  async function copyAll(){
+    await navigator.clipboard.writeText(results.map(item=>item.value).join('\n'));
+    setFeedback(results.length+' resultados copiados');
+    trackProductAction('copy-all-generated','freefire-tool');
+    window.setTimeout(()=>setFeedback(''),1400);
+  }
+
+  function surprise(){
+    const currentFontIndex=unicodeStyles.findIndex(item=>item.id===font);
+    const currentFrameIndex=nameFrames.findIndex(item=>item.id===frame);
+    const nextFont=unicodeStyles[(currentFontIndex+3+Math.floor(Math.random()*7))%unicodeStyles.length];
+    const nextFrame=nameFrames[(currentFrameIndex+2+Math.floor(Math.random()*5))%nameFrames.length];
+    setFont(nextFont.id);
+    setFrame(nextFrame.id);
+    setFeedback(nextFont.label+' + '+nextFrame.label);
+    trackProductAction('surprise-style','freefire-tool');
+    window.setTimeout(()=>setFeedback(''),1400);
+  }
 
   const results=useMemo(()=>{
     const raw=seed.trim()||'Vortex';
@@ -115,9 +135,13 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
             <div className="flex items-center gap-2 text-[11px] font-semibold"><Sparkles size={13} className="text-[#a99fff]"/>Resultados</div>
             <p className="mt-1 text-[9px] text-[#7f8498]">{view==='fonts'?'Compara la misma base en todas las fuentes.':'Variaciones listas para copiar.'}</p>
           </div>
-          <div className="flex rounded-[9px] border border-white/10 bg-white/[.035] p-1">
-            <button onClick={()=>setView('mix')} aria-pressed={view==='mix'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[9px] font-bold '+(view==='mix'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Layers3 size={11}/>Combinaciones</button>
-            <button onClick={()=>setView('fonts')} aria-pressed={view==='fonts'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[9px] font-bold '+(view==='fonts'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Type size={11}/>{unicodeStyles.length} fuentes</button>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex rounded-[9px] border border-white/10 bg-white/[.035] p-1">
+              <button onClick={()=>setView('mix')} aria-pressed={view==='mix'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[9px] font-bold '+(view==='mix'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Layers3 size={11}/>Combinaciones</button>
+              <button onClick={()=>setView('fonts')} aria-pressed={view==='fonts'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[9px] font-bold '+(view==='fonts'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Type size={11}/>{unicodeStyles.length} fuentes</button>
+            </div>
+            <button onClick={surprise} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[9px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Shuffle size={11}/>Sorpresa</button>
+            <button onClick={copyAll} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[9px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Copy size={11}/>Copiar todo</button>
           </div>
         </div>
 
@@ -130,6 +154,8 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
             <CopyButton value={item.value} analyticsRole="copy-freefire-name"/>
           </div>)}
         </div>
+
+        <div aria-live="polite" className="sr-only">{feedback}</div>
 
         <p className="border-t border-white/8 px-5 py-4 text-[9px] leading-4 text-[#85899c]">
           Hay {unicodeStyles.length} fuentes Unicode y {nameFrames.length} marcos combinables. La compatibilidad puede variar según el juego, el dispositivo y futuras actualizaciones; prueba el resultado antes de guardarlo.
