@@ -47,6 +47,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   const[invisible,setInvisible]=useState(false);
   const[short,setShort]=useState(variant==='unique');
   const[view,setView]=useState<ResultView>('mix');
+  const[duoMode,setDuoMode]=useState(false);
   const[compatibility,setCompatibility]=useState<CompatibilityFilter>('all');
   const[batch,setBatch]=useState(0);
   const[feedback,setFeedback]=useState('');
@@ -55,7 +56,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   useEffect(()=>{setFavorites(readFavorites())},[]);
   useEffect(()=>{
     const requested=new URLSearchParams(window.location.search).get('shortcut');
-    if(requested==='balanced'||requested==='short'||requested==='invisible'||requested==='symbols'||requested==='compatible'){
+    if(requested==='balanced'||requested==='short'||requested==='invisible'||requested==='symbols'||requested==='compatible'||requested==='duo'){
       applyShortcut(requested,false);
     }
   },[variant]);
@@ -87,7 +88,8 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
     trackProductAction(removed?'favorite-remove':'favorite-add','freefire-tool');
   }
 
-  function applyShortcut(id:'balanced'|'short'|'invisible'|'symbols'|'compatible',track=true){
+  function applyShortcut(id:'balanced'|'short'|'invisible'|'symbols'|'compatible'|'duo',track=true){
+    if(id!=='duo')setDuoMode(false);
     if(id==='balanced'){
       setInvisible(false);
       setShort(false);
@@ -106,6 +108,11 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
       setInvisible(false);
       setView('mix');
       setFrame(variant==='clan'?'clan':'insano');
+    }else if(id==='duo'){
+      setDuoMode(true);
+      setView('mix');
+      setInvisible(false);
+      setCompatibility('all');
     }else{
       setInvisible(false);
       setView('fonts');
@@ -127,6 +134,30 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
         label:style.label,
         compatibility:style.compatibility,
       }));
+    }
+
+    if(duoMode){
+      const pairBases=[
+        [base+'A',base+'B'],
+        [base+'X','X'+base],
+        [base+'Fire',base+'Ice'],
+        [base+'Sun',base+'Moon'],
+        [base+'One',base+'Two'],
+        [base+'Alpha',base+'Omega'],
+        ['Neo'+base,'Nova'+base],
+        [base+'Red',base+'Blue'],
+      ];
+      const currentCompatibility=(unicodeStyles.find(style=>style.id===font)?.compatibility??'media') as 'alta'|'media'|'experimental';
+      return pairBases.map(([left,right],index)=>{
+        const styledLeft=applyNameFrame(applyUnicodeStyle(withInvisibleSeparator(left,invisible),font),frame);
+        const styledRight=applyNameFrame(applyUnicodeStyle(withInvisibleSeparator(right,invisible),font),frame);
+        return{
+          value:styledLeft+'\n'+styledRight,
+          label:'Dúo '+(index+1),
+          compatibility:currentCompatibility,
+          pair:[styledLeft,styledRight] as [string,string],
+        };
+      });
     }
 
     const generalPools=[
@@ -156,7 +187,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
       const spaced=withInvisibleSeparator(name,invisible);
       return applyNameFrame(applyUnicodeStyle(spaced,font),frame);
     }))).map(value=>({value,label:'Combinación',compatibility:(unicodeStyles.find(style=>style.id===font)?.compatibility??'media') as 'alta'|'media'|'experimental'}));
-  },[seed,font,frame,invisible,short,variant,view,compatibility,batch]);
+  },[seed,font,frame,invisible,short,variant,view,compatibility,batch,duoMode]);
 
   return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_66px_rgba(27,24,55,.16)]">
     <div className="grid lg:grid-cols-[360px_1fr]">
@@ -182,6 +213,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
               ['short','Base corta'],
               ['invisible','Invisible'],
               ['symbols','Símbolos'],
+              ['duo','Dúo'],
               ['compatible','Alta compatibilidad'],
             ] as const).map(([id,label])=><button key={id} type="button" onClick={()=>applyShortcut(id)} className="min-h-9 shrink-0 rounded-full border border-white/12 bg-white/[.05] px-3 text-[10px] font-semibold text-[#c5c8d5] transition hover:border-[#756aff] hover:bg-[#5b4df5]/15 hover:text-white">{label}</button>)}
           </div>
@@ -221,12 +253,12 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
         <div className="flex flex-col gap-3 border-b border-white/8 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
           <div>
             <div className="flex items-center gap-2 text-[11px] font-semibold"><Sparkles size={13} className="text-[#a99fff]"/>Resultados</div>
-            <p className="mt-1 text-[10px] text-[#7f8498]">{view==='fonts'?'Compara la misma base en todas las fuentes.':'Variaciones listas para copiar.'}</p>
+            <p className="mt-1 text-[10px] text-[#7f8498]">{duoMode?'Pares coordinados: copia cada nombre por separado o todos juntos.':view==='fonts'?'Compara la misma base en todas las fuentes.':'Variaciones listas para copiar.'}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <div className="flex rounded-[9px] border border-white/10 bg-white/[.035] p-1">
-              <button onClick={()=>setView('mix')} aria-pressed={view==='mix'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='mix'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Layers3 size={11}/>Combinaciones</button>
-              <button onClick={()=>setView('fonts')} aria-pressed={view==='fonts'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='fonts'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Type size={11}/>{unicodeStyles.length} fuentes</button>
+              <button onClick={()=>setView('mix')} aria-pressed={view==='mix'&&!duoMode} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='mix'&&!duoMode?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Layers3 size={11}/>Combinaciones</button>
+              <button onClick={()=>{setDuoMode(false);setView('fonts')}} aria-pressed={view==='fonts'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='fonts'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Type size={11}/>{unicodeStyles.length} fuentes</button>
             </div>
             {view==='mix'&&<button onClick={()=>{setBatch(value=>value+1);trackProductAction('generate-batch','freefire-tool')}} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><RefreshCw size={11}/>Otra tanda</button>}
             <button onClick={surprise} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Shuffle size={11}/>Sorpresa</button>
@@ -257,13 +289,22 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
           {results.map((item,index)=>{
             const saved=favorites.includes(item.value);
             return <div key={item.label+'|'+item.value+'|'+index} className="flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-3 transition hover:bg-[#1b2030] sm:px-5">
-              <div className="min-w-0">
-                <span className="block break-all text-[13px] font-semibold">{item.value}</span>
-                {view==='fonts'&&<span className="mt-1 block text-[10px] font-bold uppercase tracking-[.08em] text-[#757a8f]">{item.label} · {item.compatibility}</span>}
+              <div className="min-w-0 flex-1">
+                {item.pair
+                  ?<div className="grid gap-1.5">
+                    {item.pair.map((name,pairIndex)=><div key={name+'|'+pairIndex} className="flex items-center justify-between gap-2 rounded-[8px] border border-white/8 bg-white/[.025] px-2.5 py-2">
+                      <span className="min-w-0 break-all text-[12px] font-semibold">{name}</span>
+                      <CopyButton value={name} label={'Copiar '+(pairIndex===0?'A':'B')} analyticsRole="copy-freefire-duo-name"/>
+                    </div>)}
+                  </div>
+                  :<>
+                    <span className="block break-all text-[13px] font-semibold">{item.value}</span>
+                    {view==='fonts'&&<span className="mt-1 block text-[10px] font-bold uppercase tracking-[.08em] text-[#757a8f]">{item.label} · {item.compatibility}</span>}
+                  </>}
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
-                <button onClick={()=>toggleFavorite(item.value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>
-                <CopyButton value={item.value} analyticsRole="copy-freefire-name"/>
+                {!item.pair&&<button onClick={()=>toggleFavorite(item.value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>}
+                <CopyButton value={item.value} label={item.pair?'Copiar dúo':'Copiar'} analyticsRole={item.pair?'copy-freefire-duo':'copy-freefire-name'}/>
               </div>
             </div>;
           })}

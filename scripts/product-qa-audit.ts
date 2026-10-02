@@ -26,6 +26,7 @@ if(!nameGridSource.includes("get('preset')"))errors.push('NameGrid must consume 
 if(!nameGridSource.includes('Con significado')||!nameGridSource.includes('Fuente verificada'))errors.push('People/culture data facets must remain visible');
 if(!platform.includes("params.get('intent')")||!platform.includes("params.get('mode')"))errors.push('Platform tool no longer consumes intent/mode query handoff');
 if(!freeFire.includes("get('shortcut')"))errors.push('Free Fire tool no longer consumes shortcut query handoff');
+if(!freeFire.includes("requested==='duo'")||!freeFire.includes("label:'Dúo '"))errors.push('Free Fire duo mode must remain available');
 if(!anime.includes("get('intent')"))errors.push('Anime tool no longer consumes intent query handoff');
 if(!slugPage.includes('<AnimeNameTool/>'))errors.push('Anime route must render AnimeNameTool');
 if(!slugPage.includes("const generatorMode: 'football'|'invisible'|null="))errors.push('GeneratorPanel mode must be explicitly narrowed to football/invisible');

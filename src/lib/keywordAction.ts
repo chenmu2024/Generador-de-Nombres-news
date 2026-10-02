@@ -43,6 +43,8 @@ function presetAction(page:KeywordPage,value:string):KeywordAction|null{
   if(/mitolog|dioses|diosas/.test(value))return pick(['Mitología']);
   if(/significado/.test(value))return pick(['Con significado']);
   if(/pronunciacion|fonetica/.test(value))return pick(['Con pronunciación']);
+  if(/griego/.test(value))return pick(['Griegos']);
+  if(/nordic/.test(value))return pick(['Nórdicos']);
   if(/vasco/.test(value))return pick(['Vascos']);
   if(/kanji/.test(value))return pick(['Kanji','Con escritura']);
   if(/hangul/.test(value))return pick(['Hangul','Con escritura']);
@@ -115,6 +117,7 @@ export function getKeywordAction(page:KeywordPage,keyword:string):KeywordAction{
       return{href:'/espacios-invisible-ff#herramienta',label:'Abrir caracteres invisibles'};
     }
     if(value.includes('simbolo')||value.includes('insano'))return{href:page.path+'?shortcut=symbols#herramienta',label:'Probar símbolos'};
+    if(value.includes('duo'))return{href:page.path+'?shortcut=duo#herramienta',label:'Crear nombres para dúo'};
     if(value.includes('3 letras')||value.includes('corto'))return{href:page.path+'?shortcut=short#herramienta',label:'Crear versión corta'};
     if(value.includes('clan')||value.includes('escuadra')||value.includes('tag')||value.includes('prefijo')){
       return{href:'/nombres-clanes-ff#herramienta',label:'Abrir generador de clanes'};

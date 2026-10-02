@@ -142,6 +142,8 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
   '/nombres-de-dioses':[
     {label:'Diosas',gender:'F'},
     {label:'Dioses',gender:'M'},
+    {label:'Griegos',originIncludes:'Grieg'},
+    {label:'Nórdicos',originIncludes:'Nórd'},
     {label:'Con escritura',cultureFacet:'script'},
     {label:'Con pronunciación',cultureFacet:'pronunciation'},
     {label:'Con significado',meaning:true},
