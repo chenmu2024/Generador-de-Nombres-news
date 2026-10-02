@@ -20,7 +20,7 @@ export default function FavoritesCenter(){
   function exportTxt(){const blob=new Blob([items.join('\n')],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='mis-nombres-favoritos.txt';a.click();URL.revokeObjectURL(url);trackProductAction('export-favorites-txt','favorites-center')}
 
   const filtered=items.filter(name=>name.toLocaleLowerCase('es').includes(query.trim().toLocaleLowerCase('es')));
-  const visible=sort==='az'?[...filtered].sort((a,b)=>a.localeCompare(b,'es')):filtered;
+  const visible=sort==='az'?[...filtered].sort((a,b)=>a.localeCompare(b,'es')):[...filtered].reverse();
 
   if(!items.length)return <div className="rounded-[20px] border border-[#e4e1ed] bg-white px-6 py-12 text-center shadow-[0_10px_28px_rgba(55,49,91,.04)] sm:py-16">
     <span className="mx-auto grid size-12 place-items-center rounded-full bg-[#f0edff] text-[#5b4df5]"><Heart size={19}/></span>
