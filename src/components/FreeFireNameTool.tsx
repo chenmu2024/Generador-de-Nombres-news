@@ -19,6 +19,12 @@ import {
 type Variant='general'|'unique'|'women'|'clan';
 type ResultView='mix'|'fonts';
 type CompatibilityFilter='all'|'alta'|'media'|'experimental';
+type FreeFireResult={
+  value:string;
+  label:string;
+  compatibility:'alta'|'media'|'experimental';
+  pair?:[string,string];
+};
 
 function defaultFont(variant:Variant):UnicodeStyleId{
   if(variant==='women')return'script';
@@ -62,7 +68,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   },[variant]);
 
   async function copyAll(){
-    const ok=await copyText(results.map(item=>item.value).join('\n'));
+    const ok=await copyText(results.map(item=>item.value).join(duoMode?'\n\n':'\n'));
     if(!ok)return;
     setFeedback(results.length+' resultados copiados');
     trackProductAction('copy-all-generated','freefire-tool');
@@ -112,6 +118,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
       setDuoMode(true);
       setView('mix');
       setInvisible(false);
+      setShort(false);
       setCompatibility('all');
     }else{
       setInvisible(false);
@@ -122,7 +129,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
     if(track)trackProductAction('shortcut-'+id,'freefire-tool');
   }
 
-  const results=useMemo(()=>{
+  const results=useMemo<FreeFireResult[]>(()=>{
     const raw=seed.trim()||'Vortex';
     const base=short?raw.replace(/\s+/g,'').slice(0,8):raw;
     const clanBase=variant==='clan'?base.toUpperCase().slice(0,6):base;
@@ -257,7 +264,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <div className="flex rounded-[9px] border border-white/10 bg-white/[.035] p-1">
-              <button onClick={()=>setView('mix')} aria-pressed={view==='mix'&&!duoMode} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='mix'&&!duoMode?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Layers3 size={11}/>Combinaciones</button>
+              <button onClick={()=>{setDuoMode(false);setView('mix')}} aria-pressed={view==='mix'&&!duoMode} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='mix'&&!duoMode?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Layers3 size={11}/>Combinaciones</button>
               <button onClick={()=>{setDuoMode(false);setView('fonts')}} aria-pressed={view==='fonts'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='fonts'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Type size={11}/>{unicodeStyles.length} fuentes</button>
             </div>
             {view==='mix'&&<button onClick={()=>{setBatch(value=>value+1);trackProductAction('generate-batch','freefire-tool')}} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><RefreshCw size={11}/>Otra tanda</button>}
