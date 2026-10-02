@@ -101,7 +101,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
         <div className="flex items-center gap-3">
           <span className="grid size-10 place-items-center rounded-[12px] bg-[#5b4df5] text-white"><Gamepad2 size={16}/></span>
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#a99fff]">Free Fire Studio</p>
+            <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#a99fff]">Free Fire Studio</p>
             <h2 className="brand-serif text-[24px] font-bold sm:text-[26px]">{variant==='clan'?'Nombre y tag para clan':'Construye tu nickname'}</h2>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
 
         <label className="mt-5 block">
           <span className="mb-2 flex items-center justify-between gap-2 text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">
-            <span>Marco</span><span className="text-[8px] text-[#777d91]">{nameFrames.length} opciones</span>
+            <span>Marco</span><span className="text-[10px] text-[#777d91]">{nameFrames.length} opciones</span>
           </span>
           <select value={frame} onChange={e=>{setFrame(e.target.value);trackProductAction('frame-change','freefire-tool')}} className="h-11 w-full rounded-[10px] border border-white/14 bg-[#181c2a] px-3 text-[11px] text-white outline-none focus:border-[#776cff]">
             {nameFrames.map(item=><option key={item.id} value={item.id}>{item.label} · {item.transform('Nova')}</option>)}
@@ -132,11 +132,11 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
         <div className="mt-5 grid gap-2">
           <button role="switch" aria-checked={invisible} onClick={()=>{setInvisible(v=>!v);trackProductAction('toggle-invisible','freefire-tool')}} className={'flex min-h-11 items-center justify-between rounded-[10px] border px-4 text-[11px] font-semibold transition '+(invisible?'border-[#756aff] bg-[#5b4df5]/20 text-[#e4e1ff]':'border-white/16 bg-white/[.06] text-[#d0d3df] hover:bg-white/[.1]')}>
             <span className="inline-flex items-center gap-2"><Space size={14}/>Espacio invisible</span>
-            <span className={'rounded-full px-2 py-1 text-[9px] font-black uppercase tracking-[.08em] '+(invisible?'bg-[#5b4df5] text-white':'bg-white/10 text-[#aeb2c1]')}>{invisible?'Activo':'Inactivo'}</span>
+            <span className={'rounded-full px-2 py-1 text-[10px] font-black uppercase tracking-[.08em] '+(invisible?'bg-[#5b4df5] text-white':'bg-white/10 text-[#aeb2c1]')}>{invisible?'Activo':'Inactivo'}</span>
           </button>
           <button role="switch" aria-checked={short} onClick={()=>{setShort(v=>!v);trackProductAction('toggle-short','freefire-tool')}} className={'flex min-h-11 items-center justify-between rounded-[10px] border px-4 text-[11px] font-semibold transition '+(short?'border-[#756aff] bg-[#5b4df5]/20 text-[#e4e1ff]':'border-white/16 bg-white/[.06] text-[#d0d3df] hover:bg-white/[.1]')}>
             <span className="inline-flex items-center gap-2"><Scissors size={14}/>Versión corta</span>
-            <span className={'rounded-full px-2 py-1 text-[9px] font-black uppercase tracking-[.08em] '+(short?'bg-[#5b4df5] text-white':'bg-white/10 text-[#aeb2c1]')}>{short?'Activo':'Inactivo'}</span>
+            <span className={'rounded-full px-2 py-1 text-[10px] font-black uppercase tracking-[.08em] '+(short?'bg-[#5b4df5] text-white':'bg-white/10 text-[#aeb2c1]')}>{short?'Activo':'Inactivo'}</span>
           </button>
         </div>
       </div>
@@ -145,15 +145,15 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
         <div className="flex flex-col gap-3 border-b border-white/8 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
           <div>
             <div className="flex items-center gap-2 text-[11px] font-semibold"><Sparkles size={13} className="text-[#a99fff]"/>Resultados</div>
-            <p className="mt-1 text-[9px] text-[#7f8498]">{view==='fonts'?'Compara la misma base en todas las fuentes.':'Variaciones listas para copiar.'}</p>
+            <p className="mt-1 text-[10px] text-[#7f8498]">{view==='fonts'?'Compara la misma base en todas las fuentes.':'Variaciones listas para copiar.'}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <div className="flex rounded-[9px] border border-white/10 bg-white/[.035] p-1">
-              <button onClick={()=>setView('mix')} aria-pressed={view==='mix'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[9px] font-bold '+(view==='mix'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Layers3 size={11}/>Combinaciones</button>
-              <button onClick={()=>setView('fonts')} aria-pressed={view==='fonts'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[9px] font-bold '+(view==='fonts'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Type size={11}/>{unicodeStyles.length} fuentes</button>
+              <button onClick={()=>setView('mix')} aria-pressed={view==='mix'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='mix'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Layers3 size={11}/>Combinaciones</button>
+              <button onClick={()=>setView('fonts')} aria-pressed={view==='fonts'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='fonts'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Type size={11}/>{unicodeStyles.length} fuentes</button>
             </div>
-            <button onClick={surprise} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[9px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Shuffle size={11}/>Sorpresa</button>
-            <button onClick={copyAll} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[9px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Copy size={11}/>Copiar todo</button>
+            <button onClick={surprise} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Shuffle size={11}/>Sorpresa</button>
+            <button onClick={copyAll} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Copy size={11}/>Copiar todo</button>
           </div>
         </div>
 
@@ -163,7 +163,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
             return <div key={item.label+'|'+item.value+'|'+index} className="flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-3 transition hover:bg-[#1b2030] sm:px-5">
               <div className="min-w-0">
                 <span className="block break-all text-[13px] font-semibold">{item.value}</span>
-                {view==='fonts'&&<span className="mt-1 block text-[8px] font-bold uppercase tracking-[.08em] text-[#757a8f]">{item.label} · {item.compatibility}</span>}
+                {view==='fonts'&&<span className="mt-1 block text-[10px] font-bold uppercase tracking-[.08em] text-[#757a8f]">{item.label} · {item.compatibility}</span>}
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
                 <button onClick={()=>toggleFavorite(item.value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>
@@ -175,7 +175,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
 
         <div aria-live="polite" className="sr-only">{feedback}</div>
 
-        <p className="border-t border-white/8 px-5 py-4 text-[9px] leading-4 text-[#85899c]">
+        <p className="border-t border-white/8 px-5 py-4 text-[10px] leading-4 text-[#85899c]">
           Hay {unicodeStyles.length} fuentes Unicode y {nameFrames.length} marcos combinables. La compatibilidad puede variar según el juego, el dispositivo y futuras actualizaciones; prueba el resultado antes de guardarlo.
         </p>
       </div>
