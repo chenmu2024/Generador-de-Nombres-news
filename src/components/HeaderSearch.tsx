@@ -8,7 +8,7 @@ import {EXPERIMENTS} from '@/data/experiments';
 import{useSiteSearch,type SearchResult}from'@/hooks/useSiteSearch';
 import SearchSuggestions from './SearchSuggestions';
 
-export default function HeaderSearch(){
+export default function HeaderSearch({mobile=false}:{mobile?:boolean}){
   const router=useRouter();
   const[q,setQ]=useState('');
   const[activeIndex,setActiveIndex]=useState(0);
@@ -48,8 +48,8 @@ export default function HeaderSearch(){
     if(results[activeIndex])go(results[activeIndex],activeIndex,'submit');
   }
 
-  return <div className="relative hidden w-[290px] lg:block">
-    <form onSubmit={submit} className="flex items-center gap-2 rounded-full border border-[#e4e1ee] bg-[#fbfaff] px-3.5 py-2.5">
+  return <div className={mobile?'relative block w-full lg:hidden':'relative hidden w-[290px] lg:block'}>
+    <form onSubmit={submit} className={'flex items-center gap-2 border border-[#e4e1ee] bg-[#fbfaff] px-3.5 py-2.5 '+(mobile?'rounded-[11px]':'rounded-full')}>
       <Search size={15} className="text-[#81859a]"/>
       <input
         value={q}

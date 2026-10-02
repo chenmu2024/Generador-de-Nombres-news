@@ -11,10 +11,9 @@ export default function SearchSuggestions({
   onSelect,
   compact=false,
 }:{results:SearchResult[];loading:boolean;activeIndex:number;onHover:(index:number)=>void;onSelect:(item:SearchResult,index:number)=>void;compact?:boolean}){
-  if(!loading&&!results.length)return null;
-
   return <div className={'absolute left-0 right-0 z-[70] overflow-hidden rounded-[14px] border border-[#e5e3ec] bg-white p-1.5 shadow-[0_18px_44px_rgba(37,32,70,.14)] '+(compact?'top-[50px]':'top-[64px]')}>
-    {loading&&results.length===0&&<div className="flex items-center gap-2 px-3 py-3 text-[11px] text-[#888a9a]"><LoaderCircle size={13} className="animate-spin"/>Buscando nombres y herramientas…</div>}
+    {loading&&results.length===0&&<div role="status" className="flex items-center gap-2 px-3 py-3 text-[11px] text-[#888a9a]"><LoaderCircle size={13} className="animate-spin"/>Buscando nombres y herramientas…</div>}
+    {!loading&&results.length===0&&<div role="status" className="px-3 py-3"><p className="text-[11px] font-semibold text-[#4f5161]">No encontramos coincidencias.</p><p className="mt-1 text-[10px] leading-4 text-[#9092a2]">Prueba un nombre, una categoría o algo como “gato”, “japonés” o “Free Fire”.</p></div>}
     {results.map((item,index)=><button
       key={item.kind+'|'+item.path+'|'+item.title}
       type="button"
