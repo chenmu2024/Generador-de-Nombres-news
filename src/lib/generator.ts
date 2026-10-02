@@ -1,2 +1,89 @@
-const fw:Record<string,string>={};for(let i=33;i<=126;i++)fw[String.fromCharCode(i)]=String.fromCharCode(i+0xfee0);const sc:Record<string,string>={a:'ᴀ',b:'ʙ',c:'ᴄ',d:'ᴅ',e:'ᴇ',f:'ꜰ',g:'ɢ',h:'ʜ',i:'ɪ',j:'ᴊ',k:'ᴋ',l:'ʟ',m:'ᴍ',n:'ɴ',o:'ᴏ',p:'ᴘ',q:'ǫ',r:'ʀ',s:'s',t:'ᴛ',u:'ᴜ',v:'ᴠ',w:'ᴡ',x:'x',y:'ʏ',z:'ᴢ'};const deco=[(s:string)=>`꧁༺${s}༻꧂`,(s:string)=>`亗${s}亗`,(s:string)=>`𓆩${s}𓆪`,(s:string)=>`☠︎ ${s} ☠︎`,(s:string)=>`✿ ${s} ✿`,(s:string)=>`👑 ${s} 👑`,(s:string)=>`⚡${s}⚡`,(s:string)=>`×͜× ${s}`];export const toFullWidth=(v:string)=>[...v].map(c=>fw[c]??c).join('');export const toSmallCaps=(v:string)=>[...v.toLowerCase()].map(c=>sc[c]??c).join('');export function generateStyledNames(seed:string,count=16){const s=seed.trim()||'Nova';const bases=[s,s.toUpperCase(),toSmallCaps(s),toFullWidth(s),s.replace(/\s+/g,'_'),s.replace(/\s+/g,'ㅤ')];const r=new Set<string>();for(const b of bases){r.add(b);for(const f of deco)r.add(f(b))}return[...r].slice(0,count)}
-const pre=['Casa','Studio','Nova','Aura','Luna','Urban','Viva','Nexo'];const suf=['Market','Lab','Store','Boutique','Co.','Shop','Atelier','Hub'];export const generateStoreNames=(seed:string)=>{const s=seed.trim()||'Mía';return[...pre.slice(0,4).map(p=>`${p} ${s}`),...suf.slice(0,4).map(x=>`${s} ${x}`)]};export const generateFootballNames=(seed:string)=>{const s=seed.trim()||'Barrio';return[`Real ${s}`,`Deportivo ${s}`,`${s} FC`,`${s} United`,`Atlético ${s}`,`Club ${s}`,`${s} Legends`,`${s} XI`]};
+const storePrefixes:Record<string,string[]>={
+  Premium:['Casa','Maison','Atelier','Noble','Aura','Galería'],
+  Minimal:['Nexo','Luma','Noma','Uno','Linea','Mono'],
+  Juvenil:['Viva','Hola','Chispa','Mimo','Pop','Club'],
+  Artesanal:['Taller','Casa','Raíz','Origen','Manos','Patio'],
+};
+
+const storeSuffixes:Record<string,string[]>={
+  Premium:['Studio','Boutique','Collection','Co.','House','Atelier'],
+  Minimal:['Lab','Co.','Studio','Shop','Works','Market'],
+  Juvenil:['Pop','Club','Shop','Mood','Go','Market'],
+  Artesanal:['Taller','Mercado','Hecho a Mano','Casa','Oficio','Colectivo'],
+};
+
+export function generateStoreNames(seed:string,tone='Premium'){
+  const s=seed.trim()||'Mía';
+  const prefixes=storePrefixes[tone]??storePrefixes.Premium;
+  const suffixes=storeSuffixes[tone]??storeSuffixes.Premium;
+  const results=[
+    ...prefixes.slice(0,6).map(prefix=>prefix+' '+s),
+    ...suffixes.slice(0,6).map(suffix=>s+' '+suffix),
+  ];
+  return Array.from(new Set(results));
+}
+
+const footballTemplates:Record<string,Array<(seed:string)=>string>>={
+  Serio:[
+    s=>'Atlético '+s,
+    s=>'Deportivo '+s,
+    s=>'Club '+s,
+    s=>'Unión '+s,
+    s=>'Real '+s,
+    s=>s+' FC',
+    s=>s+' CF',
+    s=>'Sporting '+s,
+    s=>'Academia '+s,
+    s=>s+' Athletic',
+    s=>s+' United',
+    s=>s+' XI',
+  ],
+  Barrio:[
+    s=>'Barrio '+s,
+    s=>'La Banda '+s,
+    s=>'Los del '+s,
+    s=>s+' Crew',
+    s=>s+' 5',
+    s=>'Unión '+s,
+    s=>s+' Calle',
+    s=>'Combo '+s,
+    s=>s+' City',
+    s=>'La Peña '+s,
+    s=>s+' Amigos',
+    s=>'Team '+s,
+  ],
+  Gracioso:[
+    s=>'Los '+s+' sin VAR',
+    s=>s+' y a correr',
+    s=>'Los del '+s+' FC',
+    s=>s+' Tiki Taka',
+    s=>'No Era Penal '+s,
+    s=>s+' de Rebote',
+    s=>'VAR '+s,
+    s=>'Los Cansados de '+s,
+    s=>s+' al Palo',
+    s=>'Once de '+s,
+    s=>s+' sin Banquillo',
+    s=>'La Pachanga '+s,
+  ],
+  Competitivo:[
+    s=>s+' Elite',
+    s=>s+' Titans',
+    s=>s+' United',
+    s=>s+' Pro',
+    s=>s+' Legends',
+    s=>s+' XI',
+    s=>'Prime '+s,
+    s=>'Vanguard '+s,
+    s=>s+' Force',
+    s=>s+' Academy',
+    s=>'Alpha '+s,
+    s=>s+' Champions',
+  ],
+};
+
+export function generateFootballNames(seed:string,tone='Competitivo'){
+  const s=seed.trim()||'Barrio';
+  const templates=footballTemplates[tone]??footballTemplates.Competitivo;
+  return Array.from(new Set(templates.map(template=>template(s))));
+}
