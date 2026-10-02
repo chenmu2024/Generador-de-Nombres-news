@@ -179,6 +179,15 @@ for(const check of coverageChecks){
   if(count<check.min)errors.push('Intent coverage too thin: '+check.label+' has '+count+', expected at least '+check.min);
 }
 
+const practicalShortChecks=[
+  {label:'Roblox real 3–4 letter bases',items:getNamesForPath('/nombres-roblox'),min:6},
+  {label:'Instagram real 3–4 letter bases',items:getNamesForPath('/nombres-instagram'),min:6},
+];
+for(const check of practicalShortChecks){
+  const count=check.items.filter(item=>Array.from(item.name.replace(/[^\\p{L}]/gu,'')).length<=4).length;
+  if(count<check.min)errors.push('Practical short-name coverage too thin: '+check.label+' has '+count+', expected at least '+check.min);
+}
+
 for(const [path,requiredTag,forbiddenTag] of [
   ['/nombres-roblox','roblox','instagram'],
   ['/nombres-instagram','instagram','roblox'],
