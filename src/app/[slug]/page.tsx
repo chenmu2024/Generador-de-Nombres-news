@@ -53,9 +53,12 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isToolPage=isRoblox||isInstagram||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
   const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&!isStore&&!isFreeFire&&['general','gaming','invisible','store','football'].includes(page.tool);
 
+  const alphabetPages=keywordPages.filter(item=>item.path.startsWith('/nombres-con-'));
   const primarySchema=isToolPage
     ? {'@context':'https://schema.org','@type':'WebApplication',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}}
-    : {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,mainEntity:{'@type':'ItemList',itemListElement:items.slice(0,12).map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name}))}};
+    : isAlphabet
+      ? {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,mainEntity:{'@type':'ItemList',itemListElement:alphabetPages.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.h1,url:'https://generadordenombres.net'+item.path}))}}
+      : {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,mainEntity:{'@type':'ItemList',itemListElement:items.slice(0,12).map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name}))}};
 
   const breadcrumbItems=[
     {'@type':'ListItem',position:1,name:'Inicio',item:'https://generadordenombres.net/'},
@@ -76,8 +79,8 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
 
     {page.tool==='culture'&&<CultureDataNote items={items}/>}
-    <NameGrid items={items} mode={page.tool} pagePath={page.path}/>
-    <DatasetTrustNote items={items} mode={page.tool}/>
+    {!isAlphabet&&<NameGrid items={items} mode={page.tool} pagePath={page.path}/>}
+    {!isAlphabet&&<DatasetTrustNote items={items} mode={page.tool}/>} 
     <NextStepPanel page={page}/>
     {isEnye&&<EnyeGuide/>}
     <IntentCollections page={page} items={items}/>
