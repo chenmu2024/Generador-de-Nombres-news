@@ -307,7 +307,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
       <div>
         <p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora por origen y datos':'Explora nombres'}</p>
-        <h2 className="brand-serif mt-2 text-[31px] font-bold tracking-[-.035em] text-[#1b1c2b] sm:text-[35px]">Resultados</h2>
+        <h2 className="gdn-display mt-2 text-[31px] font-bold tracking-[-.035em] text-[#1b1c2b] sm:text-[35px]">Resultados</h2>
       </div>
       <div className="text-left sm:text-right">
         <span aria-live="polite" className="block text-[11px] font-semibold text-[#747789]">{hasActiveFilters?`${filtered.length} de ${items.length} disponibles`:`${items.length} disponibles`}</span>
@@ -513,7 +513,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
             return <article key={item.name+(item.origin??'')} className={'min-h-[164px] bg-white p-4 transition hover:bg-[#fcfbff] sm:min-h-[186px] sm:p-5 '+(mode==='culture'?'relative':'')}>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <h3 className="brand-serif truncate text-[21px] font-bold tracking-[-.025em] text-[#252634] sm:text-[23px]">{item.name}</h3>
+                  <h3 className="gdn-editorial truncate text-[21px] font-bold tracking-[-.025em] text-[#252634] sm:text-[23px]">{item.name}</h3>
                   {(item.origin||genderLabel)&&<div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1 text-[10px] font-semibold text-[#9294a4] sm:text-[10px]">
                     {item.origin&&<span><span className="font-black uppercase tracking-[.08em]">Origen:</span> {item.origin}</span>}
                     {genderLabel&&<span>{genderLabel}</span>}
@@ -527,8 +527,8 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               </div>}
 
               {mode==='culture'&&item.script&&<div className="mt-3 rounded-[13px] border border-[#e6e1f7] bg-[#f8f6ff] px-4 py-3 sm:mt-4">
-                <p className="text-[10px] font-black uppercase tracking-[.14em] text-[#8a80d8]">Escritura</p>
-                <p className="mt-1.5 break-words text-[21px] font-semibold leading-tight text-[#302b5f] sm:text-[24px]">{item.script}</p>
+                <p className="gdn-tech text-[10px] font-black uppercase tracking-[.12em] text-[#8a80d8]">Escritura</p>
+                <p className="gdn-editorial mt-1.5 break-words text-[21px] font-semibold leading-tight text-[#302b5f] sm:text-[24px]">{item.script}</p>
               </div>}
 
               <div className="mt-3 min-h-0 text-[12px] leading-5 text-[#747788] sm:mt-4 sm:min-h-12">
