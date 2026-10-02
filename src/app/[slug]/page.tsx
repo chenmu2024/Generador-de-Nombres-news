@@ -86,6 +86,6 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     <AdSlot/>
 
     <FaqSection page={page}/>
-    <RelatedLinks currentPath={page.path} cluster={page.cluster}/>
+    <RelatedLinks currentPath={page.path}/>
   </div>
 }
