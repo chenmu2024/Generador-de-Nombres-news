@@ -16,6 +16,7 @@ import {
 
 type Variant='general'|'unique'|'women'|'clan';
 type ResultView='mix'|'fonts';
+type CompatibilityFilter='all'|'alta'|'media'|'experimental';
 
 function defaultFont(variant:Variant):UnicodeStyleId{
   if(variant==='women')return'script';
@@ -38,6 +39,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   const[invisible,setInvisible]=useState(false);
   const[short,setShort]=useState(variant==='unique');
   const[view,setView]=useState<ResultView>('mix');
+  const[compatibility,setCompatibility]=useState<CompatibilityFilter>('all');
   const[feedback,setFeedback]=useState('');
   const[favorites,setFavorites]=useState<string[]>([]);
 
@@ -79,7 +81,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
 
     if(view==='fonts'){
       const value=invisible?clanBase.split('').join(join):clanBase;
-      return unicodeStyles.map(style=>({
+      return unicodeStyles.filter(style=>compatibility==='all'||style.compatibility===compatibility).map(style=>({
         value:applyNameFrame(applyUnicodeStyle(value,style.id),frame),
         label:style.label,
         compatibility:style.compatibility,
@@ -94,7 +96,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
       const spaced=invisible?name.split('').join(join):name;
       return applyNameFrame(applyUnicodeStyle(spaced,font),frame);
     }))).map(value=>({value,label:'Combinación',compatibility:(unicodeStyles.find(style=>style.id===font)?.compatibility??'media') as 'alta'|'media'|'experimental'}));
-  },[seed,font,frame,invisible,short,variant,view]);
+  },[seed,font,frame,invisible,short,variant,view,compatibility]);
 
   return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_66px_rgba(27,24,55,.16)]">
     <div className="grid lg:grid-cols-[360px_1fr]">
@@ -157,6 +159,22 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
             <button onClick={copyAll} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Copy size={11}/>Copiar todo</button>
           </div>
         </div>
+
+        {view==='fonts'&&<div className="flex flex-wrap items-center gap-2 border-b border-white/8 bg-[#121623] px-4 py-3 sm:px-5">
+          <span className="gdn-tech mr-1 text-[9px] font-black uppercase tracking-[.1em] text-[#777d91]">Compatibilidad</span>
+          {([
+            ['all','Todas'],
+            ['alta','Alta'],
+            ['media','Media'],
+            ['experimental','Experimental'],
+          ] as const).map(([id,label])=><button
+            key={id}
+            onClick={()=>{setCompatibility(id);trackProductAction('font-compatibility-'+id,'freefire-tool')}}
+            aria-pressed={compatibility===id}
+            className={'min-h-9 rounded-full border px-3 text-[10px] font-semibold transition '+(compatibility===id?'border-[#756aff] bg-[#5b4df5] text-white':'border-white/10 bg-white/[.035] text-[#9da2b5] hover:bg-white/[.07]')}
+          >{label}</button>)}
+          <span className="ml-auto text-[9px] font-semibold text-[#6f7488]">{results.length} estilos</span>
+        </div>}
 
         <div className="grid gap-px bg-white/8 sm:grid-cols-2">
           {results.map((item,index)=>{
