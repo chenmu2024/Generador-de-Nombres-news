@@ -35,8 +35,8 @@ const heroCards=[
   {label:'Juegos',desc:'Free Fire, Roblox, Instagram y más',href:'/nombres-free-fire',image:'/visuals/hero-gaming.webp',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
   {label:'Personas',desc:'Bebés, mujer, hombre y significados',href:'/nombres-de-mujer',image:'/visuals/hero-people.webp',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]'},
   {label:'Mascotas',desc:'Gatos, perros, caballos y más',href:'/nombres-gatos',image:'/visuals/hero-pets.webp',icon:PawPrint,tone:'bg-[#fff3e8] text-[#f08b2f]'},
-  {label:'Culturas',desc:'Japonés, coreano, latino, nórdico y más',href:'/nombres-japoneses',image:'https://images.unsplash.com/photo-1741015012188-2b5e541fc1e3?auto=format&fit=crop&w=520&q=70',icon:Landmark,tone:'bg-[#f8edff] text-[#a242ce]'},
-  {label:'Negocios',desc:'Tiendas, marcas, proyectos y más',href:'/nombres-para-tiendas',image:'https://images.unsplash.com/photo-1761065110228-803e1fbc3d0a?auto=format&fit=crop&w=520&q=70',icon:Store,tone:'bg-[#e9fbf0] text-[#24a362]'},
+  {label:'Culturas',desc:'Japonés, coreano, latino, nórdico y más',href:'/nombres-japoneses',image:'/visuals/hero-culture.svg',icon:Landmark,tone:'bg-[#f8edff] text-[#a242ce]'},
+  {label:'Negocios',desc:'Tiendas, marcas, proyectos y más',href:'/nombres-para-tiendas',image:'/visuals/hero-business.svg',icon:Store,tone:'bg-[#e9fbf0] text-[#24a362]'},
 ];
 
 const popular=[
