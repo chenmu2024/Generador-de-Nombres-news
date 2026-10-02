@@ -630,7 +630,8 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               ].filter((tag):tag is string=>Boolean(tag)).map(tag=>tagLabels[tag])
               :[];
 
-            return <article key={item.name+(item.origin??'')} className={'min-h-[164px] bg-white p-4 transition hover:bg-[#fcfbff] sm:min-h-[186px] sm:p-5 '+(mode==='culture'?'relative':'')}>
+            const highlighted=randomPick===item.name;
+            return <article key={item.name+(item.origin??'')} aria-current={highlighted?'true':undefined} className={'min-h-[164px] p-4 transition sm:min-h-[186px] sm:p-5 '+(highlighted?'bg-[var(--page-soft)] ring-1 ring-inset ring-[var(--page-border)]':'bg-white hover:bg-[#fcfbff]')+' '+(mode==='culture'?'relative':'')}>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h3 className="gdn-editorial truncate text-[21px] font-bold tracking-[-.025em] text-[#252634] sm:text-[23px]">{item.name}</h3>
