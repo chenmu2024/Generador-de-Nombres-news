@@ -1,6 +1,6 @@
 'use client';
 
-import {FormEvent,useEffect,useState} from 'react';
+import {FormEvent,useEffect,useId,useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {Search,ArrowRight} from 'lucide-react';
 import {emitAnalyticsEvent,rememberTrackedNavigation} from '@/lib/analytics';
@@ -11,6 +11,7 @@ import{rememberNameSearch}from'@/lib/searchHandoff';
 
 export default function IntentRouter(){
   const router=useRouter();
+  const listboxId=useId();
   const[q,setQ]=useState('');
   const[activeIndex,setActiveIndex]=useState(0);
   const[focused,setFocused]=useState(false);
@@ -64,14 +65,18 @@ export default function IntentRouter(){
         }}
         className="h-11 min-w-0 flex-1 border-0 bg-transparent px-1 text-[14px] text-[#292a38] outline-none placeholder:text-[#9294a5]"
         placeholder="Busca Alma, gato negro, Free Fire, japonés…"
+        role="combobox"
+        aria-autocomplete="list"
         aria-label="Buscar nombres y herramientas"
         aria-expanded={focused&&q.trim().length>=2}
+        aria-controls={listboxId}
+        aria-activedescendant={focused&&results[activeIndex]?listboxId+'-option-'+activeIndex:undefined}
       />
       <button type="submit" disabled={!results.length} className="inline-flex h-11 items-center gap-3 rounded-[11px] bg-[#5b4df5] px-6 text-[13px] font-semibold text-white shadow-[0_8px_22px_rgba(91,77,245,.28)] transition hover:bg-[#4d40e0] disabled:cursor-not-allowed disabled:bg-[#aaa5d9]">
         Buscar <ArrowRight size={14}/>
       </button>
     </form>
 
-    {focused&&q.trim().length>=2&&<SearchSuggestions results={results} loading={loading} activeIndex={activeIndex} onHover={setActiveIndex} onSelect={(item,index)=>go(item,index,'suggestion')}/>}
+    {focused&&q.trim().length>=2&&<SearchSuggestions results={results} loading={loading} activeIndex={activeIndex} onHover={setActiveIndex} onSelect={(item,index)=>go(item,index,'suggestion')} listboxId={listboxId}/>}
   </div>
 }
