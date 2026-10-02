@@ -41,6 +41,10 @@ NEXT_PUBLIC_ADSENSE_SLOT_INLINE=...
 
 Without both values, no ad slot is rendered. The current placement is after the main results/decision area rather than inside the generate/copy interaction.
 
+## Analytics and performance telemetry
+
+The client sends first-party events to `/api/analytics` by default. The Pages Function remains harmless when no `ANALYTICS` binding exists; bind a Cloudflare Analytics Engine dataset as `ANALYTICS` to persist link impressions/clicks, page arrivals, session depth and Core Web Vitals. User-entered names, searches, generated values and favorites are not included in analytics payloads.
+
 ## Growth loop
 Search Console snapshots can use the interfaces and prioritization helper in `src/data/seoGrowth.ts`. The intended loop is:
 
@@ -48,4 +52,4 @@ Semrush / keyword research → Page Gate → useful page/tool → index → Sear
 
 
 ## Visual system
-The production UI follows the approved GeneradorDeNombres brand direction: pale-lavender/white editorial surfaces, violet accents, serif display typography, dark navy interactive workspaces, consistent mobile touch targets, and one shared visual language across homepage, keyword pages, favorites and legal pages.
+The production UI uses a restrained editorial/product system with intent-specific themes for games, people, pets, cultures, commerce and football. Typography is split into Display, Editorial, UI and Tech roles. The nickname tools expose 45+ Unicode text styles and 18+ frames, while mobile touch targets, focus states and page-level accents remain consistent across the site.
