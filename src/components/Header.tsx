@@ -19,7 +19,7 @@ export default function Header(){
     <div className="gdn-shell flex h-[64px] items-center justify-between gap-5">
       <TrackedLink href="/" placement="header" role="logo-home" experimentId={EXPERIMENTS.nav} className="flex shrink-0 items-center gap-2.5">
         <span className="grid size-9 place-items-center rounded-[11px] bg-[#f0edff] text-[#5b4df5]"><Leaf size={18} fill="currentColor"/></span>
-        <span className="font-serif text-[18px] font-bold tracking-[-.025em] text-[#171827]">GeneradorDeNombres</span>
+        <span className="gdn-display text-[18px] font-bold tracking-[-.025em] text-[#171827]">GeneradorDeNombres</span>
       </TrackedLink>
 
       <nav aria-label="Navegación principal" className="hidden items-center gap-5 xl:flex">
