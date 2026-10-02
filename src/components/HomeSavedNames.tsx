@@ -35,8 +35,8 @@ export default function HomeSavedNames(){
         <div className="flex items-center gap-2">
           <span className="grid size-9 place-items-center rounded-full bg-white text-[#ff4f80] shadow-sm"><Heart size={15} fill="currentColor"/></span>
           <div>
-            <p className="gdn-tech text-[10px] font-black uppercase tracking-[.12em] text-[#7d72df]">Continúa donde lo dejaste</p>
-            <p className="mt-0.5 text-[12px] text-[#686b7c]">{items.length} {items.length===1?'nombre guardado':'nombres guardados'} en este navegador.</p>
+            <p className="gdn-tech text-[10px] font-black uppercase tracking-[.12em] text-[#7d72df]">Tu colección</p>
+            <p className="gdn-editorial mt-0.5 text-[16px] font-bold text-[#393b4a]">Continúa donde lo dejaste</p><p className="mt-1 text-[10px] text-[#777a8b]">{items.length} {items.length===1?'nombre guardado':'nombres guardados'} en este navegador.</p>
           </div>
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
