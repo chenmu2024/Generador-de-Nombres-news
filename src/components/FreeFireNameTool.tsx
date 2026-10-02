@@ -15,6 +15,7 @@ import {
   unicodeStyles,
   type UnicodeStyleId,
 } from '@/lib/styledText';
+import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 
 type Variant='general'|'unique'|'women'|'clan';
 type ResultView='mix'|'fonts';
