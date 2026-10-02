@@ -11,6 +11,7 @@ export const EXPERIMENTS={
   productActions:'product-actions-v1',
   sessionDepth:'session-depth-v1',
   webVitals:'web-vitals-v1',
+  footerNav:'footer-nav-v1',
 } as const;
 
 export type ExperimentId=(typeof EXPERIMENTS)[keyof typeof EXPERIMENTS];
