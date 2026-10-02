@@ -6,6 +6,7 @@ import type{NameRecord} from '@/data/nameDataset';
 import type{ToolMode} from '@/data/keywordMaster';
 import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
+import{copyText}from'@/lib/clipboard';
 import{consumeNameSearch}from'@/lib/searchHandoff';
 
 const internalTags=new Set(['cat','dog','pet','horse','plush','gaming','freefire','roblox','instagram','female','male','unisex','enye','clan']);
@@ -299,7 +300,8 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
   async function copyFiltered(){
     if(!sortedFiltered.length)return;
-    await navigator.clipboard.writeText(sortedFiltered.map(item=>item.name).join('\n'));
+    const ok=await copyText(sortedFiltered.map(item=>item.name).join('\n'));
+    if(!ok)return;
     trackProductAction('copy-filtered','name-grid');
     setRandomPick('');
     flash(sortedFiltered.length+' nombres copiados');
