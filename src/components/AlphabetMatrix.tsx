@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import TrackedLink from './TrackedLink';
+import{EXPERIMENTS}from'@/data/experiments';
 import {ArrowRight} from 'lucide-react';
 import {getNamesForPath} from '@/data/nameDataset';
 
@@ -18,10 +19,10 @@ export default function AlphabetMatrix(){
         const href=routes[letter];
         if(!href)return <span key={letter} title="Sin página específica validada" className="grid aspect-square place-items-center bg-[#faf9ff] text-[13px] font-semibold text-[#b0b1bd]">{letter}</span>;
         const count=counts.get(href)??0;
-        return <Link key={letter} href={href} aria-label={'Nombres con '+letter+', '+count+' disponibles'} className="group flex aspect-square flex-col items-center justify-center gap-1 bg-white text-[#454758] transition hover:bg-[#f2efff] hover:text-[#5b4df5]">
+        return <TrackedLink key={letter} href={href} aria-label={'Nombres con '+letter+', '+count+' disponibles'} placement="alphabet-directory" role={'letter-'+letter.toLocaleLowerCase('es')} experimentId={EXPERIMENTS.alphabetNav} className="group flex aspect-square flex-col items-center justify-center gap-1 bg-white text-[#454758] transition hover:bg-[#f2efff] hover:text-[#5b4df5]">
           <span className="flex items-center gap-1 text-[14px] font-bold">{letter}<ArrowRight size={9} className="opacity-0 transition group-hover:opacity-100"/></span>
           <span className="gdn-tech text-[10px] font-semibold text-[#9a9cac]">{count}</span>
-        </Link>;
+        </TrackedLink>;
       })}
     </div>
   </section>
