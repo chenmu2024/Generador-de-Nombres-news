@@ -263,7 +263,7 @@ export const nameDataset:NameRecord[]=[
 {name:'Íñigo',origin:'Español',gender:'M',type:'person',tags:['enye','male','classic'],pronunciation:'Í-ñi-go',source:'Behind the Name',sourceUrl:'https://www.behindthename.com/name/i10n14igo',verified:true,lastReviewed:'2026-10-01',confidence:'high'},
 {name:'Iñaki',origin:'Vasco',gender:'M',type:'person',tags:['enye','male'],pronunciation:'I-ña-ki',source:'Behind the Name',sourceUrl:'https://www.behindthename.com/name/in14aki',verified:true,lastReviewed:'2026-10-01',confidence:'high'},
 {name:'Nuño',origin:'Español medieval',gender:'M',type:'person',tags:['enye','male','rare'],source:'Behind the Name',sourceUrl:'https://www.behindthename.com/name/nuno',verified:true,lastReviewed:'2026-10-01',confidence:'medium'},
-{name:'Ñuflo',origin:'Español arcaico',gender:'M',type:'person',tags:['enye','male','rare'],source:'Behind the Name (submitted)',sourceUrl:'https://www.behindthename.com/name/n14uflo/submitted',verified:false,lastReviewed:'2026-10-01',confidence:'needs-review'}
+{name:'Ñuflo',origin:'Español arcaico',gender:'M',type:'person',tags:['enye','male','rare'],source:'Behind the Name (submitted)',sourceUrl:'https://www.behindthename.com/name/n14uflo/submitted',verified:false,lastReviewed:'2026-10-01',confidence:'needs-review'},
 
 // Expanded intent coverage for previously thin product pages.
 {name:'BlockNova',type:'game',tags:['gaming','roblox','short','unique']},
