@@ -158,6 +158,9 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
             <button onClick={surprise} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Shuffle size={11}/>Sorpresa</button>
             <button onClick={copyAll} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Copy size={11}/>Copiar todo</button>
           </div>
+          <div aria-live="polite" className="min-h-5 sm:text-right">
+            {feedback&&<span className="inline-flex rounded-full border border-white/10 bg-white/[.055] px-2.5 py-1 text-[9px] font-bold text-[#c8cbda]">{feedback}</span>}
+          </div>
         </div>
 
         {view==='fonts'&&<div className="flex flex-wrap items-center gap-2 border-b border-white/8 bg-[#121623] px-4 py-3 sm:px-5">
@@ -191,8 +194,6 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
             </div>;
           })}
         </div>
-
-        <div aria-live="polite" className="sr-only">{feedback}</div>
 
         <p className="border-t border-white/8 px-5 py-4 text-[10px] leading-4 text-[#85899c]">
           Hay {unicodeStyles.length} fuentes Unicode y {nameFrames.length} marcos combinables. La compatibilidad puede variar según el juego, el dispositivo y futuras actualizaciones; prueba el resultado antes de guardarlo.
