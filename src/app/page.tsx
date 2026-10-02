@@ -95,11 +95,11 @@ export default function HomePage(){
       </div>
     </section>
 
-    <HomeSavedNames/>
-
     <section className="gdn-shell mt-2">
       <HomeFreeFireStudio/>
     </section>
+
+    <HomeSavedNames/>
 
     <section className="gdn-shell grid gap-7 py-12 lg:grid-cols-[220px_1fr] lg:items-start">
       <div>
