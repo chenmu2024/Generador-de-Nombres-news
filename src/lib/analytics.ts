@@ -1,4 +1,4 @@
-export type AnalyticsEventName='link_impression'|'link_click'|'page_arrival'|'tool_action'|'session_depth'|'web_vital';
+export type AnalyticsEventName='link_impression'|'link_click'|'page_arrival'|'tool_action'|'session_depth'|'web_vital'|'page_view';
 
 export interface AnalyticsEventPayload{
   event:AnalyticsEventName;
