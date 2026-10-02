@@ -624,7 +624,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               </div>}
 
               <div className="mt-3 min-h-0 text-[12px] leading-5 text-[#747788] sm:mt-4 sm:min-h-12">
-                {item.meaning&&<p><strong className="text-[#444655]">Significado:</strong> {item.meaning}</p>}
+                {item.meaning&&<p><strong className="text-[#444655]">{mode==='people'&&!(item.verified===true&&item.sourceUrl)?'Significado orientativo:':'Significado:'}</strong> {item.meaning}</p>}
                 {item.pronunciation&&<p className={item.meaning?'mt-1':''}><strong className="text-[#444655]">Pronunciación:</strong> {item.pronunciation}</p>}
                 {!item.meaning&&!item.pronunciation&&mode!=='culture'&&mode!=='people'&&mode!=='pet'&&<p>{item.tags.filter(tag=>!internalTags.has(tag)).slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
                 {mode==='culture'&&item.source&&<div className="mt-3 flex flex-wrap items-center gap-2">
