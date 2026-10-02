@@ -1,6 +1,9 @@
 import{keywordPages}from'../src/data/keywordMaster';
 import{getNamesForPath}from'../src/data/nameDataset';
 import{alphabetRoutes,getAlphabetDirectoryEntries}from'../src/data/alphabetDirectory';
+import{generateFootballNames}from'../src/lib/generator';
+import{brandChannels,brandIndustries,brandLanguages,brandStyles,generateBrandNames}from'../src/lib/brandGenerator';
+import{invisibleCharacters}from'../src/data/invisibleCharacters';
 
 const errors:string[]=[];
 const dedicatedNoList=new Map<string,string>([
@@ -78,6 +81,35 @@ for(const entry of alphabetEntries){
   if(entry.names.length!==Math.min(entry.count,18))errors.push('Alphabet quick view preview count mismatch: '+entry.letter);
 }
 
+const footballStyles=['Serio','Barrio','Gracioso','Competitivo'];
+for(const style of footballStyles){
+  const results=generateFootballNames('Horizonte',style);
+  if(results.length<12)errors.push('Football generator too thin for '+style+': '+results.length);
+  if(new Set(results).size!==results.length)errors.push('Football generator duplicates output for '+style);
+  if(results.some(value=>!value.includes('Horizonte')))errors.push('Football generator lost the seed for '+style);
+}
+
+let brandCases=0;
+for(const style of brandStyles)for(const industry of brandIndustries)for(const channel of brandChannels)for(const language of brandLanguages){
+  brandCases++;
+  const results=generateBrandNames({seed:'Luna',style,industry,channel,language,batch:0});
+  if(results.length<10)errors.push('Brand generator too thin: '+[style,industry,channel,language].join(' / ')+' -> '+results.length);
+  if(new Set(results.map(item=>item.name.toLocaleLowerCase('es'))).size!==results.length)errors.push('Brand generator duplicate output: '+[style,industry,channel,language].join(' / '));
+  if(results.some(item=>!item.name.trim()||!item.handle||item.handle.length>24||item.chars<1||item.words<1))errors.push('Brand generator invalid proposal: '+[style,industry,channel,language].join(' / '));
+}
+
+const invisibleValues=new Set<string>();
+const invisibleCodes=new Set<string>();
+for(const item of invisibleCharacters){
+  if(invisibleValues.has(item.value))errors.push('Duplicate invisible character value: '+item.code);
+  if(invisibleCodes.has(item.code))errors.push('Duplicate invisible character code: '+item.code);
+  invisibleValues.add(item.value);
+  invisibleCodes.add(item.code);
+  const expected=Number.parseInt(item.code.slice(2),16);
+  if(Array.from(item.value).length!==1||item.value.codePointAt(0)!==expected)errors.push('Invisible character code mismatch: '+item.label+' '+item.code);
+}
+if(invisibleCharacters.length<6)errors.push('Invisible character library is too small: '+invisibleCharacters.length);
+
 const routesWithResults=keywordPages.filter(page=>page.path!=='/'&&!dedicatedNoList.has(page.path));
 const totalResults=routesWithResults.reduce((sum,page)=>sum+getNamesForPath(page.path).length,0);
 
@@ -91,5 +123,5 @@ console.log(
   '[Product Readiness] PASS — '+
   routesWithResults.length+' result-backed routes + '+
   dedicatedNoList.size+' dedicated non-list routes; '+
-  totalResults+' route-level result slots validated.'
+  totalResults+' route-level result slots; '+brandCases+' brand configurations, '+footballStyles.length+' football styles and '+invisibleCharacters.length+' invisible characters validated.'
 );

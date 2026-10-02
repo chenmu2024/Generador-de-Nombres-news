@@ -4,6 +4,7 @@ import {useEffect,useMemo,useState} from 'react';
 import {Copy,Heart,RefreshCw,Sparkles} from 'lucide-react';
 import type{ToolMode} from '@/data/keywordMaster';
 import {generateFootballNames,generateStoreNames} from '@/lib/generator';
+import{invisibleCharacters}from'@/data/invisibleCharacters';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
 import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
@@ -76,15 +77,8 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
   }
 
   if(mode==='invisible'){
-    const chars=[
-      {label:'Hangul Filler',value:'ㅤ',code:'U+3164',level:'Popular',note:'Se ve vacío y suele usarse como separador visual.'},
-      {label:'Halfwidth Hangul Filler',value:'ﾠ',code:'U+FFA0',level:'Alternativa',note:'Variante de ancho reducido; la plataforma puede normalizarla.'},
-      {label:'Braille Blank',value:'⠀',code:'U+2800',level:'Alternativa',note:'Patrón braille vacío que visualmente funciona como espacio.'},
-      {label:'Ideographic Space',value:'　',code:'U+3000',level:'Ancho',note:'Espacio Unicode de ancho completo.'},
-      {label:'Zero Width Space',value:'​',code:'U+200B',level:'Experimental',note:'No ocupa ancho; algunas plataformas lo eliminan.'},
-      {label:'Word Joiner',value:'⁠',code:'U+2060',level:'Experimental',note:'Carácter sin ancho; no está pensado como espacio normal.'},
-    ];
-    const base=seed.trim()||'Nova';
+    const chars=invisibleCharacters;
+    const base=seed.trim()||'Nova';    const base=seed.trim()||'Nova';
     const popular='ㅤ';
     const quickCopies=[
       {label:'1 espacio',value:popular},
@@ -118,7 +112,7 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
           return <article key={item.code} className="bg-[#151927] p-5 transition hover:bg-[#1b2030]">
             <div className="flex items-start justify-between gap-3">
               <div><span className="block text-[13px] font-semibold">{item.label}</span><span className="mt-1 block text-[10px] font-semibold text-[#8f94a8]">{item.code}</span></div>
-              <span className={'rounded-full px-2 py-1 text-[8px] font-black uppercase tracking-[.08em] '+(item.level==='Popular'?'bg-[#153b31] text-[#85dec0]':item.level==='Experimental'?'bg-[#493333] text-[#efb1b1]':'bg-[#302e4e] text-[#bbb5ff]')}>{item.level}</span>
+              <span className={'rounded-full px-2 py-1 text-[8px] font-black uppercase tracking-[.08em] '+(item.level==='Separador'?'bg-[#153b31] text-[#85dec0]':item.level==='Experimental'?'bg-[#493333] text-[#efb1b1]':'bg-[#302e4e] text-[#bbb5ff]')}>{item.level}</span>
             </div>
             <p className="mt-3 min-h-10 text-[9px] leading-4 text-[#8f94a8]">{item.note}</p>
             <div className="mt-3 rounded-[9px] border border-white/8 bg-black/10 px-3 py-2">
