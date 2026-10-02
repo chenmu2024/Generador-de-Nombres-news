@@ -83,6 +83,8 @@ button{cursor:pointer}
 .gdn-theme-accent{color:var(--page-accent)}
 .gdn-page .gdn-chip[data-active="true"]{border-color:var(--page-border);background:var(--page-soft);color:var(--page-ink)}
 .gdn-page .gdn-input:focus{border-color:var(--page-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--page-accent) 12%,transparent)}
+.gdn-page .gdn-eyebrow{color:var(--page-accent)}
+.gdn-page .gdn-themed-hover:hover{border-color:var(--page-border);background:var(--page-soft)}
 
 @media(max-width:640px){
   .gdn-shell{width:min(100% - 24px,1200px)}
