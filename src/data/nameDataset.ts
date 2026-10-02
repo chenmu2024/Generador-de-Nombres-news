@@ -265,6 +265,27 @@ export const nameDataset:NameRecord[]=[
 {name:'Nuño',origin:'Español medieval',gender:'M',type:'person',tags:['enye','male','rare'],source:'Behind the Name',sourceUrl:'https://www.behindthename.com/name/nuno',verified:true,lastReviewed:'2026-10-01',confidence:'medium'},
 {name:'Ñuflo',origin:'Español arcaico',gender:'M',type:'person',tags:['enye','male','rare'],source:'Behind the Name (submitted)',sourceUrl:'https://www.behindthename.com/name/n14uflo/submitted',verified:false,lastReviewed:'2026-10-01',confidence:'needs-review'},
 
+// Expanded coverage for validated letter pages.
+{name:'Berta',origin:'Germánico',gender:'F',type:'person',tags:['b','female','classic']},
+{name:'Blanca',origin:'Español',gender:'F',type:'person',tags:['b','female','classic']},
+{name:'Bárbara',origin:'Griego',gender:'F',type:'person',tags:['b','female','classic']},
+{name:'Bosco',origin:'Italiano',gender:'M',type:'person',tags:['b','male','rare']},
+{name:'Brais',origin:'Gallego',gender:'M',type:'person',tags:['b','male','rare']},
+{name:'Baltasar',origin:'Bíblico',gender:'M',type:'person',tags:['b','male','classic']},
+{name:'Ylenia',gender:'F',type:'person',tags:['y','female','modern','rare']},
+{name:'Yvonne',origin:'Francés',gender:'F',type:'person',tags:['y','female','classic']},
+{name:'Yeray',gender:'M',type:'person',tags:['y','male','modern']},
+{name:'Yusuf',origin:'Árabe',gender:'M',type:'person',tags:['y','male','classic']},
+{name:'Yamil',gender:'M',type:'person',tags:['y','male','modern']},
+{name:'Yared',gender:'M',type:'person',tags:['y','male','rare']},
+{name:'Zara',gender:'F',type:'person',tags:['z','female','modern']},
+{name:'Zoraida',gender:'F',type:'person',tags:['z','female','classic']},
+{name:'Zulema',gender:'F',type:'person',tags:['z','female','classic']},
+{name:'Zacarías',origin:'Hebreo',gender:'M',type:'person',tags:['z','male','classic']},
+{name:'Zeno',gender:'M',type:'person',tags:['z','male','rare','short']},
+{name:'Zoilo',gender:'M',type:'person',tags:['z','male','rare']},
+{name:'Zenaida',gender:'F',type:'person',tags:['z','female','rare']},
+
 // Expanded intent coverage for previously thin product pages.
 {name:'BlockNova',type:'game',tags:['gaming','roblox','short','unique']},
 {name:'PixelForge',type:'game',tags:['gaming','roblox','aesthetic','modern']},
