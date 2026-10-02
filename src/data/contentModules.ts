@@ -38,7 +38,7 @@ const sharedFaqs: Record<ToolMode, PageFaq[]> = {
   ],
   pet: [
     {question:'¿Cómo escoger un nombre para una mascota?',answer:'Los nombres breves y distinguibles suelen ser fáciles de usar a diario. También puedes filtrar por personalidad, tamaño, color o estilo.'},
-    {question:'¿Puedo guardar nombres para compararlos después?',answer:'Sí. Usa el corazón de cada tarjeta y los encontrarás en la sección Mis favoritos de este navegador.'},
+    {question:'¿Puedo guardar nombres para revisarlos después?',answer:'Sí. Usa el corazón de cada tarjeta y los encontrarás en la sección Mis favoritos de este navegador.'},
   ],
   culture: [
     {question:'¿Por qué un nombre puede aparecer con distintas escrituras?',answer:'La escritura, romanización y pronunciación pueden variar según idioma, región y convención. Las fichas deben interpretarse dentro de ese contexto.'},
@@ -52,6 +52,8 @@ const specificFaqs: Record<string, PageFaq[]> = {
   ],
   '/nombres-instagram': [
     {question:'¿La herramienta dice si un username de Instagram está libre?',answer:'No. Solo ayuda a crear formatos de username. La disponibilidad debe comprobarse dentro de Instagram.'},
+    {question:'¿Las letras bonitas son fuentes instaladas?',answer:'No. Son caracteres Unicode que se ven con estilos distintos. Por eso su apariencia y compatibilidad pueden variar entre dispositivos y aplicaciones.'},
+    {question:'¿Username y nombre visible deben tener el mismo formato?',answer:'No. La herramienta los separa: el username se mantiene simple, mientras el nombre visible puede probar variantes Unicode.'},
   ],
   '/nombres-por-letra': [
     {question:'¿Por qué algunas letras tienen página propia y otras no?',answer:'Solo se crea una página independiente cuando existe suficiente demanda y valor propio. Las demás letras permanecen dentro del directorio general.'},
@@ -82,6 +84,17 @@ const specificFaqs: Record<string, PageFaq[]> = {
   ],
   '/nombres-free-fire': [
     {question:'¿Puedo añadir símbolos y espacio invisible al mismo nickname?',answer:'La herramienta permite generar variantes con ambos recursos, pero debes probar el resultado dentro del juego porque la compatibilidad puede cambiar.'},
+    {question:'¿Qué son las 32 fuentes del generador?',answer:'Son transformaciones con caracteres Unicode, no archivos de fuente. Puedes comparar estilos y combinarlos con marcos, pero el juego puede aceptar unos caracteres y rechazar otros.'},
+  ],
+  '/nombres-perros-machos': [
+    {question:'¿Qué estilo funciona para un perro macho grande?',answer:'Puedes empezar por las opciones fuertes o elegantes y compararlas con nombres más cortos si quieres algo fácil de llamar a diario.'},
+    {question:'¿Hay nombres para perros machos pequeños?',answer:'Sí. La página incluye filtros de tamaño y nombres cortos para separar opciones pequeñas de las pensadas para perros grandes.'},
+  ],
+  '/nombres-caballos': [
+    {question:'¿Cómo elegir un nombre para caballo o yegua?',answer:'Prueba cómo suena al llamarlo, si encaja con su presencia y si prefieres un tono fuerte, elegante o tranquilo.'},
+  ],
+  '/nombres-peluches': [
+    {question:'¿Puedo buscar nombres kawaii para peluches?',answer:'Sí. La colección incluye etiquetas tiernas y kawaii para filtrar ositos, muñecos y peluches pequeños.'},
   ],
 };
 
