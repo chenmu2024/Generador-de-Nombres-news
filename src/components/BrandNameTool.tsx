@@ -5,6 +5,7 @@ import {ClipboardCopy,Heart,RefreshCw,Store} from 'lucide-react';
 import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
+import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 
 const styles=['Premium','Minimal','Juvenil','Artesanal','Elegante','Natural'] as const;
 const industries=['Ropa','Belleza','Comida','Hogar','Tecnología','Accesorios','Mascotas','Papelería','Café','General'] as const;
@@ -71,7 +72,7 @@ export default function BrandNameTool(){
   const[favorites,setFavorites]=useState<string[]>([]);
   const[feedback,setFeedback]=useState('');
 
-  useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
+  useEffect(()=>{setFavorites(readFavorites())},[]);
 
   const results=useMemo(()=>{
     const base=seed.trim()||'Luna';
@@ -108,13 +109,9 @@ export default function BrandNameTool(){
   },[seed,style,industry,channel,language,batch]);
 
   function toggleFavorite(name:string){
-    const current=JSON.parse(localStorage.getItem('gdn-favorites')||'[]') as string[];
-    const removing=current.includes(name);
-    const next=removing?current.filter(item=>item!==name):Array.from(new Set([...current,name]));
-    localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    const{items:next,removed}=toggleStoredFavorite(name,favorites);
     setFavorites(next);
-    window.dispatchEvent(new Event('gdn:favorites-updated'));
-    trackProductAction(removing?'favorite-remove':'favorite-add','brand-tool');
+    trackProductAction(removed?'favorite-remove':'favorite-add','brand-tool');
   }
 
   async function copyAll(){
