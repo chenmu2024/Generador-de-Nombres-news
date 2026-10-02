@@ -63,6 +63,7 @@ export default function HomeFreeFireStudio(){
     const next=favorites.includes(value)?favorites.filter(item=>item!==value):[...favorites,value];
     setFavorites(next);
     localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    window.dispatchEvent(new Event('gdn:favorites-updated'));
   }
 
   return <section className="gdn-studio overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_26px_65px_rgba(27,24,55,.18)]">

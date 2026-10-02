@@ -64,6 +64,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     const next=favorites.includes(name)?favorites.filter(x=>x!==name):[...favorites,name];
     setFavorites(next);
     localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    window.dispatchEvent(new Event('gdn:favorites-updated'));
   }
 
   const inferredGender=(item:NameRecord):'F'|'M'|'U'|undefined=>
@@ -197,6 +198,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     const next=Array.from(new Set([...favorites,...filtered.map(item=>item.name)]));
     setFavorites(next);
     localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    window.dispatchEvent(new Event('gdn:favorites-updated'));
     setRandomPick('');
     flash(filtered.length+' nombres guardados');
   }

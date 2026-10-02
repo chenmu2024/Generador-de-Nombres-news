@@ -7,9 +7,9 @@ import CopyButton from './CopyButton';
 export default function FavoritesCenter(){
   const[items,setItems]=useState<string[]>([]);
   useEffect(()=>{try{setItems(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
-  function remove(name:string){const next=items.filter(i=>i!==name);setItems(next);localStorage.setItem('gdn-favorites',JSON.stringify(next))}
+  function remove(name:string){const next=items.filter(i=>i!==name);setItems(next);localStorage.setItem('gdn-favorites',JSON.stringify(next));window.dispatchEvent(new Event('gdn:favorites-updated'))}
   async function copyAll(){await navigator.clipboard.writeText(items.join('\n'))}
-  function clear(){setItems([]);localStorage.removeItem('gdn-favorites')}
+  function clear(){setItems([]);localStorage.removeItem('gdn-favorites');window.dispatchEvent(new Event('gdn:favorites-updated'))}
   function exportTxt(){const blob=new Blob([items.join('\n')],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='mis-nombres-favoritos.txt';a.click();URL.revokeObjectURL(url)}
 
   if(!items.length)return <div className="rounded-[20px] border border-[#e4e1ed] bg-white px-6 py-16 text-center shadow-[0_10px_28px_rgba(55,49,91,.04)]">
