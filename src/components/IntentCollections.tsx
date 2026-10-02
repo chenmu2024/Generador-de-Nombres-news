@@ -97,7 +97,18 @@ function groupsFor(page:KeywordPage):GroupDef[]{
       {title:'Dark',description:'Bases oscuras para clanes.',match:i=>has(i,'dark')},
       {title:'Fuertes',description:'Opciones con identidad agresiva.',match:i=>has(i,'strong')},
     ];
-    default:return [];
+    default:
+      if(page.tool==='culture')return [
+        {title:'Con escritura original',description:'Compara nombres que conservan su escritura de origen.',match:i=>Boolean(i.script)},
+        {title:'Con pronunciación',description:'Opciones con una guía de pronunciación documentada.',match:i=>Boolean(i.pronunciation)},
+        {title:'Con significado verificado',description:'Registros cuyo significado incluye una fuente revisada.',match:i=>Boolean(i.meaning)&&i.verified===true&&Boolean(i.sourceUrl)},
+      ];
+      if(page.tool==='people')return [
+        {title:'Cortos',description:'Opciones breves para comparar de un vistazo.',match:i=>has(i,'short')||i.name.length<=4},
+        {title:'Femeninos',description:'Nombres marcados con uso femenino en la base actual.',match:i=>i.gender==='F'},
+        {title:'Masculinos',description:'Nombres marcados con uso masculino en la base actual.',match:i=>i.gender==='M'},
+      ];
+      return [];
   }
 }
 
