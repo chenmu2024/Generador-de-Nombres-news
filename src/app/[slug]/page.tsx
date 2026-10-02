@@ -19,6 +19,7 @@ import PageSpecificGuide from'@/components/PageSpecificGuide';
 import CollectionSnapshot from'@/components/CollectionSnapshot';
 import AnimeNameTool from'@/components/AnimeNameTool';
 import PlushAdoptionTool from'@/components/PlushAdoptionTool';
+import CompoundNameTool from'@/components/CompoundNameTool';
 import TopicSubnav from'@/components/TopicSubnav';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
@@ -62,6 +63,8 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isAlphabet=page.path==='/nombres-por-letra';
   const isStore=page.path==='/nombres-para-tiendas';
   const isPlush=page.path==='/nombres-peluches';
+  const isCompoundFemale=page.path==='/nombres-de-mujer'||page.path==='/nombres-de-nina';
+  const isCompoundMale=page.path==='/nombres-de-nino';
   const isEnye=page.path==='/nombres-con-en';
   const isFreeFire=page.cluster==='freeFire'&&page.path!=='/espacios-invisible-ff';
   const isToolPage=isRoblox||isInstagram||isAnime||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
@@ -119,6 +122,10 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {hasResultCollection&&<CollectionSnapshot items={items} mode={page.tool} pagePath={page.path}/>}
     {hasResultCollection&&<NameGrid items={items} mode={page.tool} pagePath={page.path} pageLabel={page.primaryKeyword}/>}
     {hasResultCollection&&<DatasetTrustNote items={items} mode={page.tool}/>} 
+    {(isCompoundFemale||isCompoundMale)&&<CompoundNameTool
+      audience={isCompoundMale?'niño':'niña'}
+      suggestions={items.filter(item=>item.verified===true&&Boolean(item.sourceUrl)).map(item=>item.name)}
+    />}
     {isPlush&&<PlushAdoptionTool suggestions={items.slice(0,12).map(item=>item.name)}/>}
     {isEnye&&<EnyeGuide/>}
     <KeywordIntentCoverage page={page}/>

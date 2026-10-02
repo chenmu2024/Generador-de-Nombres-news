@@ -100,6 +100,10 @@ export function getKeywordAction(page:KeywordPage,keyword:string):KeywordAction{
     if(value.includes('ropa'))return{href:page.path+'?industry=Ropa#herramienta',label:'Usar sector Ropa'};
   }
 
+  if((page.path==='/nombres-de-mujer'||page.path==='/nombres-de-nino')&&value.includes('compuest')){
+    return{href:page.path+'#compuestos',label:'Abrir combinador de nombres'};
+  }
+
   if(page.path==='/nombres-peluches'){
     if(value.includes('acta de adopcion'))return{href:page.path+'?doc=acta#adopcion',label:'Crear acta de adopción'};
     if(value.includes('certificado de adopcion'))return{href:page.path+'?doc=certificado#adopcion',label:'Crear certificado'};
