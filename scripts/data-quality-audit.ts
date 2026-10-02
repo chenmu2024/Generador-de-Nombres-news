@@ -49,7 +49,7 @@ const minimums:Record<string,number>={
   '/nombres-anime':24,
   '/nombres-gatos':36,
   '/nombres-gatos-negros':12,
-  '/nombres-gatos-machos':12,
+  '/nombres-gatos-machos':20,
   '/nombres-perritas':30,
   '/nombres-perros-machos':30,
   '/perritas-chihuahua':18,
