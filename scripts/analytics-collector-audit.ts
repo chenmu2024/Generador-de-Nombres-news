@@ -39,7 +39,7 @@ function assert(condition:unknown,message:string):asserts condition{
 
 const ok=await collector.onRequestPost({request:request(validPayload),env:boundEnv});
 assert(ok.status===204,'Valid analytics event must return 204');
-assert(writes.length===1,'Valid analytics event must write one datapoint');
+assert(Number(writes.length)===1,'Valid analytics event must write one datapoint');
 
 const point=writes[0] as {blobs?:string[];doubles?:number[];indexes?:string[]};
 assert(point.blobs?.[0]==='link_click','blob1 must contain event');
@@ -53,12 +53,12 @@ assert(point.indexes?.[0]==='example.com','index1 must contain hostname');
 const depthPayload={...validPayload,event:'session_depth',placement:'session',role:'depth-2',experimentId:'session-depth-v1'};
 const depthOk=await collector.onRequestPost({request:request(depthPayload),env:boundEnv});
 assert(depthOk.status===204,'Session-depth analytics event must return 204');
-assert(writes.length===2,'Session-depth event must write a second datapoint');
+assert(Number(writes.length)===2,'Session-depth event must write a second datapoint');
 
 const vitalsPayload={...validPayload,event:'web_vital',placement:'performance',role:'lcp',experimentId:'web-vitals-v1',value:1834.5};
 const vitalsOk=await collector.onRequestPost({request:request(vitalsPayload),env:boundEnv});
 assert(vitalsOk.status===204,'Web-vital analytics event must return 204');
-assert(writes.length===3,'Web-vital event must write a third datapoint');
+assert(Number(writes.length)===3,'Web-vital event must write a third datapoint');
 const vitalsPoint=writes[2] as {doubles?:number[]};
 assert(vitalsPoint.doubles?.[2]===1834.5,'Web-vital value must be stored in double3');
 
@@ -88,7 +88,7 @@ assert(status.status===200,'Collector GET status must return 200');
 const statusJson=await status.json() as {storage?:string};
 assert(statusJson.storage==='unbound','Unbound collector must report unbound storage');
 
-console.log('[Analytics Collector] PASS — payload, origin, schema and unbound fallback verified.');
+console.log('[Analytics Collector] PASS — navigation, session depth, web vitals, origin and storage fallback verified.');
 }
 
 main().catch(error=>{
