@@ -14,7 +14,6 @@ import NextStepPanel from'@/components/NextStepPanel';
 import DecisionGuide from'@/components/DecisionGuide';
 import FaqSection from'@/components/FaqSection';
 import AdSlot from'@/components/AdSlot';
-import IntentCollections from'@/components/IntentCollections';
 import EnyeGuide from'@/components/EnyeGuide';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
@@ -103,14 +102,12 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {page.tool==='culture'&&<CultureDataNote items={items}/>}
     {!isAlphabet&&<NameGrid items={items} mode={page.tool} pagePath={page.path}/>}
     {!isAlphabet&&<DatasetTrustNote items={items} mode={page.tool}/>} 
-    <NextStepPanel page={page}/>
     {isEnye&&<EnyeGuide/>}
-    <IntentCollections page={page} items={items}/>
 
     <DecisionGuide page={page}/>
     <AdSlot/>
-
     <FaqSection page={page}/>
+    <NextStepPanel page={page}/>
     <RelatedLinks currentPath={page.path}/>
   </div>
 }
