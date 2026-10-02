@@ -1,3 +1,28 @@
+const storePrefixes:Record<string,string[]>={
+  Premium:['Casa','Maison','Atelier','Noble','Aura','Galería'],
+  Minimal:['Nexo','Luma','Noma','Uno','Linea','Mono'],
+  Juvenil:['Viva','Hola','Chispa','Mimo','Pop','Club'],
+  Artesanal:['Taller','Casa','Raíz','Origen','Manos','Patio'],
+};
+
+const storeSuffixes:Record<string,string[]>={
+  Premium:['Studio','Boutique','Collection','Co.','House','Atelier'],
+  Minimal:['Lab','Co.','Studio','Shop','Works','Market'],
+  Juvenil:['Pop','Club','Shop','Mood','Go','Market'],
+  Artesanal:['Taller','Mercado','Hecho a Mano','Casa','Oficio','Colectivo'],
+};
+
+export function generateStoreNames(seed:string,tone='Premium'){
+  const s=seed.trim()||'Mía';
+  const prefixes=storePrefixes[tone]??storePrefixes.Premium;
+  const suffixes=storeSuffixes[tone]??storeSuffixes.Premium;
+  const results=[
+    ...prefixes.slice(0,6).map(prefix=>prefix+' '+s),
+    ...suffixes.slice(0,6).map(suffix=>s+' '+suffix),
+  ];
+  return Array.from(new Set(results));
+}
+
 export const footballStyles=['Serio','Barrio','Gracioso','Competitivo'] as const;
 export const footballContexts=['Equipo','Fútbol 5','Femenino','Torneo','Amigos'] as const;
 export type FootballStyle=(typeof footballStyles)[number];

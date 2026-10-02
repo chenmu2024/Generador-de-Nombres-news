@@ -63,7 +63,8 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isEnye=page.path==='/nombres-con-en';
   const isFreeFire=page.cluster==='freeFire'&&page.path!=='/espacios-invisible-ff';
   const isToolPage=isRoblox||isInstagram||isAnime||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
-  const showGenerator=page.tool==='invisible'||page.tool==='football';
+  const generatorMode: 'football'|'invisible'|null=page.tool==='football'?'football':page.tool==='invisible'?'invisible':null;
+  const showGenerator=generatorMode!==null;
   const hasPrimaryTool=isRoblox||isInstagram||isAnime||isAlphabet||isStore||isFreeFire||showGenerator;
   const hasResultCollection=!isAlphabet&&items.length>0;
 
@@ -106,7 +107,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
       {isAlphabet&&<AlphabetMatrix/>}
       {isStore&&<BrandNameTool/>}
       {isFreeFire&&<FreeFireNameTool variant={freeFireVariant(page.path)}/>}
-      {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':'Nova'}/>}
+      {generatorMode&&<GeneratorPanel mode={generatorMode} defaultValue={generatorMode==='football'?'Barrio':'Nova'}/>}
     </div>}
 
     {page.tool==='culture'&&items.length>0&&<CultureDataNote items={items}/>}
