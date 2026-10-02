@@ -136,7 +136,7 @@ export default function HomeFreeFireStudio(){
       </div>
 
       <div className="relative min-h-[360px] overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1700087322375-8bdb366b6c60?auto=format&fit=crop&w=720&q=76" alt="Mujer gamer con auriculares" width="900" height="1200" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center"/>
+        <img src="/visuals/hero-gaming.webp" alt="" width="900" height="1200" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center"/>
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,12,22,.08),rgba(10,12,22,.86))]"/>
         <div className="relative z-10 flex h-full min-h-[360px] flex-col justify-between p-5">
           <p className="text-[10px] font-black tracking-[.42em] text-white/90">FREE FIRE</p>
