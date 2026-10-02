@@ -61,10 +61,12 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const[sortMode,setSortMode]=useState<SortMode>('recommended');
   const[favorites,setFavorites]=useState<string[]>([]);
   const[randomPick,setRandomPick]=useState('');
+  const[arrivalName,setArrivalName]=useState('');
   const[actionFeedback,setActionFeedback]=useState('');
   const[compareNames,setCompareNames]=useState<string[]>([]);
   const[advancedOpen,setAdvancedOpen]=useState(false);
   const[limit,setLimit]=useState(18);
+  const resultsRef=useRef<HTMLElement|null>(null);
   const filterTrackingReady=useRef(false);
 
   useEffect(()=>{setFavorites(readFavorites())},[]);
@@ -76,7 +78,9 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     const match=items.find(item=>item.name.toLocaleLowerCase('es')===pending.toLocaleLowerCase('es'));
     if(match){
       setQuery(match.name);
+      setArrivalName(match.name);
       setLimit(18);
+      window.setTimeout(()=>resultsRef.current?.scrollIntoView({block:'start'}),60);
     }
   },[items,pagePath]);
 
@@ -395,7 +399,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const genderOptions=new Set(items.map(item=>inferredGender(item)).filter(Boolean));
   const showGender=genderOptions.size>1;
 
-  return <section className="mt-8 sm:mt-10 md:mt-12">
+  return <section ref={resultsRef} className="mt-8 scroll-mt-20 sm:mt-10 md:mt-12">
     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
       <div>
         <p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora por origen y datos':'Explora nombres'}</p>
@@ -412,7 +416,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
         <div className="flex flex-col gap-3 lg:flex-row">
           <label className="relative min-w-0 flex-1">
             <Search size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9698a8]"/>
-            <input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':mode==='culture'?'Buscar por nombre, origen, escritura o fuente...':'Buscar por nombre, origen o estilo...'} aria-label="Buscar nombres"/>
+            <input value={query} onChange={e=>{setQuery(e.target.value);setArrivalName('')}} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':mode==='culture'?'Buscar por nombre, origen, escritura o fuente...':'Buscar por nombre, origen o estilo...'} aria-label="Buscar nombres"/>
           </label>
           <label className="shrink-0">
             <span className="sr-only">Ordenar resultados</span>
@@ -630,11 +634,11 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               ].filter((tag):tag is string=>Boolean(tag)).map(tag=>tagLabels[tag])
               :[];
 
-            const highlighted=randomPick===item.name;
+            const highlighted=randomPick===item.name||(arrivalName===item.name&&query===arrivalName);
             return <article key={item.name+(item.origin??'')} aria-current={highlighted?'true':undefined} className={'min-h-[164px] p-4 transition sm:min-h-[186px] sm:p-5 '+(highlighted?'bg-[var(--page-soft)] ring-1 ring-inset ring-[var(--page-border)]':'bg-white hover:bg-[#fcfbff]')+' '+(mode==='culture'?'relative':'')}>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <h3 className="gdn-editorial truncate text-[21px] font-bold tracking-[-.025em] text-[#252634] sm:text-[23px]">{item.name}</h3>
+                  <h3 className="gdn-editorial break-words text-[21px] font-bold leading-tight tracking-[-.025em] text-[#252634] sm:text-[23px]">{item.name}</h3>
                   {(item.origin||genderLabel)&&<div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1 text-[10px] font-semibold text-[#9294a4] sm:text-[10px]">
                     {item.origin&&<span><span className="font-black uppercase tracking-[.08em]">Origen:</span> {item.origin}</span>}
                     {genderLabel&&<span>{genderLabel}</span>}

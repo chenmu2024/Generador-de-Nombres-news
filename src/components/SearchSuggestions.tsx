@@ -31,7 +31,7 @@ export default function SearchSuggestions({
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2">
           <span className="truncate text-[12px] font-semibold text-[#2b2c38]">{item.title}</span>
-          <span className="shrink-0 rounded-full bg-[#f4f2f8] px-2 py-0.5 text-[8px] font-black uppercase tracking-[.08em] text-[#8a8c9d]">{item.kind==='page'?'Herramienta':'Nombre'}</span>
+          <span className="shrink-0 rounded-full bg-[#f4f2f8] px-2 py-0.5 text-[8px] font-black uppercase tracking-[.08em] text-[#8a8c9d]">{item.kind==='page'?'Página':'Nombre'}</span>
         </span>
         <span className="mt-0.5 block line-clamp-2 text-[10px] leading-4 text-[#8a8c9b]">{item.subtitle}</span>
       </span>

@@ -34,6 +34,12 @@ function defaultFrame(variant:Variant){
   return'pro';
 }
 
+function withInvisibleSeparator(value:string,enabled:boolean){
+  if(!enabled)return value;
+  const separator='ㅤ';
+  return /\s/.test(value)?value.replace(/\s+/g,separator):value+separator;
+}
+
 export default function FreeFireNameTool({variant='general'}:{variant?:Variant}){
   const[seed,setSeed]=useState(variant==='women'?'Luna':variant==='clan'?'Nova':'Vortex');
   const[font,setFont]=useState<UnicodeStyleId>(defaultFont(variant));
@@ -78,11 +84,10 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   const results=useMemo(()=>{
     const raw=seed.trim()||'Vortex';
     const base=short?raw.replace(/\s+/g,'').slice(0,8):raw;
-    const join=invisible?'ㅤ':'';
     const clanBase=variant==='clan'?base.toUpperCase().slice(0,6):base;
 
     if(view==='fonts'){
-      const value=invisible?clanBase.split('').join(join):clanBase;
+      const value=withInvisibleSeparator(clanBase,invisible);
       return unicodeStyles.filter(style=>compatibility==='all'||style.compatibility===compatibility).map(style=>({
         value:applyNameFrame(applyUnicodeStyle(value,style.id),frame),
         label:style.label,
@@ -114,7 +119,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
     const source=pools[batch%pools.length];
 
     return Array.from(new Set(source.map(name=>{
-      const spaced=invisible?name.split('').join(join):name;
+      const spaced=withInvisibleSeparator(name,invisible);
       return applyNameFrame(applyUnicodeStyle(spaced,font),frame);
     }))).map(value=>({value,label:'Combinación',compatibility:(unicodeStyles.find(style=>style.id===font)?.compatibility??'media') as 'alta'|'media'|'experimental'}));
   },[seed,font,frame,invisible,short,variant,view,compatibility,batch]);
@@ -155,7 +160,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
 
         <div className="mt-5 grid gap-2">
           <button role="switch" aria-checked={invisible} onClick={()=>{setInvisible(v=>!v);trackProductAction('toggle-invisible','freefire-tool')}} className={'flex min-h-11 items-center justify-between rounded-[10px] border px-4 text-[11px] font-semibold transition '+(invisible?'border-[#756aff] bg-[#5b4df5]/20 text-[#e4e1ff]':'border-white/16 bg-white/[.06] text-[#d0d3df] hover:bg-white/[.1]')}>
-            <span className="inline-flex items-center gap-2"><Space size={14}/>Espacio invisible</span>
+            <span className="inline-flex items-center gap-2"><Space size={14}/>Separador invisible</span>
             <span className={'rounded-full px-2 py-1 text-[10px] font-black uppercase tracking-[.08em] '+(invisible?'bg-[#5b4df5] text-white':'bg-white/10 text-[#aeb2c1]')}>{invisible?'Activo':'Inactivo'}</span>
           </button>
           <button role="switch" aria-checked={short} onClick={()=>{setShort(v=>!v);trackProductAction('toggle-short','freefire-tool')}} className={'flex min-h-11 items-center justify-between rounded-[10px] border px-4 text-[11px] font-semibold transition '+(short?'border-[#756aff] bg-[#5b4df5]/20 text-[#e4e1ff]':'border-white/16 bg-white/[.06] text-[#d0d3df] hover:bg-white/[.1]')}>
@@ -218,7 +223,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
         </div>
 
         <p className="border-t border-white/8 px-5 py-4 text-[10px] leading-4 text-[#85899c]">
-          Hay {unicodeStyles.length} fuentes Unicode y {nameFrames.length} marcos combinables. La compatibilidad puede variar según el juego, el dispositivo y futuras actualizaciones; prueba el resultado antes de guardarlo.
+          Hay {unicodeStyles.length} fuentes Unicode y {nameFrames.length} marcos combinables. El separador invisible sustituye un espacio existente o se añade una sola vez; la compatibilidad puede variar según el juego, el dispositivo y futuras actualizaciones.
         </p>
       </div>
     </div>
