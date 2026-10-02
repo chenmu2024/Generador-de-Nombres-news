@@ -66,7 +66,9 @@ export function routeForName(item:NameRecord){
 }
 
 function nameSubtitle(item:NameRecord){
-  const parts=[item.origin,item.meaning].filter(Boolean) as string[];
+  const parts=item.type==='culture'
+    ?[item.origin,item.script,item.pronunciation,item.meaning].filter(Boolean) as string[]
+    :[item.origin,item.meaning].filter(Boolean) as string[];
   return parts.join(' · ').slice(0,150)||(
     item.type==='pet'?'Nombre para mascota':
     item.type==='game'?'Nombre para juego':
