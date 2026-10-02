@@ -49,6 +49,7 @@ if(!slug.includes('<TopicSubnav page={page}/>'))errors.push('Topic pages must ke
 if(!slug.includes('<PageSectionNav page={page}'))errors.push('Topic pages must render in-page section navigation');
 if(!slug.includes('<PageDataBrief page={page} items={items}/>'))errors.push('Topic pages must render page-specific data/capability brief');
 if(!slug.includes('<PageDecisionChecklist page={page}/>'))errors.push('Topic pages must render decision criteria');
+if(!slug.includes('!hasResultCollection&&<PageDecisionChecklist page={page}/>')||!slug.includes('hasResultCollection&&<PageDecisionChecklist page={page}/>'))errors.push('Decision criteria must follow the result-first page flow when a collection exists');
 if(!slug.includes('const hasResultCollection=!isAlphabet&&items.length>0'))errors.push('Slug template must gate result collections by real data');
 if(!slug.includes('hasResultCollection&&<div id="coleccion"')||!slug.includes('<NameGrid items={items}'))errors.push('Result collection must gate NameGrid on real data and expose #coleccion');
 const intro=readFileSync(new URL('../src/components/PageIntro.tsx',import.meta.url),'utf8');

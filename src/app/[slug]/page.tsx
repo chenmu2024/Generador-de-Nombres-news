@@ -132,7 +132,8 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
       <CollectionSnapshot items={items} mode={page.tool} pagePath={page.path}/>
       <NameGrid items={items} mode={page.tool} pagePath={page.path} pageLabel={page.primaryKeyword}/>
       <DatasetTrustNote items={items} mode={page.tool}/>
-    </div>} 
+    </div>}
+    {hasResultCollection&&<PageDecisionChecklist page={page}/>} 
     {(isCompoundFemale||isCompoundMale)&&<CompoundNameTool
       audience={isCompoundMale?'niño':'niña'}
       suggestions={items.filter(item=>item.verified===true&&Boolean(item.sourceUrl)).map(item=>item.name)}
