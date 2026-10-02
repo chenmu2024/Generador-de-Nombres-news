@@ -14,7 +14,7 @@ const specialMinimums:Record<string,number>={
 
 function minimumFor(path:string,tool:string){
   if(specialMinimums[path]!==undefined)return specialMinimums[path];
-  if(tool==='culture')return 10;
+  if(tool==='culture')return 12;
   if(tool==='pet')return 8;
   if(tool==='people')return 8;
   if(tool==='gaming')return 8;
