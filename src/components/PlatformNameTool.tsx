@@ -7,6 +7,7 @@ import UnicodeStylePicker from './UnicodeStylePicker';
 import {trackProductAction} from '@/lib/analytics';
 import {applyUnicodeStyle,type UnicodeStyleId} from '@/lib/styledText';
 import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
+import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 
 type Platform='roblox'|'instagram';
 type NameMode='username'|'display';
