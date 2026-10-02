@@ -30,8 +30,8 @@ export default function RelatedLinks({currentPath}:{currentPath:string}){
       <h2 className="gdn-display mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">Herramientas relacionadas</h2>
       <p className="max-w-[360px] text-[10px] leading-5 text-[#8a8c9b]">Más rutas útiles del mismo tema, sin repetir las sugerencias del bloque anterior.</p>
     </div>
-    <div className="mt-5 grid gap-3 md:grid-cols-2">
-      {related.map(({page,role},index)=><TrackedLink key={page.path} href={page.path} placement="related-links" role={role+'-'+(index+1)} experimentId={EXPERIMENTS.related} className="group flex items-center justify-between gap-5 rounded-[18px] border border-[#e5e2ef] bg-white p-5 shadow-[0_8px_24px_rgba(55,49,91,.04)] transition hover:-translate-y-.5 hover:border-[var(--page-border)] hover:shadow-[0_14px_32px_rgba(55,49,91,.08)]">
+    <div className="mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] md:grid md:grid-cols-2 md:overflow-visible md:pb-0">
+      {related.map(({page,role},index)=><TrackedLink key={page.path} href={page.path} placement="related-links" role={role+'-'+(index+1)} experimentId={EXPERIMENTS.related} className="group flex min-w-[84vw] snap-start items-center justify-between gap-5 rounded-[18px] sm:min-w-[380px] md:min-w-0 border border-[#e5e2ef] bg-white p-5 shadow-[0_8px_24px_rgba(55,49,91,.04)] transition hover:-translate-y-.5 hover:border-[var(--page-border)] hover:shadow-[0_14px_32px_rgba(55,49,91,.08)]">
         <div className="min-w-0">
           <span className="gdn-theme-chip gdn-tech mb-1.5 inline-flex rounded-full border px-2 py-1 text-[8px] font-black uppercase tracking-[.08em]">{relationLabel(current,page,role)}</span>
           <p className="truncate text-[13px] font-semibold text-[#343545]">{page.h1}</p>

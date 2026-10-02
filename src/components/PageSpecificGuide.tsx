@@ -26,8 +26,8 @@ export default function PageSpecificGuide({page,items}:{page:KeywordPage;items:N
         {short>0&&<span className="rounded-full border border-[#e2deec] bg-[#faf9fd] px-3 py-1.5">{short} cortos</span>}
       </div>}
     </div>
-    <div className="mt-5 grid gap-3 md:grid-cols-3">
-      {blueprint.guide.cards.map((card,index)=><article key={card.title} className="rounded-[17px] border border-[#e8e4ef] bg-[#fbfaff] p-4">
+    <div className="mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
+      {blueprint.guide.cards.map((card,index)=><article key={card.title} className="min-w-[82vw] snap-start rounded-[17px] border border-[#e8e4ef] bg-[#fbfaff] p-4 sm:min-w-[320px] md:min-w-0">
         <div className="flex items-center justify-between gap-3">
           <span className="gdn-theme-chip grid size-8 place-items-center rounded-full border"><CheckCircle2 size={13}/></span>
           <span className="gdn-tech text-[9px] font-black text-[#c5c1d3]">0{index+1}</span>

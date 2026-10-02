@@ -59,8 +59,8 @@ export default function PageDecisionChecklist({page}:{page:KeywordPage}){
         <h2 className="gdn-editorial mt-1.5 text-[24px] font-bold text-[#292a38]">Tres criterios para usar bien “{page.primaryKeyword}”</h2>
       </div>
     </div>
-    <div className="mt-5 grid gap-3 lg:grid-cols-3">
-      {items.map(([title,body],index)=><article key={title} className="rounded-[15px] border border-[#e8e5ef] bg-[#fcfbff] p-4">
+    <div className="mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] lg:grid lg:grid-cols-3 lg:overflow-visible lg:pb-0">
+      {items.map(([title,body],index)=><article key={title} className="min-w-[82vw] snap-start rounded-[15px] border border-[#e8e5ef] bg-[#fcfbff] p-4 sm:min-w-[320px] lg:min-w-0">
         <div className="flex items-center gap-2">
           <CheckCircle2 size={13} className="text-[var(--page-accent)]"/>
           <span className="gdn-tech text-[8px] font-black tracking-[.1em] text-[#a09dac]">0{index+1}</span>
