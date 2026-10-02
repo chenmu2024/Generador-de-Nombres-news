@@ -28,7 +28,7 @@ export default function NextStepPanel({page}:{page:KeywordPage}){
       </div>
 
       <div className="grid min-w-0 flex-1 gap-2 sm:grid-cols-2 lg:max-w-[560px]">
-        {links.map((link,index)=><TrackedLink key={link.path} href={link.path} placement="next-step" role={'next-intent-'+(index+1)} experimentId={EXPERIMENTS.nextStep} className="group flex min-h-[92px] items-center gap-3 rounded-[15px] border border-[#e2def0] bg-white p-4 transition hover:border-[#cbc4f7] hover:shadow-[0_10px_24px_rgba(67,56,133,.07)]">
+        {links.map((link,index)=><TrackedLink key={link.path} href={link.path} placement="next-step" role={'next-intent-'+(index+1)} experimentId={EXPERIMENTS.nextStep} className="group flex min-h-[92px] items-center gap-3 rounded-[15px] border border-[#e2def0] bg-white p-4 transition hover:border-[var(--page-border)] hover:bg-[var(--page-soft)] hover:shadow-[0_10px_24px_rgba(67,56,133,.07)]">
           <span className="gdn-theme-chip grid size-9 shrink-0 place-items-center rounded-full border"><Shuffle size={13}/></span>
           <span className="min-w-0 flex-1">
             <span className="block text-[11px] font-bold text-[#404252]">{link.h1}</span>
