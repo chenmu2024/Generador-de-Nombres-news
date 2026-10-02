@@ -14,6 +14,23 @@ npm run seo:audit
 npm run build
 ```
 
+
+## Cloudflare Pages deployment
+
+Current production build project:
+
+- Pages project URL: `https://generador-de-nombres-news.pages.dev`
+- Intended custom domain: `https://generadordenombres.net`
+- Production branch: `main`
+
+After every domain or Pages-project change, verify these three checks:
+
+1. `/favoritos` returns the new local-favorites page rather than a 404.
+2. `/visuals/hero-culture.svg` is served by the same deployment.
+3. The homepage contains the heading `Encuentra un nombre que realmente quieras usar.`
+
+If the `*.pages.dev` URL passes these checks but `generadordenombres.net` does not, the custom domain is still attached to a different/older Pages project. Fix the Cloudflare Pages custom-domain association before treating the release as production.
+
 ## Optional AdSense configuration
 AdSense is disabled by default. When the site and account are ready, configure these build-time variables in Cloudflare Pages:
 
