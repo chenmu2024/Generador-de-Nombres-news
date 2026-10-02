@@ -9,6 +9,16 @@ export default function PageArrivalTracker(){
   const pathname=usePathname();
 
   useEffect(()=>{
+    emitAnalyticsEvent({
+      event:'page_view',
+      placement:'page',
+      role:'view',
+      experimentId:EXPERIMENTS.pageView,
+      sourcePath:pathname,
+      targetPath:pathname,
+      ts:Date.now(),
+    });
+
     const pending=consumeTrackedArrival(pathname);
     if(pending){
       emitAnalyticsEvent({
