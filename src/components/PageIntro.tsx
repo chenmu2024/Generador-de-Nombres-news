@@ -20,8 +20,8 @@ export default function PageIntro({page}:{page:KeywordPage}){
 
   return <header className="pb-10 pt-10 md:pb-12 md:pt-14">
     <nav aria-label="Breadcrumb" className="mb-6 flex min-w-0 items-center gap-1.5 overflow-hidden whitespace-nowrap text-[11px] font-semibold sm:flex-wrap sm:overflow-visible sm:whitespace-normal text-[#9294a5]">
-      <Link href="/" className="hover:text-[#5b4df5]">Inicio</Link><ChevronRight size={11}/>
-      {showClusterLink&&<><Link href={cluster.hubPath} className="hover:text-[#5b4df5]">{cluster.label}</Link><ChevronRight size={11}/></>}
+      <Link href="/" className="hover:text-[var(--page-accent)]">Inicio</Link><ChevronRight size={11}/>
+      {showClusterLink&&<><Link href={cluster.hubPath} className="hover:text-[var(--page-accent)]">{cluster.label}</Link><ChevronRight size={11}/></>}
       <span className="max-w-[220px] truncate text-[#626577] sm:max-w-none">{page.h1}</span>
     </nav>
 
@@ -30,6 +30,16 @@ export default function PageIntro({page}:{page:KeywordPage}){
         <span className="gdn-theme-chip inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-bold"><Sparkles size={12}/>{cluster.label}</span>
         <h1 className="gdn-display mt-5 max-w-4xl text-[40px] font-bold leading-[1.01] tracking-[-.045em] text-[#171827] md:text-[61px]">{page.h1}</h1>
         <p className="mt-5 max-w-3xl text-[15px] leading-7 text-[#6b6e80] md:text-[16px]">{page.description}</p>
+        <aside className="gdn-theme-panel mt-5 rounded-[14px] border px-4 py-3 lg:hidden">
+          <div className="flex items-start gap-3">
+            <span className="gdn-theme-chip grid size-8 shrink-0 place-items-center rounded-full border"><Sparkles size={12}/></span>
+            <div>
+              <p className="gdn-tech gdn-theme-accent text-[8px] font-bold uppercase tracking-[.12em]">{helper.eyebrow}</p>
+              <p className="gdn-editorial mt-1 text-[16px] font-bold leading-tight text-[#303141]">{helper.title}</p>
+              <p className="mt-1 text-[10px] leading-4 text-[#818495]">{helper.body}</p>
+            </div>
+          </div>
+        </aside>
       </div>
       <aside className="gdn-theme-panel hidden rounded-[18px] border p-5 shadow-[0_12px_34px_rgba(55,49,91,.06)] lg:block">
         <p className="gdn-tech gdn-theme-accent text-[9px] font-bold uppercase tracking-[.14em]">{helper.eyebrow}</p>
