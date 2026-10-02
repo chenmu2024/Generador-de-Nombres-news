@@ -11,7 +11,6 @@ import BrandNameTool from'@/components/BrandNameTool';
 import CultureDataNote from'@/components/CultureDataNote';
 import DatasetTrustNote from'@/components/DatasetTrustNote';
 import NextStepPanel from'@/components/NextStepPanel';
-import DecisionGuide from'@/components/DecisionGuide';
 import FaqSection from'@/components/FaqSection';
 import AdSlot from'@/components/AdSlot';
 import EnyeGuide from'@/components/EnyeGuide';
@@ -110,15 +109,15 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
       {generatorMode&&<GeneratorPanel mode={generatorMode} defaultValue={generatorMode==='football'?'Barrio':'Nova'}/>}
     </div>}
 
+    <PageSpecificGuide page={page} items={items}/>
+
     {page.tool==='culture'&&items.length>0&&<CultureDataNote items={items}/>}
     {hasResultCollection&&<CollectionSnapshot items={items} mode={page.tool} pagePath={page.path}/>}
     {hasResultCollection&&<NameGrid items={items} mode={page.tool} pagePath={page.path} pageLabel={page.primaryKeyword}/>}
     {hasResultCollection&&<DatasetTrustNote items={items} mode={page.tool}/>} 
     {isEnye&&<EnyeGuide/>}
-    <PageSpecificGuide page={page} items={items}/>
     <KeywordIntentCoverage page={page}/>
 
-    <DecisionGuide page={page}/>
     <AdSlot/>
     <FaqSection page={page}/>
     <NextStepPanel page={page}/>

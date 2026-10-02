@@ -32,7 +32,12 @@ for(const [path,blueprint]of Object.entries(pageBlueprints)){
 }
 
 const slug=readFileSync(new URL('../src/app/[slug]/page.tsx',import.meta.url),'utf8');
-if(!slug.includes('<PageSpecificGuide page={page} items={items}/>'))errors.push('Slug template does not render PageSpecificGuide');
+const guideMarker='<PageSpecificGuide page={page} items={items}/>';
+if(!slug.includes(guideMarker))errors.push('Slug template does not render PageSpecificGuide');
+const guideIndex=slug.indexOf(guideMarker);
+const collectionIndex=slug.indexOf('<CollectionSnapshot');
+if(guideIndex<0||collectionIndex<0||guideIndex>collectionIndex)errors.push('PageSpecificGuide must appear before result collections');
+if(slug.includes('<DecisionGuide'))errors.push('Generic DecisionGuide must not return after dedicated page guides');
 if(!slug.includes('const hasResultCollection=!isAlphabet&&items.length>0'))errors.push('Slug template must gate result collections by real data');
 if(!slug.includes('hasResultCollection&&<NameGrid'))errors.push('NameGrid must not render on dedicated no-list tool pages');
 const intro=readFileSync(new URL('../src/components/PageIntro.tsx',import.meta.url),'utf8');

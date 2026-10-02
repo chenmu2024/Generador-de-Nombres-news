@@ -6,11 +6,6 @@ export interface PageFaq {
   answer: string;
 }
 
-export interface DecisionCard {
-  title: string;
-  description: string;
-}
-
 const sharedFaqs: Record<ToolMode, PageFaq[]> = {
   general: [
     {question:'¿Cómo elegir un nombre entre varias opciones?',answer:'Guarda unas pocas alternativas, compáralas en el contexto donde las usarás y descarta las que sean difíciles de recordar, pronunciar o volver a escribir.'},
@@ -187,55 +182,4 @@ export function getFaqs(page: KeywordPage): PageFaq[] {
     seen.add(key);
     return true;
   }).slice(0,4);
-}
-
-export function getDecisionCards(page: KeywordPage): DecisionCard[] {
-  if(page.path==='/nombres-japoneses')return[
-    {title:'Lectura',description:'Compara la romanización con la pronunciación documentada antes de decidir cómo leerlo.'},
-    {title:'Kanji',description:'Revisa qué escritura concreta acompaña al nombre; una misma lectura puede tener varias formas.'},
-    {title:'Contexto',description:'No conviertas una traducción breve en un significado absoluto si la fuente muestra variantes.'},
-  ];
-  if(page.path==='/nombres-coreanos')return[
-    {title:'Hangul',description:'Empieza por la forma escrita coreana y úsala como referencia principal del registro.'},
-    {title:'Romanización',description:'Trátala como una ayuda de lectura; distintas convenciones pueden producir grafías latinas diferentes.'},
-    {title:'Hanja',description:'Cuando interviene, el significado puede depender de la combinación de caracteres asociada al nombre.'},
-  ];
-  if(page.path==='/nombres-chinos')return[
-    {title:'Hanzi',description:'Compara siempre los caracteres concretos, no solo la forma romanizada.'},
-    {title:'Lectura',description:'La romanización orienta la pronunciación, pero no conserva por sí sola todos los contrastes del original.'},
-    {title:'Significado',description:'Interpreta el significado a partir de los caracteres documentados y su contexto.'},
-  ];
-  if(page.path==='/nombres-mayas')return[
-    {title:'Fuente',description:'Prioriza registros que puedan rastrearse a una referencia clara antes de ampliar la lista.'},
-    {title:'Tipo de registro',description:'Distingue nombre personal, título, término histórico y figura mitológica cuando la fuente lo permita.'},
-    {title:'Uso actual',description:'No asumas que una forma histórica o mitológica sea hoy un nombre personal corriente.'},
-  ];
-  if(page.path==='/nombres-de-dioses')return[
-    {title:'Tradición',description:'Identifica a qué tradición mitológica pertenece cada nombre antes de compararlo.'},
-    {title:'Función',description:'Distingue deidad, héroe u otra figura cuando el contexto de la fuente lo especifique.'},
-    {title:'Uso personal',description:'Origen mitológico no significa automáticamente uso habitual como nombre de persona.'},
-  ];
-
-  switch(page.tool){
-    case 'pet':
-      return[
-        {title:'Personalidad',description:'Tierno, fuerte, tranquilo, místico o juguetón: empieza por cómo describes a tu mascota.'},
-        {title:'Sonido',description:'Prueba nombres fáciles de distinguir cuando los dices en voz alta.'},
-        {title:'Uso diario',description:'Piensa en cómo suena al llamarla en casa, en el parque o en el veterinario.'},
-      ];
-    case 'people':
-      return[
-        {title:'Sonoridad',description:'Dilo junto con los apellidos y comprueba que el ritmo te resulte natural.'},
-        {title:'Contexto',description:'Compara origen, variantes, género de uso y posibles diminutivos.'},
-        {title:'Duración',description:'No elijas solo por la primera impresión: guarda candidatos y vuelve a ellos después.'},
-      ];
-    case 'culture':
-      return[
-        {title:'Escritura',description:'Compara la forma original con su romanización o transliteración.'},
-        {title:'Pronunciación',description:'No asumas que la escritura latina refleja exactamente el sonido original.'},
-        {title:'Contexto cultural',description:'Revisa el uso real y la fuente antes de atribuir un significado definitivo.'},
-      ];
-    default:
-      return[];
-  }
 }
