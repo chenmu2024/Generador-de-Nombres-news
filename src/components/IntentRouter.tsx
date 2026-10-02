@@ -5,7 +5,7 @@ import {useRouter} from 'next/navigation';
 import {Search,ArrowRight} from 'lucide-react';
 import {emitAnalyticsEvent,rememberTrackedNavigation} from '@/lib/analytics';
 import {EXPERIMENTS} from '@/data/experiments';
-import{useSiteSearch,type SearchResult}from'@/hooks/useSiteSearch';
+import{preloadSiteSearch,useSiteSearch,type SearchResult}from'@/hooks/useSiteSearch';
 import SearchSuggestions from './SearchSuggestions';
 import{rememberNameSearch}from'@/lib/searchHandoff';
 
@@ -55,7 +55,7 @@ export default function IntentRouter(){
       <Search size={19} className="ml-2 text-[#181a2a]"/>
       <input
         value={q}
-        onFocus={()=>setFocused(true)}
+        onFocus={()=>{setFocused(true);preloadSiteSearch()}}
         onBlur={()=>window.setTimeout(()=>setFocused(false),120)}
         onChange={e=>setQ(e.target.value)}
         onKeyDown={e=>{
