@@ -20,7 +20,7 @@ export default function Page(){
 
       <section className="gdn-card rounded-[20px] p-6 md:p-7">
         <h2 className="gdn-editorial text-[24px] font-bold text-[#292a39]">Analítica propia y rendimiento</h2>
-        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">El sitio envía a un endpoint propio del mismo dominio eventos técnicos como impresiones y clics de enlaces, llegada a otra página, profundidad de sesión, acciones de herramientas y métricas de rendimiento como LCP, CLS o INP.</p>
+        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">El sitio envía a un endpoint propio del mismo dominio eventos técnicos como vistas de página, impresiones y clics de enlaces, llegada a otra página, profundidad de sesión, acciones de herramientas y métricas de rendimiento como LCP, CLS o INP.</p>
         <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">Estos eventos contienen el tipo de acción, las rutas de página, identificadores internos del experimento y, cuando corresponde, el valor numérico de una métrica de rendimiento. No incluyen el texto que escribes, tus búsquedas, los nombres generados ni el contenido de tus favoritos.</p>
         <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">El recolector puede funcionar sin almacenamiento persistente. Cuando existe un almacén de métricas asociado al despliegue, los eventos técnicos pueden conservarse para analizar funcionamiento y uso agregado.</p>
       </section>
