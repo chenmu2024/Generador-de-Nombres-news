@@ -4,6 +4,13 @@ import{nameFrames}from'@/lib/styledText';
 
 const quickIds=['none','pro','insano','dark','clan','stars','hearts','royal','fire','moon','diamond','skull'];
 
+const frameGroups=[
+  {label:'Limpios',ids:['none','pro','clan','blade','cross']},
+  {label:'Competitivos',ids:['insano','dark','lightning','fire','skull']},
+  {label:'Elegantes',ids:['stars','royal','crown','diamond','arrow']},
+  {label:'Suaves',ids:['hearts','kawaii','moon','flower','wave']},
+] as const;
+
 export default function NameFramePicker({
   value,
   onChange,
@@ -32,7 +39,12 @@ export default function NameFramePicker({
       aria-label="Elegir marco decorativo"
       className={'h-11 w-full rounded-[10px] border px-3 text-[11px] outline-none transition '+(dark?'border-white/14 bg-[#181c2a] text-white focus:border-[#776cff]':'border-[#dedbe8] bg-white text-[#4f5162] focus:border-[#8e83ff]')}
     >
-      {nameFrames.map(frame=><option key={frame.id} value={frame.id}>{frame.label} · {frame.transform(preview||'Nova')}</option>)}
+      {frameGroups.map(group=><optgroup key={group.label} label={group.label}>
+        {group.ids.map(id=>{
+          const frame=nameFrames.find(item=>item.id===id);
+          return frame?<option key={frame.id} value={frame.id}>{frame.label} · {frame.transform(preview||'Nova')}</option>:null;
+        })}
+      </optgroup>)}
     </select>
 
     <div className={'mt-2 flex min-h-12 items-center justify-between gap-3 rounded-[10px] border px-3 '+(dark?'border-white/10 bg-white/[.045]':'border-[#e6e2ef] bg-[#faf9ff]')}>
