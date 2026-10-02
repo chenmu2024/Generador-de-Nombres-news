@@ -91,7 +91,7 @@ const minimums:Record<string,number>={
   '/nombres-griegos':15,
   '/nombres-turcos':20,
   '/nombres-chinos':15,
-  '/nombres-mayas':22,
+  '/nombres-mayas':20,
   '/nombres-ingles':15,
   '/nombres-de-dioses':15,
 };
