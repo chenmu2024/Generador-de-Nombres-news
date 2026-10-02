@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run seo:audit && npm run data:audit && npm run analytics:audit && next build",
+    "build": "npm run seo:audit && npm run data:audit && npm run analytics:audit && npm run analytics:collector:audit && next build",
     "start": "next start",
     "lint": "tsc --noEmit",
     "seo:audit": "tsx scripts/seo-governance-audit.ts",
     "data:audit": "tsx scripts/data-quality-audit.ts",
     "gsc:report": "tsx scripts/gsc-opportunity-report.ts",
-    "analytics:audit": "tsx scripts/analytics-governance-audit.ts"
+    "analytics:audit": "tsx scripts/analytics-governance-audit.ts",
+    "analytics:collector:audit": "tsx scripts/analytics-collector-audit.ts"
   },
   "dependencies": {
     "lucide-react": "1.48.0",
