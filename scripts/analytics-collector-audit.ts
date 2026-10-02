@@ -55,6 +55,13 @@ const depthOk=await collector.onRequestPost({request:request(depthPayload),env:b
 assert(depthOk.status===204,'Session-depth analytics event must return 204');
 assert(writes.length===2,'Session-depth event must write a second datapoint');
 
+const vitalsPayload={...validPayload,event:'web_vital',placement:'performance',role:'lcp',experimentId:'web-vitals-v1',value:1834.5};
+const vitalsOk=await collector.onRequestPost({request:request(vitalsPayload),env:boundEnv});
+assert(vitalsOk.status===204,'Web-vital analytics event must return 204');
+assert(writes.length===3,'Web-vital event must write a third datapoint');
+const vitalsPoint=writes[2] as {doubles?:number[]};
+assert(vitalsPoint.doubles?.[2]===1834.5,'Web-vital value must be stored in double3');
+
 const invalidEvent=await collector.onRequestPost({
   request:request({...validPayload,event:'search_text'}),
   env:boundEnv,
