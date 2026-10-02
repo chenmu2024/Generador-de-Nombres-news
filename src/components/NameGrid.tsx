@@ -633,6 +633,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                 item.tags.find(tag=>petPersonalities.includes(tag as typeof petPersonalities[number])),
               ].filter((tag):tag is string=>Boolean(tag)).map(tag=>tagLabels[tag])
               :[];
+            const isMythological=mode==='culture'&&item.tags.includes('mythology');
 
             const highlighted=randomPick===item.name||(arrivalName===item.name&&query===arrivalName);
             return <article key={item.name+(item.origin??'')} aria-current={highlighted?'true':undefined} className={'min-h-[164px] p-4 transition sm:min-h-[186px] sm:p-5 '+(highlighted?'bg-[var(--page-soft)] ring-1 ring-inset ring-[var(--page-border)]':'bg-white hover:bg-[#fcfbff]')+' '+(mode==='culture'?'relative':'')}>
@@ -642,6 +643,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                   {(item.origin||genderLabel)&&<div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1 text-[10px] font-semibold text-[#9294a4] sm:text-[10px]">
                     {item.origin&&<span><span className="font-black uppercase tracking-[.08em]">Origen:</span> {item.origin}</span>}
                     {genderLabel&&<span>{genderLabel}</span>}
+                    {isMythological&&<span className="rounded-full border border-[#ead8f5] bg-[#faf1ff] px-2 py-0.5 font-bold text-[#7b4ca5]">Figura mitológica</span>}
                   </div>}
                 </div>
                 <button onClick={()=>toggle(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 shrink-0 place-items-center rounded-full border transition sm:size-9 '+(saved?'border-[var(--page-border)] bg-[var(--page-soft)] text-[var(--page-accent)]':'border-[#e1ddea] bg-white text-[#8f91a0] hover:border-[var(--page-border)] hover:bg-[var(--page-soft)]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>

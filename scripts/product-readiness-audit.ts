@@ -10,7 +10,8 @@ const dedicatedNoList=new Map<string,string>([
 ]);
 
 const specialMinimums:Record<string,number>={
-  '/nombres-con-en':4,
+  '/nombres-con-en':5,
+  '/nombres-mayas':18,
 };
 
 function minimumFor(path:string,tool:string){

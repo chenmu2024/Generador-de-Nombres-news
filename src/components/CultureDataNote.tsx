@@ -15,6 +15,7 @@ export default function CultureDataNote({items}:{items:NameRecord[]}){
   const pronunciations=items.filter(item=>item.pronunciation).length;
   const sourced=items.filter(item=>item.source&&item.sourceUrl).length;
   const verified=items.filter(item=>item.verified===true&&item.source&&item.sourceUrl).length;
+  const mythological=items.filter(item=>item.tags.includes('mythology')).length;
   const origins=new Set(items.map(item=>item.origin).filter(Boolean)).size;
   const latestReview=items.map(item=>item.lastReviewed).filter((value):value is string=>Boolean(value)).sort().at(-1);
   const sourceComplete=sourced===items.length&&items.length>0;
@@ -52,6 +53,7 @@ export default function CultureDataNote({items}:{items:NameRecord[]}){
         ?'Cobertura de fuentes completa para los registros mostrados. Puedes filtrar abajo por escritura, pronunciación o fuente verificada.'
         :'Cobertura de fuentes incompleta: los registros sin referencia se muestran sin atribuir significado o pronunciación inventados.'}
     </div>
+    {mythological>0&&<p className="border-t border-[#e8def5] bg-[#fffafd] px-4 py-3 text-[10px] leading-5 text-[#7b6678]"><strong>{mythological} {mythological===1?'registro corresponde':'registros corresponden'} a figuras de tradición mitológica.</strong> Aparecer en esta colección no implica que sean nombres personales de uso cotidiano.</p>}
     <p className="border-t border-[#e5e0f7] bg-white/55 px-4 py-3 text-[10px] leading-5 text-[#858799]">Una misma romanización puede corresponder a distintas escrituras o significados. El sitio separa nombre, escritura, pronunciación y fuente en lugar de asumir que son equivalentes.</p>
   </aside>
 }
