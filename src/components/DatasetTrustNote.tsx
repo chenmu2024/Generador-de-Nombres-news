@@ -12,7 +12,7 @@ export default function DatasetTrustNote({items,mode}:{items:NameRecord[];mode:T
       <div className="grid gap-px bg-[#e8e4f4] sm:grid-cols-3">
         <div className="bg-white/80 p-4">
           <div className="flex items-center gap-2 gdn-theme-accent"><BadgeCheck size={14}/><span className="gdn-tech text-[10px] font-black uppercase tracking-[.1em]">Significados</span></div>
-          <p className="mt-2 text-[11px] leading-5 text-[#747789]">{sourced} de {items.length} nombres tienen significado con fuente verificada.</p>
+          <p className="mt-2 text-[11px] leading-5 text-[#747789]">{sourced} de {items.length} nombres tienen significado con fuente verificada. Los demás significados, cuando aparecen, se muestran como orientación editorial.</p>
         </div>
         <div className="bg-white/80 p-4">
           <div className="flex items-center gap-2 gdn-theme-accent"><Info size={14}/><span className="gdn-tech text-[10px] font-black uppercase tracking-[.1em]">Origen</span></div>
