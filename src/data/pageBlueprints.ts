@@ -395,7 +395,7 @@ export const pageBlueprints:Record<string,PageBlueprint>={
       {title:'Nombre corto',body:'Funciona bien si el peluche será usado por niños o como personaje recurrente.'},
       {title:'Historia',body:'Puedes acompañarlo con fecha de adopción, adoptante y una pequeña nota personal.'},
     ]},
-    faq:{question:'¿La página crea también un acta de adopción para el peluche?',answer:'La colección ayuda a elegir el nombre y explica qué datos puedes usar en un acta o certificado, pero no genera un documento oficial.'},
+    faq:{question:'¿La página crea también un acta de adopción para el peluche?',answer:'Sí. Después de elegir un nombre puedes crear un acta o certificado de recuerdo con adoptante, fecha y una nota personal, copiar el texto o imprimir la tarjeta. Es una pieza recreativa y no un documento oficial.'},
   },
   '/nombres-equipos-futbol':{
     hero:{eyebrow:'Equipos de fútbol',title:'Genera nombre, tono y TAG como un conjunto.',body:'El nombre debe funcionar en voz alta, pero también en escudo, camiseta y marcador.'},

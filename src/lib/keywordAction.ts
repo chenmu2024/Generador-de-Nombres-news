@@ -39,7 +39,7 @@ function presetAction(page:KeywordPage,value:string):KeywordAction|null{
   if(/fuerte|fuertes/.test(value))return pick(['Fuertes']);
   if(/elegante|elegantes/.test(value))return pick(['Elegantes']);
   if(/mistico|mistica|misticos|misticas|bruja|brujas/.test(value))return pick(['Místicos']);
-  if(/kawaii/.test(value))return pick(['Kawaii']);
+  if(/kawaii|squishmallow/.test(value))return pick(['Kawaii']);
   if(/mitolog|dioses|diosas/.test(value))return pick(['Mitología']);
   if(/significado/.test(value))return pick(['Con significado']);
   if(/pronunciacion|fonetica/.test(value))return pick(['Con pronunciación']);
@@ -95,6 +95,11 @@ export function getKeywordAction(page:KeywordPage,keyword:string):KeywordAction{
     if(value.includes('en linea'))return{href:page.path+'?channel=Tienda%20online#herramienta',label:'Usar modo tienda online'};
     if(value.includes('bazar'))return{href:page.path+'?channel=Bazar#herramienta',label:'Usar modo Bazar'};
     if(value.includes('ropa'))return{href:page.path+'?industry=Ropa#herramienta',label:'Usar sector Ropa'};
+  }
+
+  if(page.path==='/nombres-peluches'){
+    if(value.includes('acta de adopcion'))return{href:page.path+'?doc=acta#adopcion',label:'Crear acta de adopción'};
+    if(value.includes('certificado de adopcion'))return{href:page.path+'?doc=certificado#adopcion',label:'Crear certificado'};
   }
 
   if(page.path==='/nombres-equipos-futbol'){

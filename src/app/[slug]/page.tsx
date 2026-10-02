@@ -18,6 +18,7 @@ import KeywordIntentCoverage from'@/components/KeywordIntentCoverage';
 import PageSpecificGuide from'@/components/PageSpecificGuide';
 import CollectionSnapshot from'@/components/CollectionSnapshot';
 import AnimeNameTool from'@/components/AnimeNameTool';
+import PlushAdoptionTool from'@/components/PlushAdoptionTool';
 import TopicSubnav from'@/components/TopicSubnav';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
@@ -60,6 +61,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isAnime=page.path==='/nombres-anime';
   const isAlphabet=page.path==='/nombres-por-letra';
   const isStore=page.path==='/nombres-para-tiendas';
+  const isPlush=page.path==='/nombres-peluches';
   const isEnye=page.path==='/nombres-con-en';
   const isFreeFire=page.cluster==='freeFire'&&page.path!=='/espacios-invisible-ff';
   const isToolPage=isRoblox||isInstagram||isAnime||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
@@ -117,6 +119,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {hasResultCollection&&<CollectionSnapshot items={items} mode={page.tool} pagePath={page.path}/>}
     {hasResultCollection&&<NameGrid items={items} mode={page.tool} pagePath={page.path} pageLabel={page.primaryKeyword}/>}
     {hasResultCollection&&<DatasetTrustNote items={items} mode={page.tool}/>} 
+    {isPlush&&<PlushAdoptionTool suggestions={items.slice(0,12).map(item=>item.name)}/>}
     {isEnye&&<EnyeGuide/>}
     <KeywordIntentCoverage page={page}/>
 

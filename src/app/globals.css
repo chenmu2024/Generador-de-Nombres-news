@@ -129,3 +129,17 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 .gdn-skip-link:focus{transform:translateY(0)}
 
 summary::-webkit-details-marker{display:none}
+
+
+@media print {
+  body * { visibility: hidden !important; }
+  .plush-print-card, .plush-print-card * { visibility: visible !important; }
+  .plush-print-card {
+    position: absolute !important;
+    inset: 0 auto auto 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    border: 1px solid #cfcfcf !important;
+    box-shadow: none !important;
+  }
+}

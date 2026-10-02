@@ -14,6 +14,7 @@ const freeFire=read('src/components/FreeFireNameTool.tsx');
 const anime=read('src/components/AnimeNameTool.tsx');
 const brand=read('src/components/BrandNameTool.tsx');
 const generatorPanel=read('src/components/GeneratorPanel.tsx');
+const plush=read('src/components/PlushAdoptionTool.tsx');
 
 if(!slugPage.includes('id="herramienta"'))errors.push('Missing #herramienta target in slug page');
 if(!home.includes('id="studio-nombres"'))errors.push('Missing #studio-nombres target on homepage');
@@ -31,6 +32,8 @@ if(!slugPage.includes('<GeneratorPanel mode={generatorMode}'))errors.push('Gener
 if(slugPage.includes("<GeneratorPanel mode={page.tool}"))errors.push('Generic ToolMode fallback must remain disabled');
 if(!brand.includes("params.get('industry')")||!brand.includes("params.get('channel')"))errors.push('Brand tool must consume industry/channel handoff');
 if(!generatorPanel.includes("params.get('context')")||!generatorPanel.includes("params.get('style')"))errors.push('Football tool must consume context/style handoff');
+if(!plush.includes("get('doc')"))errors.push('Plush adoption tool must consume document mode handoff');
+if(!slugPage.includes('<PlushAdoptionTool'))errors.push('Plush route must render adoption tool');
 
 function routeFromHref(href:string){
   const withoutHash=href.split('#')[0]||'';
@@ -50,8 +53,9 @@ for(const page of keywordPages){
     const targetPath=route||page.path;
 
     if(route&&route!=='/'&&!routePaths.has(route))errors.push('Keyword action points to unknown route: '+page.path+' -> '+keyword+' -> '+action.href);
-    if(fragment&&!['#herramienta','#resultados','#studio-nombres'].includes(fragment))errors.push('Keyword action uses unknown fragment: '+action.href);
+    if(fragment&&!['#herramienta','#resultados','#studio-nombres','#adopcion'].includes(fragment))errors.push('Keyword action uses unknown fragment: '+action.href);
     if(fragment==='#studio-nombres'&&targetPath!=='/')errors.push('studio-nombres fragment must target homepage: '+action.href);
+    if(fragment==='#adopcion'&&targetPath!=='/nombres-peluches')errors.push('adopcion fragment must target plush route: '+action.href);
 
     if(fragment==='#resultados'){
       const target=keywordPageByPath.get(targetPath);
