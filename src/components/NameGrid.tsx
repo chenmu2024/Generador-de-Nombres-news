@@ -22,6 +22,7 @@ const petSizes=['small','large'] as const;
 const petPersonalities=['cute','playful','calm','strong','elegant','mystic','kawaii'] as const;
 
 type LengthFilter='ALL'|'short'|'medium'|'long';
+type SortMode='recommended'|'az'|'short';
 
 function lengthBucket(name:string):Exclude<LengthFilter,'ALL'>{
   const length=Array.from(name.replace(/[^\p{L}]/gu,'')).length;
@@ -55,6 +56,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const[sizeFilter,setSizeFilter]=useState('');
   const[personalityFilter,setPersonalityFilter]=useState('');
   const[cultureFacet,setCultureFacet]=useState<'ALL'|'script'|'pronunciation'|'verified'>('ALL');
+  const[sortMode,setSortMode]=useState<SortMode>('recommended');
   const[favorites,setFavorites]=useState<string[]>([]);
   const[randomPick,setRandomPick]=useState('');
   const[actionFeedback,setActionFeedback]=useState('');
@@ -234,22 +236,22 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   }
 
   async function copyFiltered(){
-    if(!filtered.length)return;
-    await navigator.clipboard.writeText(filtered.map(item=>item.name).join('\n'));
+    if(!sortedFiltered.length)return;
+    await navigator.clipboard.writeText(sortedFiltered.map(item=>item.name).join('\n'));
     trackProductAction('copy-filtered','name-grid');
     setRandomPick('');
-    flash(filtered.length+' nombres copiados');
+    flash(sortedFiltered.length+' nombres copiados');
   }
 
   function saveFiltered(){
-    if(!filtered.length||!hasActiveFilters)return;
+    if(!sortedFiltered.length||!hasActiveFilters)return;
     trackProductAction('save-filtered','name-grid');
-    const next=Array.from(new Set([...favorites,...filtered.map(item=>item.name)]));
+    const next=Array.from(new Set([...favorites,...sortedFiltered.map(item=>item.name)]));
     setFavorites(next);
     localStorage.setItem('gdn-favorites',JSON.stringify(next));
     window.dispatchEvent(new Event('gdn:favorites-updated'));
     setRandomPick('');
-    flash(filtered.length+' nombres guardados');
+    flash(sortedFiltered.length+' nombres guardados');
   }
 
   function toggleCompare(name:string){
@@ -274,7 +276,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
   useEffect(()=>{
     setLimit(18);
-  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
+  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,sortMode]);
 
   const filtered=useMemo(()=>items.filter(item=>{
     const haystack=[item.name,item.origin,item.meaning,item.script,item.pronunciation,item.source,...item.tags].filter(Boolean).join(' ').toLocaleLowerCase('es');
@@ -293,6 +295,15 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
       (cultureFacet==='verified'&&item.verified===true&&Boolean(item.source)&&Boolean(item.sourceUrl));
     return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesCulture;
   }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
+
+  const sortedFiltered=useMemo(()=>{
+    if(sortMode==='az')return [...filtered].sort((a,b)=>a.name.localeCompare(b.name,'es'));
+    if(sortMode==='short')return [...filtered].sort((a,b)=>{
+      const lengthDiff=Array.from(a.name).length-Array.from(b.name).length;
+      return lengthDiff||a.name.localeCompare(b.name,'es');
+    });
+    return filtered;
+  },[filtered,sortMode]);
 
   const compareRecords=useMemo(
     ()=>compareNames.map(name=>items.find(item=>item.name===name)).filter((item):item is NameRecord=>Boolean(item)),
@@ -321,6 +332,19 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
           <label className="relative min-w-0 flex-1">
             <Search size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9698a8]"/>
             <input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':mode==='culture'?'Buscar por nombre, origen, escritura o fuente...':'Buscar por nombre, origen o estilo...'} aria-label="Buscar nombres"/>
+          </label>
+          <label className="shrink-0">
+            <span className="sr-only">Ordenar resultados</span>
+            <select
+              value={sortMode}
+              onChange={event=>{const next=event.target.value as SortMode;setSortMode(next);trackProductAction('sort-'+next,'name-grid')}}
+              aria-label="Ordenar resultados"
+              className="gdn-input h-11 min-w-[160px] rounded-[11px] px-3 text-[11px] font-semibold"
+            >
+              <option value="recommended">Orden recomendado</option>
+              <option value="az">A–Z</option>
+              <option value="short">Más cortos</option>
+            </select>
           </label>
           {showGender&&<div className="flex gap-2 overflow-x-auto">
             {([['ALL','Todos'],['F','Femenino'],['M','Masculino'],['U','Unisex']] as const).map(([value,label])=>
@@ -495,7 +519,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
           <button onClick={clearFilters} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dcd7f0] bg-[#f7f5ff] px-4 text-[10px] font-semibold text-[#5b4df5]"><RotateCcw size={12}/>Restablecer filtros</button>
         </div>
         :<div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">
-          {filtered.slice(0,limit).map(item=>{
+          {sortedFiltered.slice(0,limit).map(item=>{
             const itemGender=inferredGender(item);
             const genderLabel=itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':undefined;
             const saved=favorites.includes(item.name);
