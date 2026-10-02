@@ -24,7 +24,9 @@ if(!platform.includes("params.get('intent')")||!platform.includes("params.get('m
 if(!freeFire.includes("get('shortcut')"))errors.push('Free Fire tool no longer consumes shortcut query handoff');
 if(!anime.includes("get('intent')"))errors.push('Anime tool no longer consumes intent query handoff');
 if(!slugPage.includes('<AnimeNameTool/>'))errors.push('Anime route must render AnimeNameTool');
-if(!slugPage.includes("const showGenerator=page.tool==='invisible'||page.tool==='football'"))errors.push('Generic GeneratorPanel fallback must remain disabled');
+if(!slugPage.includes("const generatorMode: 'football'|'invisible'|null="))errors.push('GeneratorPanel mode must be explicitly narrowed to football/invisible');
+if(!slugPage.includes('<GeneratorPanel mode={generatorMode}'))errors.push('GeneratorPanel must consume the narrowed generatorMode');
+if(slugPage.includes("<GeneratorPanel mode={page.tool}"))errors.push('Generic ToolMode fallback must remain disabled');
 if(!brand.includes("params.get('industry')")||!brand.includes("params.get('channel')"))errors.push('Brand tool must consume industry/channel handoff');
 if(!generatorPanel.includes("params.get('context')")||!generatorPanel.includes("params.get('style')"))errors.push('Football tool must consume context/style handoff');
 
