@@ -18,11 +18,12 @@ export default function RootLayout({children}:Readonly<{children:React.ReactNode
   const buildVersion=(process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||'local').slice(0,12);
   return <html lang="es" data-gdn-build={buildVersion}>
     <body>
+      <a href="#main-content" className="gdn-skip-link">Saltar al contenido</a>
       <AdsenseScript/>
       <PageArrivalTracker/>
       <WebVitalsReporter/>
       <Header/>
-      <main>{children}</main>
+      <main id="main-content">{children}</main>
       <Footer/>
     </body>
   </html>
