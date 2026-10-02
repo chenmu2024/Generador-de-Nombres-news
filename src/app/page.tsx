@@ -2,12 +2,18 @@ import type{Metadata}from'next';
 import {ArrowRight,AtSign,Baby,CheckCircle2,Gamepad2,Landmark,Leaf,PawPrint,ShieldCheck,Store,Trophy,Zap} from 'lucide-react';
 import IntentRouter from '@/components/IntentRouter';
 import HomeFreeFireStudio from '@/components/HomeFreeFireStudio';
+import HomeQuickGenerator from '@/components/HomeQuickGenerator';
 import HomeSavedNames from '@/components/HomeSavedNames';
 import TrackedLink from '@/components/TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
 import{keywordPageByPath}from'@/data/keywordMaster';
+import{nameDataset}from'@/data/nameDataset';
 
 const homeSeo=keywordPageByPath.get('/')!;
+
+const quickPeople=Array.from(new Set(nameDataset.filter(item=>item.type==='person').map(item=>item.name))).slice(0,36);
+const quickPets=Array.from(new Set(nameDataset.filter(item=>item.type==='pet').map(item=>item.name))).slice(0,36);
+const quickGames=Array.from(new Set(nameDataset.filter(item=>item.type==='game').map(item=>item.name))).slice(0,36);
 
 export const metadata:Metadata={
   title:homeSeo.title,
@@ -85,6 +91,10 @@ export default function HomePage(){
     </section>
 
     <section className="gdn-shell mt-2">
+      <HomeQuickGenerator people={quickPeople} pets={quickPets} games={quickGames}/>
+    </section>
+
+    <section className="gdn-shell mt-6">
       <HomeFreeFireStudio/>
     </section>
 
