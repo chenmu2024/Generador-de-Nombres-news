@@ -5,6 +5,15 @@ import{applyUnicodeStyle,unicodeStyles}from'@/lib/styledText';
 
 const quickIds:UnicodeStyleId[]=['plain','bold','fraktur','script','sansBold','monospace','circled','smallCaps','double','fullwidth','starSep','upsideDown'];
 
+const styleGroups:Array<{label:string;ids:UnicodeStyleId[]}>= [
+  {label:'Clásicas',ids:['plain','bold','italic','boldItalic','sans','sansBold','sansItalic','sansBoldItalic','monospace']},
+  {label:'Elegantes',ids:['double','fraktur','frakturBold','script','scriptBold','smallCaps','fullwidth','superscript']},
+  {label:'Encerradas',ids:['circled','squared','negativeSquared','negativeCircled','parenthesized','regional']},
+  {label:'Trazos',ids:['underline','doubleUnderline','overline','strike','slash','dotted','tilde','acute','grave','macron','diaeresis','ring','dotBelow']},
+  {label:'Separadas',ids:['spaced','middleDot','bullet','starSep','kanaDot','underscoreSep','slashSep','crossSep']},
+  {label:'Especiales',ids:['upsideDown','mirrorLite']},
+];
+
 export default function UnicodeStylePicker({
   value,
   onChange,
@@ -33,12 +42,20 @@ export default function UnicodeStylePicker({
       aria-label="Elegir fuente Unicode"
       className={'h-11 w-full rounded-[10px] border px-3 text-[11px] outline-none transition '+(dark?'border-white/14 bg-[#181c2a] text-white focus:border-[#776cff]':'border-[#dedbe8] bg-white text-[#4f5162] focus:border-[#8e83ff]')}
     >
-      {unicodeStyles.map(style=><option key={style.id} value={style.id}>{style.label} · compatibilidad {style.compatibility}</option>)}
+      {styleGroups.map(group=><optgroup key={group.label} label={group.label}>
+        {group.ids.map(id=>{
+          const style=unicodeStyles.find(item=>item.id===id);
+          return style?<option key={style.id} value={style.id}>{style.label} · compatibilidad {style.compatibility}</option>:null;
+        })}
+      </optgroup>)}
     </select>
 
-    <div className={'mt-2 flex min-h-11 items-center justify-between gap-3 rounded-[10px] border px-3 '+(dark?'border-white/10 bg-white/[.045]':'border-[#e6e2ef] bg-[#faf9ff]')}>
-      <span className={'min-w-0 truncate text-[15px] font-semibold '+(dark?'text-white':'text-[#292a39]')}>{applyUnicodeStyle(preview||'Nova',selected.id)}</span>
-      <span className={'shrink-0 text-[10px] font-bold uppercase tracking-[.08em] '+(dark?'text-[#7f8498]':'text-[#9294a3]')}>{selected.compatibility}</span>
+    <div className={'mt-2 flex min-h-12 items-center justify-between gap-3 rounded-[10px] border px-3 '+(dark?'border-white/10 bg-white/[.045]':'border-[#e6e2ef] bg-[#faf9ff]')}>
+      <div className="min-w-0">
+        <span className={'block truncate text-[16px] font-semibold '+(dark?'text-white':'text-[#292a39]')}>{applyUnicodeStyle(preview||'Nova',selected.id)}</span>
+        <span className={'mt-0.5 block text-[9px] font-bold uppercase tracking-[.1em] '+(dark?'text-[#777d93]':'text-[#9a9cab]')}>{selected.label}</span>
+      </div>
+      <span className={'gdn-tech shrink-0 rounded-full px-2 py-1 text-[9px] font-bold uppercase tracking-[.06em] '+(dark?'bg-white/[.06] text-[#9ea3b7]':'bg-white text-[#858899]')}>{selected.compatibility}</span>
     </div>
 
     <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1">
