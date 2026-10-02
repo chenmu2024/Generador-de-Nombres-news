@@ -356,14 +356,34 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesCulture;
   }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
 
+  function recommendationScore(item:NameRecord){
+    if(mode==='culture'){
+      return (item.verified===true?8:0)+(item.sourceUrl?5:0)+(item.script?4:0)+(item.pronunciation?3:0)+(item.meaning?2:0);
+    }
+    if(mode==='people'){
+      return (item.verified===true&&item.sourceUrl?7:0)+(item.meaning?4:0)+(item.origin?2:0)+item.tags.filter(tag=>personStyles.includes(tag as typeof personStyles[number])).length;
+    }
+    if(mode==='pet'){
+      return item.tags.filter(tag=>petColors.includes(tag as typeof petColors[number])||petSizes.includes(tag as typeof petSizes[number])||petPersonalities.includes(tag as typeof petPersonalities[number])).length;
+    }
+    return 0;
+  }
+
   const sortedFiltered=useMemo(()=>{
     if(sortMode==='az')return [...filtered].sort((a,b)=>a.name.localeCompare(b.name,'es'));
     if(sortMode==='short')return [...filtered].sort((a,b)=>{
       const lengthDiff=Array.from(a.name).length-Array.from(b.name).length;
       return lengthDiff||a.name.localeCompare(b.name,'es');
     });
+    if(mode==='people'||mode==='pet'||mode==='culture'){
+      return [...filtered].sort((a,b)=>{
+        const scoreDiff=recommendationScore(b)-recommendationScore(a);
+        if(scoreDiff)return scoreDiff;
+        return items.indexOf(a)-items.indexOf(b);
+      });
+    }
     return filtered;
-  },[filtered,sortMode]);
+  },[filtered,sortMode,mode,items]);
 
   const compareRecords=useMemo(
     ()=>compareNames.map(name=>items.find(item=>item.name===name)).filter((item):item is NameRecord=>Boolean(item)),
@@ -631,7 +651,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                 </div>}
                 {mode==='people'&&item.sourceUrl&&item.verified===true&&<div className="mt-3 flex flex-wrap items-center gap-2">
                   <span className="rounded-full bg-[#eaf8f0] px-2.5 py-1 text-[10px] font-bold text-[#27764d]">Significado verificado</span>
-                  <a className="text-[10px] font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">Ver fuente</a>
+                  <a className="text-[10px] font-semibold text-[var(--page-accent)] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">Ver fuente</a>
                 </div>}
                 {mode!=='culture'&&mode!=='people'&&item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[var(--page-accent)] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
               </div>
