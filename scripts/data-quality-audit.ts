@@ -105,7 +105,7 @@ const minimums:Record<string,number>={
   '/nombres-turcos':20,
   '/nombres-chinos':15,
   '/nombres-mayas':20,
-  '/nombres-ingles':15,
+  '/nombres-ingles':20,
   '/nombres-de-dioses':15,
 };
 
