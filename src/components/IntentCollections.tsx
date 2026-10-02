@@ -57,6 +57,11 @@ function groupsFor(page:KeywordPage):GroupDef[]{
       {title:'Unisex',description:'Sin una lectura de género única.',match:i=>i.gender==='U'},
       {title:'Poco comunes',description:'Marcados como menos habituales.',match:i=>has(i,'rare')},
     ];
+    case '/nombres-unisex': return [
+      {title:'Cortos',description:'Opciones de pocas letras para comparar rápidamente.',match:i=>has(i,'short')},
+      {title:'Modernos',description:'Nombres con uso contemporáneo en más de un género.',match:i=>has(i,'modern')},
+      {title:'Clásicos o históricos',description:'Formas con una trayectoria más larga o tradicional.',match:i=>has(i,'classic')},
+    ];
     case '/nombres-free-fire': return [
       {title:'Cortos',description:'Bases rápidas de leer en partida.',match:i=>has(i,'short')},
       {title:'Dark',description:'Ideas con tono oscuro o agresivo.',match:i=>has(i,'dark')},
