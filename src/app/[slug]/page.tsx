@@ -124,7 +124,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
 
     <PageSpecificGuide page={page} items={items}/>
     <PageDataBrief page={page} items={items}/>
-    <PageDecisionChecklist page={page}/>
+    {!hasResultCollection&&<PageDecisionChecklist page={page}/>} 
 
     {page.tool==='culture'&&items.length>0&&<CultureDataNote items={items}/>}
     {isKorean&&<KoreanContextTool items={items}/>}
