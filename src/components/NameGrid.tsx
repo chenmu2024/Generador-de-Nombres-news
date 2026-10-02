@@ -359,12 +359,12 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
             key={preset.label}
             onClick={()=>applyQuickPreset(preset)}
             aria-pressed={isQuickPresetActive(preset)}
-            className={'min-h-10 rounded-full border px-3.5 text-[10px] font-semibold transition '+(isQuickPresetActive(preset)?'border-[#c8c0ff] bg-[#5b4df5] text-white shadow-[0_5px_14px_rgba(91,77,245,.18)]':'border-[#dfdbea] bg-white text-[#66697b] hover:border-[#cfc8fb] hover:bg-[#f7f5ff] hover:text-[#5146d6]')}
+            className={'min-h-10 rounded-full border px-3.5 text-[10px] font-semibold transition '+(isQuickPresetActive(preset)?'border-[var(--page-accent)] bg-[var(--page-accent)] text-white shadow-[0_5px_14px_rgba(91,77,245,.12)]':'border-[#dfdbea] bg-white text-[#66697b] hover:border-[var(--page-border)] hover:bg-[var(--page-soft)] hover:text-[var(--page-ink)]')}
           >{preset.label}</button>)}
         </div>}
 
         {(hasPersonFacets||hasPetFacets||hasCultureFacets)&&<div className="mt-4 rounded-[14px] border border-[#e6e2f3] bg-white/75 p-3">
-          <div className="mb-2 flex items-center gap-2 text-[10px] font-bold text-[#6f7190]"><SlidersHorizontal size={13} className="text-[#6558f5]"/>Filtros avanzados</div>
+          <div className="mb-2 flex items-center gap-2 text-[10px] font-bold text-[#6f7190]"><SlidersHorizontal size={13} className="text-[var(--page-accent)]"/>Filtros avanzados</div>
 
           {hasPersonFacets&&<>
             <FacetRow label="Longitud">
@@ -447,13 +447,13 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
       {(mode==='people'||mode==='pet')&&filtered.length>0&&<div className="flex flex-col gap-3 border-b border-[#eceaf3] bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2">
-          <button onClick={pickRandom} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dedaf0] bg-[#faf9ff] px-3.5 text-[10px] font-semibold text-[#5d6072] transition hover:border-[#cfc8fb] hover:text-[#5146d6]">
+          <button onClick={pickRandom} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--page-border)] bg-[var(--page-soft)] px-3.5 text-[10px] font-semibold text-[#5d6072] transition hover:text-[var(--page-ink)]">
             <Shuffle size={13}/>Elegir uno
           </button>
-          <button onClick={copyFiltered} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dedaf0] bg-white px-3.5 text-[10px] font-semibold text-[#5d6072] transition hover:border-[#cfc8fb] hover:text-[#5146d6]">
+          <button onClick={copyFiltered} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dedaf0] bg-white px-3.5 text-[10px] font-semibold text-[#5d6072] transition hover:border-[var(--page-border)] hover:text-[var(--page-ink)]">
             <ClipboardCopy size={13}/>Copiar resultados
           </button>
-          <button onClick={saveFiltered} disabled={!hasActiveFilters} title={!hasActiveFilters?'Aplica al menos un filtro para guardar este conjunto':undefined} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#d8d2ff] bg-[#f4f2ff] px-3.5 text-[10px] font-semibold text-[#5b4df5] transition hover:bg-[#ece8ff] disabled:cursor-not-allowed disabled:border-[#e5e2ec] disabled:bg-[#f7f6f9] disabled:text-[#aaacb8]">
+          <button onClick={saveFiltered} disabled={!hasActiveFilters} title={!hasActiveFilters?'Aplica al menos un filtro para guardar este conjunto':undefined} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--page-border)] bg-[var(--page-soft)] px-3.5 text-[10px] font-semibold text-[var(--page-ink)] transition hover:brightness-[.98] disabled:cursor-not-allowed disabled:border-[#e5e2ec] disabled:bg-[#f7f6f9] disabled:text-[#aaacb8]">
             <HeartPlus size={13}/>Guardar filtrados
           </button>
         </div>
@@ -464,10 +464,10 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
         </div>
       </div>}
 
-      {(mode==='people'||mode==='pet')&&compareRecords.length>0&&<div className="border-b border-[#e7e2f3] bg-[#f8f6ff] px-4 py-4">
+      {(mode==='people'||mode==='pet')&&compareRecords.length>0&&<div className="border-b border-[var(--page-border)] bg-[var(--page-soft)] px-4 py-4">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[.12em] text-[#6b60d7]">Comparador</p>
+            <p className="gdn-tech text-[10px] font-black uppercase tracking-[.1em] text-[var(--page-accent)]">Comparador</p>
             <p className="mt-1 text-[11px] text-[#77798b]">{compareRecords.length} de 4 nombres seleccionados</p>
           </div>
           <button onClick={clearCompare} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-[#ddd8ee] bg-white px-3 text-[10px] font-semibold text-[#696b7d] hover:border-[#cfc8fb] hover:text-[#5146d6]"><X size={11}/>Limpiar comparación</button>
