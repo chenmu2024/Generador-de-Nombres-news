@@ -9,6 +9,8 @@ export type QuickPreset={
   personality?:string;
   gender?:'ALL'|'F'|'M'|'U';
   tag?:string;
+  cultureFacet?:'ALL'|'script'|'pronunciation'|'verified';
+  cultureKind?:'ALL'|'names'|'mythology';
 };
 
 export const quickPresetsByPath:Record<string,QuickPreset[]>={
@@ -22,6 +24,138 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
     {label:'3–4 letras',length:'short'},
     {label:'Modernos',style:'modern'},
     {label:'Poco comunes',style:'rare'},
+  ],
+  '/nombres-de-nino':[
+    {label:'Cortos',length:'short'},
+    {label:'Modernos',style:'modern'},
+    {label:'Clásicos',style:'classic'},
+    {label:'Poco comunes',style:'rare'},
+  ],
+  '/nombres-raros':[
+    {label:'Cortos',length:'short'},
+    {label:'Modernos',style:'modern'},
+    {label:'Poco comunes',style:'rare'},
+    {label:'Unisex',gender:'U'},
+  ],
+  '/nombres-con-a':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Cortos',length:'short'},
+    {label:'Clásicos',style:'classic'},
+  ],
+  '/nombres-con-b':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'5–6 letras',length:'medium'},
+    {label:'Clásicos',style:'classic'},
+  ],
+  '/nombres-con-c':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'5–6 letras',length:'medium'},
+    {label:'Clásicos',style:'classic'},
+  ],
+  '/nombres-con-e':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Cortos',length:'short'},
+    {label:'Clásicos',style:'classic'},
+  ],
+  '/nombres-con-f':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'5–6 letras',length:'medium'},
+    {label:'Clásicos',style:'classic'},
+  ],
+  '/nombres-con-m':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'5–6 letras',length:'medium'},
+    {label:'Clásicos',style:'classic'},
+  ],
+  '/nombres-con-en':[
+    {label:'Masculinos',gender:'M'},
+    {label:'Femeninos',gender:'F'},
+    {label:'Cortos',length:'short'},
+    {label:'Clásicos',style:'classic'},
+  ],
+  '/nombres-con-y':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Cortos',length:'short'},
+    {label:'Modernos',style:'modern'},
+  ],
+  '/nombres-con-z':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Cortos',length:'short'},
+    {label:'Poco comunes',style:'rare'},
+  ],
+  '/nombres-japoneses':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Unisex',gender:'U'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+  ],
+  '/nombres-coreanos':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Unisex',gender:'U'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+  ],
+  '/nombres-franceses':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Unisex',gender:'U'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+  ],
+  '/nombres-italianos':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'7+ letras',length:'long'},
+  ],
+  '/nombres-mayas':[
+    {label:'Nombres',cultureKind:'names'},
+    {label:'Mitología',cultureKind:'mythology'},
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+  ],
+  '/nombres-de-dioses':[
+    {label:'Diosas',gender:'F'},
+    {label:'Dioses',gender:'M'},
+    {label:'Con escritura',cultureFacet:'script'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+  ],
+  '/nombres-rusos':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Cirílico',cultureFacet:'script'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+  ],
+  '/nombres-griegos':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Mitología',cultureKind:'mythology'},
+    {label:'Nombres',cultureKind:'names'},
+  ],
+  '/nombres-ingles':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Cortos',length:'short'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+  ],
+  '/nombres-turcos':[
+    {label:'Femeninos',gender:'F'},
+    {label:'Masculinos',gender:'M'},
+    {label:'Cortos',length:'short'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+  ],
+  '/nombres-chinos':[
+    {label:'Unisex',gender:'U'},
+    {label:'Hanzi',cultureFacet:'script'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Cortos',length:'short'},
   ],
   '/nombres-gatos':[
     {label:'Negros',color:'black'},
@@ -142,5 +276,12 @@ export function matchesQuickPreset(item:NameRecord,preset:QuickPreset){
     (!preset.size||item.tags.includes(preset.size))&&
     (!preset.personality||item.tags.includes(preset.personality))&&
     (!preset.gender||preset.gender==='ALL'||inferredGender(item)===preset.gender)&&
-    (!preset.tag||item.tags.includes(preset.tag));
+    (!preset.tag||item.tags.includes(preset.tag))&&
+    (!preset.cultureFacet||preset.cultureFacet==='ALL'||
+      (preset.cultureFacet==='script'&&Boolean(item.script))||
+      (preset.cultureFacet==='pronunciation'&&Boolean(item.pronunciation))||
+      (preset.cultureFacet==='verified'&&item.verified===true&&Boolean(item.source)&&Boolean(item.sourceUrl)))&&
+    (!preset.cultureKind||preset.cultureKind==='ALL'||
+      (preset.cultureKind==='mythology'&&item.tags.includes('mythology'))||
+      (preset.cultureKind==='names'&&!item.tags.includes('mythology')));
 }

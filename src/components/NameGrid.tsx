@@ -148,6 +148,8 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     setColorFilter(preset.color??'');
     setSizeFilter(preset.size??'');
     setPersonalityFilter(preset.personality??'');
+    setCultureFacet(preset.cultureFacet??'ALL');
+    setCultureKind(preset.cultureKind??'ALL');
     setRandomPick('');
     setActionFeedback('');
   }
@@ -158,7 +160,9 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
       styleFilter===(preset.style??'')&&
       colorFilter===(preset.color??'')&&
       sizeFilter===(preset.size??'')&&
-      personalityFilter===(preset.personality??'');
+      personalityFilter===(preset.personality??'')&&
+      cultureFacet===(preset.cultureFacet??'ALL')&&
+      cultureKind===(preset.cultureKind??'ALL');
   }
 
   const hasActiveFilters=

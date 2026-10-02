@@ -56,6 +56,12 @@ for(const page of keywordPages){
 }
 
 let presetCount=0;
+for(const page of keywordPages){
+  const items=getNamesForPath(page.path);
+  if(items.length>0&&['people','pet','culture'].includes(page.tool)&&getQuickPresets(page.path).length<3){
+    errors.push('Result-backed '+page.tool+' page needs at least 3 quick presets: '+page.path);
+  }
+}
 for(const [path,presets]of Object.entries(quickPresetsByPath)){
   const page=keywordPageByPath.get(path);
   if(!page){errors.push('Quick preset route is unknown: '+path);continue;}

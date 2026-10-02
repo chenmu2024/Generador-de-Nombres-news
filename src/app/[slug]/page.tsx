@@ -17,6 +17,7 @@ import AdSlot from'@/components/AdSlot';
 import EnyeGuide from'@/components/EnyeGuide';
 import KeywordIntentCoverage from'@/components/KeywordIntentCoverage';
 import PageSpecificGuide from'@/components/PageSpecificGuide';
+import CollectionSnapshot from'@/components/CollectionSnapshot';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -106,6 +107,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     </div>}
 
     {page.tool==='culture'&&items.length>0&&<CultureDataNote items={items}/>}
+    {hasResultCollection&&<CollectionSnapshot items={items} mode={page.tool} pagePath={page.path}/>}
     {hasResultCollection&&<NameGrid items={items} mode={page.tool} pagePath={page.path}/>}
     {hasResultCollection&&<DatasetTrustNote items={items} mode={page.tool}/>} 
     {isEnye&&<EnyeGuide/>}
