@@ -8,7 +8,7 @@ const trustedSourceHosts=new Set(['behindthename.com','www.behindthename.com']);
 
 for(const item of nameDataset){
   const key=[item.type,item.name,item.origin??''].join('|').toLocaleLowerCase('es');
-  if(seen.has(key))warnings.push('Potential duplicate: '+item.name+' ('+item.type+')');
+  if(seen.has(key))errors.push('Duplicate dataset record: '+item.name+' ('+item.type+')');
   seen.add(key);
 
   if(item.verified===true){
