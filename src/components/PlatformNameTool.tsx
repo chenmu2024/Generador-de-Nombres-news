@@ -78,8 +78,8 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
         <div className="flex items-center gap-3">
           <span className="grid size-9 place-items-center rounded-[11px] bg-[#5b4df5] text-white"><AtSign size={15}/></span>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[.14em] text-[#8177e9]">{platform==='roblox'?'Roblox':'Instagram'}</p>
-            <h2 className="brand-serif text-[24px] font-bold text-[#292a39]">{platform==='roblox'?'Crea y revisa tu nombre':'Username y nombre visible'}</h2>
+            <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.12em] text-[#8177e9]">{platform==='roblox'?'Roblox':'Instagram'}</p>
+            <h2 className="gdn-editorial text-[24px] font-bold text-[#292a39]">{platform==='roblox'?'Crea y revisa tu nombre':'Username y nombre visible'}</h2>
           </div>
         </div>
 
@@ -110,14 +110,14 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
 
       <div>
         <div className="flex items-center justify-between border-b border-[#eceaf3] bg-white px-5 py-3">
-          <p className="text-[10px] font-bold uppercase tracking-[.12em] text-[#8b8e9d]">Resultados</p>
+          <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.1em] text-[#8b8e9d]">Resultados</p>
           <span className="text-[10px] font-semibold text-[#9a9cab]">{suggestions.length} opciones</span>
         </div>
         <div className="divide-y divide-[#eceaf3]">
           {suggestions.map(value=>{
             const saved=favorites.includes(value);
             return <div key={value} className="flex min-h-[66px] items-center justify-between gap-3 px-4 py-2.5 transition hover:bg-[#fcfbff] sm:px-5">
-              <span className="brand-serif min-w-0 break-all text-[18px] font-bold text-[#2d2e3c]">{platform==='instagram'&&mode==='username'?'@':''}{value}</span>
+              <span className="gdn-editorial min-w-0 break-all text-[18px] font-bold text-[#2d2e3c]">{platform==='instagram'&&mode==='username'?'@':''}{value}</span>
               <div className="flex shrink-0 items-center gap-1.5">
                 <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-9 '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e0ddea] bg-white text-[#8c8e9d] hover:border-[#cfc8fb]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
                 <CopyButton value={value} analyticsRole="copy-platform-name"/>
