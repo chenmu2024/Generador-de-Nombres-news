@@ -20,6 +20,7 @@ function spreadPool(values:string[],count=36){
 const quickPeople=spreadPool(nameDataset.filter(item=>item.type==='person').map(item=>item.name));
 const quickPets=spreadPool(nameDataset.filter(item=>item.type==='pet').map(item=>item.name));
 const quickGames=spreadPool(nameDataset.filter(item=>item.type==='game').map(item=>item.name));
+const quickCultures=spreadPool(nameDataset.filter(item=>item.type==='culture').map(item=>item.name));
 
 export const metadata:Metadata={
   title:homeSeo.title,
@@ -97,7 +98,7 @@ export default function HomePage(){
     </section>
 
     <section className="gdn-shell mt-2">
-      <HomeQuickGenerator people={quickPeople} pets={quickPets} games={quickGames}/>
+      <HomeQuickGenerator people={quickPeople} pets={quickPets} games={quickGames} cultures={quickCultures}/>
     </section>
 
     <section className="gdn-shell mt-6">
