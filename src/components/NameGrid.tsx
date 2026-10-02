@@ -380,7 +380,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
       <div>
         <p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora por origen y datos':'Explora nombres'}</p>
-        <h2 className="gdn-display mt-2 text-[31px] font-bold tracking-[-.035em] text-[#1b1c2b] sm:text-[35px]">Resultados</h2>
+        <h2 className="gdn-display mt-2 text-[31px] font-bold tracking-[-.035em] text-[#1b1c2b] sm:text-[35px]">{mode==='people'?'Nombres para comparar':mode==='pet'?'Nombres para tu mascota':mode==='culture'?'Nombres, escritura y origen':'Resultados'}</h2>
       </div>
       <div className="text-left sm:text-right">
         <span aria-live="polite" className="block text-[11px] font-semibold text-[#747789]">{hasActiveFilters?`${filtered.length} de ${items.length} disponibles`:`${items.length} disponibles`}</span>
@@ -543,29 +543,35 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               const petColor=item.tags.find(tag=>petColors.includes(tag as typeof petColors[number]));
               const petSize=item.tags.find(tag=>petSizes.includes(tag as typeof petSizes[number]));
               const petPersonality=item.tags.find(tag=>petPersonalities.includes(tag as typeof petPersonalities[number]));
+              const meaningSummary=item.meaning
+                ?(item.meaning.length>54?item.meaning.slice(0,51).trimEnd()+'…':item.meaning)
+                :'No documentado';
               const rows=mode==='people'
                 ?[
-                  ['Longitud',lengthLabels[lengthBucket(item.name)]],
                   ['Origen',item.origin||'No documentado'],
+                  ['Significado',meaningSummary],
                   ['Estilo',personStyle?tagLabels[personStyle]:'Sin clasificar'],
+                  ['Longitud',lengthLabels[lengthBucket(item.name)]],
                   ['Género',itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':'No documentado'],
+                  ['Fuente',item.verified===true&&item.sourceUrl?'Verificada':'Sin verificar'],
                 ]
                 :[
-                  ['Color',petColor?tagLabels[petColor]:'No especificado'],
-                  ['Tamaño',petSize?tagLabels[petSize]:'No especificado'],
                   ['Personalidad',petPersonality?tagLabels[petPersonality]:'Sin clasificar'],
+                  ['Tamaño',petSize?tagLabels[petSize]:'No especificado'],
+                  ['Color',petColor?tagLabels[petColor]:'No especificado'],
+                  ['Longitud',lengthLabels[lengthBucket(item.name)]],
                   ['Género',itemGender==='F'?'Hembra':itemGender==='M'?'Macho':itemGender==='U'?'Unisex':'No documentado'],
                 ];
 
-              return <article key={item.name} className="w-[190px] shrink-0 rounded-[15px] border border-[#e2ddf1] bg-white p-4 shadow-[0_8px_22px_rgba(69,58,129,.05)]">
+              return <article key={item.name} className="w-[230px] shrink-0 rounded-[16px] border border-[var(--page-border)] bg-white p-4 shadow-[0_8px_22px_rgba(69,58,129,.05)]">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="brand-serif truncate text-[20px] font-bold text-[#292a3a]">{item.name}</h3>
+                  <h3 className="gdn-editorial truncate text-[21px] font-bold text-[#292a3a]">{item.name}</h3>
                   <button onClick={()=>toggleCompare(item.name)} aria-label={'Quitar '+item.name+' de la comparación'} className="grid size-7 shrink-0 place-items-center rounded-full border border-[#e3dfec] text-[#8a8c9b] hover:bg-[#f7f5ff]"><X size={11}/></button>
                 </div>
                 <dl className="mt-3 divide-y divide-[#efedf5]">
                   {rows.map(([label,value])=><div key={label} className="flex items-start justify-between gap-3 py-2">
-                    <dt className="text-[10px] font-bold uppercase tracking-[.08em] text-[#a0a1af]">{label}</dt>
-                    <dd className="max-w-[105px] text-right text-[10px] font-semibold leading-4 text-[#565869]">{value}</dd>
+                    <dt className="gdn-tech text-[9px] font-bold uppercase tracking-[.07em] text-[#a0a1af]">{label}</dt>
+                    <dd className="max-w-[135px] text-right text-[10px] font-semibold leading-4 text-[#565869]">{value}</dd>
                   </div>)}
                 </dl>
                 <div className="mt-3"><CopyButton value={item.name}/></div>
