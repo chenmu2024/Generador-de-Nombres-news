@@ -75,6 +75,10 @@ const specificFaqs: Record<string, PageFaq[]> = {
   '/nombres-de-nina': [
     {question:'¿Cómo comparar nombres cortos y nombres poco comunes?',answer:'Guarda candidatos de ambos grupos y compáralos junto con los apellidos. La página separa opciones cortas, modernas y menos comunes para facilitar esa comparación.'},
   ],
+  '/nombres-unisex': [
+    {question:'¿Un nombre es unisex en todos los países?',answer:'No. El uso puede cambiar según idioma, país y época. Un nombre puede documentarse para hombres y mujeres en una tradición y ser predominantemente masculino o femenino en otra.'},
+    {question:'¿Qué criterio usa esta lista para marcar un nombre como unisex?',answer:'Priorizamos nombres cuya fuente documenta uso masculino y femenino o un uso equivalente en tradiciones distintas. No basta con una aparición aislada para clasificarlo como unisex.'},
+  ],
   '/nombres-raros': [
     {question:'¿Raro significa inventado?',answer:'No. Aquí “poco común” se usa como una categoría de exploración; no implica que el nombre sea inventado ni garantiza una frecuencia concreta en un país.'},
   ],
