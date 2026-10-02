@@ -42,13 +42,39 @@ const lengthLabels:Record<LengthFilter,string>={
 };
 
 function resultKicker(mode:ToolMode,pagePath:string|undefined,item:NameRecord){
-  if(mode==='culture')return item.script?'Forma romanizada':'Nombre y contexto';
-  if(mode==='people')return item.verified===true&&item.sourceUrl?'Ficha con fuente':'Ficha para comparar';
+  if(pagePath==='/nombres-japoneses')return item.script?'Kanji / romaji':'Nombre japonés';
+  if(pagePath==='/nombres-coreanos')return item.script?'Hangul / romanización':'Nombre coreano';
+  if(pagePath==='/nombres-chinos')return item.script?'Hanzi / romanización':'Nombre chino';
+  if(pagePath==='/nombres-rusos')return item.script?'Cirílico / transliteración':'Nombre ruso';
+  if(pagePath==='/nombres-mayas')return item.tags.includes('mythology')?'Contexto mitológico':'Contexto maya';
+  if(pagePath==='/nombres-de-dioses')return'Figura mitológica';
+  if(pagePath==='/nombres-griegos')return item.tags.includes('mythology')?'Mitología griega':'Nombre griego';
+  if(pagePath==='/nombres-franceses')return'Nombre francés';
+  if(pagePath==='/nombres-italianos')return'Nombre italiano';
+  if(pagePath==='/nombres-ingles')return'Forma usada en inglés';
+  if(pagePath==='/nombres-turcos')return'Nombre turco';
+  if(mode==='culture')return item.script?'Forma original / lectura':'Nombre y contexto';
+  if(pagePath==='/nombres-gatos-negros')return'Idea mística u oscura';
+  if(pagePath==='/nombres-gatos-machos')return'Idea corta para gato macho';
+  if(pagePath==='/nombres-gatos')return'Idea para gato';
+  if(pagePath==='/perritas-chihuahua')return'Idea pequeña y expresiva';
+  if(pagePath==='/nombres-perritas')return'Idea para perrita';
+  if(pagePath==='/nombres-perros-machos')return'Idea para perro macho';
+  if(pagePath==='/nombres-caballos')return'Idea para caballo o yegua';
+  if(pagePath==='/nombres-peluches')return'Idea tierna para peluche';
   if(mode==='pet')return'Idea para llamar a diario';
+  if(pagePath?.startsWith('/nombres-con-')){
+    const letter=pagePath.replace('/nombres-con-','').replace('en','Ñ').toUpperCase();
+    return'Empieza por '+letter;
+  }
+  if(mode==='people')return item.verified===true&&item.sourceUrl?'Ficha con fuente':'Ficha para comparar';
   if(pagePath==='/nombres-instagram')return'Idea para perfil';
   if(pagePath==='/nombres-roblox')return'Base para username';
   if(pagePath==='/nombres-anime')return'Base temática';
-  if(pagePath?.includes('free-fire')||pagePath?.includes('ff-')||pagePath?.includes('clanes'))return'Base para nickname';
+  if(pagePath==='/nombres-clanes-ff')return'Base para clan';
+  if(pagePath==='/nombres-ff-mujeres')return'Nickname femenino';
+  if(pagePath==='/nombres-ff-unicos')return'Base poco común';
+  if(pagePath?.includes('free-fire')||pagePath?.includes('ff-'))return'Base para nickname';
   return'Idea para personalizar';
 }
 
@@ -68,8 +94,21 @@ function collectionCopy(mode:ToolMode,pagePath:string|undefined,pageLabel:string
   if(pagePath==='/nombres-unisex')return{eyebrow:'Compara uso y origen',heading:'Nombres unisex para revisar con más contexto',sub:'El uso puede cambiar según idioma y región; revisa la ficha antes de asumir que un nombre es neutro en todos los países.',empty:'No hay nombres unisex que coincidan con esos filtros.'};
   if(pagePath==='/nombres-raros')return{eyebrow:'Explora sin asumir frecuencia',heading:'Nombres poco comunes para comparar con calma',sub:'“Poco común” es una etiqueta de exploración; no equivale a una estadística oficial de rareza.',empty:'No hay nombres poco comunes que coincidan con esos filtros.'};
   if(pagePath?.startsWith('/nombres-con-'))return{eyebrow:'Explora esta inicial',heading:'Compara '+(pageLabel??'nombres por inicial'),sub:'Usa la letra como primera criba y después compara longitud, género, origen y significado.',empty:'No hay nombres de esta inicial que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-japoneses')return{eyebrow:'Kanji, romaji y fuente',heading:'Compara nombres japoneses sin mezclar escritura y lectura',sub:'Cuando existe una escritura documentada, la mostramos separada de la romanización y de la explicación del significado.',empty:'No hay nombres japoneses que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-coreanos')return{eyebrow:'Hangul y romanización',heading:'Compara nombres coreanos con su escritura y contexto',sub:'Usa Hangul, romanización y fuente como datos distintos antes de interpretar el nombre fuera de su contexto.',empty:'No hay nombres coreanos que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-chinos')return{eyebrow:'Hanzi y lectura',heading:'Compara nombres chinos conservando los caracteres originales',sub:'La romanización no sustituye al Hanzi: revisa ambos cuando el significado sea importante.',empty:'No hay nombres chinos que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-de-dioses')return{eyebrow:'Mitologías separadas por contexto',heading:'Deidades y figuras mitológicas para explorar por tradición',sub:'La presencia en esta colección indica contexto mitológico; no significa que sea un nombre personal habitual.',empty:'No hay figuras mitológicas que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-mayas')return{eyebrow:'Contexto antes que cantidad',heading:'Registros mayas y prehispánicos con referencia clara',sub:'La colección prioriza separar nombres, términos históricos y figuras mitológicas en lugar de inflar la lista.',empty:'No hay registros mayas que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-gatos-negros')return{eyebrow:'Místicos, oscuros y elegantes',heading:'Nombres para gatos negros filtrados por estilo',sub:'El color inspira la búsqueda, pero las etiquetas son editoriales y no definen la personalidad real del gato.',empty:'No hay nombres para gatos negros que coincidan con esos filtros.'};
+  if(pagePath==='/perritas-chihuahua')return{eyebrow:'Cortos, tiernos y fáciles de repetir',heading:'Nombres para chihuahua hembra pensados para uso diario',sub:'Combina tamaño, personalidad y longitud y después prueba tus finalistas en voz alta.',empty:'No hay nombres para chihuahua que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-caballos')return{eyebrow:'Presencia y sonoridad',heading:'Nombres para caballos y yeguas por estilo y rasgos',sub:'Prueba cada opción al llamarla y evita inferir raza o aptitud a partir del nombre.',empty:'No hay nombres para caballos que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-peluches')return{eyebrow:'Tiernos, kawaii y fáciles de adoptar',heading:'Nombres para peluches con estilos fáciles de explorar',sub:'Elige una idea, guárdala y úsala después en el acta o certificado de adopción de la página.',empty:'No hay nombres para peluches que coincidan con esos filtros.'};
   if(mode==='culture')return{eyebrow:'Lee el contexto antes de elegir',heading:'Escritura, lectura, origen y fuente en una sola ficha',sub:'La forma latina, la escritura original y la pronunciación se muestran por separado cuando están documentadas.',empty:'No hay registros culturales que coincidan con esos filtros.'};
   if(mode==='pet')return{eyebrow:'Prueba cómo suena',heading:'Nombres para mascota organizados por rasgos prácticos',sub:'Las etiquetas de color, tamaño y personalidad son ayudas editoriales para explorar ideas.',empty:'No hay nombres de mascota que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-roblox')return{eyebrow:'Username y Display Name parten de reglas distintas',heading:'Bases de Roblox para llevar al generador',sub:'Usa estas ideas como punto de partida y prueba después el flujo de Username o Display Name según lo que necesites.',empty:'No hay bases de Roblox que coincidan con ese filtro.'};
+  if(pagePath==='/nombres-instagram')return{eyebrow:'Ideas para username y nombre visible',heading:'Bases para Instagram que puedes simplificar o estilizar',sub:'La disponibilidad real debe comprobarse dentro de Instagram; aquí trabajas la forma del nombre.',empty:'No hay bases para Instagram que coincidan con ese filtro.'};
+  if(pagePath==='/nombres-anime')return{eyebrow:'Bases temáticas para juegos y perfiles',heading:'Ideas inspiradas en estética anime para personalizar',sub:'Lleva una base al generador y adáptala al juego, red o comunidad donde vayas a usarla.',empty:'No hay bases anime que coincidan con ese filtro.'};
+  if(pagePath==='/nombres-clanes-ff')return{eyebrow:'Identidad de grupo primero',heading:'Bases para clanes y escuadras de Free Fire',sub:'Busca una raíz reconocible y prueba después una versión corta que también funcione como tag.',empty:'No hay bases de clan que coincidan con ese filtro.'};
   if(mode==='gaming'||mode==='general')return{eyebrow:'Bases listas para copiar',heading:'Ideas que puedes llevar al generador y personalizar',sub:'Copia una base o vuelve a la herramienta para probar símbolos, estilos y variantes.',empty:'No hay bases que coincidan con ese filtro.'};
   return{eyebrow:'Explora resultados',heading:pageLabel?'Explora '+pageLabel:'Resultados',sub:'Ajusta los filtros hasta encontrar opciones que encajen con tu objetivo.',empty:'No encontramos resultados con esa combinación.'};
 }
