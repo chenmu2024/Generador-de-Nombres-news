@@ -120,64 +120,64 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Unisex',gender:'U'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
-    {label:'Con significado',meaning:true}
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-italianos':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Con pronunciación',cultureFacet:'pronunciation'},
-    {label:'7+ letras',length:'long'},,
-    {label:'Con significado',meaning:true}
+    {label:'7+ letras',length:'long'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-mayas':[
     {label:'Nombres',cultureKind:'names'},
     {label:'Mitología',cultureKind:'mythology'},
     {label:'Femeninos',gender:'F'},
-    {label:'Masculinos',gender:'M'},,
-    {label:'Con significado',meaning:true}
+    {label:'Masculinos',gender:'M'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-de-dioses':[
     {label:'Diosas',gender:'F'},
     {label:'Dioses',gender:'M'},
     {label:'Con escritura',cultureFacet:'script'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
-    {label:'Con significado',meaning:true}
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-rusos':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Cirílico',cultureFacet:'script'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
-    {label:'Con significado',meaning:true}
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-griegos':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Mitología',cultureKind:'mythology'},
-    {label:'Nombres',cultureKind:'names'},,
-    {label:'Con significado',meaning:true}
+    {label:'Nombres',cultureKind:'names'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-ingles':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Cortos',length:'short'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
-    {label:'Con significado',meaning:true}
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-turcos':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Cortos',length:'short'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
-    {label:'Con significado',meaning:true}
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-chinos':[
     {label:'Unisex',gender:'U'},
     {label:'Hanzi',cultureFacet:'script'},
     {label:'Con pronunciación',cultureFacet:'pronunciation'},
-    {label:'Cortos',length:'short'},,
-    {label:'Con significado',meaning:true}
+    {label:'Cortos',length:'short'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-gatos':[
     {label:'Negros',color:'black'},
