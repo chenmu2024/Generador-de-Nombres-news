@@ -9,7 +9,7 @@ export default function CultureDataNote({items}:{items:NameRecord[]}){
   const scripts=items.filter(item=>item.script).length;
   const pronunciations=items.filter(item=>item.pronunciation).length;
   const sourced=items.filter(item=>item.source&&item.sourceUrl).length;
-  const verified=items.filter(item=>item.verified===true&&item.source).length;
+  const verified=items.filter(item=>item.verified===true&&item.source&&item.sourceUrl).length;
   const origins=new Set(items.map(item=>item.origin).filter(Boolean)).size;
   const sourceComplete=sourced===items.length&&items.length>0;
 
