@@ -3,7 +3,7 @@
 import type{UnicodeStyleId}from'@/lib/styledText';
 import{applyUnicodeStyle,unicodeStyles}from'@/lib/styledText';
 
-const quickIds:UnicodeStyleId[]=['plain','bold','fraktur','script','sansBold','monospace','circled','smallCaps'];
+const quickIds:UnicodeStyleId[]=['plain','bold','fraktur','script','sansBold','monospace','circled','smallCaps','double','fullwidth','starSep','upsideDown'];
 
 export default function UnicodeStylePicker({
   value,
@@ -19,7 +19,7 @@ export default function UnicodeStylePicker({
   compact?:boolean;
 }){
   const selected=unicodeStyles.find(style=>style.id===value)??unicodeStyles[0];
-  const quick=quickIds.map(id=>unicodeStyles.find(style=>style.id===id)!).filter(Boolean);
+  const quick=quickIds.slice(0,compact?6:quickIds.length).map(id=>unicodeStyles.find(style=>style.id===id)!).filter(Boolean);
 
   return <div>
     <div className="mb-2 flex items-center justify-between gap-3">
@@ -41,7 +41,7 @@ export default function UnicodeStylePicker({
       <span className={'shrink-0 text-[10px] font-bold uppercase tracking-[.08em] '+(dark?'text-[#7f8498]':'text-[#9294a3]')}>{selected.compatibility}</span>
     </div>
 
-    {!compact&&<div className="mt-2 flex gap-1.5 overflow-x-auto pb-1">
+    <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1">
       {quick.map(style=><button
         key={style.id}
         type="button"
@@ -52,6 +52,6 @@ export default function UnicodeStylePicker({
           ?dark?'border-[#7469ff] bg-[#5b4df5] text-white':'border-[#c9c1ff] bg-[#f0edff] text-[#5146d6]'
           :dark?'border-white/12 bg-white/[.04] text-[#d6d9e3] hover:bg-white/[.08]':'border-[#e3e0eb] bg-white text-[#66697a] hover:bg-[#f7f5ff]')}
       >{style.shortLabel}</button>)}
-    </div>}
+    </div>
   </div>
 }
