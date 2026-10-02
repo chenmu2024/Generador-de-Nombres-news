@@ -54,6 +54,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const[colorFilter,setColorFilter]=useState('');
   const[sizeFilter,setSizeFilter]=useState('');
   const[personalityFilter,setPersonalityFilter]=useState('');
+  const[cultureFacet,setCultureFacet]=useState<'ALL'|'script'|'pronunciation'|'verified'>('ALL');
   const[favorites,setFavorites]=useState<string[]>([]);
   const[randomPick,setRandomPick]=useState('');
   const[actionFeedback,setActionFeedback]=useState('');
@@ -77,7 +78,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   useEffect(()=>{
     if(!filterTrackingReady.current){filterTrackingReady.current=true;return;}
     trackProductAction('filter-change','name-grid');
-  },[gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter]);
+  },[gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
 
   function toggle(name:string){
     const removing=favorites.includes(name);
@@ -123,6 +124,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
   const hasPersonFacets=mode==='people';
   const hasPetFacets=mode==='pet';
+  const hasCultureFacets=mode==='culture';
 
   type QuickPreset={label:string;length?:LengthFilter;style?:string;color?:string;size?:string;personality?:string};
   const quickPresets:QuickPreset[]=pagePath==='/nombres-de-mujer'
@@ -179,7 +181,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
   const hasActiveFilters=
     Boolean(query)||gender!=='ALL'||Boolean(activeTag)||lengthFilter!=='ALL'||Boolean(styleFilter)||
-    Boolean(originFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter);
+    Boolean(originFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter)||cultureFacet!=='ALL';
 
   function clearFilters(){
     trackProductAction('filter-clear','name-grid');
@@ -192,6 +194,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     setColorFilter('');
     setSizeFilter('');
     setPersonalityFilter('');
+    setCultureFacet('ALL');
     setRandomPick('');
     setActionFeedback('');
   }
@@ -250,10 +253,10 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
   useEffect(()=>{
     setLimit(18);
-  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter]);
+  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
 
   const filtered=useMemo(()=>items.filter(item=>{
-    const haystack=[item.name,item.origin,item.meaning,...item.tags].filter(Boolean).join(' ').toLocaleLowerCase('es');
+    const haystack=[item.name,item.origin,item.meaning,item.script,item.pronunciation,item.source,...item.tags].filter(Boolean).join(' ').toLocaleLowerCase('es');
     const matchesQuery=!query||haystack.includes(query.toLocaleLowerCase('es'));
     const matchesGender=gender==='ALL'||inferredGender(item)===gender;
     const matchesTag=!activeTag||item.tags.includes(activeTag);
@@ -263,8 +266,12 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     const matchesColor=!colorFilter||item.tags.includes(colorFilter);
     const matchesSize=!sizeFilter||item.tags.includes(sizeFilter);
     const matchesPersonality=!personalityFilter||item.tags.includes(personalityFilter);
-    return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality;
-  }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter]);
+    const matchesCulture=cultureFacet==='ALL'||
+      (cultureFacet==='script'&&Boolean(item.script))||
+      (cultureFacet==='pronunciation'&&Boolean(item.pronunciation))||
+      (cultureFacet==='verified'&&item.verified===true&&Boolean(item.source));
+    return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesCulture;
+  }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
 
   const compareRecords=useMemo(
     ()=>compareNames.map(name=>items.find(item=>item.name===name)).filter((item):item is NameRecord=>Boolean(item)),
@@ -292,7 +299,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
         <div className="flex flex-col gap-3 lg:flex-row">
           <label className="relative min-w-0 flex-1">
             <Search size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9698a8]"/>
-            <input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':'Buscar por nombre, origen o estilo...'}/>
+            <input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':mode==='culture'?'Buscar por nombre, origen, escritura o fuente...':'Buscar por nombre, origen o estilo...'}/>
           </label>
           {showGender&&<div className="flex gap-2 overflow-x-auto">
             {([['ALL','Todos'],['F','Femenino'],['M','Masculino'],['U','Unisex']] as const).map(([value,label])=>
@@ -311,7 +318,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
           >{preset.label}</button>)}
         </div>}
 
-        {(hasPersonFacets||hasPetFacets)&&<div className="mt-4 rounded-[14px] border border-[#e6e2f3] bg-white/75 p-3">
+        {(hasPersonFacets||hasPetFacets||hasCultureFacets)&&<div className="mt-4 rounded-[14px] border border-[#e6e2f3] bg-white/75 p-3">
           <div className="mb-2 flex items-center gap-2 text-[10px] font-bold text-[#6f7190]"><SlidersHorizontal size={13} className="text-[#6558f5]"/>Filtros avanzados</div>
 
           {hasPersonFacets&&<>
@@ -358,9 +365,32 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               )}
             </FacetRow>}
           </>}
+
+          {hasCultureFacets&&<>
+            {origins.length>=2&&<FacetRow label="Origen">
+              <select value={originFilter} onChange={e=>setOriginFilter(e.target.value)} className="gdn-input h-10 min-w-[210px] rounded-full px-3 text-[10px] font-semibold">
+                <option value="">Todos los orígenes</option>
+                {origins.map(origin=><option key={origin} value={origin}>{origin}</option>)}
+              </select>
+            </FacetRow>}
+            <FacetRow label="Datos">
+              {([
+                ['ALL','Todos'],
+                ['script','Con escritura'],
+                ['pronunciation','Con pronunciación'],
+                ['verified','Fuente verificada'],
+              ] as const).map(([value,label])=><button
+                key={value}
+                onClick={()=>setCultureFacet(value)}
+                aria-pressed={cultureFacet===value}
+                data-active={cultureFacet===value}
+                className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold"
+              >{label}</button>)}
+            </FacetRow>
+          </>}
         </div>}
 
-        {!hasPersonFacets&&!hasPetFacets&&availableTags.length>0&&
+        {!hasPersonFacets&&!hasPetFacets&&!hasCultureFacets&&availableTags.length>0&&
           <div className="mt-3 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
             <button onClick={()=>setActiveTag('')} aria-pressed={!activeTag} data-active={!activeTag} className="gdn-chip min-h-11 shrink-0 rounded-full px-4 py-2 text-[12px] font-semibold sm:min-h-0 sm:px-3 sm:text-[10px]">Todos</button>
             {availableTags.map(tag=>
