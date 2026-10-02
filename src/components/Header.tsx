@@ -22,7 +22,7 @@ export default function Header(){
         <span className="font-serif text-[18px] font-bold tracking-[-.025em] text-[#171827]">GeneradorDeNombres</span>
       </TrackedLink>
 
-      <nav className="hidden items-center gap-5 xl:flex">
+      <nav aria-label="Navegación principal" className="hidden items-center gap-5 xl:flex">
         {nav.map((item,index)=><TrackedLink key={item.href} href={item.href} placement="header-nav" role={'desktop-'+(index+1)+'-'+item.label.toLowerCase()} experimentId={EXPERIMENTS.nav} className="text-[12px] font-medium text-[#55576a] transition hover:text-[#5b4df5]">{item.label}</TrackedLink>)}
       </nav>
 
