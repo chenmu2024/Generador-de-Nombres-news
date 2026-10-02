@@ -8,7 +8,6 @@ import NameFramePicker from './NameFramePicker';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
 import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
-import{copyText}from'@/lib/clipboard';
 import {
   applyNameFrame,
   applyUnicodeStyle,
@@ -16,7 +15,6 @@ import {
   unicodeStyles,
   type UnicodeStyleId,
 } from '@/lib/styledText';
-import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 
 type Variant='general'|'unique'|'women'|'clan';
 type ResultView='mix'|'fonts';
