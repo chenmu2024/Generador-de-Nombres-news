@@ -84,15 +84,37 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
       {label:'Zero Width Space',value:'​',code:'U+200B',level:'Experimental',note:'No ocupa ancho; algunas plataformas lo eliminan.'},
       {label:'Word Joiner',value:'⁠',code:'U+2060',level:'Experimental',note:'Carácter sin ancho; no está pensado como espacio normal.'},
     ];
+    const base=seed.trim()||'Nova';
+    const popular='ㅤ';
+    const quickCopies=[
+      {label:'1 espacio',value:popular},
+      {label:'2 espacios',value:popular.repeat(2)},
+      {label:'3 espacios',value:popular.repeat(3)},
+      {label:'Entre palabras',value:base+popular+'X'},
+    ];
+
     return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_64px_rgba(27,24,55,.15)]">
       <div className="border-b border-white/8 px-5 py-5 sm:px-6">
-        <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.13em] text-[var(--page-accent)]">Laboratorio Unicode</p>
-        <h2 className="gdn-editorial mt-1 text-[26px] font-bold">Espacios y caracteres invisibles</h2>
-        <p className="mt-2 max-w-2xl text-[10px] leading-5 text-[#8f94a8]">Copia el carácter solo o prueba un nickname de ejemplo. Ningún carácter está garantizado: el juego puede filtrarlo, normalizarlo o dejar de aceptarlo.</p>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.13em] text-[var(--page-accent)]">Laboratorio Unicode</p>
+            <h2 className="gdn-editorial mt-1 text-[26px] font-bold">Espacios y caracteres invisibles</h2>
+            <p className="mt-2 max-w-2xl text-[10px] leading-5 text-[#8f94a8]">Prueba tu propio nickname, copia uno o varios espacios y compara alternativas Unicode. El juego puede filtrar o normalizar algunos caracteres.</p>
+          </div>
+          <label className="block w-full lg:max-w-[300px]">
+            <span className="mb-2 block text-[9px] font-bold uppercase tracking-[.1em] text-[#8f94a8]">Nickname de prueba</span>
+            <input value={seed} onChange={event=>setSeed(event.target.value)} className="h-11 w-full rounded-[10px] border border-white/12 bg-[#181c2a] px-3 text-[12px] text-white outline-none placeholder:text-[#666b7e] focus:border-[var(--page-accent)]" placeholder="Nova"/>
+          </label>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {quickCopies.map(item=><button key={item.label} onClick={()=>copy(item.value)} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[.045] px-3.5 text-[10px] font-semibold text-[#d1d4df] transition hover:border-[var(--page-accent)] hover:bg-white/[.075]">
+            <Copy size={11}/>{copied===item.value?'Copiado':item.label}
+          </button>)}
+        </div>
       </div>
       <div className="grid gap-px bg-white/8 md:grid-cols-2 xl:grid-cols-3">
         {chars.map(item=>{
-          const example='Nova'+item.value+'X';
+          const example=base+item.value+'X';
           return <article key={item.code} className="bg-[#151927] p-5 transition hover:bg-[#1b2030]">
             <div className="flex items-start justify-between gap-3">
               <div><span className="block text-[13px] font-semibold">{item.label}</span><span className="mt-1 block text-[10px] font-semibold text-[#8f94a8]">{item.code}</span></div>
