@@ -1,5 +1,5 @@
 import type{Metadata}from'next';
-import {ArrowRight,Baby,CheckCircle2,Gamepad2,Landmark,Leaf,PawPrint,ShieldCheck,Store,Zap} from 'lucide-react';
+import {ArrowRight,AtSign,Baby,CheckCircle2,Gamepad2,Landmark,Leaf,PawPrint,ShieldCheck,Store,Trophy,Zap} from 'lucide-react';
 import IntentRouter from '@/components/IntentRouter';
 import HomeFreeFireStudio from '@/components/HomeFreeFireStudio';
 import HomeSavedNames from '@/components/HomeSavedNames';
@@ -25,17 +25,17 @@ const heroCards=[
   {label:'Juegos',desc:'Free Fire, Roblox, Instagram y más',href:'/nombres-free-fire',image:'/visuals/hero-gaming.webp',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
   {label:'Personas',desc:'Bebés, mujer, hombre y significados',href:'/nombres-de-mujer',image:'/visuals/hero-people.webp',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]'},
   {label:'Mascotas',desc:'Gatos, perros, caballos y más',href:'/nombres-gatos',image:'/visuals/hero-pets.webp',icon:PawPrint,tone:'bg-[#fff3e8] text-[#f08b2f]'},
-  {label:'Culturas',desc:'Japonés, coreano, latino, nórdico y más',href:'/nombres-japoneses',image:'/visuals/hero-culture.svg',icon:Landmark,tone:'bg-[#f8edff] text-[#a242ce]'},
+  {label:'Culturas',desc:'Japonés, coreano, francés, chino y más',href:'/nombres-japoneses',image:'/visuals/hero-culture.svg',icon:Landmark,tone:'bg-[#f8edff] text-[#a242ce]'},
   {label:'Negocios',desc:'Tiendas, marcas, proyectos y más',href:'/nombres-para-tiendas',image:'/visuals/hero-business.svg',icon:Store,tone:'bg-[#e9fbf0] text-[#24a362]'},
 ];
 
 const popular=[
-  {label:'Nombres para Free Fire',desc:'Nicknames, símbolos y clanes más populares',href:'/nombres-free-fire',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
-  {label:'Nombres de niña',desc:'Bonitos, modernos y con significado',href:'/nombres-de-nina',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]'},
-  {label:'Nombres de gatos',desc:'Tiernos, originales y únicos',href:'/nombres-gatos',icon:PawPrint,tone:'bg-[#fff3e8] text-[#f08b2f]'},
-  {label:'Nombres para Roblox',desc:'Usernames y display names',href:'/nombres-roblox',icon:Zap,tone:'bg-[#edf2ff] text-[#3d70db]'},
-  {label:'Nombres para perros',desc:'Por tamaño, color y personalidad',href:'/nombres-perros-machos',icon:PawPrint,tone:'bg-[#fff2e9] text-[#b97442]'},
-  {label:'Nombres para tiendas',desc:'Ideas de marcas y negocios',href:'/nombres-para-tiendas',icon:Store,tone:'bg-[#eafaf0] text-[#27965d]'},
+  {label:'Nombres para Roblox',desc:'Username y Display Name en flujos separados',href:'/nombres-roblox',icon:Gamepad2,tone:'bg-[#edf2ff] text-[#3d70db]'},
+  {label:'Nombres para Instagram',desc:'Username simple y nombre visible con estilos',href:'/nombres-instagram',icon:AtSign,tone:'bg-[#fff0f4] text-[#b85a78]'},
+  {label:'Nombres de niña',desc:'Compara opciones cortas, modernas y poco comunes',href:'/nombres-de-nina',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]'},
+  {label:'Nombres para perros',desc:'Filtra por tamaño, personalidad y uso diario',href:'/nombres-perros-machos',icon:PawPrint,tone:'bg-[#fff2e9] text-[#b97442]'},
+  {label:'Nombres japoneses',desc:'Escritura, pronunciación y fuentes verificadas',href:'/nombres-japoneses',icon:Landmark,tone:'bg-[#f8edff] text-[#8d5ab8]'},
+  {label:'Nombres para equipos',desc:'Ideas para fútbol con tono serio, barrio o competitivo',href:'/nombres-equipos-futbol',icon:Trophy,tone:'bg-[#eef6ff] text-[#3373b8]'},
 ];
 
 export default function HomePage(){
@@ -93,10 +93,10 @@ export default function HomePage(){
     <section className="gdn-shell grid gap-7 py-12 lg:grid-cols-[220px_1fr] lg:items-start">
       <div>
         <div className="flex items-center gap-3">
-          <h2 className="gdn-display text-[31px] font-bold leading-[1.02] tracking-[-.035em] text-[#1c1d2a]">Herramientas populares</h2>
+          <h2 className="gdn-display text-[31px] font-bold leading-[1.02] tracking-[-.035em] text-[#1c1d2a]">Búsquedas directas</h2>
           <span className="grid size-8 shrink-0 place-items-center rounded-full border border-[#dad6f3] text-[#6558f5]"><ArrowRight size={15}/></span>
         </div>
-        <p className="mt-4 text-[12px] leading-6 text-[#7c7f91]">Descubre las herramientas más usadas para cada necesidad.</p>
+        <p className="mt-4 text-[12px] leading-6 text-[#7c7f91]">Si ya sabes qué necesitas, entra directamente en una búsqueda más específica.</p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
