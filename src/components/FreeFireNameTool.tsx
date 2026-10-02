@@ -1,7 +1,7 @@
 'use client';
 
-import {useMemo,useState} from 'react';
-import {Copy,Gamepad2,Layers3,Scissors,Shuffle,Sparkles,Space,Type} from 'lucide-react';
+import {useEffect,useMemo,useState} from 'react';
+import {Copy,Gamepad2,Heart,Layers3,Scissors,Shuffle,Sparkles,Space,Type} from 'lucide-react';
 import CopyButton from './CopyButton';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import {trackProductAction} from '@/lib/analytics';
@@ -38,6 +38,9 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   const[short,setShort]=useState(variant==='unique');
   const[view,setView]=useState<ResultView>('mix');
   const[feedback,setFeedback]=useState('');
+  const[favorites,setFavorites]=useState<string[]>([]);
+
+  useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
 
   async function copyAll(){
     await navigator.clipboard.writeText(results.map(item=>item.value).join('\n'));
@@ -56,6 +59,15 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
     setFeedback(nextFont.label+' + '+nextFrame.label);
     trackProductAction('surprise-style','freefire-tool');
     window.setTimeout(()=>setFeedback(''),1400);
+  }
+
+  function toggleFavorite(value:string){
+    const removing=favorites.includes(value);
+    const next=removing?favorites.filter(item=>item!==value):Array.from(new Set([...favorites,value]));
+    setFavorites(next);
+    localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    window.dispatchEvent(new Event('gdn:favorites-updated'));
+    trackProductAction(removing?'favorite-remove':'favorite-add','freefire-tool');
   }
 
   const results=useMemo(()=>{
@@ -146,13 +158,19 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
         </div>
 
         <div className="grid gap-px bg-white/8 sm:grid-cols-2">
-          {results.map((item,index)=><div key={item.label+'|'+item.value+'|'+index} className="flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-3 transition hover:bg-[#1b2030] sm:px-5">
-            <div className="min-w-0">
-              <span className="block break-all text-[13px] font-semibold">{item.value}</span>
-              {view==='fonts'&&<span className="mt-1 block text-[8px] font-bold uppercase tracking-[.08em] text-[#757a8f]">{item.label} · {item.compatibility}</span>}
-            </div>
-            <CopyButton value={item.value} analyticsRole="copy-freefire-name"/>
-          </div>)}
+          {results.map((item,index)=>{
+            const saved=favorites.includes(item.value);
+            return <div key={item.label+'|'+item.value+'|'+index} className="flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-3 transition hover:bg-[#1b2030] sm:px-5">
+              <div className="min-w-0">
+                <span className="block break-all text-[13px] font-semibold">{item.value}</span>
+                {view==='fonts'&&<span className="mt-1 block text-[8px] font-bold uppercase tracking-[.08em] text-[#757a8f]">{item.label} · {item.compatibility}</span>}
+              </div>
+              <div className="flex shrink-0 items-center gap-1.5">
+                <button onClick={()=>toggleFavorite(item.value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>
+                <CopyButton value={item.value} analyticsRole="copy-freefire-name"/>
+              </div>
+            </div>;
+          })}
         </div>
 
         <div aria-live="polite" className="sr-only">{feedback}</div>
