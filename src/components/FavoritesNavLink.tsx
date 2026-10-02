@@ -4,13 +4,9 @@ import {Heart} from 'lucide-react';
 import {useEffect,useState} from 'react';
 import TrackedLink from './TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
+import{readFavorites}from'@/lib/favorites';
 
-function readCount(){
-  try{
-    const items=JSON.parse(localStorage.getItem('gdn-favorites')||'[]');
-    return Array.isArray(items)?items.length:0;
-  }catch{return 0}
-}
+function readCount(){return readFavorites().length}
 
 export default function FavoritesNavLink({mobile=false}:{mobile?:boolean}){
   const[count,setCount]=useState(0);
