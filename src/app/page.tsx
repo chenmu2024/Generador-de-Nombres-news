@@ -52,11 +52,11 @@ const homeStructuredData={
 };
 
 const heroCards=[
-  {label:'Juegos',desc:'Free Fire, Roblox, Instagram y más',href:'/nombres-free-fire',image:'/visuals/hero-gaming.svg',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
-  {label:'Personas',desc:'Bebés, mujer, hombre y significados',href:'/nombres-de-mujer',image:'/visuals/hero-people.svg',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]'},
-  {label:'Mascotas',desc:'Gatos, perros, caballos y más',href:'/nombres-gatos',image:'/visuals/hero-pets.webp',icon:PawPrint,tone:'bg-[#fff3e8] text-[#f08b2f]'},
-  {label:'Culturas',desc:'Japonés, coreano, francés, chino y más',href:'/nombres-japoneses',image:'/visuals/hero-culture.svg',icon:Landmark,tone:'bg-[#f8edff] text-[#a242ce]'},
-  {label:'Negocios',desc:'Tiendas, marcas, proyectos y más',href:'/nombres-para-tiendas',image:'/visuals/hero-business.svg',icon:Store,tone:'bg-[#e9fbf0] text-[#24a362]'},
+  {label:'Juegos',desc:'Free Fire, Roblox, Instagram y más',href:'/nombres-free-fire',image:'/visuals/hero-gaming.svg',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]',surface:'bg-[#e9ebff]'},
+  {label:'Personas',desc:'Bebés, mujer, hombre y significados',href:'/nombres-de-mujer',image:'/visuals/hero-people.svg',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]',surface:'bg-[#fff0ed]'},
+  {label:'Mascotas',desc:'Gatos, perros, caballos y más',href:'/nombres-gatos',image:'/visuals/hero-pets.webp',icon:PawPrint,tone:'bg-[#fff3e8] text-[#f08b2f]',surface:'bg-[#fff3e8]'},
+  {label:'Culturas',desc:'Japonés, coreano, francés, chino y más',href:'/nombres-japoneses',image:'/visuals/hero-culture.svg',icon:Landmark,tone:'bg-[#f8edff] text-[#a242ce]',surface:'bg-[#f8edff]'},
+  {label:'Negocios',desc:'Tiendas, marcas, proyectos y más',href:'/nombres-para-tiendas',image:'/visuals/hero-business.svg',icon:Store,tone:'bg-[#e9fbf0] text-[#24a362]',surface:'bg-[#e9fbf0]'},
 ];
 
 const popular=[
@@ -98,7 +98,7 @@ export default function HomePage(){
           {heroCards.map((item,index)=>{
             const Icon=item.icon;
             const area=index===0?'col-span-2 sm:col-span-7 sm:row-span-5':index===1?'col-span-1 sm:col-span-5 sm:row-span-5':index===2?'col-span-1 sm:col-span-4 sm:row-span-5':index===3?'col-span-1 sm:col-span-4 sm:row-span-5':'col-span-1 sm:col-span-4 sm:row-span-5';
-            return <TrackedLink key={item.href} href={item.href} placement="home-hero-cards" role={'hero-card-'+item.label.toLowerCase()} experimentId={EXPERIMENTS.homeHero} className={'group relative h-[152px] min-w-[232px] snap-start overflow-hidden rounded-[22px] border-2 border-white shadow-[0_16px_38px_rgba(58,48,112,.14)] sm:h-auto sm:min-w-0 '+area}>
+            return <TrackedLink key={item.href} href={item.href} placement="home-hero-cards" role={'hero-card-'+item.label.toLowerCase()} experimentId={EXPERIMENTS.homeHero} className={'group relative h-[152px] min-w-[232px] snap-start overflow-hidden rounded-[22px] border-2 border-white shadow-[0_16px_38px_rgba(58,48,112,.14)] sm:h-auto sm:min-w-0 '+item.surface+' '+area}>
               <img src={item.image} alt="" width="900" height="700" loading={index===0?'eager':'lazy'} fetchPriority={index===0?'high':'auto'} decoding="async" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"/>
               <div className="absolute inset-x-2.5 bottom-2.5 rounded-[13px] sm:inset-x-3 sm:bottom-3 bg-white/94 p-2.5 shadow-[0_8px_20px_rgba(27,25,52,.14)] backdrop-blur">
                 <div className="flex items-center gap-2">

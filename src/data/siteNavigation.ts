@@ -5,7 +5,7 @@ export const primaryNavigation=[
   {label:'Culturas',href:'/nombres-japoneses'},
   {label:'Negocios',href:'/nombres-para-tiendas'},
   {label:'Recursos',href:'/nombres-por-letra'},
-  {label:'Todas',href:'/#todas-las-herramientas'},
+  {label:'Directorio',href:'/directorio'},
 ] as const;
 
 export const footerNavigationGroups=[
@@ -51,7 +51,7 @@ export const footerNavigationGroups=[
       ['Tiendas y negocios','/nombres-para-tiendas'],
       ['Equipos de fútbol','/nombres-equipos-futbol'],
       ['Nombres por letra','/nombres-por-letra'],
-      ['Todas las herramientas','/#todas-las-herramientas'],
+      ['Todas las herramientas','/directorio'],
       ['Mis favoritos','/favoritos'],
     ],
   },
@@ -65,6 +65,7 @@ export const legalNavigation=[
 ] as const;
 
 export const indexableStaticRoutes=[
+  '/directorio',
   '/sobre-nosotros',
   '/politica-de-privacidad',
   '/terminos-y-condiciones',

@@ -44,12 +44,12 @@ export default function MobileNavMenu({items}:{items:readonly{readonly label:str
       <div className="p-1.5"><HeaderSearch mobile/></div>
       <div className="my-1 border-t border-[#eceaf3]"/>
       <TrackedLink
-        href="/#todas-las-herramientas"
+        href="/directorio"
         placement="header-nav"
         role="mobile-all-tools"
         experimentId={EXPERIMENTS.nav}
         className="mb-1 flex items-center gap-2 rounded-[10px] bg-[#f0edff] px-3 py-2.5 text-[12px] font-bold text-[#5146d6]"
-      ><Grid2X2 size={14}/>Todas las herramientas</TrackedLink>
+      ><Grid2X2 size={14}/>Directorio completo</TrackedLink>
       {items.map((item,index)=>{
         const active=pathname===item.href;
         return <TrackedLink

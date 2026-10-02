@@ -43,6 +43,7 @@ if(!slug.includes('const hasResultCollection=!isAlphabet&&items.length>0'))error
 if(!slug.includes('hasResultCollection&&<NameGrid'))errors.push('NameGrid must not render on dedicated no-list tool pages');
 const intro=readFileSync(new URL('../src/components/PageIntro.tsx',import.meta.url),'utf8');
 if(!intro.includes('getPageBlueprint(page.path)'))errors.push('PageIntro does not consume page blueprint');
+if(!intro.includes("PageHeroVisual page={page}"))errors.push('Topic pages must render the resilient page-specific hero visual');
 
 if(errors.length){
   console.error('[Page Completeness] FAILED');
