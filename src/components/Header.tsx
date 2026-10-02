@@ -1,6 +1,7 @@
-import {Leaf,Menu} from 'lucide-react';
+import {Leaf} from 'lucide-react';
 import HeaderSearch from './HeaderSearch';
 import FavoritesNavLink from './FavoritesNavLink';
+import MobileNavMenu from './MobileNavMenu';
 import TrackedLink from './TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
 
@@ -28,15 +29,7 @@ export default function Header(){
       <div className="ml-auto flex items-center gap-2.5">
         <HeaderSearch/>
         <FavoritesNavLink/>
-        <details className="relative xl:hidden">
-          <summary className="grid size-10 list-none place-items-center rounded-full border border-[#e4e1ee] bg-white text-[#5b5d70]"><Menu size={17}/></summary>
-          <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-[14px] border border-[#e5e2ed] bg-white p-1.5 shadow-[0_18px_50px_rgba(43,39,74,.16)]">
-            <div className="p-1.5"><HeaderSearch mobile/></div>
-            <div className="my-1 border-t border-[#eceaf3]"/>
-            {nav.map((item,index)=><TrackedLink key={item.href} className="block rounded-[10px] px-3 py-2.5 text-[12px] font-medium text-[#55576a] hover:bg-[#f7f5ff]" href={item.href} placement="header-nav" role={'mobile-'+(index+1)+'-'+item.label.toLowerCase()} experimentId={EXPERIMENTS.nav}>{item.label}</TrackedLink>)}
-            <FavoritesNavLink mobile/>
-          </div>
-        </details>
+        <MobileNavMenu items={nav}/>
       </div>
     </div>
   </header>
