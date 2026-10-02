@@ -24,7 +24,7 @@ export default function UnicodeStylePicker({
   return <div>
     <div className="mb-2 flex items-center justify-between gap-3">
       <span className={'text-[10px] font-bold uppercase tracking-[.12em] '+(dark?'text-[#9fa4b8]':'text-[#858899]')}>Fuente Unicode</span>
-      <span className={'rounded-full px-2 py-1 text-[8px] font-black uppercase tracking-[.08em] '+(dark?'bg-white/[.07] text-[#aeb2c1]':'bg-[#f0edff] text-[#6558f5]')}>{unicodeStyles.length} estilos</span>
+      <span className={'rounded-full px-2 py-1 text-[10px] font-black uppercase tracking-[.08em] '+(dark?'bg-white/[.07] text-[#aeb2c1]':'bg-[#f0edff] text-[#6558f5]')}>{unicodeStyles.length} estilos</span>
     </div>
 
     <select
@@ -38,7 +38,7 @@ export default function UnicodeStylePicker({
 
     <div className={'mt-2 flex min-h-11 items-center justify-between gap-3 rounded-[10px] border px-3 '+(dark?'border-white/10 bg-white/[.045]':'border-[#e6e2ef] bg-[#faf9ff]')}>
       <span className={'min-w-0 truncate text-[15px] font-semibold '+(dark?'text-white':'text-[#292a39]')}>{applyUnicodeStyle(preview||'Nova',selected.id)}</span>
-      <span className={'shrink-0 text-[8px] font-bold uppercase tracking-[.08em] '+(dark?'text-[#7f8498]':'text-[#9294a3]')}>{selected.compatibility}</span>
+      <span className={'shrink-0 text-[10px] font-bold uppercase tracking-[.08em] '+(dark?'text-[#7f8498]':'text-[#9294a3]')}>{selected.compatibility}</span>
     </div>
 
     {!compact&&<div className="mt-2 flex gap-1.5 overflow-x-auto pb-1">
