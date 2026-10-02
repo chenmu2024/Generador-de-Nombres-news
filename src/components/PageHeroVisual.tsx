@@ -14,6 +14,42 @@ function visualConfig(page:KeywordPage){
 }
 
 function contextChip(page:KeywordPage){
+  if(page.path==='/nombres-ff-unicos')return'Poco común';
+  if(page.path==='/nombres-ff-mujeres')return'Estilos femeninos';
+  if(page.path==='/nombres-clanes-ff')return'Clan + TAG';
+  if(page.path==='/generador-free-fire')return'Generador directo';
+  if(page.path==='/nombres-roblox')return'Username / Display';
+  if(page.path==='/nombres-instagram')return'Username / perfil';
+  if(page.path==='/nombres-anime')return'Gaming / redes';
+  if(page.path==='/nombres-de-mujer')return'Origen / significado';
+  if(page.path==='/nombres-de-nina')return'Cortos / poco comunes';
+  if(page.path==='/nombres-de-nino')return'Modernos / significado';
+  if(page.path==='/nombres-unisex')return'Uso mixto';
+  if(page.path==='/nombres-raros')return'Poco comunes';
+  if(page.path==='/nombres-por-letra')return'Directorio A–Z';
+  if(page.path.startsWith('/nombres-con-')){
+    const letter=page.path.replace('/nombres-con-','').replace('en','Ñ').toUpperCase();
+    return'Inicial '+letter;
+  }
+  if(page.path==='/nombres-japoneses')return'Kanji / romaji';
+  if(page.path==='/nombres-coreanos')return'Hangul / contexto';
+  if(page.path==='/nombres-chinos')return'Hanzi / lectura';
+  if(page.path==='/nombres-rusos')return'Cirílico / transliteración';
+  if(page.path==='/nombres-griegos')return'Clásicos / mitología';
+  if(page.path==='/nombres-mayas')return'Contexto prehispánico';
+  if(page.path==='/nombres-de-dioses')return'Mitologías';
+  if(page.path==='/nombres-franceses')return'Pronunciación / estilo';
+  if(page.path==='/nombres-italianos')return'Clásicos / modernos';
+  if(page.path==='/nombres-ingles')return'Uso internacional';
+  if(page.path==='/nombres-turcos')return'Grafía turca';
+  if(page.path==='/nombres-perritas')return'Hembras / personalidad';
+  if(page.path==='/nombres-perros-machos')return'Machos / tamaño';
+  if(page.path==='/nombres-gatos')return'Sexo / color';
+  if(page.path==='/nombres-gatos-negros')return'Negros / místicos';
+  if(page.path==='/nombres-gatos-machos')return'Machos / cortos';
+  if(page.path==='/perritas-chihuahua')return'Pequeñas / tiernas';
+  if(page.path==='/nombres-caballos')return'Caballos / yeguas';
+  if(page.path==='/nombres-peluches')return'Kawaii / adopción';
   if(page.tool==='culture')return'Origen + fuente';
   if(page.tool==='people')return'Comparador';
   if(page.tool==='pet')return'Filtros';
