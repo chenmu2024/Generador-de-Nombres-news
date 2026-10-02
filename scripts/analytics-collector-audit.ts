@@ -62,6 +62,11 @@ assert(Number(writes.length)===3,'Web-vital event must write a third datapoint')
 const vitalsPoint=writes[2] as {doubles?:number[]};
 assert(vitalsPoint.doubles?.[2]===1834.5,'Web-vital value must be stored in double3');
 
+const pageViewPayload={...validPayload,event:'page_view',placement:'page',role:'view',experimentId:'page-view-v1',sourcePath:'/nombres-de-mujer',targetPath:'/nombres-de-mujer'};
+const pageViewOk=await collector.onRequestPost({request:request(pageViewPayload),env:boundEnv});
+assert(pageViewOk.status===204,'Page-view analytics event must return 204');
+assert(Number(writes.length)===4,'Page-view event must write a fourth datapoint');
+
 const invalidEvent=await collector.onRequestPost({
   request:request({...validPayload,event:'search_text'}),
   env:boundEnv,
