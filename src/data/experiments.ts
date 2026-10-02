@@ -2,6 +2,7 @@ export const EXPERIMENTS={
   homeHero:'home-entry-v1',
   homePopular:'home-popular-v1',
   homeResume:'home-resume-v1',
+  homeQuick:'home-quick-v1',
   nextStep:'next-intent-v1',
   related:'related-links-v1',
   emptyFavorites:'favorites-empty-v1',
