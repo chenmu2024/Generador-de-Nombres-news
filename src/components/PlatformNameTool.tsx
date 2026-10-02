@@ -11,11 +11,18 @@ import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites
 type Platform='roblox'|'instagram';
 type NameMode='username'|'display';
 
-function cleanRoblox(value:string){return value.replace(/[^a-zA-Z0-9_]/g,'').replace(/_+/g,'_').slice(0,20)}
+function cleanRoblox(value:string){
+  const normalized=value.replace(/[^a-zA-Z0-9_]/g,'').replace(/^_+|_+$/g,'');
+  const firstUnderscore=normalized.indexOf('_');
+  const singleUnderscore=firstUnderscore<0
+    ?normalized
+    :normalized.slice(0,firstUnderscore+1)+normalized.slice(firstUnderscore+1).replace(/_/g,'');
+  return singleUnderscore.slice(0,20).replace(/_$/,'');
+}
 function robloxFormat(value:string){
   const issues:string[]=[];
   if(value.length<3||value.length>20)issues.push('Debe tener entre 3 y 20 caracteres.');
-  if(!/^[A-Za-z0-9_]+$/.test(value))issues.push('Usa solo letras, números y como máximo un guion bajo.');
+  if(!/^[A-Za-z0-9_]+$/.test(value))issues.push('Usa solo letras, números y guion bajo.');
   if((value.match(/_/g)||[]).length>1)issues.push('Solo se permite un guion bajo.');
   if(value.startsWith('_')||value.endsWith('_'))issues.push('El guion bajo no puede estar al principio ni al final.');
   return issues;
