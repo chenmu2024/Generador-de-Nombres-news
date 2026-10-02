@@ -6,6 +6,7 @@ import {Check,Copy,Gamepad2,Heart,Sparkles} from 'lucide-react';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
 import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
+import{copyText}from'@/lib/clipboard';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import NameFramePicker from './NameFramePicker';
 import {
@@ -131,7 +132,7 @@ export default function HomeFreeFireStudio(){
               <div className="flex items-center gap-1.5">
                 <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-7 sm:rounded-[7px] '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'}><Heart size={12} fill={saved?'currentColor':'none'}/></button>
                 <button onClick={()=>copy(value)} className="inline-flex h-11 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[11px] text-[#d3d6df] hover:bg-white/[.05] sm:h-7 sm:rounded-[7px] sm:px-2 sm:text-[10px]">
-                  {copied===value?<Check size={11}/>:<Copy size={11}/>} {copied===value?'Copiado':'Copiar'}
+                  {copied===value?<Check size={11}/>:<Copy size={11}/>} {copied===value?'Copiado':copied==='__error__'?'Reintentar':'Copiar'}
                 </button>
               </div>
             </div>;
