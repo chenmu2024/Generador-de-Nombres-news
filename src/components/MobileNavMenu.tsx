@@ -16,6 +16,28 @@ export default function MobileNavMenu({items}:{items:{label:string;href:string}[
     if(detailsRef.current)detailsRef.current.open=false;
   },[pathname]);
 
+  useEffect(()=>{
+    const details=detailsRef.current;
+    if(!details)return;
+
+    function onPointerDown(event:PointerEvent){
+      if(details.open&&!details.contains(event.target as Node))details.open=false;
+    }
+
+    function onKeyDown(event:KeyboardEvent){
+      if(event.key!=='Escape'||!details.open)return;
+      details.open=false;
+      details.querySelector('summary')?.focus();
+    }
+
+    document.addEventListener('pointerdown',onPointerDown);
+    document.addEventListener('keydown',onKeyDown);
+    return()=>{
+      document.removeEventListener('pointerdown',onPointerDown);
+      document.removeEventListener('keydown',onKeyDown);
+    };
+  },[]);
+
   return <details ref={detailsRef} className="relative xl:hidden">
     <summary aria-label="Menú de navegación" className="grid size-10 cursor-pointer list-none place-items-center rounded-full border border-[#e4e1ee] bg-white text-[#5b5d70]"><Menu size={17}/></summary>
     <nav aria-label="Navegación móvil" className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-[14px] border border-[#e5e2ed] bg-white p-1.5 shadow-[0_18px_50px_rgba(43,39,74,.16)]">
