@@ -14,10 +14,33 @@ export const metadata:Metadata={
   openGraph:{type:'website',siteName:'GeneradorDeNombres.net',locale:'es_ES'}
 };
 
+const siteStructuredData=[
+  {
+    '@context':'https://schema.org',
+    '@type':'Organization',
+    '@id':'https://generadordenombres.net/#organization',
+    name:'GeneradorDeNombres.net',
+    url:'https://generadordenombres.net/',
+    logo:'https://generadordenombres.net/favicon.svg',
+  },
+  {
+    '@context':'https://schema.org',
+    '@type':'WebSite',
+    '@id':'https://generadordenombres.net/#website',
+    name:'GeneradorDeNombres.net',
+    alternateName:'GDN',
+    url:'https://generadordenombres.net/',
+    description:'Generador de nombres, apodos e ideas para juegos, redes, bebés, mascotas y negocios.',
+    inLanguage:'es',
+    publisher:{'@id':'https://generadordenombres.net/#organization'},
+  },
+];
+
 export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){
   const buildVersion=(process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||'local').slice(0,12);
   return <html lang="es" data-gdn-build={buildVersion}>
     <body>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(siteStructuredData)}}/>
       <a href="#main-content" className="gdn-skip-link">Saltar al contenido</a>
       <AdsenseScript/>
       <PageArrivalTracker/>
