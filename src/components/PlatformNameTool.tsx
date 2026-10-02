@@ -72,20 +72,24 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
 
   const issues=platform==='roblox'&&mode==='username'?robloxFormat(seed.trim()):[];
 
-  return <section className="overflow-hidden rounded-[20px] border border-[#e2dfec] bg-white shadow-[0_14px_38px_rgba(55,49,91,.06)]">
+  const accent=platform==='roblox'?'#3f6edb':'#b85a78';
+  const soft=platform==='roblox'?'#f2f6ff':'#fff4f7';
+  const border=platform==='roblox'?'#dbe5f7':'#f0d9e2';
+
+  return <section className="overflow-hidden rounded-[20px] border bg-white shadow-[0_14px_38px_rgba(55,49,91,.06)]" style={{borderColor:border}}>
     <div className="grid lg:grid-cols-[360px_1fr]">
-      <div className="border-b border-[#eceaf3] bg-[#faf9ff] p-5 sm:p-6 lg:border-b-0 lg:border-r">
+      <div className="border-b p-5 sm:p-6 lg:border-b-0 lg:border-r" style={{borderColor:border,background:soft}}>
         <div className="flex items-center gap-3">
-          <span className="grid size-9 place-items-center rounded-[11px] bg-[#5b4df5] text-white"><AtSign size={15}/></span>
+          <span className="grid size-9 place-items-center rounded-[11px] text-white shadow-[0_8px_20px_rgba(36,42,68,.14)]" style={{background:accent}}><AtSign size={15}/></span>
           <div>
-            <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.12em] text-[#8177e9]">{platform==='roblox'?'Roblox':'Instagram'}</p>
+            <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.12em]" style={{color:accent}}>{platform==='roblox'?'Roblox':'Instagram'}</p>
             <h2 className="gdn-editorial text-[24px] font-bold text-[#292a39]">{platform==='roblox'?'Crea y revisa tu nombre':'Username y nombre visible'}</h2>
           </div>
         </div>
 
         <div className="mt-5 grid grid-cols-2 rounded-[11px] border border-[#e0dcea] bg-white p-1">
-          <button onClick={()=>{setMode('username');trackProductAction('mode-username','platform-tool')}} aria-pressed={mode==='username'} className={'min-h-10 rounded-[8px] px-3 py-2 text-[10px] font-semibold '+(mode==='username'?'bg-[#5b4df5] text-white':'text-[#787b8c]')}>Username</button>
-          <button onClick={()=>{setMode('display');trackProductAction('mode-display','platform-tool')}} aria-pressed={mode==='display'} className={'min-h-10 rounded-[8px] px-3 py-2 text-[10px] font-semibold '+(mode==='display'?'bg-[#5b4df5] text-white':'text-[#787b8c]')}>{platform==='roblox'?'Display Name':'Nombre visible'}</button>
+          <button onClick={()=>{setMode('username');trackProductAction('mode-username','platform-tool')}} aria-pressed={mode==='username'} style={mode==='username'?{background:accent}:undefined} className={'min-h-10 rounded-[8px] px-3 py-2 text-[10px] font-semibold transition '+(mode==='username'?'text-white':'text-[#787b8c]')}>Username</button>
+          <button onClick={()=>{setMode('display');trackProductAction('mode-display','platform-tool')}} aria-pressed={mode==='display'} style={mode==='display'?{background:accent}:undefined} className={'min-h-10 rounded-[8px] px-3 py-2 text-[10px] font-semibold transition '+(mode==='display'?'text-white':'text-[#787b8c]')}>{platform==='roblox'?'Display Name':'Nombre visible'}</button>
         </div>
 
         <label className="mt-5 block">
@@ -109,7 +113,7 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
       </div>
 
       <div>
-        <div className="flex items-center justify-between border-b border-[#eceaf3] bg-white px-5 py-3">
+        <div className="flex items-center justify-between border-b bg-white px-5 py-3" style={{borderColor:border}}>
           <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.1em] text-[#8b8e9d]">Resultados</p>
           <span className="text-[10px] font-semibold text-[#9a9cab]">{suggestions.length} opciones</span>
         </div>
@@ -119,7 +123,7 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
             return <div key={value} className="flex min-h-[66px] items-center justify-between gap-3 px-4 py-2.5 transition hover:bg-[#fcfbff] sm:px-5">
               <span className="gdn-editorial min-w-0 break-all text-[18px] font-bold text-[#2d2e3c]">{platform==='instagram'&&mode==='username'?'@':''}{value}</span>
               <div className="flex shrink-0 items-center gap-1.5">
-                <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-9 '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e0ddea] bg-white text-[#8c8e9d] hover:border-[#cfc8fb]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
+                <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} style={saved?{background:soft,borderColor:border,color:accent}:{}} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-9 '+(saved?'':'border-[#e0ddea] bg-white text-[#8c8e9d]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
                 <CopyButton value={value} analyticsRole="copy-platform-name"/>
               </div>
             </div>;
