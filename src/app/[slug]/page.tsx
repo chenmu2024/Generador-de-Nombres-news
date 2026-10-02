@@ -19,6 +19,7 @@ import EnyeGuide from'@/components/EnyeGuide';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
+import{getFaqs}from'@/data/contentModules';
 
 export const dynamicParams=false;
 export function generateStaticParams(){return keywordPages.filter(i=>i.path!=='/').map(i=>({slug:i.path.slice(1)}))}
@@ -54,11 +55,12 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&!isStore&&!isFreeFire&&['general','gaming','invisible','store','football'].includes(page.tool);
 
   const alphabetPages=keywordPages.filter(item=>item.path.startsWith('/nombres-con-'));
+  const faqs=getFaqs(page);
   const primarySchema=isToolPage
-    ? {'@context':'https://schema.org','@type':'WebApplication',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}}
+    ? {'@context':'https://schema.org','@type':'WebApplication',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,inLanguage:'es',applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}}
     : isAlphabet
-      ? {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,mainEntity:{'@type':'ItemList',itemListElement:alphabetPages.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.h1,url:'https://generadordenombres.net'+item.path}))}}
-      : {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,mainEntity:{'@type':'ItemList',itemListElement:items.slice(0,12).map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name}))}};
+      ? {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,inLanguage:'es',mainEntity:{'@type':'ItemList',itemListElement:alphabetPages.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.h1,url:'https://generadordenombres.net'+item.path}))}}
+      : {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,inLanguage:'es',mainEntity:{'@type':'ItemList',itemListElement:items.slice(0,12).map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name}))}};
 
   const breadcrumbItems=[
     {'@type':'ListItem',position:1,name:'Inicio',item:'https://generadordenombres.net/'},
@@ -66,9 +68,20 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {'@type':'ListItem',position:cluster.hubPath!==page.path?3:2,name:page.h1,item:'https://generadordenombres.net'+page.path},
   ];
   const breadcrumbSchema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:breadcrumbItems};
+  const faqSchema=faqs.length?{
+    '@context':'https://schema.org',
+    '@type':'FAQPage',
+    inLanguage:'es',
+    mainEntity:faqs.map(faq=>({
+      '@type':'Question',
+      name:faq.question,
+      acceptedAnswer:{'@type':'Answer',text:faq.answer},
+    })),
+  }:null;
+  const structuredData=faqSchema?[primarySchema,breadcrumbSchema,faqSchema]:[primarySchema,breadcrumbSchema];
 
   return <div className="gdn-shell gdn-page" data-tool={page.tool}>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify([primarySchema,breadcrumbSchema])}}/>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structuredData)}}/>
     <PageIntro page={page}/>
 
     {isRoblox&&<PlatformNameTool platform="roblox"/>}
