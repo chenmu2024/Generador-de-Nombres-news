@@ -9,7 +9,7 @@ const names=items.filter(item=>item.kind==='name');
 if(pages.length!==keywordPages.filter(page=>page.path!=='/').length){
   errors.push('Search index page count mismatch: '+pages.length);
 }
-if(names.length<250)errors.push('Search index has too few name records: '+names.length);
+if(names.length<600)errors.push('Search index has too few name records: '+names.length);
 
 for(const item of items){
   if(!keywordPageByPath.has(item.path))errors.push('Search item points to unknown route: '+item.title+' -> '+item.path);
