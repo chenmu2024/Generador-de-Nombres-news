@@ -12,7 +12,7 @@ const internalTags=new Set(['cat','dog','pet','horse','plush','gaming','freefire
 const tagLabels:Record<string,string>={
   short:'Corto',modern:'Moderno',classic:'Clásico',cute:'Tierno',small:'Pequeño',
   black:'Negro',mystic:'Místico',strong:'Fuerte',elegant:'Elegante',kawaii:'Kawaii',
-  mythology:'Mitológico',anime:'Anime',aesthetic:'Aesthetic',dark:'Dark',rare:'Poco común',
+  mythology:'Mitológico',anime:'Anime',aesthetic:'Aesthetic',dark:'Dark',rare:'Poco común',unique:'Único',
   orange:'Naranja',white:'Blanco',gray:'Gris',brown:'Marrón',playful:'Juguetón',calm:'Tranquilo',large:'Grande'
 };
 
