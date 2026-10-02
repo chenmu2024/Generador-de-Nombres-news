@@ -22,6 +22,22 @@ for(const page of pages){
   duplicatePages.add(page.path);
 }
 
+const blackCat=nameDataset.find(item=>item.type==='pet'&&item.tags.includes('cat')&&item.tags.includes('black'));
+if(blackCat){
+  const indexed=names.find(item=>item.title===blackCat.name&&item.path==='/nombres-gatos-negros');
+  if(!indexed?.searchText.includes('gato')||!indexed.searchText.includes('negro')){
+    errors.push('Spanish pet aliases missing from search index');
+  }
+}
+
+const strongDog=nameDataset.find(item=>item.type==='pet'&&item.tags.includes('dog')&&item.tags.includes('strong'));
+if(strongDog){
+  const indexed=names.find(item=>item.title===strongDog.name);
+  if(!indexed?.searchText.includes('perro')||!indexed.searchText.includes('fuerte')){
+    errors.push('Spanish dog aliases missing from search index');
+  }
+}
+
 if(errors.length){
   console.error('[Search Index] FAILED');
   for(const error of errors)console.error(' - '+error);
