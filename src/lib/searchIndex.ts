@@ -24,6 +24,55 @@ const cultureRoutes:Record<string,string>={
   mythology:'/nombres-de-dioses',
 };
 
+const tagSearchAliases:Record<string,string>={
+  cat:'gato gata gatos',
+  dog:'perro perra perros perritas',
+  pet:'mascota mascotas',
+  horse:'caballo yegua caballos',
+  plush:'peluche peluches',
+  black:'negro negra negros negras',
+  orange:'naranja',
+  white:'blanco blanca',
+  gray:'gris',
+  brown:'marron cafe',
+  cute:'tierno tierna bonito bonita',
+  playful:'jugueton juguetona',
+  calm:'tranquilo tranquila',
+  strong:'fuerte',
+  elegant:'elegante',
+  mystic:'mistico mistica',
+  kawaii:'kawaii',
+  small:'pequeno pequena corto corta',
+  large:'grande',
+  female:'mujer femenino hembra chica nina',
+  male:'hombre masculino macho chico nino',
+  unisex:'unisex',
+  short:'corto corta',
+  modern:'moderno moderna',
+  classic:'clasico clasica',
+  rare:'raro rara poco comun',
+  unique:'unico unica',
+  aesthetic:'aesthetic estetico estetica',
+  dark:'dark oscuro oscura',
+  gaming:'juego gaming gamer',
+  freefire:'free fire ff',
+  roblox:'roblox',
+  instagram:'instagram insta',
+  anime:'anime',
+  clan:'clan clanes',
+  japanese:'japones japonesa japon',
+  korean:'coreano coreana corea',
+  french:'frances francesa francia',
+  italian:'italiano italiana italia',
+  maya:'maya mayas',
+  russian:'ruso rusa rusia',
+  greek:'griego griega grecia',
+  english:'ingles inglesa',
+  turkish:'turco turca turquia',
+  chinese:'chino china',
+  mythology:'mitologia mitologico dioses dios diosas diosa',
+};
+
 export function normalizeSearch(value:string){
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es').replace(/\s+/g,' ').trim();
 }
@@ -101,7 +150,11 @@ export function buildSearchIndex():SiteSearchItem[]{
       subtitle:nameSubtitle(item),
       path,
       titleKey:normalizeSearch(item.name),
-      searchText:normalizeSearch([item.name,item.origin,item.meaning,item.script,item.pronunciation,...item.tags].filter(Boolean).join(' ')),
+      searchText:normalizeSearch([
+        item.name,item.origin,item.meaning,item.script,item.pronunciation,
+        ...item.tags,
+        ...item.tags.map(tag=>tagSearchAliases[tag]).filter(Boolean),
+      ].filter(Boolean).join(' ')),
     });
   }
 
