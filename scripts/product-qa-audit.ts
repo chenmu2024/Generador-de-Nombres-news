@@ -27,6 +27,7 @@ if(!nameGridSource.includes("mode==='people'||mode==='pet'||mode==='culture'"))e
 if(!nameGridSource.includes("get('preset')"))errors.push('NameGrid must consume preset query handoff');
 if(!nameGridSource.includes('Con significado')||!nameGridSource.includes('Fuente verificada'))errors.push('People/culture data facets must remain visible');
 if(!nameGridSource.includes('Mejor ajuste a esta página')||!nameGridSource.includes('No mide popularidad ni frecuencia real'))errors.push('Recommended ordering must explain intent-based, non-popularity ranking');
+if(!nameGridSource.includes('Escritura original')||!nameGridSource.includes('Encaja con')||!nameGridSource.includes('Uso rápido')||!nameGridSource.includes('Ficha con fuente'))errors.push('Result cards must keep mode-specific information hierarchy');
 if(!platform.includes("params.get('intent')")||!platform.includes("params.get('mode')"))errors.push('Platform tool no longer consumes intent/mode query handoff');
 if(!freeFire.includes("get('shortcut')"))errors.push('Free Fire tool no longer consumes shortcut query handoff');
 if(!freeFire.includes("requested==='duo'")||!freeFire.includes("label:'Dúo '"))errors.push('Free Fire duo mode must remain available');

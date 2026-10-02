@@ -41,6 +41,26 @@ const lengthLabels:Record<LengthFilter,string>={
   long:'7+ letras',
 };
 
+function resultKicker(mode:ToolMode,pagePath:string|undefined,item:NameRecord){
+  if(mode==='culture')return item.script?'Forma romanizada':'Nombre y contexto';
+  if(mode==='people')return item.verified===true&&item.sourceUrl?'Ficha con fuente':'Ficha para comparar';
+  if(mode==='pet')return'Idea para llamar a diario';
+  if(pagePath==='/nombres-instagram')return'Idea para perfil';
+  if(pagePath==='/nombres-roblox')return'Base para username';
+  if(pagePath==='/nombres-anime')return'Base temática';
+  if(pagePath?.includes('free-fire')||pagePath?.includes('ff-')||pagePath?.includes('clanes'))return'Base para nickname';
+  return'Idea para personalizar';
+}
+
+function petFitSummary(tags:string[]){
+  const labels=tags
+    .filter(tag=>petColors.includes(tag as typeof petColors[number])||petSizes.includes(tag as typeof petSizes[number])||petPersonalities.includes(tag as typeof petPersonalities[number]))
+    .map(tag=>tagLabels[tag])
+    .filter(Boolean)
+    .slice(0,3);
+  return labels.length?labels.join(' · '):'Prueba cómo suena al llamarlo en voz alta.';
+}
+
 function FacetRow({label,children}:{label:string;children:React.ReactNode}){
   return <div className="grid gap-2 border-t border-[#eceaf3] pt-3 sm:grid-cols-[92px_1fr] sm:items-center">
     <span className="text-[10px] font-black uppercase tracking-[.12em] text-[#9294a5]">{label}</span>
@@ -596,7 +616,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
           <p className="text-[13px] font-semibold text-[#5c5f70]">No encontramos resultados con esa combinación.</p>
           <button onClick={clearFilters} className="gdn-theme-chip mt-3 inline-flex min-h-10 items-center gap-2 rounded-full border px-4 text-[10px] font-semibold"><RotateCcw size={12}/>Restablecer filtros</button>
         </div>
-        :<div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">
+        :<div className={'grid gap-px bg-[#eceaf3] md:grid-cols-2 '+(mode==='culture'?'xl:grid-cols-2':'lg:grid-cols-3')}>
           {sortedFiltered.slice(0,limit).map(item=>{
             const itemGender=inferredGender(item);
             const genderLabel=itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':undefined;
@@ -612,12 +632,20 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
               ].filter((tag):tag is string=>Boolean(tag)).map(tag=>tagLabels[tag])
               :[];
             const isMythological=mode==='culture'&&item.tags.includes('mythology');
+            const verifiedSource=item.verified===true&&Boolean(item.sourceUrl);
+            const gameBadges=(mode==='gaming'||mode==='general')
+              ?item.tags.filter(tag=>!internalTags.has(tag)).slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' '))
+              :[];
+            const kicker=resultKicker(mode,pagePath,item);
+            const petFit=mode==='pet'?petFitSummary(item.tags):'';
+            const cardSurface=mode==='culture'?'bg-[#fffdfb] hover:bg-[#fffaf5]':mode==='pet'?'bg-[#fffefa] hover:bg-[#fffaf2]':(mode==='gaming'||mode==='general')?'bg-[#fdfcff] hover:bg-[#faf8ff]':'bg-white hover:bg-[#fcfbff]';
 
             const highlighted=randomPick===item.name||(arrivalName===item.name&&query===arrivalName);
-            return <article key={item.name+(item.origin??'')} aria-current={highlighted?'true':undefined} className={'min-h-[164px] p-4 transition sm:min-h-[186px] sm:p-5 '+(highlighted?'bg-[var(--page-soft)] ring-1 ring-inset ring-[var(--page-border)]':'bg-white hover:bg-[#fcfbff]')+' '+(mode==='culture'?'relative':'')}>
+            return <article key={item.name+(item.origin??'')} aria-current={highlighted?'true':undefined} className={'min-h-[164px] p-4 transition sm:min-h-[186px] sm:p-5 '+(highlighted?'bg-[var(--page-soft)] ring-1 ring-inset ring-[var(--page-border)]':cardSurface)+' '+(mode==='culture'?'relative':'')}>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <h3 className="gdn-editorial break-words text-[21px] font-bold leading-tight tracking-[-.025em] text-[#252634] sm:text-[23px]">{item.name}</h3>
+                  <p className="gdn-tech text-[8px] font-black uppercase tracking-[.12em] text-[var(--page-accent)]">{kicker}</p>
+                  <h3 className="gdn-editorial mt-1 break-words text-[21px] font-bold leading-tight tracking-[-.025em] text-[#252634] sm:text-[23px]">{item.name}</h3>
                   {(item.origin||genderLabel)&&<div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1 text-[10px] font-semibold text-[#9294a4] sm:text-[10px]">
                     {item.origin&&<span><span className="font-black uppercase tracking-[.08em]">Origen:</span> {item.origin}</span>}
                     {genderLabel&&<span>{genderLabel}</span>}
@@ -627,18 +655,45 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
                 <button onClick={()=>toggle(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 shrink-0 place-items-center rounded-full border transition sm:size-9 '+(saved?'border-[var(--page-border)] bg-[var(--page-soft)] text-[var(--page-accent)]':'border-[#e1ddea] bg-white text-[#8f91a0] hover:border-[var(--page-border)] hover:bg-[var(--page-soft)]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
               </div>
 
-              {(personBadges.length>0||petBadges.length>0)&&<div className="mt-3 flex flex-wrap gap-1.5">
-                {[...personBadges,...petBadges].map(label=><span key={label} className="rounded-full border border-[#e6e2f3] bg-[#faf9ff] px-2.5 py-1 text-[10px] font-semibold text-[#74758a]">{label}</span>)}
+              {(personBadges.length>0||petBadges.length>0||gameBadges.length>0)&&<div className="mt-3 flex flex-wrap gap-1.5">
+                {[...personBadges,...petBadges,...gameBadges].map(label=><span key={label} className="rounded-full border border-[#e6e2f3] bg-[#faf9ff] px-2.5 py-1 text-[10px] font-semibold text-[#74758a]">{label}</span>)}
               </div>}
 
-              {mode==='culture'&&item.script&&<div className="mt-3 rounded-[13px] border border-[#e6e1f7] bg-[#f8f6ff] px-4 py-3 sm:mt-4">
-                <p className="gdn-tech text-[10px] font-black uppercase tracking-[.12em] text-[#8a80d8]">Escritura</p>
-                <p className="gdn-editorial mt-1.5 break-words text-[21px] font-semibold leading-tight text-[#302b5f] sm:text-[24px]">{item.script}</p>
+              {mode==='people'&&<div className="mt-3 grid grid-cols-2 gap-2">
+                <div className="rounded-[11px] border border-[#e7e3f0] bg-[#faf9fd] px-3 py-2.5">
+                  <span className="gdn-tech block text-[8px] font-black uppercase tracking-[.09em] text-[#9a9cab]">Datos</span>
+                  <span className="mt-1 block text-[10px] font-semibold text-[#565869]">{verifiedSource?'Fuente verificada':'Ficha básica'}</span>
+                </div>
+                <div className="rounded-[11px] border border-[#e7e3f0] bg-[#faf9fd] px-3 py-2.5">
+                  <span className="gdn-tech block text-[8px] font-black uppercase tracking-[.09em] text-[#9a9cab]">Longitud</span>
+                  <span className="mt-1 block text-[10px] font-semibold text-[#565869]">{lengthLabels[lengthBucket(item.name)]}</span>
+                </div>
+              </div>}
+
+              {mode==='pet'&&<div className="mt-3 rounded-[12px] border border-[#eee5d9] bg-[#fffaf3] px-3 py-2.5">
+                <span className="gdn-tech block text-[8px] font-black uppercase tracking-[.09em] text-[#a38a6e]">Encaja con</span>
+                <span className="mt-1 block text-[10px] font-semibold leading-4 text-[#6d6257]">{petFit}</span>
+              </div>}
+
+              {(mode==='gaming'||mode==='general')&&<div className="mt-3 rounded-[12px] border border-[#e6e1f7] bg-[#f8f6ff] px-3 py-2.5">
+                <span className="gdn-tech block text-[8px] font-black uppercase tracking-[.09em] text-[#8a80d8]">Uso rápido</span>
+                <span className="mt-1 block text-[10px] font-semibold leading-4 text-[#5e5877]">Copia esta base y personalízala en la herramienta de la página.</span>
+              </div>}
+
+              {mode==='culture'&&item.script&&<div className="mt-3 grid gap-2 sm:mt-4 sm:grid-cols-[1fr_auto] sm:items-center">
+                <div className="rounded-[13px] border border-[#e6e1f7] bg-[#f8f6ff] px-4 py-3">
+                  <p className="gdn-tech text-[10px] font-black uppercase tracking-[.12em] text-[#8a80d8]">Escritura original</p>
+                  <p className="gdn-editorial mt-1.5 break-words text-[21px] font-semibold leading-tight text-[#302b5f] sm:text-[24px]">{item.script}</p>
+                </div>
+                {item.pronunciation&&<div className="rounded-[13px] border border-[#eee7dc] bg-[#fffaf3] px-3 py-3 sm:max-w-[180px]">
+                  <p className="gdn-tech text-[8px] font-black uppercase tracking-[.1em] text-[#a58b6d]">Lectura</p>
+                  <p className="mt-1.5 break-words text-[10px] font-semibold leading-4 text-[#655c52]">{item.pronunciation}</p>
+                </div>}
               </div>}
 
               <div className="mt-3 min-h-0 text-[12px] leading-5 text-[#747788] sm:mt-4 sm:min-h-12">
                 {item.meaning&&<p><strong className="text-[#444655]">{mode==='people'&&!(item.verified===true&&item.sourceUrl)?'Significado orientativo:':'Significado:'}</strong> {item.meaning}</p>}
-                {item.pronunciation&&<p className={item.meaning?'mt-1':''}><strong className="text-[#444655]">Pronunciación:</strong> {item.pronunciation}</p>}
+                {item.pronunciation&&mode!=='culture'&&<p className={item.meaning?'mt-1':''}><strong className="text-[#444655]">Pronunciación:</strong> {item.pronunciation}</p>}
                 {!item.meaning&&!item.pronunciation&&mode!=='culture'&&mode!=='people'&&mode!=='pet'&&<p>{item.tags.filter(tag=>!internalTags.has(tag)).slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
                 {mode==='culture'&&item.source&&<div className="mt-3 flex flex-wrap items-center gap-2">
                   <span className={'rounded-full px-2.5 py-1 text-[10px] font-bold '+(item.verified===true?'bg-[#eaf8f0] text-[#27764d]':item.verified===false?'bg-[#fff3e8] text-[#a86328]':'bg-[#f2f1f7] text-[#727486]')}>{item.verified===true?'Fuente verificada':item.verified===false?'En revisión':'Fuente documentada'}</span>
