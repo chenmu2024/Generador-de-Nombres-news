@@ -26,14 +26,8 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
   const isStyled=mode==='gaming'||mode==='general';
 
   const results=useMemo(()=>{
-    if(mode==='store'){
-      const base=seed.trim()?(seed.trim()+' '+style).trim():seed;
-      return generateStoreNames(base);
-    }
-    if(mode==='football'){
-      const base=seed.trim()?(seed.trim()+' '+style).trim():seed;
-      return generateFootballNames(base);
-    }
+    if(mode==='store')return generateStoreNames(seed,style);
+    if(mode==='football')return generateFootballNames(seed,style);
 
     const raw=seed.trim()||'Nova';
     const bases=[
