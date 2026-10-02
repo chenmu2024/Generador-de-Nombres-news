@@ -132,7 +132,7 @@ export default function BrandNameTool(){
     <div className="flex flex-col gap-4 border-b border-[#eceaf3] bg-[#faf9ff] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
       <div className="flex items-center gap-3">
         <span className="grid size-10 place-items-center rounded-[12px] bg-[#5b4df5] text-white"><Store size={16}/></span>
-        <div><p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#8177e9]">Branding tool</p><h2 className="brand-serif text-[25px] font-bold text-[#292a39] sm:text-[27px]">Crea nombres según sector, canal y tono</h2></div>
+        <div><p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#8177e9]">Branding tool</p><h2 className="brand-serif text-[25px] font-bold text-[#292a39] sm:text-[27px]">Crea nombres según sector, canal y tono</h2></div>
       </div>
       <div className="flex flex-wrap gap-2">
         <button onClick={nextBatch} className="inline-flex min-h-10 items-center gap-2 rounded-[10px] border border-[#dfdbea] bg-white px-3 text-[10px] font-semibold text-[#626576]"><RefreshCw size={12}/>Otra tanda</button>
@@ -141,16 +141,16 @@ export default function BrandNameTool(){
     </div>
 
     <div className="grid gap-3 border-b border-[#eceaf3] bg-[#f7f5ff] p-5 sm:grid-cols-2 lg:grid-cols-5">
-      <label><span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[.12em] text-[#87899a]">Palabra base</span><input value={seed} onChange={e=>setSeed(e.target.value)} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]" placeholder="Luna, café, moda..."/></label>
-      <label><span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[.12em] text-[#87899a]">Sector · {industries.length}</span><select value={industry} onChange={e=>{setIndustry(e.target.value as (typeof industries)[number]);setBatch(0)}} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]">{industries.map(x=><option key={x}>{x}</option>)}</select></label>
-      <label><span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[.12em] text-[#87899a]">Canal</span><select value={channel} onChange={e=>setChannel(e.target.value as (typeof channels)[number])} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]">{channels.map(x=><option key={x}>{x}</option>)}</select></label>
-      <label><span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[.12em] text-[#87899a]">Estilo · {styles.length}</span><select value={style} onChange={e=>{setStyle(e.target.value as (typeof styles)[number]);setBatch(0)}} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]">{styles.map(x=><option key={x}>{x}</option>)}</select></label>
-      <label><span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[.12em] text-[#87899a]">Idioma</span><select value={language} onChange={e=>setLanguage(e.target.value as (typeof languages)[number])} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]">{languages.map(x=><option key={x}>{x}</option>)}</select></label>
+      <label><span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[.12em] text-[#87899a]">Palabra base</span><input value={seed} onChange={e=>setSeed(e.target.value)} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]" placeholder="Luna, café, moda..."/></label>
+      <label><span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[.12em] text-[#87899a]">Sector · {industries.length}</span><select value={industry} onChange={e=>{setIndustry(e.target.value as (typeof industries)[number]);setBatch(0)}} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]">{industries.map(x=><option key={x}>{x}</option>)}</select></label>
+      <label><span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[.12em] text-[#87899a]">Canal</span><select value={channel} onChange={e=>setChannel(e.target.value as (typeof channels)[number])} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]">{channels.map(x=><option key={x}>{x}</option>)}</select></label>
+      <label><span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[.12em] text-[#87899a]">Estilo · {styles.length}</span><select value={style} onChange={e=>{setStyle(e.target.value as (typeof styles)[number]);setBatch(0)}} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]">{styles.map(x=><option key={x}>{x}</option>)}</select></label>
+      <label><span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[.12em] text-[#87899a]">Idioma</span><select value={language} onChange={e=>setLanguage(e.target.value as (typeof languages)[number])} className="gdn-input h-11 rounded-[11px] px-3 text-[11px]">{languages.map(x=><option key={x}>{x}</option>)}</select></label>
     </div>
 
     <div className="flex items-center justify-between border-b border-[#eceaf3] bg-white px-5 py-3">
-      <span className="text-[9px] font-bold uppercase tracking-[.12em] text-[#8b8e9d]">{results.length} propuestas</span>
-      <span aria-live="polite" className="text-[9px] font-semibold text-[#6558f5]">{feedback}</span>
+      <span className="text-[10px] font-bold uppercase tracking-[.12em] text-[#8b8e9d]">{results.length} propuestas</span>
+      <span aria-live="polite" className="text-[10px] font-semibold text-[#6558f5]">{feedback}</span>
     </div>
 
     <div className="grid gap-px bg-[#eceaf3] md:grid-cols-2">
@@ -166,6 +166,6 @@ export default function BrandNameTool(){
         </article>;
       })}
     </div>
-    <p className="border-t border-[#eceaf3] bg-[#faf9ff] px-5 py-4 text-[9px] leading-4 text-[#9092a1]">Los handles son simulaciones locales. Comprueba marcas, dominio y perfiles sociales antes de usar un nombre comercial.</p>
+    <p className="border-t border-[#eceaf3] bg-[#faf9ff] px-5 py-4 text-[10px] leading-4 text-[#9092a1]">Los handles son simulaciones locales. Comprueba marcas, dominio y perfiles sociales antes de usar un nombre comercial.</p>
   </section>
 }
