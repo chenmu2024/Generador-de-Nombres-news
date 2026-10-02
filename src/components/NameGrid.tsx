@@ -578,7 +578,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
       {filtered.length===0
         ?<div className="px-6 py-14 text-center">
           <p className="text-[13px] font-semibold text-[#5c5f70]">No encontramos resultados con esa combinación.</p>
-          <button onClick={clearFilters} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dcd7f0] bg-[#f7f5ff] px-4 text-[10px] font-semibold text-[#5b4df5]"><RotateCcw size={12}/>Restablecer filtros</button>
+          <button onClick={clearFilters} className="gdn-theme-chip mt-3 inline-flex min-h-10 items-center gap-2 rounded-full border px-4 text-[10px] font-semibold"><RotateCcw size={12}/>Restablecer filtros</button>
         </div>
         :<div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">
           {sortedFiltered.slice(0,limit).map(item=>{
@@ -605,7 +605,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                     {genderLabel&&<span>{genderLabel}</span>}
                   </div>}
                 </div>
-                <button onClick={()=>toggle(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 shrink-0 place-items-center rounded-full border transition sm:size-9 '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e1ddea] bg-white text-[#8f91a0] hover:border-[#cfc8fb] hover:bg-[#f7f5ff]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
+                <button onClick={()=>toggle(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 shrink-0 place-items-center rounded-full border transition sm:size-9 '+(saved?'border-[var(--page-border)] bg-[var(--page-soft)] text-[var(--page-accent)]':'border-[#e1ddea] bg-white text-[#8f91a0] hover:border-[var(--page-border)] hover:bg-[var(--page-soft)]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
               </div>
 
               {(personBadges.length>0||petBadges.length>0)&&<div className="mt-3 flex flex-wrap gap-1.5">
@@ -623,13 +623,13 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                 {!item.meaning&&!item.pronunciation&&mode!=='culture'&&mode!=='people'&&mode!=='pet'&&<p>{item.tags.filter(tag=>!internalTags.has(tag)).slice(0,3).map(tag=>tagLabels[tag]||tag.replace(/-/g,' ')).join(' · ')}</p>}
                 {mode==='culture'&&item.source&&<div className="mt-3 flex flex-wrap items-center gap-2">
                   <span className={'rounded-full px-2.5 py-1 text-[10px] font-bold '+(item.verified===true?'bg-[#eaf8f0] text-[#27764d]':item.verified===false?'bg-[#fff3e8] text-[#a86328]':'bg-[#f2f1f7] text-[#727486]')}>{item.verified===true?'Fuente verificada':item.verified===false?'En revisión':'Fuente documentada'}</span>
-                  {item.sourceUrl?<a className="text-[10px] font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:<span className="text-[10px] text-[#8e90a0]">{item.source}</span>}
+                  {item.sourceUrl?<a className="text-[10px] font-semibold text-[var(--page-accent)] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:<span className="text-[10px] text-[#8e90a0]">{item.source}</span>}
                 </div>}
                 {mode==='people'&&item.sourceUrl&&item.verified===true&&<div className="mt-3 flex flex-wrap items-center gap-2">
                   <span className="rounded-full bg-[#eaf8f0] px-2.5 py-1 text-[10px] font-bold text-[#27764d]">Significado verificado</span>
                   <a className="text-[10px] font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">Ver fuente</a>
                 </div>}
-                {mode!=='culture'&&mode!=='people'&&item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[#5b4df5] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
+                {mode!=='culture'&&mode!=='people'&&item.source&&<p className="mt-2 text-[11px] text-[#9698a6] sm:text-[10px]">Fuente: {item.sourceUrl?<a className="font-semibold text-[var(--page-accent)] hover:underline" href={item.sourceUrl} target="_blank" rel="noreferrer">{item.source}</a>:item.source}{item.verified===false?' · pendiente de revisión':''}</p>}
               </div>
 
               <div className="mt-3 flex flex-wrap gap-2 sm:mt-4">
@@ -639,7 +639,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                   onClick={()=>toggleCompare(item.name)}
                   aria-pressed={compareNames.includes(item.name)}
                   disabled={compareNames.length>=4&&!compareNames.includes(item.name)}
-                  className={'inline-flex min-h-11 items-center gap-1.5 rounded-[10px] border px-4 text-[12px] font-semibold transition sm:min-h-8 sm:px-3 sm:text-[10px] '+(compareNames.includes(item.name)?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#d9d5e6] bg-white text-[#5f6273] hover:border-[#cfc8fb] hover:text-[#5146d6] disabled:cursor-not-allowed disabled:opacity-40')}
+                  className={'inline-flex min-h-11 items-center gap-1.5 rounded-[10px] border px-4 text-[12px] font-semibold transition sm:min-h-8 sm:px-3 sm:text-[10px] '+(compareNames.includes(item.name)?'border-[var(--page-border)] bg-[var(--page-soft)] text-[var(--page-accent)]':'border-[#d9d5e6] bg-white text-[#5f6273] hover:border-[var(--page-border)] hover:text-[var(--page-accent)] disabled:cursor-not-allowed disabled:opacity-40')}
                 ><Scale size={12}/>{compareNames.includes(item.name)?'Comparando':'Comparar'}</button>}
               </div>
             </article>;
@@ -648,7 +648,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
       }
 
       {filtered.length>limit&&<div className="border-t border-[#eceaf3] bg-[#faf9ff] p-4 text-center">
-        <button onClick={()=>setLimit(v=>v+18)} className="min-h-11 rounded-[10px] border border-[#dedaf0] bg-white px-5 py-2.5 text-[12px] font-semibold text-[#5f6273] hover:border-[#cfc8fb] hover:text-[#5146d6]">Mostrar más</button>
+        <button onClick={()=>setLimit(v=>v+18)} className="min-h-11 rounded-[10px] border border-[#dedaf0] bg-white px-5 py-2.5 text-[12px] font-semibold text-[#5f6273] hover:border-[var(--page-border)] hover:text-[var(--page-accent)]">Mostrar más</button>
       </div>}
     </div>
   </section>
