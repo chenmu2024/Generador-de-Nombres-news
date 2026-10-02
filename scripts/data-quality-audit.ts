@@ -162,10 +162,17 @@ for(const [path,requiredTag,forbiddenTag] of [
 }
 
 
+const unisexItems=getNamesForPath('/nombres-unisex');
+const incompleteUnisex=unisexItems.filter(item=>!item.meaning||!item.source||!item.sourceUrl||item.verified!==true);
+if(incompleteUnisex.length){
+  errors.push('Unisex collection requires fully sourced records: '+incompleteUnisex.map(item=>item.name).join(', '));
+}
+
 const sourcedPeopleChecks=[
   {label:'people / sourced female meanings',items:getNamesForPath('/nombres-de-mujer'),min:24},
   {label:'people / sourced girl meanings',items:getNamesForPath('/nombres-de-nina'),min:12},
   {label:'people / sourced male meanings',items:getNamesForPath('/nombres-de-nino'),min:24},
+  {label:'people / sourced unisex meanings',items:getNamesForPath('/nombres-unisex'),min:20},
 ];
 
 for(const check of sourcedPeopleChecks){
