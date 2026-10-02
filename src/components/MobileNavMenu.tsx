@@ -17,18 +17,18 @@ export default function MobileNavMenu({items}:{items:{label:string;href:string}[
   },[pathname]);
 
   useEffect(()=>{
-    const details=detailsRef.current;
-    if(!details)return;
+    const menu=detailsRef.current;
+    if(!menu)return;
 
-    function onPointerDown(event:PointerEvent){
-      if(details.open&&!details.contains(event.target as Node))details.open=false;
-    }
+    const onPointerDown=(event:PointerEvent)=>{
+      if(menu.open&&!menu.contains(event.target as Node))menu.open=false;
+    };
 
-    function onKeyDown(event:KeyboardEvent){
-      if(event.key!=='Escape'||!details.open)return;
-      details.open=false;
-      details.querySelector('summary')?.focus();
-    }
+    const onKeyDown=(event:KeyboardEvent)=>{
+      if(event.key!=='Escape'||!menu.open)return;
+      menu.open=false;
+      menu.querySelector<HTMLElement>('summary')?.focus();
+    };
 
     document.addEventListener('pointerdown',onPointerDown);
     document.addEventListener('keydown',onKeyDown);
