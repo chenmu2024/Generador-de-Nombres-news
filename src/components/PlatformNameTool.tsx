@@ -31,19 +31,31 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
       const base=cleanRoblox(seed)||'Nova';
       if(mode==='display'){
         const clean=seed.trim().replace(/\s+/g,' ')||'Nova';
-        return Array.from(new Set([clean,clean+' Play',clean+' Pro',clean+' Studio','Team '+clean,clean+' X'])).slice(0,8);
+        return Array.from(new Set([
+          clean,clean+' Play',clean+' Pro',clean+' Studio','Team '+clean,clean+' X',
+          clean+' World',clean+' Squad','The '+clean,clean+' Live',
+        ])).slice(0,10);
       }
-      return Array.from(new Set([base,base+'Play',base+'X',base+'7','Pro_'+base,base+'_YT'].map(cleanRoblox))).filter(Boolean);
+      return Array.from(new Set([
+        base,base+'Play',base+'X',base+'7','Pro_'+base,base+'_YT',
+        'Its'+base,'The'+base,base+'GG','Real'+base,base+'Live','Mr'+base,
+      ].map(cleanRoblox))).filter(Boolean).slice(0,12);
     }
 
     if(mode==='display'){
       const base=seed.trim().replace(/\s+/g,' ')||'Luna';
-      const roots=[base,base+' Studio',base+' Daily','Soy '+base,base+' Co',base+' Online',base+' ✦',base+' ♡'];
-      return Array.from(new Set(roots.map(value=>applyUnicodeStyle(value,font))));
+      const roots=[
+        base,base+' Studio',base+' Daily','Soy '+base,base+' Co',base+' Online',
+        base+' ✦',base+' ♡','The '+base,base+' Mood',
+      ];
+      return Array.from(new Set(roots.map(value=>applyUnicodeStyle(value,font)))).slice(0,10);
     }
 
     const base=cleanInstagram(seed)||'luna';
-    return Array.from(new Set([base,base+'.studio',base+'_daily','soy.'+base,base+'.co',base+'_online'].map(cleanInstagram))).filter(Boolean);
+    return Array.from(new Set([
+      base,base+'.studio',base+'_daily','soy.'+base,base+'.co',base+'_online',
+      'the.'+base,base+'.mood',base+'_club','hola.'+base,base+'.edit',base+'_life',
+    ].map(cleanInstagram))).filter(Boolean).slice(0,12);
   },[seed,mode,platform,font]);
 
   const issues=platform==='roblox'&&mode==='username'?robloxFormat(seed.trim()):[];
