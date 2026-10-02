@@ -6,6 +6,7 @@ import CopyButton from './CopyButton';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import {trackProductAction} from '@/lib/analytics';
 import {applyUnicodeStyle,type UnicodeStyleId} from '@/lib/styledText';
+import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 
 type Platform='roblox'|'instagram';
 type NameMode='username'|'display';
@@ -27,15 +28,12 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
   const[font,setFont]=useState<UnicodeStyleId>('script');
   const[favorites,setFavorites]=useState<string[]>([]);
 
-  useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
+  useEffect(()=>{setFavorites(readFavorites())},[]);
 
   function toggleFavorite(value:string){
-    const removing=favorites.includes(value);
-    const next=removing?favorites.filter(item=>item!==value):Array.from(new Set([...favorites,value]));
+    const{items:next,removed}=toggleStoredFavorite(value,favorites);
     setFavorites(next);
-    localStorage.setItem('gdn-favorites',JSON.stringify(next));
-    window.dispatchEvent(new Event('gdn:favorites-updated'));
-    trackProductAction(removing?'favorite-remove':'favorite-add','platform-tool');
+    trackProductAction(removed?'favorite-remove':'favorite-add','platform-tool');
   }
 
   const suggestions=useMemo(()=>{
