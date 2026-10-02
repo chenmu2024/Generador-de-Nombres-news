@@ -14,7 +14,8 @@ export const metadata:Metadata={
 };
 
 export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){
-  return <html lang="es">
+  const buildVersion=(process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||'local').slice(0,12);
+  return <html lang="es" data-gdn-build={buildVersion}>
     <head><link rel="preconnect" href="https://images.unsplash.com"/><link rel="dns-prefetch" href="https://images.unsplash.com"/></head>
     <body>
       <AdsenseScript/>
