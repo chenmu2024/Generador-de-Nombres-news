@@ -13,6 +13,10 @@
   --accent-soft:#f0edff;
   --success:#24a362;
   --danger:#cf4d61;
+  --font-ui:"Avenir Next","Segoe UI Variable","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-display:Baskerville,"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;
+  --font-editorial:"Sitka Text",Charter,"Bitstream Charter",Cambria,Georgia,serif;
+  --font-tech:"SFMono-Regular","Cascadia Code","Roboto Mono","Liberation Mono",monospace;
 }
 
 *{box-sizing:border-box}
@@ -21,7 +25,7 @@ body{
   margin:0;
   color:var(--text);
   background:var(--bg);
-  font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI Variable","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-family:var(--font-ui);
   text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;
 }
@@ -50,10 +54,15 @@ button{cursor:pointer}
 .gdn-chip{border:1px solid var(--border);background:#fff;color:var(--text-2);transition:.16s ease}
 .gdn-chip:hover{background:#f7f5ff;border-color:#d8d2f0}
 .gdn-chip[data-active="true"]{border-color:#c9c1ff;background:var(--accent-soft);color:#5146d6}
-.gdn-section-title{font-family:"Iowan Old Style","Palatino Linotype","Book Antiqua",Cambria,Georgia,serif;font-size:1.65rem;line-height:2rem;font-weight:700;letter-spacing:-.025em}
+.gdn-section-title{font-family:var(--font-display);font-size:1.65rem;line-height:2rem;font-weight:700;letter-spacing:-.025em}
 .gdn-caption{font-size:.75rem;line-height:1.1rem;color:var(--muted)}
-.font-serif{font-family:Georgia,"Times New Roman",serif}
-.brand-serif{font-family:Georgia,"Times New Roman",serif}
+.font-serif,.gdn-display{font-family:var(--font-display)}
+.brand-serif,.gdn-editorial{font-family:var(--font-editorial)}
+.gdn-ui{font-family:var(--font-ui)}
+.gdn-tech{font-family:var(--font-tech);font-variant-numeric:tabular-nums}
+.gdn-display{font-feature-settings:"liga" 1,"kern" 1}
+.gdn-editorial{font-feature-settings:"liga" 1,"kern" 1}
+.gdn-tech{letter-spacing:-.015em}
 .home-hero{background:#fbfbff}
 
 @media(max-width:640px){
