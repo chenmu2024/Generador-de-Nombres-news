@@ -25,19 +25,19 @@ export default function CultureDataNote({items}:{items:NameRecord[]}){
     <div className="grid gap-px bg-[#e5e0f7] sm:grid-cols-2 lg:grid-cols-4">
       <div className="bg-[#f8f7ff] p-4">
         <div className="flex items-center gap-2 text-[#5b4df5]"><Globe2 size={14}/><span className="text-[10px] font-black uppercase tracking-[.12em]">Origen</span></div>
-        <p className="mt-2 text-[12px] leading-5 text-[#696c7e]">{origins?\`\${origins} \${origins===1?'origen':'orígenes'} distintos en esta colección.\`:'El origen se muestra solo cuando está documentado.'}</p>
+        <p className="mt-2 text-[12px] leading-5 text-[#696c7e]">{origins?`${origins} ${origins===1?'origen':'orígenes'} distintos en esta colección.`:'El origen se muestra solo cuando está documentado.'}</p>
       </div>
       <div className="bg-[#f8f7ff] p-4">
         <div className="flex items-center gap-2 text-[#5b4df5]"><Languages size={14}/><span className="text-[10px] font-black uppercase tracking-[.12em]">Escritura</span></div>
-        <p className="mt-2 text-[12px] leading-5 text-[#696c7e]">{scripts?\`\${scripts} de \${items.length} registros incluyen escritura original (\${percentage(scripts,items.length)}%).\`:'La escritura original se muestra solo cuando está disponible.'}</p>
+        <p className="mt-2 text-[12px] leading-5 text-[#696c7e]">{scripts?`${scripts} de ${items.length} registros incluyen escritura original (${percentage(scripts,items.length)}%).`:'La escritura original se muestra solo cuando está disponible.'}</p>
       </div>
       <div className="bg-[#f8f7ff] p-4">
         <div className="flex items-center gap-2 text-[#5b4df5]"><Volume2 size={14}/><span className="text-[10px] font-black uppercase tracking-[.12em]">Pronunciación</span></div>
-        <p className="mt-2 text-[12px] leading-5 text-[#696c7e]">{pronunciations?\`\${pronunciations} registros incluyen guía de pronunciación (\${percentage(pronunciations,items.length)}%).\`:'No inferimos pronunciaciones cuando la base no las documenta.'}</p>
+        <p className="mt-2 text-[12px] leading-5 text-[#696c7e]">{pronunciations?`${pronunciations} registros incluyen guía de pronunciación (${percentage(pronunciations,items.length)}%).`:'No inferimos pronunciaciones cuando la base no las documenta.'}</p>
       </div>
       <div className="bg-[#f8f7ff] p-4">
         <div className="flex items-center gap-2 text-[#5b4df5]"><BookOpenCheck size={14}/><span className="text-[10px] font-black uppercase tracking-[.12em]">Fuentes</span></div>
-        <p className="mt-2 text-[12px] leading-5 text-[#696c7e]">{items.length?\`\${sourced} de \${items.length} tienen enlace de fuente; \${verified} están verificados.\`:'No hay registros culturales disponibles.'}</p>
+        <p className="mt-2 text-[12px] leading-5 text-[#696c7e]">{items.length?`${sourced} de ${items.length} tienen enlace de fuente; ${verified} están verificados.`:'No hay registros culturales disponibles.'}</p>
       </div>
     </div>
 
