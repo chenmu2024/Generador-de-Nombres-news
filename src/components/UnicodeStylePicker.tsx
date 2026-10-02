@@ -35,14 +35,14 @@ export default function UnicodeStylePicker({
   return <div>
     <div className="mb-2 flex items-center justify-between gap-3">
       <span className={'text-[10px] font-bold uppercase tracking-[.12em] '+(dark?'text-[#9fa4b8]':'text-[#858899]')}>Fuente Unicode</span>
-      <span className={'rounded-full px-2 py-1 text-[10px] font-black uppercase tracking-[.08em] '+(dark?'bg-white/[.07] text-[#aeb2c1]':'bg-[#f0edff] text-[#6558f5]')}>{unicodeStyles.length} estilos</span>
+      <span className={'rounded-full px-2 py-1 text-[10px] font-black uppercase tracking-[.08em] '+(dark?'bg-white/[.07] text-[#aeb2c1]':'bg-[var(--page-soft,#f0edff)] text-[var(--page-ink,#6558f5)]')}>{unicodeStyles.length} estilos</span>
     </div>
 
     <select
       value={value}
       onChange={event=>onChange(event.target.value as UnicodeStyleId)}
       aria-label="Elegir fuente Unicode"
-      className={'h-11 w-full rounded-[10px] border px-3 text-[11px] outline-none transition '+(dark?'border-white/14 bg-[#181c2a] text-white focus:border-[#776cff]':'border-[#dedbe8] bg-white text-[#4f5162] focus:border-[#8e83ff]')}
+      className={'h-11 w-full rounded-[10px] border px-3 text-[11px] outline-none transition '+(dark?'border-white/14 bg-[#181c2a] text-white focus:border-[#776cff]':'border-[#dedbe8] bg-white text-[#4f5162] focus:border-[var(--page-accent,#8e83ff)]')}
     >
       {styleGroups.map(group=><optgroup key={group.label} label={group.label}>
         {group.ids.map(id=>{
@@ -68,8 +68,8 @@ export default function UnicodeStylePicker({
         aria-pressed={value===style.id}
         title={style.label}
         className={'min-h-9 min-w-[44px] shrink-0 rounded-[8px] border px-2 text-[12px] font-semibold transition '+(value===style.id
-          ?dark?'border-[#7469ff] bg-[#5b4df5] text-white':'border-[#c9c1ff] bg-[#f0edff] text-[#5146d6]'
-          :dark?'border-white/12 bg-white/[.04] text-[#d6d9e3] hover:bg-white/[.08]':'border-[#e3e0eb] bg-white text-[#66697a] hover:bg-[#f7f5ff]')}
+          ?dark?'border-[#7469ff] bg-[#5b4df5] text-white':'border-[var(--page-border,#c9c1ff)] bg-[var(--page-soft,#f0edff)] text-[var(--page-ink,#5146d6)]'
+          :dark?'border-white/12 bg-white/[.04] text-[#d6d9e3] hover:bg-white/[.08]':'border-[#e3e0eb] bg-white text-[#66697a] hover:border-[var(--page-border,#d8d2f0)] hover:bg-[var(--page-soft,#f7f5ff)]')}
       >{style.shortLabel}</button>)}
     </div>
 
@@ -96,8 +96,8 @@ export default function UnicodeStylePicker({
                   onClick={()=>onChange(style.id)}
                   aria-pressed={active}
                   className={'min-w-0 rounded-[9px] border px-3 py-2 text-left transition '+(active
-                    ?dark?'border-[#7469ff] bg-[#5b4df5]/20':'border-[#c9c1ff] bg-[#f0edff]'
-                    :dark?'border-white/8 bg-white/[.025] hover:bg-white/[.06]':'border-[#e8e5ef] bg-white hover:border-[#d8d2f4]')}
+                    ?dark?'border-[#7469ff] bg-[#5b4df5]/20':'border-[var(--page-border,#c9c1ff)] bg-[var(--page-soft,#f0edff)]'
+                    :dark?'border-white/8 bg-white/[.025] hover:bg-white/[.06]':'border-[#e8e5ef] bg-white hover:border-[var(--page-border,#d8d2f4)]')}
                 >
                   <span className={'block truncate text-[13px] font-semibold '+(dark?'text-white':'text-[#313241]')}>{applyUnicodeStyle(preview||'Nova',style.id)}</span>
                   <span className={'mt-1 flex items-center justify-between gap-2 text-[9px] '+(dark?'text-[#7f8498]':'text-[#9698a7]')}>
