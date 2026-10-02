@@ -25,12 +25,12 @@ export default function PageIntro({page}:{page:KeywordPage}){
 
     <div className="grid gap-8 lg:grid-cols-[1fr_280px] lg:items-end">
       <div>
-        <span className="inline-flex items-center gap-2 rounded-full border border-[#ddd8ff] bg-[#f4f2ff] px-3 py-1.5 text-[10px] font-bold text-[#5b4df5]"><Sparkles size={12}/>{cluster.label}</span>
+        <span className="gdn-theme-chip inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-bold"><Sparkles size={12}/>{cluster.label}</span>
         <h1 className="gdn-display mt-5 max-w-4xl text-[40px] font-bold leading-[1.01] tracking-[-.045em] text-[#171827] md:text-[61px]">{page.h1}</h1>
         <p className="mt-5 max-w-3xl text-[15px] leading-7 text-[#6b6e80] md:text-[16px]">{page.description}</p>
       </div>
-      <aside className="hidden rounded-[18px] border border-[#e6e2f4] bg-white p-5 shadow-[0_12px_34px_rgba(55,49,91,.06)] lg:block">
-        <p className="gdn-tech text-[9px] font-bold uppercase tracking-[.14em] text-[#8276ef]">{helper.eyebrow}</p>
+      <aside className="gdn-theme-panel hidden rounded-[18px] border p-5 shadow-[0_12px_34px_rgba(55,49,91,.06)] lg:block">
+        <p className="gdn-tech gdn-theme-accent text-[9px] font-bold uppercase tracking-[.14em]">{helper.eyebrow}</p>
         <p className="gdn-editorial mt-2 text-[22px] font-bold leading-tight text-[#262738]">{helper.title}</p>
         <p className="mt-2 text-[11px] leading-5 text-[#838697]">{helper.body}</p>
       </aside>
