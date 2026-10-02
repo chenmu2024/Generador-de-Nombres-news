@@ -65,9 +65,9 @@ export default function HomeQuickGenerator({
   return <section className="overflow-hidden rounded-[22px] border border-[#e2dfec] bg-white shadow-[0_16px_42px_rgba(55,49,91,.07)]">
     <div className="grid lg:grid-cols-[300px_1fr]">
       <div className="border-b border-[#eceaf3] p-5 sm:p-6 lg:border-b-0 lg:border-r">
-        <p className="gdn-tech text-[10px] font-black uppercase tracking-[.14em]" style={{color:config.accent}}>Generador rápido</p>
-        <h2 className="gdn-display mt-2 text-[30px] font-bold leading-[1.02] tracking-[-.035em] text-[#20212e]">Empieza con una categoría.</h2>
-        <p className="mt-3 text-[11px] leading-5 text-[#7b7e90]">Genera una primera selección y después entra en la herramienta especializada si quieres afinar filtros, estilo o contexto.</p>
+        <p className="gdn-tech text-[10px] font-black uppercase tracking-[.14em]" style={{color:config.accent}}>Explorador rápido</p>
+        <h2 className="gdn-display mt-2 text-[30px] font-bold leading-[1.02] tracking-[-.035em] text-[#20212e]">Descubre ideas sin configurar nada.</h2>
+        <p className="mt-3 text-[11px] leading-5 text-[#7b7e90]">Cambia de categoría, mira seis ideas y entra en la herramienta especializada solo cuando quieras profundizar.</p>
 
         <div className="mt-5 grid grid-cols-2 gap-2">
           {modes.map(item=>{
@@ -85,7 +85,7 @@ export default function HomeQuickGenerator({
         </label>}
 
         <button onClick={nextBatch} className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[11px] px-4 text-[11px] font-semibold text-white transition hover:brightness-95" style={{background:config.accent}}>
-          <RefreshCw size={13}/> Generar otra selección
+          <RefreshCw size={13}/> Ver otras ideas
         </button>
       </div>
 
@@ -93,7 +93,7 @@ export default function HomeQuickGenerator({
         <div className="flex items-center justify-between gap-3 border-b border-[#eceaf3] px-4 py-3 sm:px-5">
           <div>
             <p className="gdn-tech text-[9px] font-black uppercase tracking-[.1em] text-[#8d8f9f]">{config.label}</p>
-            <p className="mt-0.5 text-[11px] text-[#777a8a]">6 ideas para empezar</p>
+            <p className="mt-0.5 text-[11px] text-[#777a8a]">6 ideas rápidas</p>
           </div>
           <TrackedLink href={config.href} placement="home-quick-generator" role={'open-'+mode+'-hub'} experimentId={EXPERIMENTS.homeQuick} className="inline-flex min-h-10 items-center gap-1.5 rounded-full border px-3 text-[10px] font-semibold transition hover:brightness-[.98]" style={{borderColor:config.accent,background:config.soft,color:config.accent}}>
             Ver herramienta completa <ArrowRight size={11}/>
