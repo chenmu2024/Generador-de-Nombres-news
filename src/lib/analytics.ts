@@ -1,4 +1,4 @@
-export type AnalyticsEventName='link_impression'|'link_click'|'page_arrival'|'tool_action'|'session_depth';
+export type AnalyticsEventName='link_impression'|'link_click'|'page_arrival'|'tool_action'|'session_depth'|'web_vital';
 
 export interface AnalyticsEventPayload{
   event:AnalyticsEventName;
@@ -8,6 +8,7 @@ export interface AnalyticsEventPayload{
   sourcePath:string;
   targetPath:string;
   ts:number;
+  value?:number;
 }
 
 export interface PendingNavigation{
@@ -64,6 +65,7 @@ export function emitAnalyticsEvent(payload:AnalyticsEventPayload){
     gdn_source_path:payload.sourcePath,
     gdn_target_path:payload.targetPath,
     gdn_ts:payload.ts,
+    gdn_value:payload.value,
   });
 
   const endpoint=process.env.NEXT_PUBLIC_ANALYTICS_ENDPOINT;
