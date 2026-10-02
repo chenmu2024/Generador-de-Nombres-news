@@ -20,7 +20,7 @@ export default function AlphabetMatrix(){
         const count=counts.get(href)??0;
         return <Link key={letter} href={href} aria-label={'Nombres con '+letter+', '+count+' disponibles'} className="group flex aspect-square flex-col items-center justify-center gap-1 bg-white text-[#454758] transition hover:bg-[#f2efff] hover:text-[#5b4df5]">
           <span className="flex items-center gap-1 text-[14px] font-bold">{letter}<ArrowRight size={9} className="opacity-0 transition group-hover:opacity-100"/></span>
-          <span className="text-[8px] font-semibold text-[#9a9cac]">{count}</span>
+          <span className="text-[10px] font-semibold text-[#9a9cac]">{count}</span>
         </Link>;
       })}
     </div>
