@@ -1,7 +1,7 @@
 'use client';
 
-import {useMemo,useState} from 'react';
-import {AtSign,BadgeCheck,ShieldAlert} from 'lucide-react';
+import {useEffect,useMemo,useState} from 'react';
+import {AtSign,BadgeCheck,Heart,ShieldAlert} from 'lucide-react';
 import CopyButton from './CopyButton';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import {trackProductAction} from '@/lib/analytics';
@@ -25,6 +25,18 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
   const[seed,setSeed]=useState(platform==='roblox'?'Nova':'luna');
   const[mode,setMode]=useState<NameMode>('username');
   const[font,setFont]=useState<UnicodeStyleId>('script');
+  const[favorites,setFavorites]=useState<string[]>([]);
+
+  useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
+
+  function toggleFavorite(value:string){
+    const removing=favorites.includes(value);
+    const next=removing?favorites.filter(item=>item!==value):Array.from(new Set([...favorites,value]));
+    setFavorites(next);
+    localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    window.dispatchEvent(new Event('gdn:favorites-updated'));
+    trackProductAction(removing?'favorite-remove':'favorite-add','platform-tool');
+  }
 
   const suggestions=useMemo(()=>{
     if(platform==='roblox'){
@@ -102,10 +114,16 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
           <span className="text-[9px] font-semibold text-[#9a9cab]">{suggestions.length} opciones</span>
         </div>
         <div className="divide-y divide-[#eceaf3]">
-          {suggestions.map(value=><div key={value} className="flex min-h-[66px] items-center justify-between gap-3 px-5 transition hover:bg-[#fcfbff]">
-            <span className="brand-serif min-w-0 break-all text-[18px] font-bold text-[#2d2e3c]">{platform==='instagram'&&mode==='username'?'@':''}{value}</span>
-            <CopyButton value={value} analyticsRole="copy-platform-name"/>
-          </div>)}
+          {suggestions.map(value=>{
+            const saved=favorites.includes(value);
+            return <div key={value} className="flex min-h-[66px] items-center justify-between gap-3 px-4 py-2.5 transition hover:bg-[#fcfbff] sm:px-5">
+              <span className="brand-serif min-w-0 break-all text-[18px] font-bold text-[#2d2e3c]">{platform==='instagram'&&mode==='username'?'@':''}{value}</span>
+              <div className="flex shrink-0 items-center gap-1.5">
+                <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-9 '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e0ddea] bg-white text-[#8c8e9d] hover:border-[#cfc8fb]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
+                <CopyButton value={value} analyticsRole="copy-platform-name"/>
+              </div>
+            </div>;
+          })}
         </div>
       </div>
     </div>
