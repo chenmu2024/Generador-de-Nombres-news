@@ -6,6 +6,15 @@ import{topicClusters}from'@/data/topicClusters';
 export default function PageIntro({page}:{page:KeywordPage}){
   const cluster=topicClusters[page.cluster];
   const showClusterLink=cluster.hubPath!==page.path;
+  const helper=page.tool==='culture'
+    ?{eyebrow:'Datos comprobables',title:'Origen, escritura y fuentes.',body:'Busca por origen y filtra los registros con escritura, pronunciación o fuente verificada.'}
+    :page.tool==='people'||page.tool==='pet'
+      ?{eyebrow:'Herramienta',title:'Filtra, compara y guarda.',body:'Reduce la lista por rasgos, compara hasta cuatro opciones y guarda tus favoritas en el navegador.'}
+      :page.tool==='store'
+        ?{eyebrow:'Branding',title:'Genera y valida ideas.',body:'Combina sector, canal, tono e idioma antes de comprobar marca, dominio y perfiles sociales.'}
+        :page.tool==='gaming'||page.tool==='invisible'||page.tool==='football'
+          ?{eyebrow:'Herramienta',title:'Crea, copia y prueba.',body:'Genera variantes rápidas, copia el resultado y comprueba su compatibilidad donde vayas a usarlo.'}
+          :{eyebrow:'Herramienta',title:'Gratis, directa y sin registro.',body:'Explora resultados, aplica filtros cuando estén disponibles y guarda tus favoritos localmente.'};
 
   return <header className="pb-10 pt-10 md:pb-12 md:pt-14">
     <nav aria-label="Breadcrumb" className="mb-6 flex min-w-0 items-center gap-1.5 overflow-hidden whitespace-nowrap text-[11px] font-semibold sm:flex-wrap sm:overflow-visible sm:whitespace-normal text-[#9294a5]">
@@ -21,9 +30,9 @@ export default function PageIntro({page}:{page:KeywordPage}){
         <p className="mt-5 max-w-3xl text-[15px] leading-7 text-[#6b6e80] md:text-[16px]">{page.description}</p>
       </div>
       <aside className="hidden rounded-[18px] border border-[#e6e2f4] bg-white p-5 shadow-[0_12px_34px_rgba(55,49,91,.06)] lg:block">
-        <p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#8276ef]">Herramienta</p>
-        <p className="brand-serif mt-2 text-[22px] font-bold leading-tight text-[#262738]">Gratis, directa y sin registro.</p>
-        <p className="mt-2 text-[11px] leading-5 text-[#838697]">Genera, filtra, compara y guarda en tu navegador.</p>
+        <p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#8276ef]">{helper.eyebrow}</p>
+        <p className="brand-serif mt-2 text-[22px] font-bold leading-tight text-[#262738]">{helper.title}</p>
+        <p className="mt-2 text-[11px] leading-5 text-[#838697]">{helper.body}</p>
       </aside>
     </div>
   </header>
