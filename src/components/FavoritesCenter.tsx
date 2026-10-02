@@ -6,6 +6,7 @@ import {EXPERIMENTS} from '@/data/experiments';
 import {Copy,Download,Heart,Search,Trash2,X,Clock3,ArrowUpAZ} from 'lucide-react';
 import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
+import{copyText}from'@/lib/clipboard';
 
 export default function FavoritesCenter(){
   const[items,setItems]=useState<string[]>([]);
@@ -15,7 +16,7 @@ export default function FavoritesCenter(){
   const[confirmClear,setConfirmClear]=useState(false);
   useEffect(()=>{try{setItems(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
   function remove(name:string){const next=items.filter(i=>i!==name);setItems(next);localStorage.setItem('gdn-favorites',JSON.stringify(next));window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-remove','favorites-center')}
-  async function copyAll(){await navigator.clipboard.writeText(items.join('\n'));trackProductAction('copy-all-favorites','favorites-center')}
+  async function copyAll(){const ok=await copyText(items.join('\n'));if(!ok)return;trackProductAction('copy-all-favorites','favorites-center')}
   function clear(){if(!confirmClear){setConfirmClear(true);return}setItems([]);setConfirmClear(false);localStorage.removeItem('gdn-favorites');window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-clear-all','favorites-center')}
   function exportTxt(){const blob=new Blob([items.join('\n')],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='mis-nombres-favoritos.txt';a.click();URL.revokeObjectURL(url);trackProductAction('export-favorites-txt','favorites-center')}
 
