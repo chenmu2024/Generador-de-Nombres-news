@@ -38,6 +38,16 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
   const[favorites,setFavorites]=useState<string[]>([]);
 
   useEffect(()=>{setFavorites(readFavorites())},[]);
+  useEffect(()=>{
+    const params=new URLSearchParams(window.location.search);
+    const requestedMode=params.get('mode');
+    if(requestedMode==='username'||requestedMode==='display')setMode(requestedMode);
+    const requestedIntent=params.get('intent') as PlatformIntent|null;
+    const allowed=platform==='roblox'
+      ?new Set<PlatformIntent>(['general','blox','brookhaven','aesthetic','short'])
+      :new Set<PlatformIntent>(['general','aesthetic','creator','short','letters']);
+    if(requestedIntent&&allowed.has(requestedIntent))setIntent(requestedIntent);
+  },[platform]);
 
   function toggleFavorite(value:string){
     const{items:next,removed}=toggleStoredFavorite(value,favorites);

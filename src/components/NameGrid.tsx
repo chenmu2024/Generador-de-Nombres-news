@@ -9,6 +9,7 @@ import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
 import{consumeNameSearch}from'@/lib/searchHandoff';
 import{readFavorites,toggleFavorite as toggleStoredFavorite,writeFavorites}from'@/lib/favorites';
+import{getQuickPresets,type QuickPreset}from'@/data/nameGridPresets';
 
 const internalTags=new Set(['cat','dog','pet','horse','plush','gaming','freefire','roblox','instagram','female','male','unisex','enye','clan']);
 const tagLabels:Record<string,string>={
@@ -135,126 +136,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const hasMythologicalCulture=hasCultureFacets&&items.some(item=>item.tags.includes('mythology'));
   const hasNonMythologicalCulture=hasCultureFacets&&items.some(item=>!item.tags.includes('mythology'));
 
-  type QuickPreset={label:string;length?:LengthFilter;style?:string;color?:string;size?:string;personality?:string;gender?:'ALL'|'F'|'M'|'U';tag?:string};
-  const quickPresets:QuickPreset[]=pagePath==='/nombres-de-mujer'
-    ?[
-      {label:'Cortos',length:'short'},
-      {label:'Modernos',style:'modern'},
-      {label:'Clásicos',style:'classic'},
-      {label:'Poco comunes',style:'rare'},
-    ]
-    :pagePath==='/nombres-de-nina'
-      ?[
-        {label:'3–4 letras',length:'short'},
-        {label:'Modernos',style:'modern'},
-        {label:'Poco comunes',style:'rare'},
-      ]
-      :pagePath==='/nombres-gatos'
-        ?[
-          {label:'Negros',color:'black'},
-          {label:'Naranjas',color:'orange'},
-          {label:'Tiernos',personality:'cute'},
-          {label:'Juguetones',personality:'playful'},
-        ]
-        :pagePath==='/nombres-perritas'
-          ?[
-            {label:'Pequeñas',size:'small'},
-            {label:'Tiernas',personality:'cute'},
-            {label:'Elegantes',personality:'elegant'},
-            {label:'Juguetonas',personality:'playful'},
-          ]
-          :pagePath==='/nombres-perros-machos'
-            ?[
-              {label:'Fuertes',personality:'strong'},
-              {label:'Pequeños',size:'small'},
-              {label:'Grandes',size:'large'},
-              {label:'Juguetones',personality:'playful'},
-            ]
-            :pagePath==='/nombres-caballos'
-              ?[
-                {label:'Fuertes',personality:'strong'},
-                {label:'Elegantes',personality:'elegant'},
-                {label:'Tranquilos',personality:'calm'},
-                {label:'Negros',color:'black'},
-                {label:'Grandes',size:'large'},
-              ]
-              :pagePath==='/nombres-peluches'
-                ?[
-                  {label:'Tiernos',personality:'cute'},
-                  {label:'Kawaii',personality:'kawaii'},
-                  {label:'Pequeños',size:'small'},
-                  {label:'Juguetones',personality:'playful'},
-                ]
-                :pagePath==='/perritas-chihuahua'
-                  ?[
-                    {label:'Cortos',length:'short'},
-                    {label:'Tiernos',personality:'cute'},
-                    {label:'Juguetones',personality:'playful'},
-                  ]
-                  :pagePath==='/nombres-gatos-negros'
-                    ?[
-                      {label:'Místicos',personality:'mystic'},
-                      {label:'Hembras',gender:'F'},
-                      {label:'Machos',gender:'M'},
-                      {label:'Cortos',length:'short'},
-                    ]
-                    :pagePath==='/nombres-gatos-machos'
-                      ?[
-                        {label:'Cortos',length:'short'},
-                        {label:'Negros',color:'black'},
-                        {label:'Juguetones',personality:'playful'},
-                        {label:'Tranquilos',personality:'calm'},
-                      ]
-                      :pagePath==='/nombres-free-fire'||pagePath==='/generador-free-fire'
-                        ?[
-                          {label:'Cortos',tag:'short'},
-                          {label:'Dark',tag:'dark'},
-                          {label:'Fuertes',tag:'strong'},
-                          {label:'Únicos',tag:'unique'},
-                        ]
-                        :pagePath==='/nombres-unisex'
-                        ?[
-                          {label:'Cortos',length:'short'},
-                          {label:'Modernos',style:'modern'},
-                          {label:'Poco comunes',style:'rare'},
-                        ]
-                        :pagePath==='/nombres-ff-mujeres'
-                          ?[
-                            {label:'Aesthetic',tag:'aesthetic'},
-                            {label:'Cortos',length:'short'},
-                            {label:'Fuertes',tag:'strong'},
-                          ]
-                          :pagePath==='/nombres-ff-unicos'
-                            ?[
-                              {label:'Cortos',length:'short'},
-                              {label:'Dark',tag:'dark'},
-                              {label:'Fuertes',tag:'strong'},
-                            ]
-                            :pagePath==='/nombres-clanes-ff'
-                              ?[
-                                {label:'Cortos',tag:'short'},
-                                {label:'Dark',tag:'dark'},
-                                {label:'Fuertes',tag:'strong'},
-                              ]
-                              :pagePath==='/nombres-roblox'
-                                ?[
-                                  {label:'Cortos',tag:'short'},
-                                  {label:'Aesthetic',tag:'aesthetic'},
-                                  {label:'Fuertes',tag:'strong'},
-                                ]
-                                :pagePath==='/nombres-instagram'
-                                  ?[
-                                    {label:'Aesthetic',tag:'aesthetic'},
-                                    {label:'Modernos',tag:'modern'},
-                                    {label:'Únicos',tag:'unique'},
-                                  ]
-                                  :pagePath==='/nombres-anime'
-                                    ?[
-                                      {label:'Aesthetic',tag:'aesthetic'},
-                                      {label:'Dark',tag:'dark'},
-                                      {label:'Únicos',tag:'unique'},
-                                    ]
-                                    :[];
+  const quickPresets=getQuickPresets(pagePath);
 
   function applyQuickPreset(preset:QuickPreset){
     setQuery('');

@@ -53,6 +53,12 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   const[favorites,setFavorites]=useState<string[]>([]);
 
   useEffect(()=>{setFavorites(readFavorites())},[]);
+  useEffect(()=>{
+    const requested=new URLSearchParams(window.location.search).get('shortcut');
+    if(requested==='balanced'||requested==='short'||requested==='invisible'||requested==='symbols'||requested==='compatible'){
+      applyShortcut(requested,false);
+    }
+  },[variant]);
 
   async function copyAll(){
     const ok=await copyText(results.map(item=>item.value).join('\n'));
@@ -81,7 +87,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
     trackProductAction(removed?'favorite-remove':'favorite-add','freefire-tool');
   }
 
-  function applyShortcut(id:'balanced'|'short'|'invisible'|'symbols'|'compatible'){
+  function applyShortcut(id:'balanced'|'short'|'invisible'|'symbols'|'compatible',track=true){
     if(id==='balanced'){
       setInvisible(false);
       setShort(false);
@@ -106,7 +112,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
       setCompatibility('alta');
     }
     setBatch(value=>value+1);
-    trackProductAction('shortcut-'+id,'freefire-tool');
+    if(track)trackProductAction('shortcut-'+id,'freefire-tool');
   }
 
   const results=useMemo(()=>{
