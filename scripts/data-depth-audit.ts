@@ -21,7 +21,7 @@ for(const page of keywordPages){
   const items=getNamesForPath(page.path);
   const verified=items.filter(item=>item.verified===true&&item.source&&item.sourceUrl).length;
   const verifiedRate=items.length?verified/items.length:0;
-  const genderKinds=new Set(items.map(item=>item.gender).filter(Boolean)).size;
+  const genderKinds=new Set(items.map(item=>item.gender??(item.tags.includes('female')?'F':item.tags.includes('male')?'M':item.tags.includes('unisex')?'U':undefined)).filter(Boolean)).size;
   const tagKinds=relevantTags(items).size;
   const origins=new Set(items.map(item=>item.origin).filter(Boolean)).size;
   const scripts=items.filter(item=>item.script).length;
@@ -36,7 +36,8 @@ for(const page of keywordPages){
     pronunciations>=3,
     meanings>=Math.min(5,Math.ceil(items.length*.25)),
   ].filter(Boolean).length;
-  const countScore=Math.min(items.length/30,1)*50;
+  const countTarget=page.path==='/nombres-con-en'?5:page.tool==='culture'?20:page.tool==='pet'?24:page.tool==='people'?24:28;
+  const countScore=Math.min(items.length/countTarget,1)*50;
   const dimensionScore=Math.min(dimensions/4,1)*30;
   const trustScore=(page.tool==='culture'||page.tool==='people')?verifiedRate*20:20;
   const score=Math.round(countScore+dimensionScore+trustScore);
