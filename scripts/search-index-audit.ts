@@ -1,5 +1,6 @@
 import{buildSearchIndex}from'../src/lib/searchIndex';
 import{keywordPages,keywordPageByPath}from'../src/data/keywordMaster';
+import{nameDataset}from'../src/data/nameDataset';
 
 const errors:string[]=[];
 const items=buildSearchIndex();
