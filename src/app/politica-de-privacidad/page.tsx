@@ -26,6 +26,11 @@ export default function Page(){
       </section>
 
       <section className="gdn-card rounded-[20px] p-6 md:p-7">
+        <h2 className="gdn-editorial text-[24px] font-bold text-[#292a39]">Correcciones públicas en GitHub</h2>
+        <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">La página de contacto ofrece un enlace voluntario a GitHub para reportar correcciones. Al abrirlo sales de GeneradorDeNombres.net y cualquier información que publiques en el issue será visible públicamente y quedará sujeta a las condiciones y políticas de GitHub. Por eso el formulario pide no incluir información personal o sensible.</p>
+      </section>
+
+      <section className="gdn-card rounded-[20px] p-6 md:p-7">
         <h2 className="gdn-editorial text-[24px] font-bold text-[#292a39]">Publicidad y terceros</h2>
         <p className="mt-3 text-[13px] leading-7 text-[#777a8b]">La integración publicitaria está desactivada mientras no se configure. Si se activa publicidad, analítica de terceros u otro servicio externo que trate información adicional, esta política deberá actualizarse para identificar el servicio y su finalidad.</p>
       </section>
