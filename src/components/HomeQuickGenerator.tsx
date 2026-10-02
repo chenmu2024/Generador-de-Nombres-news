@@ -1,19 +1,20 @@
 'use client';
 
 import{useEffect,useMemo,useState}from'react';
-import{ArrowRight,Baby,Gamepad2,Heart,PawPrint,RefreshCw,Store}from'lucide-react';
+import{ArrowRight,Baby,Gamepad2,Heart,Landmark,PawPrint,RefreshCw,Store}from'lucide-react';
 import CopyButton from'./CopyButton';
 import TrackedLink from'./TrackedLink';
 import{EXPERIMENTS}from'@/data/experiments';
 import{trackProductAction}from'@/lib/analytics';
 import{generateStoreNames}from'@/lib/generator';
 
-type Mode='people'|'pet'|'gaming'|'store';
+type Mode='people'|'pet'|'gaming'|'culture'|'store';
 
 const modes=[
   {id:'people' as const,label:'Personas',icon:Baby,href:'/nombres-de-mujer',soft:'#fff2f5',accent:'#cc5f78'},
   {id:'pet' as const,label:'Mascotas',icon:PawPrint,href:'/nombres-gatos',soft:'#fff6ec',accent:'#c77a33'},
   {id:'gaming' as const,label:'Juegos',icon:Gamepad2,href:'/nombres-roblox',soft:'#f1efff',accent:'#5b4df5'},
+  {id:'culture' as const,label:'Culturas',icon:Landmark,href:'/nombres-japoneses',soft:'#faf1ff',accent:'#8d5ab8'},
   {id:'store' as const,label:'Negocios',icon:Store,href:'/nombres-para-tiendas',soft:'#eefaf3',accent:'#27885d'},
 ];
 
@@ -27,7 +28,8 @@ export default function HomeQuickGenerator({
   people,
   pets,
   games,
-}:{people:string[];pets:string[];games:string[]}){
+  cultures,
+}:{people:string[];pets:string[];games:string[];cultures:string[]}){
   const[mode,setMode]=useState<Mode>('people');
   const[batch,setBatch]=useState(0);
   const[seed,setSeed]=useState('Luna');
@@ -38,9 +40,9 @@ export default function HomeQuickGenerator({
   const config=modes.find(item=>item.id===mode)!;
   const results=useMemo(()=>{
     if(mode==='store')return rotate(generateStoreNames(seed,'Premium'),batch*3).slice(0,6);
-    const pool=mode==='people'?people:mode==='pet'?pets:games;
+    const pool=mode==='people'?people:mode==='pet'?pets:mode==='culture'?cultures:games;
     return rotate(pool,batch*5).slice(0,6);
-  },[mode,batch,seed,people,pets,games]);
+  },[mode,batch,seed,people,pets,games,cultures]);
 
   function changeMode(next:Mode){
     setMode(next);
