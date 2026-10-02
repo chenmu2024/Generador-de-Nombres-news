@@ -16,6 +16,15 @@ import {
 const storeStyles=['Premium','Minimal','Juvenil','Artesanal'];
 const footballStyles=['Serio','Barrio','Gracioso','Competitivo'];
 
+function footballCode(value:string){
+  const stop=new Set(['de','del','la','las','los','el','fc','cf','club']);
+  const words=value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9 ]+/g,' ').trim().split(/\s+/).filter(Boolean);
+  const meaningful=words.filter(word=>!stop.has(word.toLowerCase()));
+  if(meaningful.length>=3)return meaningful.slice(0,3).map(word=>word[0]).join('').toUpperCase();
+  if(meaningful.length===2)return (meaningful[0].slice(0,2)+meaningful[1][0]).toUpperCase();
+  return (meaningful[0]||words[0]||'TEAM').slice(0,3).toUpperCase();
+}
+
 export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode;defaultValue?:string}){
   const[seed,setSeed]=useState(defaultValue);
   const[style,setStyle]=useState(mode==='store'?'Premium':mode==='football'?'Competitivo':'');
@@ -110,8 +119,8 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
     <div className="grid lg:grid-cols-[340px_1fr]">
       <div className="border-b border-white/8 p-5 sm:p-6 lg:border-b-0 lg:border-r">
         <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.13em] text-[var(--page-accent)]">Generador en vivo</p>
-        <h3 className="gdn-editorial mt-2 text-[28px] font-bold leading-tight">Da forma a tu idea.</h3>
-        <p className="mt-2 text-[11px] leading-5 text-[#9da2b5]">{isStyled?'Combina fuente, marco y variaciones sin salir del generador.':'Escribe una base y cambia el tono hasta encontrar algo que encaje.'}</p>
+        <h3 className="gdn-editorial mt-2 text-[28px] font-bold leading-tight">{mode==='football'?'Construye identidad de equipo.':'Da forma a tu idea.'}</h3>
+        <p className="mt-2 text-[11px] leading-5 text-[#9da2b5]">{isStyled?'Combina fuente, marco y variaciones sin salir del generador.':mode==='football'?'Prueba un nombre base, cambia el tono y revisa también cómo funcionaría como abreviatura de camiseta o marcador.':'Escribe una base y cambia el tono hasta encontrar algo que encaje.'}</p>
 
         <label className="mt-6 block">
           <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Palabra base</span>
@@ -147,7 +156,10 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
           {results.slice(0,12).map(value=>{
             const saved=favorites.includes(value);
             return <div key={value} className="group flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-2.5 transition hover:bg-[#1b2030] sm:px-5">
-              <span className="min-w-0 break-all text-[13px] font-semibold">{value}</span>
+              <div className="min-w-0">
+                <span className="block break-all text-[13px] font-semibold">{value}</span>
+                {mode==='football'&&<span className="gdn-tech mt-1 inline-flex rounded-full border border-white/10 bg-white/[.05] px-2 py-0.5 text-[9px] font-bold tracking-[.12em] text-[#8fa8cf]">TAG {footballCode(value)}</span>}
+              </div>
               <div className="flex shrink-0 items-center gap-1.5">
                 <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#9297a9] hover:border-[#756aff] hover:text-[#bcb7ff]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>
                 <button onClick={()=>copy(value)} aria-label={copied===value?'Copiado':'Copiar '+value} className="grid size-11 place-items-center rounded-[9px] border border-white/10 text-[#9297a9] transition hover:border-[#756aff] hover:text-[#bcb7ff] sm:size-8"><Copy size={13}/></button>
