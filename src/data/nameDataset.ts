@@ -667,7 +667,7 @@ export const nameDataset:NameRecord[]=[
 {name:'Pablo',origin:'Español / Latino',gender:'M',type:'person',tags:['p','male','classic'],source:'Behind the Name — Pablo',sourceUrl:'https://www.behindthename.com/name/pablo',verified:true,lastReviewed:'2026-10-02',confidence:'high'},
 {name:'Paula',origin:'Español / Latino',gender:'F',type:'person',tags:['p','female','classic'],source:'Behind the Name — Paula',sourceUrl:'https://www.behindthename.com/name/paula',verified:true,lastReviewed:'2026-10-02',confidence:'high'},
 
-{name:'Quinn',origin:'Irlandés / Inglés',gender:'U',type:'person',tags:['q','unisex','short','modern'],source:'Behind the Name — Quinn',sourceUrl:'https://www.behindthename.com/name/quinn',verified:true,lastReviewed:'2026-10-02',confidence:'high'},
+{name:'Quinn',meaning:'procede de un apellido irlandés, forma anglicanizada de Ó Cuinn, derivado a su vez del nombre Conn',origin:'Irlandés / Inglés',gender:'U',type:'person',tags:['q','unisex','short','modern'],source:'Behind the Name — Quinn',sourceUrl:'https://www.behindthename.com/name/quinn',verified:true,lastReviewed:'2026-10-02',confidence:'high'},
 {name:'Quentin',origin:'Francés / Latino',gender:'M',type:'person',tags:['q','male','classic'],source:'Behind the Name — Quentin',sourceUrl:'https://www.behindthename.com/name/quentin',verified:true,lastReviewed:'2026-10-02',confidence:'high'},
 {name:'Quirino',origin:'Español / Latino',gender:'M',type:'person',tags:['q','male','classic'],source:'Behind the Name — Quirino',sourceUrl:'https://www.behindthename.com/name/quirino',verified:true,lastReviewed:'2026-10-02',confidence:'high'},
 
