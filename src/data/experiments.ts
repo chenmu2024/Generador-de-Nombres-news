@@ -9,6 +9,7 @@ export const EXPERIMENTS={
   favoritesNav:'favorites-nav-v1',
   searchRoute:'search-route-v1',
   productActions:'product-actions-v1',
+  sessionDepth:'session-depth-v1',
 } as const;
 
 export type ExperimentId=(typeof EXPERIMENTS)[keyof typeof EXPERIMENTS];
