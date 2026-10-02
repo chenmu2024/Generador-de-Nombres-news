@@ -1,4 +1,5 @@
 import type{Metadata}from'next';
+import{ExternalLink,ShieldAlert}from'lucide-react';
 
 export const metadata:Metadata={
   title:'Contacto y correcciones | GDN',
@@ -24,9 +25,14 @@ export default function Page(){
       </section>)}
     </div>
 
-    <div className="mt-6 rounded-[18px] border border-[#ddd8ff] bg-[#f5f3ff] p-5">
-      <p className="gdn-tech text-[9px] font-black uppercase tracking-[.13em] text-[#6f65d5]">Canal de soporte</p>
-      <p className="mt-2 text-[12px] leading-6 text-[#6f7183]">No mostramos direcciones de correo inventadas ni formularios sin un backend real. El canal público de soporte se añadirá aquí cuando esté conectado y pueda recibir mensajes correctamente.</p>
+    <div className="mt-6 rounded-[18px] border border-[#ddd8ff] bg-[#f5f3ff] p-5 sm:p-6">
+      <p className="gdn-tech text-[9px] font-black uppercase tracking-[.13em] text-[#6f65d5]">Canal público de correcciones</p>
+      <h2 className="gdn-editorial mt-2 text-[24px] font-bold text-[#303142]">Envía un reporte que podamos revisar.</h2>
+      <p className="mt-2 max-w-2xl text-[12px] leading-6 text-[#6f7183]">El formulario abre un issue en el repositorio público del proyecto. Sirve para corregir datos, fuentes, compatibilidad o errores de navegación.</p>
+      <a href="https://github.com/chenmu2024/Generador-de-Nombres-news/issues/new?template=correccion.yml" target="_blank" rel="noreferrer" className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-[11px] bg-[#5b4df5] px-4 text-[11px] font-semibold text-white transition hover:bg-[#5044de]">
+        Abrir formulario de corrección <ExternalLink size={13}/>
+      </a>
+      <p className="mt-4 flex max-w-2xl items-start gap-2 text-[10px] leading-5 text-[#858899]"><ShieldAlert size={13} className="mt-0.5 shrink-0"/>Los reportes son públicos. No envíes nombres completos, correos privados, contraseñas, documentos ni otros datos sensibles.</p>
     </div>
   </article>
 }
