@@ -399,7 +399,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const genderOptions=new Set(items.map(item=>inferredGender(item)).filter(Boolean));
   const showGender=genderOptions.size>1;
 
-  return <section ref={resultsRef} className="mt-8 scroll-mt-20 sm:mt-10 md:mt-12">
+  return <section id="resultados" ref={resultsRef} className="mt-8 scroll-mt-20 sm:mt-10 md:mt-12">
     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
       <div>
         <p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora por origen y datos':'Explora nombres'}</p>

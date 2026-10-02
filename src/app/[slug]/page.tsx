@@ -60,6 +60,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isFreeFire=page.cluster==='freeFire'&&page.path!=='/espacios-invisible-ff';
   const isToolPage=isRoblox||isInstagram||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
   const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&!isStore&&!isFreeFire&&['general','gaming','invisible','store','football'].includes(page.tool);
+  const hasPrimaryTool=isRoblox||isInstagram||isAlphabet||isStore||isFreeFire||showGenerator;
 
   const alphabetPages=keywordPages.filter(item=>item.path.startsWith('/nombres-con-'));
   const faqs=getFaqs(page);
@@ -93,12 +94,14 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structuredData)}}/>
     <PageIntro page={page}/>
 
-    {isRoblox&&<PlatformNameTool platform="roblox"/>}
-    {isInstagram&&<PlatformNameTool platform="instagram"/>}
-    {isAlphabet&&<AlphabetMatrix/>}
-    {isStore&&<BrandNameTool/>}
-    {isFreeFire&&<FreeFireNameTool variant={freeFireVariant(page.path)}/>}
-    {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
+    {hasPrimaryTool&&<div id="herramienta" className="scroll-mt-20">
+      {isRoblox&&<PlatformNameTool platform="roblox"/>}
+      {isInstagram&&<PlatformNameTool platform="instagram"/>}
+      {isAlphabet&&<AlphabetMatrix/>}
+      {isStore&&<BrandNameTool/>}
+      {isFreeFire&&<FreeFireNameTool variant={freeFireVariant(page.path)}/>}
+      {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
+    </div>}
 
     {page.tool==='culture'&&<CultureDataNote items={items}/>}
     {!isAlphabet&&<NameGrid items={items} mode={page.tool} pagePath={page.path}/>}

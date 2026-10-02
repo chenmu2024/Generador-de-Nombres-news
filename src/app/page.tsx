@@ -114,7 +114,7 @@ export default function HomePage(){
       </div>
     </section>
 
-    <section className="gdn-shell mt-2">
+    <section id="studio-nombres" className="gdn-shell mt-2 scroll-mt-20">
       <HomeFreeFireStudio/>
     </section>
 

@@ -61,6 +61,13 @@ function rotate<T>(items:T[],amount:number){
   const offset=((amount%items.length)+items.length)%items.length;
   return [...items.slice(offset),...items.slice(0,offset)];
 }
+function fuseBrand(left:string,right:string){
+  const a=left.trim().replace(/\s+/g,'');
+  const b=right.trim().replace(/\s+/g,'');
+  if(!a||!b)return(left+' '+right).trim();
+  if(Array.from(a+b).length>20)return(left+' '+right).trim();
+  return a+b.charAt(0).toLocaleUpperCase('es')+b.slice(1);
+}
 
 export default function BrandNameTool(){
   const[seed,setSeed]=useState('Luna');
@@ -84,27 +91,32 @@ export default function BrandNameTool(){
       ?[sectorSpanish[industry][batch%6],sectorInternational[industry][(batch+1)%6],sectorSpanish[industry][(batch+2)%6],sectorInternational[industry][(batch+3)%6],sectorSpanish[industry][(batch+4)%6],sectorInternational[industry][(batch+5)%6]]
       :suffixes;
     const channelWord=channel==='Boutique'?'Boutique':channel==='Bazar'?'Bazar':channel==='Local físico'?'Casa':channel==='Tienda online'?'Online':'';
-    const names=[
-      prefixes[0]+' '+base,
-      base+' '+mixed[0],
-      prefixes[1]+base,
-      base+' '+mixed[1],
-      prefixes[2]+' '+mixed[2],
-      channelWord?base+' '+channelWord:prefixes[3]+' '+base,
-      prefixes[3]+' '+mixed[3],
-      base+' '+(language==='Español'?'Colectivo':'Collective'),
-      prefixes[4]+' '+base,
-      base+' '+mixed[4],
-      prefixes[5]+base,
-      base+' '+mixed[5],
-      prefixes[0]+' '+mixed[1],
-      prefixes[2]+' '+base+' '+mixed[0],
+    const collective=language==='Español'?'Colectivo':'Collective';
+    const proposals=[
+      {name:prefixes[0]+' '+base,pattern:'Concepto + base'},
+      {name:base+' '+mixed[0],pattern:'Base + sector'},
+      {name:fuseBrand(base,mixed[1]),pattern:'Marca compacta'},
+      {name:prefixes[1]+' '+mixed[2],pattern:'Concepto + sector'},
+      {name:channelWord?base+' '+channelWord:prefixes[2]+' '+base,pattern:'Base + canal'},
+      {name:prefixes[3]+' '+base,pattern:'Concepto + base'},
+      {name:base+' '+collective,pattern:'Base + comunidad'},
+      {name:prefixes[4]+' '+mixed[3],pattern:'Concepto + sector'},
+      {name:base+' '+mixed[4],pattern:'Base + sector'},
+      {name:fuseBrand(prefixes[5],base),pattern:'Marca compacta'},
+      {name:prefixes[0]+' '+mixed[5],pattern:'Concepto + sector'},
+      {name:prefixes[2]+' '+base+' '+mixed[0],pattern:'Concepto + base + sector'},
     ];
-    return Array.from(new Set(names)).map(name=>({
-      name,
-      handle:handleFrom(name),
-      chars:Array.from(name).length,
-      words:name.trim().split(/\s+/).length,
+    const seen=new Set<string>();
+    return proposals.filter(item=>{
+      const key=item.name.toLocaleLowerCase('es').replace(/\s+/g,' ').trim();
+      if(seen.has(key))return false;
+      seen.add(key);
+      return true;
+    }).map(item=>({
+      ...item,
+      handle:handleFrom(item.name),
+      chars:Array.from(item.name).length,
+      words:item.name.trim().split(/\s+/).length,
     }));
   },[seed,style,industry,channel,language,batch]);
 
@@ -157,10 +169,10 @@ export default function BrandNameTool(){
         const saved=favorites.includes(item.name);
         return <article key={item.name} className="min-h-[148px] bg-white p-5 transition hover:bg-[#fcfbff]">
           <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0"><h3 className="gdn-editorial truncate text-[24px] font-bold text-[#26342d]">{item.name}</h3><p className="mt-1 text-[10px] font-semibold text-[#9395a4]">{industry} · {style} · {channel}</p></div>
+            <div className="min-w-0"><h3 className="gdn-editorial break-words text-[24px] font-bold leading-tight text-[#26342d]">{item.name}</h3><p className="mt-1 text-[10px] font-semibold text-[#9395a4]">{item.pattern} · {industry} · {style}</p></div>
             <button onClick={()=>toggleFavorite(item.name)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-full border transition sm:size-9 '+(saved?'border-[var(--page-border)] bg-[var(--page-soft)] text-[var(--page-accent)]':'border-[#e0ddea] bg-white text-[#8c8e9d] hover:border-[var(--page-border)] hover:bg-[var(--page-soft)]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
           </div>
-          <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="mt-4 grid gap-2 min-[380px]:grid-cols-3">
             <div className="rounded-[10px] border border-[#e2eee7] bg-[#f7fcf9] px-2.5 py-2">
               <span className="gdn-tech block text-[8px] font-bold uppercase tracking-[.08em] text-[#8a958e]">Longitud</span>
               <span className="mt-1 block text-[10px] font-semibold text-[#4f6256]">{item.chars} caracteres</span>

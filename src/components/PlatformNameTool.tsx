@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect,useMemo,useState} from 'react';
-import {AtSign,BadgeCheck,Heart,ShieldAlert} from 'lucide-react';
+import {AtSign,BadgeCheck,ExternalLink,Heart,ShieldAlert} from 'lucide-react';
 import CopyButton from './CopyButton';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import {trackProductAction} from '@/lib/analytics';
@@ -76,6 +76,7 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
   },[seed,mode,platform,font]);
 
   const issues=platform==='roblox'&&mode==='username'?robloxFormat(seed.trim()):[];
+  const normalizedRoblox=platform==='roblox'&&mode==='username'?(cleanRoblox(seed)||'Nova'):'';
 
   const accent=platform==='roblox'?'#3f6edb':'#b85a78';
   const soft=platform==='roblox'?'#f2f6ff':'#fff4f7';
@@ -110,8 +111,19 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
           />
         </div>}
 
-        {platform==='roblox'&&mode==='username'&&<div className={'mt-3 flex gap-2 rounded-[12px] px-3 py-3 text-[10px] leading-4 '+(issues.length?'bg-[#fff0f2] text-[#a44d60]':'bg-[#eefaf3] text-[#24734b]')}>
-          {issues.length?<ShieldAlert size={14}/>:<BadgeCheck size={14}/>}<span>{issues.length?issues[0]:'El formato cumple las comprobaciones locales.'}</span>
+        {platform==='roblox'&&mode==='username'&&<div className={'mt-3 rounded-[12px] px-3 py-3 text-[10px] leading-4 '+(issues.length?'bg-[#fff0f2] text-[#a44d60]':'bg-[#eefaf3] text-[#24734b]')}>
+          <div className="flex gap-2">
+            {issues.length?<ShieldAlert size={14} className="mt-0.5 shrink-0"/>:<BadgeCheck size={14} className="mt-0.5 shrink-0"/>}
+            <div className="min-w-0">
+              <p className="font-bold">{issues.length?'Tu texto necesita ajustes.':'El formato local cumple las reglas básicas.'}</p>
+              {issues.length
+                ?<><ul className="mt-1 list-disc space-y-0.5 pl-4">{issues.map(issue=><li key={issue}>{issue}</li>)}</ul><p className="mt-2">Sugerencia normalizada: <strong className="break-all">{normalizedRoblox}</strong></p></>
+                :<p className="mt-1">La herramienta solo revisa formato; no comprueba disponibilidad ni moderación.</p>}
+            </div>
+          </div>
+          <a href="https://en.help.roblox.com/hc/es/articles/4412614080532-Error-901-de-Xbox" target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 font-bold underline decoration-current/30 underline-offset-2">
+            Reglas oficiales de Roblox<ExternalLink size={10}/>
+          </a>
         </div>}
 
         {platform==='instagram'&&<p className="mt-3 text-[10px] leading-4 text-[#8a8d9e]">{mode==='username'?'El username se genera en formato simple y fácil de copiar.':'El nombre visible admite variantes Unicode; comprueba cómo se renderiza en tu dispositivo antes de usarlo.'}</p>}
