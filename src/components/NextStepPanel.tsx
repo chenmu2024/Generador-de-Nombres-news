@@ -7,11 +7,14 @@ import{EXPERIMENTS}from'@/data/experiments';
 export default function NextStepPanel({page}:{page:KeywordPage}){
   const links=getNextIntentPages(page.path,2);
   if(!links.length)return null;
-  const supportsFavorites=page.tool!=='invisible';
-  const heading=supportsFavorites?'No pierdas los nombres que ya te gustaron.':'Sigue probando tu nickname antes de decidir.';
+  const supportsFavorites=page.tool!=='invisible'&&page.path!=='/nombres-por-letra';
+  const isDirectory=page.path==='/nombres-por-letra';
+  const heading=supportsFavorites?'No pierdas los nombres que ya te gustaron.':isDirectory?'Elige una inicial para empezar.':'Sigue probando tu nickname antes de decidir.';
   const description=supportsFavorites
     ?'Guárdalos para revisarlos después o continúa con la siguiente búsqueda más cercana a tu intención actual.'
-    :'Copia una variante, pruébala dentro del juego y vuelve a otra herramienta si necesitas cambiar símbolos, nombre base o estilo.';
+    :isDirectory
+      ?'Entra en una de las letras con página propia o continúa con una categoría relacionada.'
+      :'Copia una variante, pruébala dentro del juego y vuelve a otra herramienta si necesitas cambiar símbolos, nombre base o estilo.';
 
   return <section className="mt-8 rounded-[20px] border border-[#ded9f5] bg-[#faf9ff] p-5 sm:p-6">
     <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
