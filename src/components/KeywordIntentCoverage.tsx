@@ -16,7 +16,7 @@ export default function KeywordIntentCoverage({page}:{page:KeywordPage}){
     <div className="max-w-3xl">
       <p className="gdn-eyebrow">Búsquedas concretas</p>
       <h2 id={'keyword-intents-'+page.id} className="gdn-display mt-2 text-[30px] font-bold tracking-[-.035em] text-[#1d1e2c] sm:text-[34px]">Qué puedes resolver en esta página</h2>
-      <p className="mt-3 text-[11px] leading-5 text-[#797c8d]">Usa estas búsquedas como atajos para decidir qué conviene filtrar, comprobar o comparar. No crean páginas duplicadas: te llevan al mismo flujo útil.</p>
+      <p className="mt-3 text-[11px] leading-5 text-[#797c8d]">Elige la búsqueda que más se parezca a lo que necesitas y salta directamente al filtro, resultado o herramienta correspondiente.</p>
     </div>
     <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
       {placements.map(({keyword,description})=>{

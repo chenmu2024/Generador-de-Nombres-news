@@ -3,14 +3,12 @@ import type {KeywordPage} from '@/data/keywordMaster';
 import {getDecisionCards} from '@/data/contentModules';
 
 export default function DecisionGuide({page}:{page:KeywordPage}){
+  const isContentLed=page.tool==='people'||page.tool==='pet'||page.tool==='culture';
+  if(!isContentLed||page.path==='/nombres-por-letra')return null;
   const cards=getDecisionCards(page);
   const heading=page.tool==='people'?'Qué conviene revisar antes de decidir'
     :page.tool==='pet'?'Qué conviene probar antes de llamarlo así'
-    :page.tool==='culture'?'Cómo comparar sin perder el contexto'
-    :page.tool==='gaming'||page.tool==='invisible'?'Qué revisar antes de usar el nickname'
-    :page.tool==='store'?'Qué revisar antes de convertirlo en marca'
-    :page.tool==='football'?'Qué comprobar antes de llevarlo al escudo'
-    :'Tres cosas que conviene comparar';
+    :'Cómo comparar sin perder el contexto';
   return <section className="mt-14">
     <p className="gdn-eyebrow">Antes de decidir</p>
     <h2 className="gdn-display mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">{heading}</h2>
