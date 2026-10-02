@@ -2,6 +2,7 @@ import Link from 'next/link';
 import {ArrowRight,Baby,CheckCircle2,Gamepad2,Landmark,Leaf,PawPrint,ShieldCheck,Store,Zap} from 'lucide-react';
 import IntentRouter from '@/components/IntentRouter';
 import HomeFreeFireStudio from '@/components/HomeFreeFireStudio';
+import HomeSavedNames from '@/components/HomeSavedNames';
 
 const heroCards=[
   {label:'Juegos',desc:'Free Fire, Roblox, Instagram y más',href:'/nombres-free-fire',image:'https://images.unsplash.com/photo-1700087322375-8bdb366b6c60?auto=format&fit=crop&w=720&q=76',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
@@ -65,6 +66,8 @@ export default function HomePage(){
         </div>
       </div>
     </section>
+
+    <HomeSavedNames/>
 
     <section className="gdn-shell mt-2">
       <HomeFreeFireStudio/>
