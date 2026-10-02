@@ -22,6 +22,7 @@ if(!platform.includes("params.get('intent')")||!platform.includes("params.get('m
 if(!freeFire.includes("get('shortcut')"))errors.push('Free Fire tool no longer consumes shortcut query handoff');
 if(!anime.includes("get('intent')"))errors.push('Anime tool no longer consumes intent query handoff');
 if(!slugPage.includes('<AnimeNameTool/>'))errors.push('Anime route must render AnimeNameTool');
+if(!slugPage.includes("const showGenerator=page.tool==='invisible'||page.tool==='football'"))errors.push('Generic GeneratorPanel fallback must remain disabled');
 
 function routeFromHref(href:string){
   const withoutHash=href.split('#')[0]||'';

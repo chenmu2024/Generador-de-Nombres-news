@@ -1,22 +1,13 @@
 'use client';
 
-import {useEffect,useMemo,useState} from 'react';
-import {Copy,Heart,RefreshCw,Sparkles} from 'lucide-react';
-import type{ToolMode} from '@/data/keywordMaster';
-import {generateFootballNames,generateStoreNames} from '@/lib/generator';
+import{useEffect,useMemo,useState}from'react';
+import{Copy,Heart,RefreshCw,Sparkles}from'lucide-react';
+import{generateFootballNames}from'@/lib/generator';
 import{invisibleCharacters}from'@/data/invisibleCharacters';
-import {trackProductAction} from '@/lib/analytics';
+import{trackProductAction}from'@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
 import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
-import UnicodeStylePicker from './UnicodeStylePicker';
-import NameFramePicker from './NameFramePicker';
-import {
-  applyNameFrame,
-  applyUnicodeStyle,
-  type UnicodeStyleId,
-} from '@/lib/styledText';
 
-const storeStyles=['Premium','Minimal','Juvenil','Artesanal'];
 const footballStyles=['Serio','Barrio','Gracioso','Competitivo'];
 
 function footballCode(value:string){
@@ -24,43 +15,22 @@ function footballCode(value:string){
   const words=value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9 ]+/g,' ').trim().split(/\s+/).filter(Boolean);
   const meaningful=words.filter(word=>!stop.has(word.toLowerCase()));
   if(meaningful.length>=3)return meaningful.slice(0,3).map(word=>word[0]).join('').toUpperCase();
-  if(meaningful.length===2)return (meaningful[0].slice(0,2)+meaningful[1][0]).toUpperCase();
-  return (meaningful[0]||words[0]||'TEAM').slice(0,3).toUpperCase();
+  if(meaningful.length===2)return(meaningful[0].slice(0,2)+meaningful[1][0]).toUpperCase();
+  return(meaningful[0]||words[0]||'TEAM').slice(0,3).toUpperCase();
 }
 
-export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode;defaultValue?:string}){
+export default function GeneratorPanel({mode,defaultValue}:{mode:'football'|'invisible';defaultValue:string}){
   const[seed,setSeed]=useState(defaultValue);
-  const[style,setStyle]=useState(mode==='store'?'Premium':mode==='football'?'Competitivo':'');
-  const[font,setFont]=useState<UnicodeStyleId>(mode==='gaming'?'bold':'plain');
-  const[frame,setFrame]=useState(mode==='gaming'?'pro':'none');
+  const[style,setStyle]=useState('Competitivo');
   const[copied,setCopied]=useState('');
   const[favorites,setFavorites]=useState<string[]>([]);
 
   useEffect(()=>{setFavorites(readFavorites())},[]);
 
-  const isStyled=mode==='gaming'||mode==='general';
-
-  const results=useMemo(()=>{
-    if(mode==='store')return generateStoreNames(seed,style);
-    if(mode==='football')return generateFootballNames(seed,style);
-
-    const raw=seed.trim()||'Nova';
-    const bases=[
-      raw,
-      raw.toUpperCase(),
-      raw+'X',
-      raw+'7',
-      raw+'99',
-      raw.replace(/\s+/g,'_'),
-      raw.replace(/\s+/g,'ㅤ'),
-      'The '+raw,
-      raw+' Pro',
-      raw+' Max',
-      'x'+raw+'x',
-      raw+' ツ',
-    ];
-    return Array.from(new Set(bases.map(value=>applyNameFrame(applyUnicodeStyle(value,font),frame))));
-  },[seed,style,mode,font,frame]);
+  const results=useMemo(
+    ()=>mode==='football'?generateFootballNames(seed,style):[],
+    [seed,style,mode]
+  );
 
   async function copy(value:string){
     const ok=await copyText(value);
@@ -77,14 +47,13 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
   }
 
   if(mode==='invisible'){
-    const chars=invisibleCharacters;
     const base=seed.trim()||'Nova';
-    const popular='ㅤ';
+    const separator=invisibleCharacters[0]?.value??'ㅤ';
     const quickCopies=[
-      {label:'1 espacio',value:popular},
-      {label:'2 espacios',value:popular.repeat(2)},
-      {label:'3 espacios',value:popular.repeat(3)},
-      {label:'Entre palabras',value:base+popular+'X'},
+      {label:'1 espacio',value:separator},
+      {label:'2 espacios',value:separator.repeat(2)},
+      {label:'3 espacios',value:separator.repeat(3)},
+      {label:'Entre palabras',value:base+separator+'X'},
     ];
 
     return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_64px_rgba(27,24,55,.15)]">
@@ -107,7 +76,7 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
         </div>
       </div>
       <div className="grid gap-px bg-white/8 md:grid-cols-2 xl:grid-cols-3">
-        {chars.map(item=>{
+        {invisibleCharacters.map(item=>{
           const example=base+item.value+'X';
           return <article key={item.code} className="bg-[#151927] p-5 transition hover:bg-[#1b2030]">
             <div className="flex items-start justify-between gap-3">
@@ -129,36 +98,24 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
     </section>
   }
 
-  const styles=mode==='store'?storeStyles:footballStyles;
-
   return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_64px_rgba(27,24,55,.15)]">
     <div className="grid lg:grid-cols-[340px_1fr]">
       <div className="border-b border-white/8 p-5 sm:p-6 lg:border-b-0 lg:border-r">
-        <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.13em] text-[var(--page-accent)]">Generador en vivo</p>
-        <h3 className="gdn-editorial mt-2 text-[28px] font-bold leading-tight">{mode==='football'?'Construye identidad de equipo.':'Da forma a tu idea.'}</h3>
-        <p className="mt-2 text-[11px] leading-5 text-[#9da2b5]">{isStyled?'Combina fuente, marco y variaciones sin salir del generador.':mode==='football'?'Prueba un nombre base, cambia el tono y revisa también cómo funcionaría como abreviatura de camiseta o marcador.':'Escribe una base y cambia el tono hasta encontrar algo que encaje.'}</p>
+        <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.13em] text-[var(--page-accent)]">Generador de equipos</p>
+        <h2 className="gdn-editorial mt-2 text-[28px] font-bold leading-tight">Construye nombre y TAG juntos.</h2>
+        <p className="mt-2 text-[11px] leading-5 text-[#9da2b5]">Prueba una base, cambia el tono y revisa cómo funcionaría como abreviatura en camiseta, marcador o escudo.</p>
 
         <label className="mt-6 block">
           <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Palabra base</span>
-          <input value={seed} onChange={e=>setSeed(e.target.value)} className="h-12 w-full rounded-[11px] border border-white/12 bg-[#181c2a] px-4 text-[13px] text-white outline-none placeholder:text-[#6f7488] focus:border-[#776cff]" placeholder="Escribe una palabra..."/>
+          <input value={seed} onChange={event=>setSeed(event.target.value)} className="h-12 w-full rounded-[11px] border border-white/12 bg-[#181c2a] px-4 text-[13px] text-white outline-none placeholder:text-[#6f7488] focus:border-[#776cff]" placeholder="Barrio"/>
         </label>
 
-        {isStyled?<>
-          <div className="mt-5"><UnicodeStylePicker value={font} onChange={value=>{setFont(value);trackProductAction('font-change','generator-panel')}} preview={seed} dark/></div>
-          <div className="mt-5">
-            <NameFramePicker
-              value={frame}
-              onChange={value=>{setFrame(value);trackProductAction('frame-change','generator-panel')}}
-              preview={seed}
-              dark
-            />
-          </div>
-        </>:<div className="mt-5">
-          <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Estilo</span>
+        <div className="mt-5">
+          <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Tono</span>
           <div className="flex flex-wrap gap-2">
-            {styles.map(item=><button key={item} onClick={()=>{setStyle(item);trackProductAction('style-change','generator-panel')}} className={'min-h-11 rounded-[9px] border px-3 text-[11px] font-semibold transition sm:min-h-0 sm:py-2 sm:text-[10px] '+(style===item?'border-[var(--page-accent)] bg-[var(--page-accent)] text-white':'border-white/18 bg-white/[.07] text-[#e0e2ea] hover:border-[var(--page-accent)] hover:bg-white/[.12]')}>{item}</button>)}
+            {footballStyles.map(item=><button key={item} onClick={()=>{setStyle(item);trackProductAction('style-change','generator-panel')}} className={'min-h-11 rounded-[9px] border px-3 text-[11px] font-semibold transition sm:min-h-0 sm:py-2 sm:text-[10px] '+(style===item?'border-[var(--page-accent)] bg-[var(--page-accent)] text-white':'border-white/18 bg-white/[.07] text-[#e0e2ea] hover:border-[var(--page-accent)] hover:bg-white/[.12]')}>{item}</button>)}
           </div>
-        </div>}
+        </div>
 
         <div className="mt-6 flex items-center gap-2 text-[10px] text-[#858a9d]"><RefreshCw size={12}/> Se actualiza mientras escribes</div>
       </div>
@@ -169,17 +126,17 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
           <span className="rounded-full bg-white/6 px-2.5 py-1 text-[9px] font-semibold text-[#898ea0]">{results.length} opciones</span>
         </div>
         <div className="grid gap-px bg-white/8 sm:grid-cols-2">
-          {results.slice(0,12).map(value=>{
+          {results.map(value=>{
             const saved=favorites.includes(value);
-            const teamCode=mode==='football'?footballCode(value):'';
+            const teamCode=footballCode(value);
             return <div key={value} className="group flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-2.5 transition hover:bg-[#1b2030] sm:px-5">
               <div className="min-w-0">
                 <span className="block break-all text-[13px] font-semibold">{value}</span>
-                {mode==='football'&&<button
+                <button
                   onClick={()=>copy(teamCode)}
                   aria-label={copied===teamCode?'TAG copiado':'Copiar TAG '+teamCode}
                   className="gdn-tech mt-1 inline-flex min-h-7 items-center gap-1 rounded-full border border-white/10 bg-white/[.05] px-2 text-[9px] font-bold tracking-[.12em] text-[#8fa8cf] transition hover:border-[var(--page-accent)] hover:text-white"
-                ><Copy size={9}/>{copied===teamCode?'COPIADO':'TAG '+teamCode}</button>}
+                ><Copy size={9}/>{copied===teamCode?'COPIADO':'TAG '+teamCode}</button>
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
                 <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[var(--page-accent)] bg-white/[.08] text-[var(--page-accent)]':'border-white/10 text-[#9297a9] hover:border-[var(--page-accent)] hover:text-[var(--page-accent)]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>
