@@ -5,7 +5,10 @@ export type UnicodeStyleId=
   |'script'|'scriptBold'|'circled'|'fullwidth'
   |'smallCaps'|'superscript'|'underline'|'strike'
   |'squared'|'negativeSquared'|'negativeCircled'|'parenthesized'|'regional'
-  |'overline'|'doubleUnderline'|'dotted'|'tilde'|'slash'|'spaced'|'middleDot';
+  |'overline'|'doubleUnderline'|'dotted'|'tilde'|'slash'
+  |'acute'|'grave'|'macron'|'diaeresis'|'ring'|'dotBelow'
+  |'spaced'|'middleDot'|'bullet'|'starSep'|'kanaDot'|'underscoreSep'|'slashSep'|'crossSep'
+  |'upsideDown'|'mirrorLite';
 
 export type UnicodeCompatibility='alta'|'media'|'experimental';
 
@@ -123,6 +126,25 @@ function separated(value:string,separator:string){
   return Array.from(value).map(char=>char===' '?String.fromCodePoint(0x2003):char).join(separator);
 }
 
+const upsideDownMap:Record<string,string>={
+  a:'ɐ',b:'q',c:'ɔ',d:'p',e:'ǝ',f:'ɟ',g:'ƃ',h:'ɥ',i:'ᴉ',j:'ɾ',k:'ʞ',l:'l',m:'ɯ',
+  n:'u',o:'o',p:'d',q:'b',r:'ɹ',s:'s',t:'ʇ',u:'n',v:'ʌ',w:'ʍ',x:'x',y:'ʎ',z:'z',
+  A:'∀',B:'𐐒',C:'Ɔ',D:'◖',E:'Ǝ',F:'Ⅎ',G:'⅁',H:'H',I:'I',J:'ſ',K:'⋊',L:'˥',M:'W',
+  N:'N',O:'O',P:'Ԁ',Q:'Ό',R:'ᴚ',S:'S',T:'⊥',U:'∩',V:'Λ',W:'M',X:'X',Y:'⅄',Z:'Z',
+  '1':'⇂','2':'ᘔ','3':'Ɛ','4':'ㄣ','5':'ϛ','6':'9','7':'ㄥ','8':'8','9':'6','0':'0',
+};
+
+const mirrorLiteMap:Record<string,string>={
+  a:'ɒ',b:'d',c:'ɔ',d:'b',e:'ɘ',f:'ʇ',g:'ǫ',h:'ʜ',i:'i',j:'ꞁ',k:'ʞ',l:'l',m:'m',
+  n:'ᴎ',o:'o',p:'q',q:'p',r:'ɿ',s:'ƨ',t:'ƚ',u:'u',v:'v',w:'w',x:'x',y:'ʏ',z:'ƹ',
+  A:'A',B:'ᗺ',C:'Ɔ',D:'ᗡ',E:'Ǝ',F:'ꟻ',G:'Ꭾ',H:'H',I:'I',J:'Ⴑ',K:'ꓘ',L:'⅃',M:'M',
+  N:'И',O:'O',P:'ꟼ',Q:'Ọ',R:'Я',S:'Ƨ',T:'T',U:'U',V:'V',W:'W',X:'X',Y:'Y',Z:'Ƹ',
+};
+
+function reverseMapped(value:string,map:Record<string,string>){
+  return Array.from(value).reverse().map(char=>map[char]??char).join('');
+}
+
 const definitions:Array<[UnicodeStyleId,string,string,UnicodeCompatibility,(value:string)=>string]>= [
   ['plain','Normal','Normal','alta',value=>value],
   ['bold','Negrita','𝐁','media',value=>mapped(value,bold)],
@@ -154,8 +176,22 @@ const definitions:Array<[UnicodeStyleId,string,string,UnicodeCompatibility,(valu
   ['dotted','Punteada','Ṅ','experimental',value=>combining(value,'\u0307')],
   ['tilde','Ondulada','Ñ','experimental',value=>combining(value,'\u0303')],
   ['slash','Cruzada','N̸','experimental',value=>combining(value,'\u0338')],
+  ['acute','Acento alto','Ń','experimental',value=>combining(value,'\u0301')],
+  ['grave','Acento grave','Ǹ','experimental',value=>combining(value,'\u0300')],
+  ['macron','Macrón','N̄','experimental',value=>combining(value,'\u0304')],
+  ['diaeresis','Diéresis','N̈','experimental',value=>combining(value,'\u0308')],
+  ['ring','Anillo','N̊','experimental',value=>combining(value,'\u030A')],
+  ['dotBelow','Punto inferior','Ṇ','experimental',value=>combining(value,'\u0323')],
   ['spaced','Espaciada','N O V A','alta',value=>separated(value,' ')],
   ['middleDot','Puntos medios','N·O·V·A','alta',value=>separated(value,'·')],
+  ['bullet','Bullets','N • O','alta',value=>separated(value,' • ')],
+  ['starSep','Estrellas','N ⋆ O','alta',value=>separated(value,' ⋆ ')],
+  ['kanaDot','Punto japonés','N・O','alta',value=>separated(value,'・')],
+  ['underscoreSep','Guion bajo','N_O','alta',value=>separated(value,'_')],
+  ['slashSep','Diagonal','N／O','alta',value=>separated(value,'／')],
+  ['crossSep','Cruces','N×O','alta',value=>separated(value,'×')],
+  ['upsideDown','Invertida','ɐʌoN','experimental',value=>reverseMapped(value,upsideDownMap)],
+  ['mirrorLite','Espejo','ᴎɒvO','experimental',value=>reverseMapped(value,mirrorLiteMap)],
 ];
 
 export const unicodeStyles:UnicodeStyle[]=definitions.map(([id,label,shortLabel,compatibility,transform])=>({
@@ -181,6 +217,14 @@ export const nameFrames:NameFrame[]=[
   {id:'royal',label:'Royal',transform:value=>'♛ '+value+' ♛'},
   {id:'lightning',label:'Volt',transform:value=>'⚡'+value+'⚡'},
   {id:'kawaii',label:'Kawaii',transform:value=>'୨'+value+'୧'},
+  {id:'crown',label:'Corona',transform:value=>'♔ '+value+' ♔'},
+  {id:'fire',label:'Fuego',transform:value=>'🔥 '+value+' 🔥'},
+  {id:'moon',label:'Luna',transform:value=>'☾ '+value+' ☽'},
+  {id:'flower',label:'Flor',transform:value=>'✿ '+value+' ✿'},
+  {id:'diamond',label:'Diamante',transform:value=>'◇ '+value+' ◇'},
+  {id:'arrow',label:'Flechas',transform:value=>'➳ '+value+' ➳'},
+  {id:'wave',label:'Wave',transform:value=>'≈ '+value+' ≈'},
+  {id:'skull',label:'Skull',transform:value=>'☠ '+value+' ☠'},
 ];
 
 export function applyNameFrame(value:string,id:string){
