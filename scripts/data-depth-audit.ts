@@ -4,7 +4,7 @@ import{getNamesForPath,type NameRecord}from'../src/data/nameDataset';
 const dataFree=new Set(['/nombres-por-letra','/espacios-invisible-ff','/nombres-para-tiendas','/nombres-equipos-futbol']);
 const rows=[] as Array<{
   path:string;tool:string;count:number;verified:number;verifiedRate:number;
-  dimensions:number;short:number;genderKinds:number;tagKinds:number;score:number;
+  dimensions:number;short:number;genderKinds:number;tagKinds:number;target:number;score:number;
 }>;
 
 function letters(name:string){
@@ -41,11 +41,11 @@ for(const page of keywordPages){
   const dimensionScore=Math.min(dimensions/4,1)*30;
   const trustScore=(page.tool==='culture'||page.tool==='people')?verifiedRate*20:20;
   const score=Math.round(countScore+dimensionScore+trustScore);
-  rows.push({path:page.path,tool:page.tool,count:items.length,verified,verifiedRate,dimensions,short,genderKinds,tagKinds,score});
+  rows.push({path:page.path,tool:page.tool,count:items.length,verified,verifiedRate,dimensions,short,genderKinds,tagKinds,target:countTarget,score});
 }
 
 rows.sort((a,b)=>a.score-b.score||a.count-b.count);
-const thin=rows.filter(row=>row.score<72||row.count<12);
+const thin=rows.filter(row=>row.score<72||row.count<row.target);
 
 console.log('[Data Depth] Lowest-depth result pages');
 for(const row of rows.slice(0,15)){
@@ -57,12 +57,17 @@ for(const row of rows.slice(0,15)){
     ' | score '+row.score
   );
 }
-console.log('[Data Depth] '+rows.length+' result-backed topic routes audited; '+thin.length+' routes are below the depth target (score <72 or <12 results).');
+if(thin.length){
+  console.log('[Data Depth] Routes below target');
+  for(const row of thin)console.log(' * '+row.path+' | '+row.count+'/'+row.target+' results | score '+row.score+' | '+Math.round(row.verifiedRate*100)+'% verified');
+}
+console.log('[Data Depth] '+rows.length+' result-backed topic routes audited; '+thin.length+' routes are below the route-aware depth target.');
 
 const errors:string[]=[];
 for(const row of rows){
   if(row.count===0)errors.push('Result-backed route has zero records: '+row.path);
   if(row.tool==='culture'&&row.verifiedRate<.9)errors.push('Cultural route source coverage below 90%: '+row.path+' -> '+Math.round(row.verifiedRate*100)+'%');
+  if(row.path.startsWith('/nombres-con-')&&row.path!=='/nombres-con-en'&&row.verifiedRate<.5)errors.push('Letter route source coverage below 50%: '+row.path+' -> '+Math.round(row.verifiedRate*100)+'%');
   if(row.count>=18&&row.dimensions===0)errors.push('Large route has no useful filter dimensions: '+row.path);
 }
 if(errors.length){
