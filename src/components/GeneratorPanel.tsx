@@ -6,10 +6,10 @@ import type{ToolMode} from '@/data/keywordMaster';
 import {generateFootballNames,generateStoreNames} from '@/lib/generator';
 import {trackProductAction} from '@/lib/analytics';
 import UnicodeStylePicker from './UnicodeStylePicker';
+import NameFramePicker from './NameFramePicker';
 import {
   applyNameFrame,
   applyUnicodeStyle,
-  nameFrames,
   type UnicodeStyleId,
 } from '@/lib/styledText';
 
@@ -120,12 +120,14 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
 
         {isStyled?<>
           <div className="mt-5"><UnicodeStylePicker value={font} onChange={value=>{setFont(value);trackProductAction('font-change','generator-panel')}} preview={seed} dark/></div>
-          <label className="mt-5 block">
-            <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Marco</span>
-            <select value={frame} onChange={e=>{setFrame(e.target.value);trackProductAction('frame-change','generator-panel')}} className="h-11 w-full rounded-[10px] border border-white/14 bg-[#181c2a] px-3 text-[11px] text-white outline-none focus:border-[#776cff]">
-              {nameFrames.map(item=><option key={item.id} value={item.id}>{item.label} · {item.transform('Nova')}</option>)}
-            </select>
-          </label>
+          <div className="mt-5">
+            <NameFramePicker
+              value={frame}
+              onChange={value=>{setFrame(value);trackProductAction('frame-change','generator-panel')}}
+              preview={seed}
+              dark
+            />
+          </div>
         </>:<div className="mt-5">
           <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Estilo</span>
           <div className="flex flex-wrap gap-2">
