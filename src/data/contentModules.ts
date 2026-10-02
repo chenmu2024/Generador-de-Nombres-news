@@ -100,6 +100,26 @@ const specificFaqs: Record<string, PageFaq[]> = {
   '/nombres-peluches': [
     {question:'¿Puedo buscar nombres kawaii para peluches?',answer:'Sí. La colección incluye etiquetas tiernas y kawaii para filtrar ositos, muñecos y peluches pequeños.'},
   ],
+  '/nombres-japoneses': [
+    {question:'¿Un mismo nombre japonés puede escribirse con kanji distintos?',answer:'Sí. Una misma lectura puede corresponder a varias escrituras y cada combinación de kanji puede aportar matices distintos. Por eso mostramos la escritura documentada junto con la romanización cuando está disponible.'},
+    {question:'¿Romaji y kanji son lo mismo?',answer:'No. El romaji representa la lectura con alfabeto latino; el kanji es parte de la escritura original. Compararlos juntos ayuda a no confundir pronunciación con significado.'},
+  ],
+  '/nombres-coreanos': [
+    {question:'¿Qué diferencia hay entre Hangul y romanización?',answer:'Hangul es la escritura coreana; la romanización representa el sonido con letras latinas. La forma romanizada puede variar según la convención utilizada.'},
+    {question:'¿El significado de un nombre coreano depende de la escritura?',answer:'Puede depender de los caracteres hanja asociados al nombre cuando se usan. Por eso evitamos presentar una única traducción como definitiva si la fuente admite varias combinaciones.'},
+  ],
+  '/nombres-chinos': [
+    {question:'¿Por qué es importante ver los caracteres chinos del nombre?',answer:'La forma escrita distingue caracteres que pueden compartir una romanización parecida pero tener significados diferentes. Por eso el Hanzi aporta contexto que el pinyin por sí solo no conserva.'},
+    {question:'¿La romanización determina el significado?',answer:'No. La romanización ayuda con la lectura, pero el significado depende de los caracteres concretos y de su contexto.'},
+  ],
+  '/nombres-mayas': [
+    {question:'¿Por qué esta colección maya es más pequeña que otras?',answer:'Porque priorizamos registros con una referencia clara. No añadimos listas extensas de supuestos nombres mayas cuando no podemos separar con suficiente confianza nombres personales, títulos, términos históricos o figuras mitológicas.'},
+    {question:'¿Todos los nombres de la lista son nombres personales modernos?',answer:'No necesariamente. Algunas formas tienen contexto histórico o mitológico. La ficha y la fuente ayudan a distinguir ese contexto antes de interpretar el registro como un nombre de uso actual.'},
+  ],
+  '/nombres-de-dioses': [
+    {question:'¿Todos estos nombres pertenecen a la misma tradición mitológica?',answer:'No. La colección reúne varias tradiciones y cada nombre debe interpretarse dentro de su propio contexto cultural.'},
+    {question:'¿Un nombre de una deidad puede usarse como nombre personal?',answer:'El uso real depende del idioma, la tradición y la época. La presencia en esta colección indica origen mitológico, no que sea un nombre personal habitual en todos los contextos.'},
+  ],
 };
 
 export function getFaqs(page: KeywordPage): PageFaq[] {
