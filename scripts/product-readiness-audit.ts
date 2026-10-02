@@ -15,7 +15,7 @@ const dedicatedNoList=new Map<string,string>([
 
 const specialMinimums:Record<string,number>={
   '/nombres-con-en':5,
-  '/nombres-mayas':18,
+  '/nombres-mayas':22,
   '/nombres-japoneses':18,
   '/nombres-coreanos':17,
   '/nombres-franceses':20,
