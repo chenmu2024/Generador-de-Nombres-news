@@ -127,6 +127,32 @@ export function getFaqs(page: KeywordPage): PageFaq[] {
 }
 
 export function getDecisionCards(page: KeywordPage): DecisionCard[] {
+  if(page.path==='/nombres-japoneses')return[
+    {title:'Lectura',description:'Compara la romanización con la pronunciación documentada antes de decidir cómo leerlo.'},
+    {title:'Kanji',description:'Revisa qué escritura concreta acompaña al nombre; una misma lectura puede tener varias formas.'},
+    {title:'Contexto',description:'No conviertas una traducción breve en un significado absoluto si la fuente muestra variantes.'},
+  ];
+  if(page.path==='/nombres-coreanos')return[
+    {title:'Hangul',description:'Empieza por la forma escrita coreana y úsala como referencia principal del registro.'},
+    {title:'Romanización',description:'Trátala como una ayuda de lectura; distintas convenciones pueden producir grafías latinas diferentes.'},
+    {title:'Hanja',description:'Cuando interviene, el significado puede depender de la combinación de caracteres asociada al nombre.'},
+  ];
+  if(page.path==='/nombres-chinos')return[
+    {title:'Hanzi',description:'Compara siempre los caracteres concretos, no solo la forma romanizada.'},
+    {title:'Lectura',description:'La romanización orienta la pronunciación, pero no conserva por sí sola todos los contrastes del original.'},
+    {title:'Significado',description:'Interpreta el significado a partir de los caracteres documentados y su contexto.'},
+  ];
+  if(page.path==='/nombres-mayas')return[
+    {title:'Fuente',description:'Prioriza registros que puedan rastrearse a una referencia clara antes de ampliar la lista.'},
+    {title:'Tipo de registro',description:'Distingue nombre personal, título, término histórico y figura mitológica cuando la fuente lo permita.'},
+    {title:'Uso actual',description:'No asumas que una forma histórica o mitológica sea hoy un nombre personal corriente.'},
+  ];
+  if(page.path==='/nombres-de-dioses')return[
+    {title:'Tradición',description:'Identifica a qué tradición mitológica pertenece cada nombre antes de compararlo.'},
+    {title:'Función',description:'Distingue deidad, héroe u otra figura cuando el contexto de la fuente lo especifique.'},
+    {title:'Uso personal',description:'Origen mitológico no significa automáticamente uso habitual como nombre de persona.'},
+  ];
+
   switch (page.tool) {
     case 'gaming':
       return [
