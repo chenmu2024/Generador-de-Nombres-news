@@ -48,7 +48,7 @@ function FacetRow({label,children}:{label:string;children:React.ReactNode}){
   </div>
 }
 
-export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:ToolMode;pagePath?:string}){
+export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameRecord[];mode:ToolMode;pagePath?:string;pageLabel?:string}){
   const[query,setQuery]=useState('');
   const[gender,setGender]=useState<'ALL'|'F'|'M'|'U'>('ALL');
   const[activeTag,setActiveTag]=useState('');
@@ -137,6 +137,12 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const hasNonMythologicalCulture=hasCultureFacets&&items.some(item=>!item.tags.includes('mythology'));
 
   const quickPresets=getQuickPresets(pagePath);
+  const collectionHeading=pageLabel
+    ?'Explora '+pageLabel
+    :mode==='people'?'Nombres para comparar'
+      :mode==='pet'?'Nombres para tu mascota'
+        :mode==='culture'?'Nombres, escritura y origen'
+          :'Resultados';
 
   function applyQuickPreset(preset:QuickPreset){
     setQuery('');
@@ -303,8 +309,8 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   return <section id="resultados" ref={resultsRef} className="mt-8 scroll-mt-20 sm:mt-10 md:mt-12">
     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
       <div>
-        <p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora por origen y datos':'Explora nombres'}</p>
-        <h2 className="gdn-display mt-2 text-[31px] font-bold tracking-[-.035em] text-[#1b1c2b] sm:text-[35px]">{mode==='people'?'Nombres para comparar':mode==='pet'?'Nombres para tu mascota':mode==='culture'?'Nombres, escritura y origen':'Resultados'}</h2>
+        <p className="gdn-eyebrow">{pagePath?.startsWith('/nombres-con-')?'Explora esta inicial':mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora por origen y datos':mode==='people'?'Filtra y compara':'Explora resultados'}</p>
+        <h2 className="gdn-display mt-2 text-[31px] font-bold tracking-[-.035em] text-[#1b1c2b] sm:text-[35px]">{collectionHeading}</h2>
       </div>
       <div className="text-left sm:text-right">
         <span aria-live="polite" className="block text-[11px] font-semibold text-[#747789]">{hasActiveFilters?`${filtered.length} de ${items.length} disponibles`:`${items.length} disponibles`}</span>

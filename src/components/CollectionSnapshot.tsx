@@ -5,7 +5,7 @@ import type{ToolMode}from'@/data/keywordMaster';
 function letters(name:string){return Array.from(name.replace(/[^\p{L}]/gu,'')).length}
 
 export default function CollectionSnapshot({items,mode,pagePath}:{items:NameRecord[];mode:ToolMode;pagePath:string}){
-  if(!items.length||!(mode==='people'||mode==='culture'))return null;
+  if(!items.length||!(mode==='people'||mode==='culture'||mode==='pet'))return null;
   const female=items.filter(item=>item.gender==='F').length;
   const male=items.filter(item=>item.gender==='M').length;
   const unisex=items.filter(item=>item.gender==='U').length;
@@ -14,6 +14,12 @@ export default function CollectionSnapshot({items,mode,pagePath}:{items:NameReco
   const script=items.filter(item=>Boolean(item.script)).length;
   const pronunciation=items.filter(item=>Boolean(item.pronunciation)).length;
   const mythology=items.filter(item=>item.tags.includes('mythology')).length;
+  const petColors=new Set(['black','orange','white','gray','brown']);
+  const petPersonalities=new Set(['cute','playful','calm','strong','elegant','mystic','kawaii']);
+  const petSizes=new Set(['small','large']);
+  const withColor=items.filter(item=>item.tags.some(tag=>petColors.has(tag))).length;
+  const withPersonality=items.filter(item=>item.tags.some(tag=>petPersonalities.has(tag))).length;
+  const withSize=items.filter(item=>item.tags.some(tag=>petSizes.has(tag))).length;
   const isLetter=pagePath.startsWith('/nombres-con-');
 
   const stats=mode==='culture'
@@ -23,12 +29,19 @@ export default function CollectionSnapshot({items,mode,pagePath}:{items:NameReco
       {label:'Pronunciación',value:pronunciation,icon:Languages},
       {label:mythology>0?'Mitología':'Unisex',value:mythology>0?mythology:unisex,icon:UsersRound},
     ]
-    :[
-      {label:'Femeninos',value:female,icon:UsersRound},
-      {label:'Masculinos',value:male,icon:UsersRound},
-      {label:'Unisex',value:unisex,icon:UsersRound},
-      {label:'3–4 letras',value:short,icon:ScanText},
-    ];
+    :mode==='pet'
+      ?[
+        {label:'Con color',value:withColor,icon:ScanText},
+        {label:'Con personalidad',value:withPersonality,icon:UsersRound},
+        {label:'Con tamaño',value:withSize,icon:UsersRound},
+        {label:'3–4 letras',value:short,icon:ScanText},
+      ]
+      :[
+        {label:'Femeninos',value:female,icon:UsersRound},
+        {label:'Masculinos',value:male,icon:UsersRound},
+        {label:'Unisex',value:unisex,icon:UsersRound},
+        {label:'3–4 letras',value:short,icon:ScanText},
+      ];
 
   const visible=stats.filter(stat=>stat.value>0);
   if(visible.length<2)return null;
@@ -36,7 +49,7 @@ export default function CollectionSnapshot({items,mode,pagePath}:{items:NameReco
   return <section className="mt-7 rounded-[18px] border border-[#e4e1ed] bg-[#faf9fd] p-4 sm:p-5">
     <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p className="gdn-eyebrow">{mode==='culture'?'Cobertura de la colección':isLetter?'Distribución de esta inicial':'Composición de la lista'}</p>
+        <p className="gdn-eyebrow">{mode==='culture'?'Cobertura de la colección':mode==='pet'?'Rasgos disponibles':isLetter?'Distribución de esta inicial':'Composición de la lista'}</p>
         <h2 className="gdn-editorial mt-1.5 text-[22px] font-bold text-[#2b2c3a]">{items.length} opciones disponibles en esta página</h2>
       </div>
       <p className="max-w-[420px] text-[9px] leading-4 text-[#8b8d9c]">Los contadores salen de los registros visibles en esta colección; no representan estadísticas de población.</p>

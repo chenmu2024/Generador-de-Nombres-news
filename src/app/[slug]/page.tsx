@@ -108,7 +108,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
 
     {page.tool==='culture'&&items.length>0&&<CultureDataNote items={items}/>}
     {hasResultCollection&&<CollectionSnapshot items={items} mode={page.tool} pagePath={page.path}/>}
-    {hasResultCollection&&<NameGrid items={items} mode={page.tool} pagePath={page.path}/>}
+    {hasResultCollection&&<NameGrid items={items} mode={page.tool} pagePath={page.path} pageLabel={page.primaryKeyword}/>}
     {hasResultCollection&&<DatasetTrustNote items={items} mode={page.tool}/>} 
     {isEnye&&<EnyeGuide/>}
     <PageSpecificGuide page={page} items={items}/>
