@@ -128,7 +128,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const hasPetFacets=mode==='pet';
   const hasCultureFacets=mode==='culture';
 
-  type QuickPreset={label:string;length?:LengthFilter;style?:string;color?:string;size?:string;personality?:string};
+  type QuickPreset={label:string;length?:LengthFilter;style?:string;color?:string;size?:string;personality?:string;gender?:'ALL'|'F'|'M'|'U';tag?:string};
   const quickPresets:QuickPreset[]=pagePath==='/nombres-de-mujer'
     ?[
       {label:'Cortos',length:'short'},
@@ -177,12 +177,74 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                   {label:'Pequeños',size:'small'},
                   {label:'Juguetones',personality:'playful'},
                 ]
-                :[];
+                :pagePath==='/perritas-chihuahua'
+                  ?[
+                    {label:'Cortos',length:'short'},
+                    {label:'Tiernos',personality:'cute'},
+                    {label:'Juguetones',personality:'playful'},
+                  ]
+                  :pagePath==='/nombres-gatos-negros'
+                    ?[
+                      {label:'Místicos',personality:'mystic'},
+                      {label:'Hembras',gender:'F'},
+                      {label:'Machos',gender:'M'},
+                      {label:'Cortos',length:'short'},
+                    ]
+                    :pagePath==='/nombres-gatos-machos'
+                      ?[
+                        {label:'Cortos',length:'short'},
+                        {label:'Negros',color:'black'},
+                        {label:'Juguetones',personality:'playful'},
+                        {label:'Tranquilos',personality:'calm'},
+                      ]
+                      :pagePath==='/nombres-unisex'
+                        ?[
+                          {label:'Cortos',length:'short'},
+                          {label:'Modernos',style:'modern'},
+                          {label:'Poco comunes',style:'rare'},
+                        ]
+                        :pagePath==='/nombres-ff-mujeres'
+                          ?[
+                            {label:'Aesthetic',tag:'aesthetic'},
+                            {label:'Cortos',length:'short'},
+                            {label:'Fuertes',tag:'strong'},
+                          ]
+                          :pagePath==='/nombres-ff-unicos'
+                            ?[
+                              {label:'Cortos',length:'short'},
+                              {label:'Dark',tag:'dark'},
+                              {label:'Fuertes',tag:'strong'},
+                            ]
+                            :pagePath==='/nombres-clanes-ff'
+                              ?[
+                                {label:'Cortos',tag:'short'},
+                                {label:'Dark',tag:'dark'},
+                                {label:'Fuertes',tag:'strong'},
+                              ]
+                              :pagePath==='/nombres-roblox'
+                                ?[
+                                  {label:'Cortos',tag:'short'},
+                                  {label:'Aesthetic',tag:'aesthetic'},
+                                  {label:'Fuertes',tag:'strong'},
+                                ]
+                                :pagePath==='/nombres-instagram'
+                                  ?[
+                                    {label:'Aesthetic',tag:'aesthetic'},
+                                    {label:'Modernos',tag:'modern'},
+                                    {label:'Únicos',tag:'unique'},
+                                  ]
+                                  :pagePath==='/nombres-anime'
+                                    ?[
+                                      {label:'Aesthetic',tag:'aesthetic'},
+                                      {label:'Dark',tag:'dark'},
+                                      {label:'Únicos',tag:'unique'},
+                                    ]
+                                    :[];
 
   function applyQuickPreset(preset:QuickPreset){
     setQuery('');
-    setGender('ALL');
-    setActiveTag('');
+    setGender(preset.gender??'ALL');
+    setActiveTag(preset.tag??'');
     setLengthFilter(preset.length??'ALL');
     setStyleFilter(preset.style??'');
     setOriginFilter('');
@@ -194,7 +256,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   }
 
   function isQuickPresetActive(preset:QuickPreset){
-    return !query&&gender==='ALL'&&!activeTag&&!originFilter&&
+    return !query&&gender===(preset.gender??'ALL')&&activeTag===(preset.tag??'')&&!originFilter&&
       lengthFilter===(preset.length??'ALL')&&
       styleFilter===(preset.style??'')&&
       colorFilter===(preset.color??'')&&
