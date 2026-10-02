@@ -87,7 +87,9 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   }:null;
   const structuredData=faqSchema?[primarySchema,breadcrumbSchema,faqSchema]:[primarySchema,breadcrumbSchema];
 
-  return <div className="gdn-shell gdn-page" data-tool={page.tool}>
+  const pageTheme=isInstagram?'instagram':isRoblox?'roblox':page.tool;
+
+  return <div className="gdn-shell gdn-page" data-tool={page.tool} data-theme={pageTheme}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structuredData)}}/>
     <PageIntro page={page}/>
 
