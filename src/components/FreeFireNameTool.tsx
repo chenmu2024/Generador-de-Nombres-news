@@ -4,6 +4,7 @@ import {useEffect,useMemo,useState} from 'react';
 import {Copy,Gamepad2,Heart,Layers3,Scissors,Shuffle,Sparkles,Space,Type} from 'lucide-react';
 import CopyButton from './CopyButton';
 import UnicodeStylePicker from './UnicodeStylePicker';
+import NameFramePicker from './NameFramePicker';
 import {trackProductAction} from '@/lib/analytics';
 import {
   applyNameFrame,
@@ -120,14 +121,14 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
           />
         </div>
 
-        <label className="mt-5 block">
-          <span className="mb-2 flex items-center justify-between gap-2 text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">
-            <span>Marco</span><span className="text-[10px] text-[#777d91]">{nameFrames.length} opciones</span>
-          </span>
-          <select value={frame} onChange={e=>{setFrame(e.target.value);trackProductAction('frame-change','freefire-tool')}} className="h-11 w-full rounded-[10px] border border-white/14 bg-[#181c2a] px-3 text-[11px] text-white outline-none focus:border-[#776cff]">
-            {nameFrames.map(item=><option key={item.id} value={item.id}>{item.label} · {item.transform('Nova')}</option>)}
-          </select>
-        </label>
+        <div className="mt-5">
+          <NameFramePicker
+            value={frame}
+            onChange={value=>{setFrame(value);trackProductAction('frame-change','freefire-tool')}}
+            preview={seed}
+            dark
+          />
+        </div>
 
         <div className="mt-5 grid gap-2">
           <button role="switch" aria-checked={invisible} onClick={()=>{setInvisible(v=>!v);trackProductAction('toggle-invisible','freefire-tool')}} className={'flex min-h-11 items-center justify-between rounded-[10px] border px-4 text-[11px] font-semibold transition '+(invisible?'border-[#756aff] bg-[#5b4df5]/20 text-[#e4e1ff]':'border-white/16 bg-white/[.06] text-[#d0d3df] hover:bg-white/[.1]')}>
