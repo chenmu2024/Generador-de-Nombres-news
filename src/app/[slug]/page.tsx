@@ -67,7 +67,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   ];
   const breadcrumbSchema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:breadcrumbItems};
 
-  return <div className="gdn-shell">
+  return <div className="gdn-shell gdn-page" data-tool={page.tool}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify([primarySchema,breadcrumbSchema])}}/>
     <PageIntro page={page}/>
 
