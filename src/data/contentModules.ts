@@ -120,6 +120,35 @@ const specificFaqs: Record<string, PageFaq[]> = {
     {question:'¿Todos estos nombres pertenecen a la misma tradición mitológica?',answer:'No. La colección reúne varias tradiciones y cada nombre debe interpretarse dentro de su propio contexto cultural.'},
     {question:'¿Un nombre de una deidad puede usarse como nombre personal?',answer:'El uso real depende del idioma, la tradición y la época. La presencia en esta colección indica origen mitológico, no que sea un nombre personal habitual en todos los contextos.'},
   ],
+  '/nombres-de-mujer': [
+    {question:'¿Cómo puedo comparar nombres de mujer con significado?',answer:'Usa los filtros de estilo, longitud y origen, guarda tus candidatos y da más peso a los significados que incluyen una fuente verificada. El comparador permite revisar varios nombres juntos.'},
+    {question:'¿Qué significa que un nombre tenga “significado orientativo”?',answer:'Indica que la ficha puede incluir una explicación editorial todavía no respaldada por una fuente verificada dentro de la base. Se muestra de forma separada para no confundirla con un dato documentado.'},
+  ],
+  '/nombres-de-nino': [
+    {question:'¿Puedo comparar nombres de niño cortos y modernos?',answer:'Sí. La página permite filtrar por longitud y estilo, ordenar por nombres más cortos y añadir hasta cuatro candidatos al comparador.'},
+    {question:'¿Cómo sé si el significado está verificado?',answer:'Las fichas con fuente revisada muestran una indicación de significado verificado y un enlace a la referencia utilizada.'},
+  ],
+  '/nombres-gatos': [
+    {question:'¿Puedo buscar nombres para gatos por color y personalidad?',answer:'Sí. Los filtros permiten combinar etiquetas como color, tamaño y personalidad cuando esos datos existen en la colección.'},
+    {question:'¿Las etiquetas como “tierno” o “juguetón” son datos objetivos?',answer:'No. Son etiquetas editoriales para explorar ideas; no describen una característica objetiva del nombre ni predicen el comportamiento del gato.'},
+  ],
+  '/nombres-gatos-machos': [
+    {question:'¿Cómo encuentro nombres cortos para un gato macho?',answer:'Usa el atajo de nombres cortos o el filtro de longitud y después compara los candidatos que mejor suenen al llamarlos en voz alta.'},
+  ],
+  '/nombres-equipos-futbol': [
+    {question:'¿El generador crea también una abreviatura para el equipo?',answer:'Sí. Cada propuesta muestra un TAG compacto derivado del nombre para que puedas imaginarlo en una camiseta, marcador o escudo y copiarlo por separado.'},
+    {question:'¿El nombre generado garantiza que ningún otro equipo lo use?',answer:'No. La herramienta crea ideas y abreviaturas, pero antes de adoptarlas conviene comprobar equipos existentes, redes y competiciones de tu zona.'},
+  ],
+  '/espacios-invisible-ff': [
+    {question:'¿Puedo probar el espacio invisible con mi propio nickname?',answer:'Sí. Escribe tu nombre en el campo de prueba y compara cómo queda con distintas alternativas Unicode antes de copiar el resultado.'},
+    {question:'¿Puedo copiar dos o tres espacios invisibles de una vez?',answer:'Sí. La herramienta incluye accesos rápidos para copiar uno, dos o tres caracteres de espacio popular, además de ejemplos insertados entre palabras.'},
+  ],
+  '/nombres-ff-mujeres': [
+    {question:'¿Puedo combinar un nombre femenino con fuentes y marcos?',answer:'Sí. El estudio de Free Fire permite aplicar estilos Unicode, marcos decorativos, versión corta y espacio invisible sobre una base femenina.'},
+  ],
+  '/nombres-clanes-ff': [
+    {question:'¿La herramienta sirve para nombre de clan y no solo para nickname individual?',answer:'Sí. Esta variante prioriza bases y formatos pensados para clan o escuadra y permite comparar decoraciones antes de copiar el resultado.'},
+  ],
 };
 
 export function getFaqs(page: KeywordPage): PageFaq[] {
