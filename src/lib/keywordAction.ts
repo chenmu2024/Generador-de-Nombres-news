@@ -43,6 +43,7 @@ function presetAction(page:KeywordPage,value:string):KeywordAction|null{
   if(/mitolog|dioses|diosas/.test(value))return pick(['Mitología']);
   if(/significado/.test(value))return pick(['Con significado']);
   if(/pronunciacion|fonetica/.test(value))return pick(['Con pronunciación']);
+  if(/vasco/.test(value))return pick(['Vascos']);
   if(/kanji/.test(value))return pick(['Kanji','Con escritura']);
   if(/hangul/.test(value))return pick(['Hangul','Con escritura']);
   if(/cirilico/.test(value))return pick(['Cirílico','Con escritura']);

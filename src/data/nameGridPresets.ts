@@ -12,6 +12,7 @@ export type QuickPreset={
   cultureFacet?:'ALL'|'script'|'pronunciation'|'verified';
   cultureKind?:'ALL'|'names'|'mythology';
   meaning?:true;
+  originIncludes?:string;
 };
 
 export const quickPresetsByPath:Record<string,QuickPreset[]>={
@@ -87,6 +88,7 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
     {label:'Femeninos',gender:'F'},
     {label:'Cortos',length:'short'},
     {label:'Clásicos',style:'classic'},
+    {label:'Vascos',originIncludes:'Vasco'},
   ],
   '/nombres-con-y':[
     {label:'Femeninos',gender:'F'},
@@ -309,6 +311,7 @@ export function matchesQuickPreset(item:NameRecord,preset:QuickPreset){
     (!preset.gender||preset.gender==='ALL'||inferredGender(item)===preset.gender)&&
     (!preset.tag||item.tags.includes(preset.tag))&&
     (!preset.meaning||Boolean(item.meaning))&&
+    (!preset.originIncludes||Boolean(item.origin)&&item.origin!.toLocaleLowerCase('es').includes(preset.originIncludes.toLocaleLowerCase('es')))&&
     (!preset.cultureFacet||preset.cultureFacet==='ALL'||
       (preset.cultureFacet==='script'&&Boolean(item.script))||
       (preset.cultureFacet==='pronunciation'&&Boolean(item.pronunciation))||

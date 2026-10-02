@@ -55,6 +55,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
   const[lengthFilter,setLengthFilter]=useState<LengthFilter>('ALL');
   const[styleFilter,setStyleFilter]=useState('');
   const[originFilter,setOriginFilter]=useState('');
+  const[originContainsFilter,setOriginContainsFilter]=useState('');
   const[colorFilter,setColorFilter]=useState('');
   const[sizeFilter,setSizeFilter]=useState('');
   const[personalityFilter,setPersonalityFilter]=useState('');
@@ -90,7 +91,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
   useEffect(()=>{
     if(!filterTrackingReady.current){filterTrackingReady.current=true;return;}
     trackProductAction('filter-change','name-grid');
-  },[gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly]);
+  },[gender,activeTag,lengthFilter,styleFilter,originFilter,originContainsFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly]);
 
   function toggle(name:string){
     const{items:next,removed}=toggleStoredFavorite(name,favorites);
@@ -152,6 +153,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     setLengthFilter(preset.length??'ALL');
     setStyleFilter(preset.style??'');
     setOriginFilter('');
+    setOriginContainsFilter(preset.originIncludes??'');
     setColorFilter(preset.color??'');
     setSizeFilter(preset.size??'');
     setPersonalityFilter(preset.personality??'');
@@ -175,6 +177,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
 
   function isQuickPresetActive(preset:QuickPreset){
     return !query&&gender===(preset.gender??'ALL')&&activeTag===(preset.tag??'')&&!originFilter&&
+      originContainsFilter===(preset.originIncludes??'')&&
       lengthFilter===(preset.length??'ALL')&&
       styleFilter===(preset.style??'')&&
       colorFilter===(preset.color??'')&&
@@ -187,7 +190,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
 
   const hasActiveFilters=
     Boolean(query)||gender!=='ALL'||Boolean(activeTag)||lengthFilter!=='ALL'||Boolean(styleFilter)||
-    Boolean(originFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter)||cultureFacet!=='ALL'||cultureKind!=='ALL'||meaningOnly;
+    Boolean(originFilter)||Boolean(originContainsFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter)||cultureFacet!=='ALL'||cultureKind!=='ALL'||meaningOnly;
 
   function clearFilters(){
     trackProductAction('filter-clear','name-grid');
@@ -197,6 +200,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     setLengthFilter('ALL');
     setStyleFilter('');
     setOriginFilter('');
+    setOriginContainsFilter('');
     setColorFilter('');
     setSizeFilter('');
     setPersonalityFilter('');
@@ -260,7 +264,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
 
   useEffect(()=>{
     setLimit(18);
-  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly,sortMode]);
+  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,originContainsFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly,sortMode]);
 
   const filtered=useMemo(()=>items.filter(item=>{
     const haystack=[item.name,item.origin,item.meaning,item.script,item.pronunciation,item.source,...item.tags].filter(Boolean).join(' ').toLocaleLowerCase('es');
@@ -269,7 +273,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     const matchesTag=!activeTag||item.tags.includes(activeTag);
     const matchesLength=lengthFilter==='ALL'||lengthBucket(item.name)===lengthFilter;
     const matchesStyle=!styleFilter||item.tags.includes(styleFilter);
-    const matchesOrigin=!originFilter||item.origin===originFilter;
+    const matchesOrigin=(!originFilter||item.origin===originFilter)&&(!originContainsFilter||(item.origin??'').toLocaleLowerCase('es').includes(originContainsFilter.toLocaleLowerCase('es')));
     const matchesColor=!colorFilter||item.tags.includes(colorFilter);
     const matchesSize=!sizeFilter||item.tags.includes(sizeFilter);
     const matchesPersonality=!personalityFilter||item.tags.includes(personalityFilter);
@@ -282,7 +286,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
       (cultureKind==='mythology'&&item.tags.includes('mythology'))||
       (cultureKind==='names'&&!item.tags.includes('mythology'));
     return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesMeaning&&matchesCulture&&matchesCultureKind;
-  }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly]);
+  }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,originContainsFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly]);
 
   function recommendationScore(item:NameRecord){
     if(mode==='culture'){
