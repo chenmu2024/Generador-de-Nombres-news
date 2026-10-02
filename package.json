@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run seo:audit && npm run data:audit && npm run product:audit && npm run style:audit && npm run analytics:audit && npm run analytics:collector:audit && npm run search:audit && npm run copy:audit && npm run favorites:audit && npm run a11y:audit && npm run deploy:audit && next build",
+    "build": "npm run seo:audit && npm run data:audit && npm run product:audit && npm run style:audit && npm run analytics:audit && npm run analytics:collector:audit && npm run search:audit && npm run copy:audit && npm run favorites:audit && npm run a11y:audit && npm run perf:audit && npm run deploy:audit && next build",
     "start": "next start",
     "lint": "tsc --noEmit",
     "seo:audit": "tsx scripts/seo-governance-audit.ts",
@@ -18,7 +18,8 @@
     "deploy:audit": "tsx scripts/deployment-audit.ts",
     "copy:audit": "tsx scripts/clipboard-audit.ts",
     "favorites:audit": "tsx scripts/favorites-audit.ts",
-    "a11y:audit": "tsx scripts/accessibility-audit.ts"
+    "a11y:audit": "tsx scripts/accessibility-audit.ts",
+    "perf:audit": "tsx scripts/performance-audit.ts"
   },
   "dependencies": {
     "lucide-react": "1.48.0",
