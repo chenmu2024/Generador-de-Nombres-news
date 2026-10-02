@@ -5,12 +5,18 @@ function percentage(value:number,total:number){
   return total?Math.round((value/total)*100):0;
 }
 
+function displayReviewDate(value:string){
+  const[year,month,day]=value.split('-');
+  return year&&month&&day?day+'/'+month+'/'+year:value;
+}
+
 export default function CultureDataNote({items}:{items:NameRecord[]}){
   const scripts=items.filter(item=>item.script).length;
   const pronunciations=items.filter(item=>item.pronunciation).length;
   const sourced=items.filter(item=>item.source&&item.sourceUrl).length;
   const verified=items.filter(item=>item.verified===true&&item.source&&item.sourceUrl).length;
   const origins=new Set(items.map(item=>item.origin).filter(Boolean)).size;
+  const latestReview=items.map(item=>item.lastReviewed).filter((value):value is string=>Boolean(value)).sort().at(-1);
   const sourceComplete=sourced===items.length&&items.length>0;
 
   return <aside className="mt-6 overflow-hidden rounded-[18px] border border-[#ded9f6] bg-[#f7f5ff]" aria-labelledby="culture-data-title">
@@ -18,7 +24,7 @@ export default function CultureDataNote({items}:{items:NameRecord[]}){
       <p className="gdn-eyebrow">Calidad de datos</p>
       <div className="mt-1.5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
         <h2 id="culture-data-title" className="gdn-editorial text-[22px] font-bold tracking-[-.025em] text-[#292a3a]">Qué información puedes comprobar</h2>
-        <p className="text-[10px] leading-5 text-[#858799]">{items.length} registros · {origins} {origins===1?'origen':'orígenes'} documentados</p>
+        <p className="text-[10px] leading-5 text-[#858799]">{items.length} registros · {origins} {origins===1?'origen':'orígenes'} documentados{latestReview?' · revisión '+displayReviewDate(latestReview):''}</p>
       </div>
     </div>
 
