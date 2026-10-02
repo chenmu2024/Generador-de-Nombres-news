@@ -1,54 +1,7 @@
 import TrackedLink from'./TrackedLink';
 import{EXPERIMENTS}from'@/data/experiments';
 import {Leaf} from 'lucide-react';
-
-const groups=[
-  {
-    title:'Juegos',
-    links:[
-      ['Free Fire','/nombres-free-fire'],
-      ['Roblox','/nombres-roblox'],
-      ['Instagram','/nombres-instagram'],
-      ['Anime','/nombres-anime'],
-    ],
-  },
-  {
-    title:'Personas',
-    links:[
-      ['Nombres de mujer','/nombres-de-mujer'],
-      ['Nombres de niña','/nombres-de-nina'],
-      ['Nombres de niño','/nombres-de-nino'],
-      ['Nombres unisex','/nombres-unisex'],
-    ],
-  },
-  {
-    title:'Mascotas',
-    links:[
-      ['Gatos','/nombres-gatos'],
-      ['Perritas','/nombres-perritas'],
-      ['Perros machos','/nombres-perros-machos'],
-      ['Caballos','/nombres-caballos'],
-    ],
-  },
-  {
-    title:'Culturas',
-    links:[
-      ['Japoneses','/nombres-japoneses'],
-      ['Coreanos','/nombres-coreanos'],
-      ['Franceses','/nombres-franceses'],
-      ['Chinos','/nombres-chinos'],
-    ],
-  },
-  {
-    title:'Más',
-    links:[
-      ['Tiendas y negocios','/nombres-para-tiendas'],
-      ['Equipos de fútbol','/nombres-equipos-futbol'],
-      ['Nombres por letra','/nombres-por-letra'],
-      ['Mis favoritos','/favoritos'],
-    ],
-  },
-] as const;
+import{footerNavigationGroups,legalNavigation}from'@/data/siteNavigation';
 
 export default function Footer(){
   return <footer className="mt-16 border-t border-[#e9e6f1] bg-[#f7f6fb]">
@@ -64,7 +17,7 @@ export default function Footer(){
         </div>
 
         <nav aria-label="Explorar categorías" className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
-          {groups.map(group=><div key={group.title}>
+          {footerNavigationGroups.map(group=><div key={group.title}>
             <p className="gdn-tech text-[10px] font-black uppercase tracking-[.12em] text-[#4e5060]">{group.title}</p>
             <div className="mt-3 grid gap-2.5">
               {group.links.map(([label,href],index)=><TrackedLink key={href} href={href} placement="footer-nav" role={group.title.toLowerCase()+'-'+(index+1)} experimentId={EXPERIMENTS.footerNav} className="text-[11px] leading-5 text-[#777a8b] transition hover:text-[#5b4df5]">{label}</TrackedLink>)}
@@ -76,10 +29,7 @@ export default function Footer(){
       <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-[10px] leading-5 text-[#9698a7]">© {new Date().getFullYear()} GeneradorDeNombres.net</p>
         <nav aria-label="Información y políticas" className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] font-medium text-[#6b6e7f]">
-          <TrackedLink href="/sobre-nosotros" placement="footer-legal" role="about" experimentId={EXPERIMENTS.footerNav} className="hover:text-[#5b4df5]">Sobre nosotros</TrackedLink>
-          <TrackedLink href="/politica-de-privacidad" placement="footer-legal" role="privacy" experimentId={EXPERIMENTS.footerNav} className="hover:text-[#5b4df5]">Privacidad</TrackedLink>
-          <TrackedLink href="/terminos-y-condiciones" placement="footer-legal" role="terms" experimentId={EXPERIMENTS.footerNav} className="hover:text-[#5b4df5]">Términos</TrackedLink>
-          <TrackedLink href="/contacto" placement="footer-legal" role="contact" experimentId={EXPERIMENTS.footerNav} className="hover:text-[#5b4df5]">Contacto</TrackedLink>
+          {legalNavigation.map(item=><TrackedLink key={item.href} href={item.href} placement="footer-legal" role={item.role} experimentId={EXPERIMENTS.footerNav} className="hover:text-[#5b4df5]">{item.label}</TrackedLink>)}
         </nav>
       </div>
     </div>

@@ -4,15 +4,7 @@ import FavoritesNavLink from './FavoritesNavLink';
 import MobileNavMenu from './MobileNavMenu';
 import TrackedLink from './TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
-
-const nav=[
-  {label:'Juegos',href:'/nombres-free-fire'},
-  {label:'Personas',href:'/nombres-de-mujer'},
-  {label:'Mascotas',href:'/nombres-gatos'},
-  {label:'Culturas',href:'/nombres-japoneses'},
-  {label:'Negocios',href:'/nombres-para-tiendas'},
-  {label:'Recursos',href:'/nombres-por-letra'},
-];
+import{primaryNavigation}from'@/data/siteNavigation';
 
 export default function Header(){
   return <header className="sticky top-0 z-50 border-b border-[#eceaf3] bg-white/95 backdrop-blur-xl">
@@ -23,13 +15,13 @@ export default function Header(){
       </TrackedLink>
 
       <nav aria-label="Navegación principal" className="hidden items-center gap-5 xl:flex">
-        {nav.map((item,index)=><TrackedLink key={item.href} href={item.href} placement="header-nav" role={'desktop-'+(index+1)+'-'+item.label.toLowerCase()} experimentId={EXPERIMENTS.nav} className="text-[12px] font-medium text-[#55576a] transition hover:text-[#5b4df5]">{item.label}</TrackedLink>)}
+        {primaryNavigation.map((item,index)=><TrackedLink key={item.href} href={item.href} placement="header-nav" role={'desktop-'+(index+1)+'-'+item.label.toLowerCase()} experimentId={EXPERIMENTS.nav} className="text-[12px] font-medium text-[#55576a] transition hover:text-[#5b4df5]">{item.label}</TrackedLink>)}
       </nav>
 
       <div className="ml-auto flex items-center gap-2.5">
         <HeaderSearch/>
         <FavoritesNavLink/>
-        <MobileNavMenu items={nav}/>
+        <MobileNavMenu items={primaryNavigation}/>
       </div>
     </div>
   </header>
