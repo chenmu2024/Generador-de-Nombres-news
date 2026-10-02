@@ -1,4 +1,5 @@
 import { nameDataset, getNamesForPath } from '../src/data/nameDataset';
+import{keywordPages}from'../src/data/keywordMaster';
 
 const errors:string[]=[];
 const warnings:string[]=[];
@@ -18,6 +19,24 @@ for(const item of nameDataset){
   if(item.type==='culture'&&(item.meaning||item.script)&&!item.source){
     warnings.push('Cultural record with meaning/script still needs a source: '+item.name);
   }
+}
+
+const intentionalDataFreeRoutes=new Set([
+  '/nombres-por-letra',
+  '/espacios-invisible-ff',
+  '/nombres-para-tiendas',
+  '/nombres-equipos-futbol',
+]);
+
+for(const page of keywordPages){
+  if(page.path==='/'||!page.indexable||page.status!=='VERIFIED')continue;
+  const count=getNamesForPath(page.path).length;
+  if(!intentionalDataFreeRoutes.has(page.path)&&count===0){
+    errors.push('Locked route has no dedicated dataset: '+page.path);
+  }
+}
+if(getNamesForPath('/__unknown-route__').length!==0){
+  errors.push('Unknown routes must not receive a generic fallback dataset');
 }
 
 const minimums:Record<string,number>={
