@@ -58,6 +58,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const[sizeFilter,setSizeFilter]=useState('');
   const[personalityFilter,setPersonalityFilter]=useState('');
   const[cultureFacet,setCultureFacet]=useState<'ALL'|'script'|'pronunciation'|'verified'>('ALL');
+  const[cultureKind,setCultureKind]=useState<'ALL'|'names'|'mythology'>('ALL');
   const[sortMode,setSortMode]=useState<SortMode>('recommended');
   const[favorites,setFavorites]=useState<string[]>([]);
   const[randomPick,setRandomPick]=useState('');
@@ -87,7 +88,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   useEffect(()=>{
     if(!filterTrackingReady.current){filterTrackingReady.current=true;return;}
     trackProductAction('filter-change','name-grid');
-  },[gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
+  },[gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind]);
 
   function toggle(name:string){
     const{items:next,removed}=toggleStoredFavorite(name,favorites);
@@ -131,6 +132,8 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const hasPersonFacets=mode==='people';
   const hasPetFacets=mode==='pet';
   const hasCultureFacets=mode==='culture';
+  const hasMythologicalCulture=hasCultureFacets&&items.some(item=>item.tags.includes('mythology'));
+  const hasNonMythologicalCulture=hasCultureFacets&&items.some(item=>!item.tags.includes('mythology'));
 
   type QuickPreset={label:string;length?:LengthFilter;style?:string;color?:string;size?:string;personality?:string;gender?:'ALL'|'F'|'M'|'U';tag?:string};
   const quickPresets:QuickPreset[]=pagePath==='/nombres-de-mujer'
@@ -270,7 +273,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
   const hasActiveFilters=
     Boolean(query)||gender!=='ALL'||Boolean(activeTag)||lengthFilter!=='ALL'||Boolean(styleFilter)||
-    Boolean(originFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter)||cultureFacet!=='ALL';
+    Boolean(originFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter)||cultureFacet!=='ALL'||cultureKind!=='ALL';
 
   function clearFilters(){
     trackProductAction('filter-clear','name-grid');
@@ -284,6 +287,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     setSizeFilter('');
     setPersonalityFilter('');
     setCultureFacet('ALL');
+    setCultureKind('ALL');
     setRandomPick('');
     setActionFeedback('');
   }
@@ -341,7 +345,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
   useEffect(()=>{
     setLimit(18);
-  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,sortMode]);
+  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,sortMode]);
 
   const filtered=useMemo(()=>items.filter(item=>{
     const haystack=[item.name,item.origin,item.meaning,item.script,item.pronunciation,item.source,...item.tags].filter(Boolean).join(' ').toLocaleLowerCase('es');
@@ -358,8 +362,11 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
       (cultureFacet==='script'&&Boolean(item.script))||
       (cultureFacet==='pronunciation'&&Boolean(item.pronunciation))||
       (cultureFacet==='verified'&&item.verified===true&&Boolean(item.source)&&Boolean(item.sourceUrl));
-    return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesCulture;
-  }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
+    const matchesCultureKind=cultureKind==='ALL'||
+      (cultureKind==='mythology'&&item.tags.includes('mythology'))||
+      (cultureKind==='names'&&!item.tags.includes('mythology'));
+    return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesCulture&&matchesCultureKind;
+  }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind]);
 
   function recommendationScore(item:NameRecord){
     if(mode==='culture'){
@@ -510,6 +517,19 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                 <option value="">Todos los orígenes</option>
                 {origins.map(origin=><option key={origin} value={origin}>{origin}</option>)}
               </select>
+            </FacetRow>}
+            {hasMythologicalCulture&&hasNonMythologicalCulture&&<FacetRow label="Tipo">
+              {([
+                ['ALL','Todos'],
+                ['names','Nombres'],
+                ['mythology','Mitología'],
+              ] as const).map(([value,label])=><button
+                key={value}
+                onClick={()=>setCultureKind(value)}
+                aria-pressed={cultureKind===value}
+                data-active={cultureKind===value}
+                className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold"
+              >{label}</button>)}
             </FacetRow>}
             <FacetRow label="Datos">
               {([
