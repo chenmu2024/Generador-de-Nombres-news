@@ -1,6 +1,7 @@
 'use client';
 
-import{useState}from'react';
+import{useMemo,useState}from'react';
+import{Search}from'lucide-react';
 import type{UnicodeStyleId}from'@/lib/styledText';
 import{applyUnicodeStyle,unicodeStyles}from'@/lib/styledText';
 
@@ -29,7 +30,23 @@ export default function UnicodeStylePicker({
   compact?:boolean;
 }){
   const[galleryOpen,setGalleryOpen]=useState(false);
+  const[search,setSearch]=useState('');
+  const[compatibility,setCompatibility]=useState<'all'|'alta'|'media'|'experimental'>('all');
   const selected=unicodeStyles.find(style=>style.id===value)??unicodeStyles[0];
+  const filteredGroups=useMemo(()=>{
+    const query=search.trim().toLocaleLowerCase('es');
+    return styleGroups.map(group=>({
+      ...group,
+      ids:group.ids.filter(id=>{
+        const style=unicodeStyles.find(item=>item.id===id);
+        if(!style)return false;
+        const matchesQuery=!query||[style.label,style.shortLabel,style.id].join(' ').toLocaleLowerCase('es').includes(query);
+        const matchesCompatibility=compatibility==='all'||style.compatibility===compatibility;
+        return matchesQuery&&matchesCompatibility;
+      }),
+    })).filter(group=>group.ids.length>0);
+  },[search,compatibility]);
+  const visibleCount=filteredGroups.reduce((sum,group)=>sum+group.ids.length,0);
   const quick=quickIds.slice(0,compact?6:quickIds.length).map(id=>unicodeStyles.find(style=>style.id===id)!).filter(Boolean);
 
   return <div>
@@ -79,8 +96,40 @@ export default function UnicodeStylePicker({
         <span className={'gdn-tech rounded-full px-2 py-1 text-[9px] '+(dark?'bg-white/[.06] text-[#8f95a8]':'bg-white text-[#8b8d9d]')}>{styleGroups.length} familias · {unicodeStyles.length} estilos</span>
       </summary>
       {galleryOpen&&<div className={'border-t p-3 '+(dark?'border-white/8':'border-[#ece9f2]')}>
-        <div className="space-y-4">
-          {styleGroups.map(group=><section key={group.label}>
+        <div className="mb-4 grid gap-2 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <label className="relative block">
+            <Search size={13} className={'pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 '+(dark?'text-[#73798d]':'text-[#9a9cab]')}/>
+            <input
+              value={search}
+              onChange={event=>setSearch(event.target.value)}
+              placeholder="Buscar estilo..."
+              aria-label="Buscar fuente Unicode"
+              className={'h-10 w-full rounded-[9px] border pl-9 pr-3 text-[10px] outline-none transition '+(dark?'border-white/10 bg-[#161a28] text-white placeholder:text-[#666c80] focus:border-[#7469ff]':'border-[#e1deea] bg-white text-[#525465] placeholder:text-[#a1a3b0] focus:border-[var(--page-border,#cbc5f0)]')}
+            />
+          </label>
+          <div className="flex gap-1.5 overflow-x-auto pb-1 lg:pb-0">
+            {([
+              ['all','Todas'],
+              ['alta','Alta'],
+              ['media','Media'],
+              ['experimental','Experimental'],
+            ] as const).map(([id,label])=><button
+              key={id}
+              type="button"
+              onClick={()=>setCompatibility(id)}
+              aria-pressed={compatibility===id}
+              className={'min-h-9 shrink-0 rounded-full border px-3 text-[9px] font-bold transition '+(compatibility===id
+                ?dark?'border-[#7469ff] bg-[#5b4df5] text-white':'border-[var(--page-border,#cbc5f0)] bg-[var(--page-soft,#f0edff)] text-[var(--page-ink,#5146d6)]'
+                :dark?'border-white/10 bg-white/[.035] text-[#9ca1b5] hover:bg-white/[.07]':'border-[#e3e0eb] bg-white text-[#858899] hover:border-[var(--page-border,#d8d2f0)]')}
+            >{label}</button>)}
+          </div>
+        </div>
+        <div className={'mb-3 flex items-center justify-between gap-3 text-[9px] '+(dark?'text-[#70768b]':'text-[#9a9cab]')}>
+          <span>{visibleCount} estilos visibles</span>
+          {(search||compatibility!=='all')&&<button type="button" onClick={()=>{setSearch('');setCompatibility('all')}} className="font-bold text-[var(--page-accent,#6a5ff0)] hover:underline">Limpiar filtros</button>}
+        </div>
+        {filteredGroups.length>0?<div className="space-y-4">
+          {filteredGroups.map(group=><section key={group.label}>
             <div className="mb-2 flex items-center justify-between gap-3">
               <p className={'gdn-tech text-[9px] font-black uppercase tracking-[.1em] '+(dark?'text-[#7f8498]':'text-[#9395a4]')}>{group.label}</p>
               <span className={'text-[9px] '+(dark?'text-[#676d82]':'text-[#aaaeba]')}>{group.ids.length}</span>
@@ -107,7 +156,7 @@ export default function UnicodeStylePicker({
               })}
             </div>
           </section>)}
-        </div>
+        </div>:<div className={'rounded-[10px] border px-4 py-5 text-center text-[10px] '+(dark?'border-white/8 bg-white/[.025] text-[#777d91]':'border-[#e8e5ef] bg-white text-[#9193a2]')}>No hay estilos que coincidan con esos filtros.</div>}
       </div>}
     </details>}
   </div>

@@ -1,3 +1,4 @@
+import{readFileSync}from'node:fs';
 import{applyNameFrame,applyUnicodeStyle,nameFrames,unicodeStyles}from'../src/lib/styledText';
 
 const errors:string[]=[];
@@ -5,9 +6,12 @@ const styleIds=new Set<string>();
 const frameIds=new Set<string>();
 const sample='Nova27';
 const outputs=new Set<string>();
+const pickerSource=readFileSync(new URL('../src/components/UnicodeStylePicker.tsx',import.meta.url),'utf8');
 
 if(unicodeStyles.length<45)errors.push('Unicode style library is too small: '+unicodeStyles.length);
 if(nameFrames.length<18)errors.push('Frame library is too small: '+nameFrames.length);
+if(!pickerSource.includes('Buscar estilo...'))errors.push('Unicode style picker must keep searchable gallery');
+if(!pickerSource.includes("'experimental'")||!pickerSource.includes('estilos visibles'))errors.push('Unicode style picker must keep compatibility filtering');
 
 for(const style of unicodeStyles){
   if(styleIds.has(style.id))errors.push('Duplicate Unicode style id: '+style.id);
