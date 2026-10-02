@@ -94,13 +94,13 @@ export default function HomeFreeFireStudio(){
         </div>
 
         <div className="mt-5 space-y-3">
-          <button onClick={()=>{setSymbols(v=>!v);trackProductAction('toggle-symbols','home-freefire')}} aria-pressed={symbols} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+          <button role="switch" aria-checked={symbols} onClick={()=>{setSymbols(v=>!v);trackProductAction('toggle-symbols','home-freefire')}} className="flex min-h-11 w-full items-center justify-between py-1 text-[12px] text-[#d7d9e2]">
             <span>Usar símbolos</span><span className={'relative h-6 w-10 rounded-full transition '+(symbols?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(symbols?'left-5':'left-1')}/></span>
           </button>
-          <button onClick={()=>{setInvisible(v=>!v);trackProductAction('toggle-invisible','home-freefire')}} aria-pressed={invisible} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+          <button role="switch" aria-checked={invisible} onClick={()=>{setInvisible(v=>!v);trackProductAction('toggle-invisible','home-freefire')}} className="flex min-h-11 w-full items-center justify-between py-1 text-[12px] text-[#d7d9e2]">
             <span>Incluir espacios invisibles</span><span className={'relative h-6 w-10 rounded-full transition '+(invisible?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(invisible?'left-5':'left-1')}/></span>
           </button>
-          <button onClick={()=>{setShortOnly(v=>!v);trackProductAction('toggle-short','home-freefire')}} aria-pressed={shortOnly} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+          <button role="switch" aria-checked={shortOnly} onClick={()=>{setShortOnly(v=>!v);trackProductAction('toggle-short','home-freefire')}} className="flex min-h-11 w-full items-center justify-between py-1 text-[12px] text-[#d7d9e2]">
             <span>Solo nombres cortos</span><span className={'relative h-6 w-10 rounded-full transition '+(shortOnly?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(shortOnly?'left-5':'left-1')}/></span>
           </button>
         </div>
@@ -125,8 +125,8 @@ export default function HomeFreeFireStudio(){
                 <div className="mt-1 flex gap-1"><span className="rounded-full bg-[#3e2f71] px-2 py-0.5 text-[10px] text-[#cfc8ff] sm:text-[9px]">{style}</span><span className="rounded-full bg-[#123d3d] px-2 py-0.5 text-[10px] text-[#7fe0cc] sm:text-[9px]">{index%2?'Popular':'Único'}</span></div>
               </div>
               <div className="flex items-center gap-1.5">
-                <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} className={'grid size-10 place-items-center rounded-[9px] border transition sm:size-7 sm:rounded-[7px] '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'}><Heart size={12} fill={saved?'currentColor':'none'}/></button>
-                <button onClick={()=>copy(value)} className="inline-flex h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[11px] text-[#d3d6df] hover:bg-white/[.05] sm:h-7 sm:rounded-[7px] sm:px-2 sm:text-[10px]">
+                <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-7 sm:rounded-[7px] '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'}><Heart size={12} fill={saved?'currentColor':'none'}/></button>
+                <button onClick={()=>copy(value)} className="inline-flex h-11 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[11px] text-[#d3d6df] hover:bg-white/[.05] sm:h-7 sm:rounded-[7px] sm:px-2 sm:text-[10px]">
                   {copied===value?<Check size={11}/>:<Copy size={11}/>} {copied===value?'Copiado':'Copiar'}
                 </button>
               </div>
@@ -143,7 +143,7 @@ export default function HomeFreeFireStudio(){
           <div>
             <h3 className="brand-serif max-w-[190px] text-[31px] font-bold leading-[1.02]">Nombres únicos para tu estilo</h3>
             <div className="mt-4 space-y-2 text-[11px] text-white/90">{['Con símbolos','Para clanes','Cortos y limpios','100% gratis'].map(item=><p key={item} className="flex items-center gap-2"><span className="grid size-5 place-items-center rounded-full bg-white/14"><Check size={11}/></span>{item}</p>)}</div>
-            <Link href="/nombres-free-fire" className="mt-5 inline-flex items-center gap-2 rounded-[9px] bg-[#5b4df5] px-4 py-3 text-[11px] font-semibold text-white">Explorar más →</Link>
+            <Link href="/nombres-free-fire" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-[9px] bg-[#5b4df5] px-4 py-3 text-[11px] font-semibold text-white">Explorar más →</Link>
           </div>
         </div>
       </div>
