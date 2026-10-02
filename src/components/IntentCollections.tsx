@@ -22,6 +22,21 @@ function groupsFor(page:KeywordPage):GroupDef[]{
       {title:'Tiernas',description:'Opciones suaves y cariñosas.',match:i=>has(i,'cute')},
       {title:'Con carácter',description:'Fuertes, elegantes o juguetonas.',match:i=>has(i,'strong')||has(i,'elegant')||has(i,'playful')},
     ];
+    case '/nombres-perros-machos': return [
+      {title:'Fuertes',description:'Para perros con presencia o tamaño grande.',match:i=>has(i,'strong')},
+      {title:'Pequeños',description:'Opciones compactas para perros pequeños.',match:i=>has(i,'small')||has(i,'short')},
+      {title:'Tranquilos',description:'Nombres de sonido suave para perros calmados.',match:i=>has(i,'calm')},
+    ];
+    case '/nombres-caballos': return [
+      {title:'Elegantes',description:'Nombres con presencia para caballos y yeguas.',match:i=>has(i,'elegant')},
+      {title:'Fuertes',description:'Opciones asociadas a energía y potencia.',match:i=>has(i,'strong')},
+      {title:'Para yeguas',description:'Ideas marcadas para caballos hembra.',match:i=>has(i,'female')},
+    ];
+    case '/nombres-peluches': return [
+      {title:'Tiernos',description:'Nombres suaves para ositos y muñecos.',match:i=>has(i,'cute')},
+      {title:'Kawaii',description:'Opciones de estética dulce y japonesa.',match:i=>has(i,'kawaii')},
+      {title:'Pequeños',description:'Nombres cortos para peluches pequeños.',match:i=>has(i,'small')},
+    ];
     case '/perritas-chihuahua': return [
       {title:'Cortos',description:'Fáciles de repetir y reconocer.',match:i=>has(i,'short')||i.name.length<=4},
       {title:'Tiernos',description:'Para chihuahuas de aspecto dulce.',match:i=>has(i,'cute')},
@@ -46,6 +61,21 @@ function groupsFor(page:KeywordPage):GroupDef[]{
       {title:'Cortos',description:'Bases rápidas de leer en partida.',match:i=>has(i,'short')},
       {title:'Dark',description:'Ideas con tono oscuro o agresivo.',match:i=>has(i,'dark')},
       {title:'Únicos',description:'Bases menos previsibles.',match:i=>has(i,'unique')},
+    ];
+    case '/nombres-roblox': return [
+      {title:'Cortos',description:'Bases fáciles de leer y volver a escribir.',match:i=>has(i,'short')},
+      {title:'Aesthetic',description:'Ideas con una identidad visual más suave.',match:i=>has(i,'aesthetic')},
+      {title:'Fuertes',description:'Opciones con una sensación más competitiva.',match:i=>has(i,'strong')},
+    ];
+    case '/nombres-instagram': return [
+      {title:'Aesthetic',description:'Ideas pensadas para una identidad visual cuidada.',match:i=>has(i,'aesthetic')},
+      {title:'Modernos',description:'Bases actuales para perfiles y proyectos.',match:i=>has(i,'modern')},
+      {title:'Únicos',description:'Opciones menos previsibles para personalizar.',match:i=>has(i,'unique')},
+    ];
+    case '/nombres-anime': return [
+      {title:'Aesthetic',description:'Bases inspiradas en una estética anime suave.',match:i=>has(i,'aesthetic')},
+      {title:'Dark',description:'Ideas de tono nocturno, oscuro o intenso.',match:i=>has(i,'dark')},
+      {title:'Únicos',description:'Combinaciones menos convencionales para juegos y redes.',match:i=>has(i,'unique')},
     ];
     case '/nombres-ff-unicos': return [
       {title:'Cortos',description:'Bases de pocas letras para decorar.',match:i=>has(i,'short')},
