@@ -3,17 +3,21 @@
 import {useEffect,useState} from 'react';
 import TrackedLink from './TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
-import {Copy,Download,Heart,Trash2,X} from 'lucide-react';
+import {Copy,Download,Heart,Search,Trash2,X} from 'lucide-react';
 import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
 
 export default function FavoritesCenter(){
   const[items,setItems]=useState<string[]>([]);
+  const[query,setQuery]=useState('');
+  const[confirmClear,setConfirmClear]=useState(false);
   useEffect(()=>{try{setItems(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
   function remove(name:string){const next=items.filter(i=>i!==name);setItems(next);localStorage.setItem('gdn-favorites',JSON.stringify(next));window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-remove','favorites-center')}
   async function copyAll(){await navigator.clipboard.writeText(items.join('\n'));trackProductAction('copy-all-favorites','favorites-center')}
-  function clear(){setItems([]);localStorage.removeItem('gdn-favorites');window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-clear-all','favorites-center')}
+  function clear(){if(!confirmClear){setConfirmClear(true);return}setItems([]);setConfirmClear(false);localStorage.removeItem('gdn-favorites');window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-clear-all','favorites-center')}
   function exportTxt(){const blob=new Blob([items.join('\n')],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='mis-nombres-favoritos.txt';a.click();URL.revokeObjectURL(url);trackProductAction('export-favorites-txt','favorites-center')}
+
+  const filtered=items.filter(name=>name.toLocaleLowerCase('es').includes(query.trim().toLocaleLowerCase('es')));
 
   if(!items.length)return <div className="rounded-[20px] border border-[#e4e1ed] bg-white px-6 py-12 text-center shadow-[0_10px_28px_rgba(55,49,91,.04)] sm:py-16">
     <span className="mx-auto grid size-12 place-items-center rounded-full bg-[#f0edff] text-[#5b4df5]"><Heart size={19}/></span>
@@ -37,12 +41,22 @@ export default function FavoritesCenter(){
       <div className="flex flex-wrap gap-2">
         <button onClick={copyAll} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#dfdbea] bg-white px-4 text-[10px] font-semibold text-[#626576]"><Copy size={13}/>Copiar todos</button>
         <button onClick={exportTxt} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#dfdbea] bg-white px-4 text-[10px] font-semibold text-[#626576]"><Download size={13}/>TXT</button>
-        <button onClick={clear} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#f0d9de] bg-[#fff4f6] px-4 text-[10px] font-semibold text-[#a35465]"><Trash2 size={13}/>Vaciar</button>
+        <button onClick={clear} onBlur={()=>setConfirmClear(false)} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#f0d9de] bg-[#fff4f6] px-4 text-[10px] font-semibold text-[#a35465]"><Trash2 size={13}/>{confirmClear?'Confirmar vaciado':'Vaciar'}</button>
       </div>
     </div>
-    <div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">{items.map(name=><div key={name} className="bg-white p-5">
+    {items.length>=8&&<div className="border-b border-[#eceaf3] bg-white px-5 py-4">
+      <label className="relative block max-w-md">
+        <Search size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9294a4]"/>
+        <input value={query} onChange={event=>setQuery(event.target.value)} aria-label="Buscar en favoritos" placeholder="Buscar en mis favoritos…" className="gdn-input h-11 rounded-[11px] pl-10 pr-3 text-[11px]"/>
+      </label>
+      {query&&<p className="mt-2 text-[9px] text-[#9294a4]">{filtered.length} de {items.length} favoritos visibles</p>}
+    </div>}
+    {filtered.length?<div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">{filtered.map(name=><div key={name} className="bg-white p-5">
       <div className="flex items-center justify-between gap-3"><p className="brand-serif truncate text-[23px] font-bold text-[#2a2b39]">{name}</p><button onClick={()=>remove(name)} aria-label="Quitar" className="grid size-9 place-items-center rounded-full border border-[#e0ddea] text-[#8c8e9e] hover:bg-[#f7f5ff]"><X size={13}/></button></div>
       <div className="mt-4"><CopyButton value={name} analyticsRole="copy-favorite-name"/></div>
-    </div>)}</div>
+    </div>)}</div>:<div className="px-6 py-12 text-center">
+      <p className="text-[12px] font-semibold text-[#55586a]">No hay favoritos que coincidan con “{query}”.</p>
+      <button onClick={()=>setQuery('')} className="mt-3 text-[10px] font-semibold text-[#5b4df5] hover:underline">Limpiar búsqueda</button>
+    </div>}
   </section>
 }
