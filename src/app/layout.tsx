@@ -1,10 +1,15 @@
-import type{Metadata}from'next';
+import type{Metadata,Viewport}from'next';
 import'./globals.css';
 import Header from'@/components/Header';
 import Footer from'@/components/Footer';
 import AdsenseScript from'@/components/AdsenseScript';
 import PageArrivalTracker from'@/components/PageArrivalTracker';
 import WebVitalsReporter from'@/components/WebVitalsReporter';
+
+export const viewport:Viewport={
+  themeColor:'#fbfbff',
+  colorScheme:'light',
+};
 
 export const metadata:Metadata={
   metadataBase:new URL('https://generadordenombres.net'),
