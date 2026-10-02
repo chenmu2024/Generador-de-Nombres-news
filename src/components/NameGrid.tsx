@@ -472,7 +472,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
         </div>
       </div>}
 
-      {(mode==='people'||mode==='pet')&&compareRecords.length>0&&<div className="border-b border-[var(--page-border)] bg-[var(--page-soft)] px-4 py-4">
+      {(mode==='people'||mode==='pet'||mode==='culture')&&compareRecords.length>0&&<div className="border-b border-[var(--page-border)] bg-[var(--page-soft)] px-4 py-4">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="gdn-tech text-[10px] font-black uppercase tracking-[.1em] text-[var(--page-accent)]">Comparador</p>
@@ -501,13 +501,22 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                   ['Género',itemGender==='F'?'Femenino':itemGender==='M'?'Masculino':itemGender==='U'?'Unisex':'No documentado'],
                   ['Fuente',item.verified===true&&item.sourceUrl?'Verificada':'Sin verificar'],
                 ]
-                :[
-                  ['Personalidad',petPersonality?tagLabels[petPersonality]:'Sin clasificar'],
-                  ['Tamaño',petSize?tagLabels[petSize]:'No especificado'],
-                  ['Color',petColor?tagLabels[petColor]:'No especificado'],
-                  ['Longitud',lengthLabels[lengthBucket(item.name)]],
-                  ['Género',itemGender==='F'?'Hembra':itemGender==='M'?'Macho':itemGender==='U'?'Unisex':'No documentado'],
-                ];
+                :mode==='culture'
+                  ?[
+                    ['Escritura',item.script||'No documentada'],
+                    ['Pronunciación',item.pronunciation||'No documentada'],
+                    ['Origen',item.origin||'No documentado'],
+                    ['Significado',meaningSummary],
+                    ['Tipo',item.tags.includes('mythology')?'Mitología':'Nombre'],
+                    ['Fuente',item.verified===true&&item.sourceUrl?'Verificada':'Documentada'],
+                  ]
+                  :[
+                    ['Personalidad',petPersonality?tagLabels[petPersonality]:'Sin clasificar'],
+                    ['Tamaño',petSize?tagLabels[petSize]:'No especificado'],
+                    ['Color',petColor?tagLabels[petColor]:'No especificado'],
+                    ['Longitud',lengthLabels[lengthBucket(item.name)]],
+                    ['Género',itemGender==='F'?'Hembra':itemGender==='M'?'Macho':itemGender==='U'?'Unisex':'No documentado'],
+                  ];
 
               return <article key={item.name} className="w-[230px] shrink-0 snap-start rounded-[16px] border border-[var(--page-border)] bg-white p-4 shadow-[0_8px_22px_rgba(69,58,129,.05)]">
                 <div className="flex items-start justify-between gap-2">
@@ -520,7 +529,10 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                     <dd className="max-w-[135px] text-right text-[10px] font-semibold leading-4 text-[#565869]">{value}</dd>
                   </div>)}
                 </dl>
-                <div className="mt-3"><CopyButton value={item.name}/></div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <CopyButton value={item.name} label={mode==='culture'?'Copiar nombre':'Copiar'}/>
+                  {mode==='culture'&&item.script&&<CopyButton value={item.script} label="Copiar escritura"/>}
+                </div>
               </article>;
             })}
           </div>
@@ -590,7 +602,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               <div className="mt-3 flex flex-wrap gap-2 sm:mt-4">
                 <CopyButton value={item.name} label={mode==='culture'&&item.script?'Copiar nombre':'Copiar'} analyticsRole={mode==='culture'?'copy-romanized-name':'copy-name'}/>
                 {mode==='culture'&&item.script&&<CopyButton value={item.script} label="Copiar escritura" analyticsRole="copy-original-script"/>}
-                {(mode==='people'||mode==='pet')&&<button
+                {(mode==='people'||mode==='pet'||mode==='culture')&&<button
                   onClick={()=>toggleCompare(item.name)}
                   aria-pressed={compareNames.includes(item.name)}
                   disabled={compareNames.length>=4&&!compareNames.includes(item.name)}
