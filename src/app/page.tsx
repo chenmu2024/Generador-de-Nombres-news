@@ -21,27 +21,6 @@ export const metadata:Metadata={
   },
 };
 
-const organizationSchema={
-  '@context':'https://schema.org',
-  '@type':'Organization',
-  '@id':'https://generadordenombres.net/#organization',
-  name:'GeneradorDeNombres.net',
-  url:'https://generadordenombres.net/',
-  logo:'https://generadordenombres.net/favicon.svg',
-};
-
-const websiteSchema={
-  '@context':'https://schema.org',
-  '@type':'WebSite',
-  '@id':'https://generadordenombres.net/#website',
-  name:'GeneradorDeNombres.net',
-  alternateName:'GDN',
-  url:'https://generadordenombres.net/',
-  description:homeSeo.description,
-  inLanguage:'es',
-  publisher:{'@id':'https://generadordenombres.net/#organization'},
-};
-
 const heroCards=[
   {label:'Juegos',desc:'Free Fire, Roblox, Instagram y más',href:'/nombres-free-fire',image:'/visuals/hero-gaming.webp',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
   {label:'Personas',desc:'Bebés, mujer, hombre y significados',href:'/nombres-de-mujer',image:'/visuals/hero-people.webp',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]'},
@@ -61,7 +40,6 @@ const popular=[
 
 export default function HomePage(){
   return <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify([organizationSchema,websiteSchema])}}/>
     <section className="home-hero">
       <div className="gdn-shell grid items-center gap-9 py-10 sm:py-14 lg:grid-cols-[1.03fr_.97fr] lg:py-16">
         <div className="max-w-[620px]">
