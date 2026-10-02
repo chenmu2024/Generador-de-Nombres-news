@@ -269,7 +269,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     const matchesCulture=cultureFacet==='ALL'||
       (cultureFacet==='script'&&Boolean(item.script))||
       (cultureFacet==='pronunciation'&&Boolean(item.pronunciation))||
-      (cultureFacet==='verified'&&item.verified===true&&Boolean(item.source));
+      (cultureFacet==='verified'&&item.verified===true&&Boolean(item.source)&&Boolean(item.sourceUrl));
     return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesCulture;
   }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet]);
 
@@ -285,7 +285,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   return <section className="mt-10 md:mt-12">
     <div className="mb-5 flex items-end justify-between gap-4">
       <div>
-        <p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora y compara':'Explora nombres'}</p>
+        <p className="gdn-eyebrow">{mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora por origen y datos':'Explora nombres'}</p>
         <h2 className="brand-serif mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">Resultados</h2>
       </div>
       <div className="text-right">
@@ -299,7 +299,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
         <div className="flex flex-col gap-3 lg:flex-row">
           <label className="relative min-w-0 flex-1">
             <Search size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9698a8]"/>
-            <input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':mode==='culture'?'Buscar por nombre, origen, escritura o fuente...':'Buscar por nombre, origen o estilo...'}/>
+            <input value={query} onChange={e=>setQuery(e.target.value)} className="gdn-input h-11 rounded-[11px] pl-10 pr-4 text-[12px]" placeholder={mode==='pet'?'Buscar por nombre, color o estilo...':mode==='culture'?'Buscar por nombre, origen, escritura o fuente...':'Buscar por nombre, origen o estilo...'} aria-label="Buscar nombres"/>
           </label>
           {showGender&&<div className="flex gap-2 overflow-x-auto">
             {([['ALL','Todos'],['F','Femenino'],['M','Masculino'],['U','Unisex']] as const).map(([value,label])=>
