@@ -1,5 +1,6 @@
 'use client';
 
+import{useState}from'react';
 import{nameFrames}from'@/lib/styledText';
 
 const quickIds=['none','pro','insano','dark','clan','stars','hearts','royal','fire','moon','diamond','skull'];
@@ -24,6 +25,7 @@ export default function NameFramePicker({
   dark?:boolean;
   compact?:boolean;
 }){
+  const[galleryOpen,setGalleryOpen]=useState(false);
   const selected=nameFrames.find(frame=>frame.id===value)??nameFrames[0];
   const quick=quickIds.slice(0,compact?6:quickIds.length).map(id=>nameFrames.find(frame=>frame.id===id)).filter(Boolean) as typeof nameFrames;
 
@@ -65,12 +67,12 @@ export default function NameFramePicker({
       >{frame.transform('N')}</button>)}
     </div>
 
-    {!compact&&<details className={'mt-3 overflow-hidden rounded-[11px] border '+(dark?'border-white/10 bg-white/[.025]':'border-[#e5e2ed] bg-[#fcfbff]')}>
+    {!compact&&<details onToggle={event=>setGalleryOpen(event.currentTarget.open)} className={'mt-3 overflow-hidden rounded-[11px] border '+(dark?'border-white/10 bg-white/[.025]':'border-[#e5e2ed] bg-[#fcfbff]')}>
       <summary className={'flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-3 text-[10px] font-bold '+(dark?'text-[#c3c7d4]':'text-[#626576]')}>
         <span>Explorar todos los marcos</span>
         <span className={'gdn-tech rounded-full px-2 py-1 text-[9px] '+(dark?'bg-white/[.06] text-[#8f95a8]':'bg-white text-[#8b8d9d]')}>{frameGroups.length} familias · {nameFrames.length} estilos</span>
       </summary>
-      <div className={'border-t p-3 '+(dark?'border-white/8':'border-[#ece9f2]')}>
+      {galleryOpen&&<div className={'border-t p-3 '+(dark?'border-white/8':'border-[#ece9f2]')}>
         <div className="space-y-4">
           {frameGroups.map(group=><section key={group.label}>
             <div className="mb-2 flex items-center justify-between gap-3">
@@ -98,7 +100,7 @@ export default function NameFramePicker({
             </div>
           </section>)}
         </div>
-      </div>
+      </div>}
     </details>}
   </div>
 }
