@@ -102,8 +102,8 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
         <div className="flex items-center gap-3">
           <span className="grid size-10 place-items-center rounded-[12px] bg-[#5b4df5] text-white"><Gamepad2 size={16}/></span>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#a99fff]">Free Fire Studio</p>
-            <h2 className="brand-serif text-[24px] font-bold sm:text-[26px]">{variant==='clan'?'Nombre y tag para clan':'Construye tu nickname'}</h2>
+            <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.13em] text-[#a99fff]">Free Fire Studio</p>
+            <h2 className="gdn-editorial text-[24px] font-bold sm:text-[26px]">{variant==='clan'?'Nombre y tag para clan':'Construye tu nickname'}</h2>
           </div>
         </div>
 
