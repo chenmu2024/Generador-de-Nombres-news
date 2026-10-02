@@ -7,6 +7,7 @@ import TrackedLink from'./TrackedLink';
 import{EXPERIMENTS}from'@/data/experiments';
 import{trackProductAction}from'@/lib/analytics';
 import{generateStoreNames}from'@/lib/generator';
+import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 
 type Mode='people'|'pet'|'gaming'|'culture'|'store';
 
@@ -35,7 +36,7 @@ export default function HomeQuickGenerator({
   const[seed,setSeed]=useState('Luna');
   const[favorites,setFavorites]=useState<string[]>([]);
 
-  useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
+  useEffect(()=>{setFavorites(readFavorites())},[]);
 
   const config=modes.find(item=>item.id===mode)!;
   const results=useMemo(()=>{
@@ -56,12 +57,9 @@ export default function HomeQuickGenerator({
   }
 
   function toggleFavorite(value:string){
-    const removing=favorites.includes(value);
-    const next=removing?favorites.filter(item=>item!==value):Array.from(new Set([...favorites,value]));
+    const{items:next,removed}=toggleStoredFavorite(value,favorites);
     setFavorites(next);
-    localStorage.setItem('gdn-favorites',JSON.stringify(next));
-    window.dispatchEvent(new Event('gdn:favorites-updated'));
-    trackProductAction(removing?'favorite-remove':'favorite-add','home-quick-generator');
+    trackProductAction(removed?'favorite-remove':'favorite-add','home-quick-generator');
   }
 
   return <section className="overflow-hidden rounded-[22px] border border-[#e2dfec] bg-white shadow-[0_16px_42px_rgba(55,49,91,.07)]">
