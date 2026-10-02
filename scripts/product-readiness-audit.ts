@@ -1,5 +1,6 @@
 import{keywordPages}from'../src/data/keywordMaster';
 import{getNamesForPath}from'../src/data/nameDataset';
+import{alphabetRoutes,getAlphabetDirectoryEntries}from'../src/data/alphabetDirectory';
 
 const errors:string[]=[];
 const dedicatedNoList=new Map<string,string>([
@@ -52,6 +53,13 @@ for(const page of keywordPages){
   if(page.path==='/nombres-instagram'&&items.some(item=>!item.tags.includes('instagram')))errors.push('Instagram route contains non-Instagram records');
   if(page.path==='/nombres-caballos'&&items.some(item=>!item.tags.includes('horse')))errors.push('Horse route contains non-horse records');
   if(page.path==='/nombres-peluches'&&items.some(item=>!item.tags.includes('plush')))errors.push('Plush route contains non-plush records');
+}
+
+const alphabetEntries=getAlphabetDirectoryEntries();
+for(const entry of alphabetEntries){
+  if(alphabetRoutes[entry.letter])continue;
+  if(entry.count<3)errors.push('Alphabet quick view is too thin: '+entry.letter+' has '+entry.count+' names, expected at least 3');
+  if(entry.names.length!==Math.min(entry.count,18))errors.push('Alphabet quick view preview count mismatch: '+entry.letter);
 }
 
 const routesWithResults=keywordPages.filter(page=>page.path!=='/'&&!dedicatedNoList.has(page.path));
