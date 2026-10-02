@@ -77,8 +77,8 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
     ];
     return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_64px_rgba(27,24,55,.15)]">
       <div className="border-b border-white/8 px-5 py-5 sm:px-6">
-        <p className="text-[10px] font-bold uppercase tracking-[.15em] text-[#a99fff]">Laboratorio Unicode</p>
-        <h2 className="brand-serif mt-1 text-[26px] font-bold">Espacios y caracteres invisibles</h2>
+        <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.13em] text-[var(--page-accent)]">Laboratorio Unicode</p>
+        <h2 className="gdn-editorial mt-1 text-[26px] font-bold">Espacios y caracteres invisibles</h2>
         <p className="mt-2 max-w-2xl text-[10px] leading-5 text-[#8f94a8]">Copia el carácter solo o prueba un nickname de ejemplo. Ningún carácter está garantizado: el juego puede filtrarlo, normalizarlo o dejar de aceptarlo.</p>
       </div>
       <div className="grid gap-px bg-white/8 md:grid-cols-2 xl:grid-cols-3">
@@ -109,8 +109,8 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
   return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_64px_rgba(27,24,55,.15)]">
     <div className="grid lg:grid-cols-[340px_1fr]">
       <div className="border-b border-white/8 p-5 sm:p-6 lg:border-b-0 lg:border-r">
-        <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#a99fff]">Generador en vivo</p>
-        <h3 className="brand-serif mt-2 text-[28px] font-bold leading-tight">Da forma a tu idea.</h3>
+        <p className="gdn-tech text-[10px] font-bold uppercase tracking-[.13em] text-[var(--page-accent)]">Generador en vivo</p>
+        <h3 className="gdn-editorial mt-2 text-[28px] font-bold leading-tight">Da forma a tu idea.</h3>
         <p className="mt-2 text-[11px] leading-5 text-[#9da2b5]">{isStyled?'Combina fuente, marco y variaciones sin salir del generador.':'Escribe una base y cambia el tono hasta encontrar algo que encaje.'}</p>
 
         <label className="mt-6 block">
@@ -129,7 +129,7 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
         </>:<div className="mt-5">
           <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Estilo</span>
           <div className="flex flex-wrap gap-2">
-            {styles.map(item=><button key={item} onClick={()=>{setStyle(item);trackProductAction('style-change','generator-panel')}} className={'min-h-11 rounded-[9px] border px-3 text-[11px] font-semibold transition sm:min-h-0 sm:py-2 sm:text-[10px] '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/18 bg-white/[.07] text-[#e0e2ea] hover:border-[#665ce0] hover:bg-white/[.12]')}>{item}</button>)}
+            {styles.map(item=><button key={item} onClick={()=>{setStyle(item);trackProductAction('style-change','generator-panel')}} className={'min-h-11 rounded-[9px] border px-3 text-[11px] font-semibold transition sm:min-h-0 sm:py-2 sm:text-[10px] '+(style===item?'border-[var(--page-accent)] bg-[var(--page-accent)] text-white':'border-white/18 bg-white/[.07] text-[#e0e2ea] hover:border-[var(--page-accent)] hover:bg-white/[.12]')}>{item}</button>)}
           </div>
         </div>}
 
@@ -138,7 +138,7 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
 
       <div className="min-w-0 bg-[#151927]">
         <div className="flex items-center justify-between border-b border-white/8 px-5 py-4">
-          <div className="flex items-center gap-2 text-[11px] font-semibold"><Sparkles size={13} className="text-[#a99fff]"/> Resultados</div>
+          <div className="flex items-center gap-2 text-[11px] font-semibold"><Sparkles size={13} className="text-[var(--page-accent)]"/> Resultados</div>
           <span className="rounded-full bg-white/6 px-2.5 py-1 text-[9px] font-semibold text-[#898ea0]">{results.length} opciones</span>
         </div>
         <div className="grid gap-px bg-white/8 sm:grid-cols-2">
