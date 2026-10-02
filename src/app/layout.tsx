@@ -4,6 +4,7 @@ import Header from'@/components/Header';
 import Footer from'@/components/Footer';
 import AdsenseScript from'@/components/AdsenseScript';
 import PageArrivalTracker from'@/components/PageArrivalTracker';
+import WebVitalsReporter from'@/components/WebVitalsReporter';
 
 export const metadata:Metadata={
   metadataBase:new URL('https://generadordenombres.net'),
@@ -19,6 +20,7 @@ export default function RootLayout({children}:Readonly<{children:React.ReactNode
     <body>
       <AdsenseScript/>
       <PageArrivalTracker/>
+      <WebVitalsReporter/>
       <Header/>
       <main>{children}</main>
       <Footer/>
