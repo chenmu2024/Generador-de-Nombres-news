@@ -62,6 +62,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isToolPage=isRoblox||isInstagram||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
   const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&!isStore&&!isFreeFire&&['general','gaming','invisible','store','football'].includes(page.tool);
   const hasPrimaryTool=isRoblox||isInstagram||isAlphabet||isStore||isFreeFire||showGenerator;
+  const hasResultCollection=!isAlphabet&&items.length>0;
 
   const alphabetPages=keywordPages.filter(item=>item.path.startsWith('/nombres-con-'));
   const faqs=getFaqs(page);
@@ -104,9 +105,9 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
       {showGenerator&&<GeneratorPanel mode={page.tool} defaultValue={page.tool==='football'?'Barrio':page.tool==='gaming'?'Vortex':'Nova'}/>}
     </div>}
 
-    {page.tool==='culture'&&<CultureDataNote items={items}/>}
-    {!isAlphabet&&<NameGrid items={items} mode={page.tool} pagePath={page.path}/>}
-    {!isAlphabet&&<DatasetTrustNote items={items} mode={page.tool}/>} 
+    {page.tool==='culture'&&items.length>0&&<CultureDataNote items={items}/>}
+    {hasResultCollection&&<NameGrid items={items} mode={page.tool} pagePath={page.path}/>}
+    {hasResultCollection&&<DatasetTrustNote items={items} mode={page.tool}/>} 
     {isEnye&&<EnyeGuide/>}
     <PageSpecificGuide page={page} items={items}/>
     <KeywordIntentCoverage page={page}/>

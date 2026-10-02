@@ -33,6 +33,8 @@ for(const [path,blueprint]of Object.entries(pageBlueprints)){
 
 const slug=readFileSync(new URL('../src/app/[slug]/page.tsx',import.meta.url),'utf8');
 if(!slug.includes('<PageSpecificGuide page={page} items={items}/>'))errors.push('Slug template does not render PageSpecificGuide');
+if(!slug.includes('const hasResultCollection=!isAlphabet&&items.length>0'))errors.push('Slug template must gate result collections by real data');
+if(!slug.includes('hasResultCollection&&<NameGrid'))errors.push('NameGrid must not render on dedicated no-list tool pages');
 const intro=readFileSync(new URL('../src/components/PageIntro.tsx',import.meta.url),'utf8');
 if(!intro.includes('getPageBlueprint(page.path)'))errors.push('PageIntro does not consume page blueprint');
 
