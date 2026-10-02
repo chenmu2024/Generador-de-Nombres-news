@@ -46,6 +46,7 @@ for(const page of keywordPages){
 
 rows.sort((a,b)=>a.score-b.score||a.count-b.count);
 const thin=rows.filter(row=>row.score<72);
+const errors:string[]=[];
 
 console.log('[Data Depth] Lowest-depth result pages');
 for(const row of rows.slice(0,15)){
@@ -64,7 +65,6 @@ if(thin.length){
 console.log('[Data Depth] '+rows.length+' result-backed topic routes audited; '+thin.length+' routes are below the quality depth target.');
 if(thin.length)errors.push('Routes below quality depth target: '+thin.map(row=>row.path+' ('+row.score+')').join(', '));
 
-const errors:string[]=[];
 for(const row of rows){
   if(row.count===0)errors.push('Result-backed route has zero records: '+row.path);
   if(row.tool==='culture'&&row.verifiedRate<.9)errors.push('Cultural route source coverage below 90%: '+row.path+' -> '+Math.round(row.verifiedRate*100)+'%');
