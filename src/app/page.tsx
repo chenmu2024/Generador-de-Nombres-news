@@ -54,8 +54,8 @@ export default function HomePage(){
     <section className="home-hero">
       <div className="gdn-shell grid items-center gap-9 py-10 sm:py-14 lg:grid-cols-[1.03fr_.97fr] lg:py-16">
         <div className="max-w-[620px]">
-          <p className="text-[11px] font-black uppercase tracking-[.32em] text-[#695cff]">Generador de nombres en español</p>
-          <h1 className="mt-4 font-serif text-[40px] font-bold leading-[.98] tracking-[-.045em] text-[#171827] sm:text-[58px] lg:text-[64px]">
+          <p className="gdn-tech text-[11px] font-black uppercase tracking-[.28em] text-[#695cff]">Generador de nombres en español</p>
+          <h1 className="gdn-display mt-4 text-[40px] font-bold leading-[.98] tracking-[-.045em] text-[#171827] sm:text-[58px] lg:text-[64px]">
             Encuentra un nombre que <span className="text-[#6558f5]">realmente</span> quieras usar.
           </h1>
           <p className="mt-5 max-w-[590px] text-[16px] leading-7 text-[#66697b]">
@@ -84,7 +84,7 @@ export default function HomePage(){
                 <div className="flex items-center gap-2">
                   <span className={'grid size-7 shrink-0 place-items-center rounded-[9px] '+item.tone}><Icon size={14}/></span>
                   <div className="min-w-0">
-                    <p className="truncate font-serif text-[13px] font-bold text-[#242532]">{item.label}</p>
+                    <p className="gdn-editorial truncate text-[13px] font-bold text-[#242532]">{item.label}</p>
                     <p className="mt-0.5 line-clamp-2 text-[10px] leading-4 sm:text-[9px] sm:leading-3.5 text-[#717486]">{item.desc}</p>
                   </div>
                 </div>
@@ -104,7 +104,7 @@ export default function HomePage(){
     <section className="gdn-shell grid gap-7 py-12 lg:grid-cols-[220px_1fr] lg:items-start">
       <div>
         <div className="flex items-center gap-3">
-          <h2 className="font-serif text-[31px] font-bold leading-[1.02] tracking-[-.035em] text-[#1c1d2a]">Herramientas populares</h2>
+          <h2 className="gdn-display text-[31px] font-bold leading-[1.02] tracking-[-.035em] text-[#1c1d2a]">Herramientas populares</h2>
           <span className="grid size-8 shrink-0 place-items-center rounded-full border border-[#dad6f3] text-[#6558f5]"><ArrowRight size={15}/></span>
         </div>
         <p className="mt-4 text-[12px] leading-6 text-[#7c7f91]">Descubre las herramientas más usadas para cada necesidad.</p>
@@ -116,7 +116,7 @@ export default function HomePage(){
           return <TrackedLink key={item.href} href={item.href} placement="home-popular-tools" role={'popular-'+item.href.slice(1)} experimentId={EXPERIMENTS.homePopular} className="group flex min-h-[86px] items-center gap-3 rounded-[15px] border border-[#e6e4ee] bg-white p-3.5 shadow-[0_8px_24px_rgba(55,49,91,.05)] transition hover:-translate-y-0.5 hover:border-[#d7d1f0] hover:shadow-[0_14px_30px_rgba(55,49,91,.09)]">
             <span className={'grid size-12 shrink-0 place-items-center rounded-[14px] '+item.tone}><Icon size={21}/></span>
             <div className="min-w-0 flex-1">
-              <p className="font-serif text-[14px] font-bold text-[#292a37]">{item.label}</p>
+              <p className="gdn-editorial text-[14px] font-bold text-[#292a37]">{item.label}</p>
               <p className="mt-1 text-[10px] leading-4 text-[#86899a]">{item.desc}</p>
             </div>
             <ArrowRight size={15} className="shrink-0 text-[#7e82a0] transition group-hover:translate-x-0.5 group-hover:text-[#6558f5]"/>
