@@ -13,6 +13,7 @@ export const EXPERIMENTS={
   webVitals:'web-vitals-v1',
   footerNav:'footer-nav-v1',
   alphabetNav:'alphabet-nav-v1',
+  pageView:'page-view-v1',
 } as const;
 
 export type ExperimentId=(typeof EXPERIMENTS)[keyof typeof EXPERIMENTS];
