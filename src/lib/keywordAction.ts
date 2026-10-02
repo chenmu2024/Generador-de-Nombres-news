@@ -43,6 +43,20 @@ export function getKeywordAction(page:KeywordPage,keyword:string):KeywordAction{
     if(value.includes('roblox'))return{href:page.path+'?intent=roblox#herramienta',label:'Usar modo Roblox'};
   }
 
+  if(page.path==='/nombres-para-tiendas'){
+    if(value.includes('boutique'))return{href:page.path+'?channel=Boutique#herramienta',label:'Usar modo Boutique'};
+    if(value.includes('en linea'))return{href:page.path+'?channel=Tienda%20online#herramienta',label:'Usar modo tienda online'};
+    if(value.includes('bazar'))return{href:page.path+'?channel=Bazar#herramienta',label:'Usar modo Bazar'};
+    if(value.includes('ropa'))return{href:page.path+'?industry=Ropa#herramienta',label:'Usar sector Ropa'};
+  }
+
+  if(page.path==='/nombres-equipos-futbol'){
+    if(value.includes('gracios'))return{href:page.path+'?style=Gracioso#herramienta',label:'Usar tono gracioso'};
+    if(value.includes('futbol 5'))return{href:page.path+'?context=F%C3%BAtbol%205#herramienta',label:'Usar modo Fútbol 5'};
+    if(value.includes('femenin'))return{href:page.path+'?context=Femenino#herramienta',label:'Usar modo femenino'};
+    if(value.includes('torneo'))return{href:page.path+'?context=Torneo#herramienta',label:'Crear nombre de torneo'};
+  }
+
   if(page.cluster==='freeFire'){
     if(value.includes('espacio')||value.includes('letra invisible')||value.includes('unicode u+3000')){
       return{href:'/espacios-invisible-ff#herramienta',label:'Abrir caracteres invisibles'};

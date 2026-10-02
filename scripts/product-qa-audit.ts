@@ -12,6 +12,8 @@ const home=read('src/app/page.tsx');
 const platform=read('src/components/PlatformNameTool.tsx');
 const freeFire=read('src/components/FreeFireNameTool.tsx');
 const anime=read('src/components/AnimeNameTool.tsx');
+const brand=read('src/components/BrandNameTool.tsx');
+const generatorPanel=read('src/components/GeneratorPanel.tsx');
 
 if(!slugPage.includes('id="herramienta"'))errors.push('Missing #herramienta target in slug page');
 if(!home.includes('id="studio-nombres"'))errors.push('Missing #studio-nombres target on homepage');
@@ -23,6 +25,8 @@ if(!freeFire.includes("get('shortcut')"))errors.push('Free Fire tool no longer c
 if(!anime.includes("get('intent')"))errors.push('Anime tool no longer consumes intent query handoff');
 if(!slugPage.includes('<AnimeNameTool/>'))errors.push('Anime route must render AnimeNameTool');
 if(!slugPage.includes("const showGenerator=page.tool==='invisible'||page.tool==='football'"))errors.push('Generic GeneratorPanel fallback must remain disabled');
+if(!brand.includes("params.get('industry')")||!brand.includes("params.get('channel')"))errors.push('Brand tool must consume industry/channel handoff');
+if(!generatorPanel.includes("params.get('context')")||!generatorPanel.includes("params.get('style')"))errors.push('Football tool must consume context/style handoff');
 
 function routeFromHref(href:string){
   const withoutHash=href.split('#')[0]||'';

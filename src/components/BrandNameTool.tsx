@@ -25,6 +25,13 @@ export default function BrandNameTool(){
   const[feedback,setFeedback]=useState('');
 
   useEffect(()=>{setFavorites(readFavorites())},[]);
+  useEffect(()=>{
+    const params=new URLSearchParams(window.location.search);
+    const requestedIndustry=params.get('industry');
+    const requestedChannel=params.get('channel');
+    if(requestedIndustry&&(industries as readonly string[]).includes(requestedIndustry))setIndustry(requestedIndustry as (typeof industries)[number]);
+    if(requestedChannel&&(channels as readonly string[]).includes(requestedChannel))setChannel(requestedChannel as (typeof channels)[number]);
+  },[]);
 
   const results=useMemo(()=>generateBrandNames({
     seed,style,industry,channel,language,batch,

@@ -2,13 +2,11 @@
 
 import{useEffect,useMemo,useState}from'react';
 import{Copy,Heart,RefreshCw,Sparkles}from'lucide-react';
-import{generateFootballNames}from'@/lib/generator';
+import{footballContexts,footballStyles,generateFootballNames,type FootballContext,type FootballStyle}from'@/lib/generator';
 import{invisibleCharacters}from'@/data/invisibleCharacters';
 import{trackProductAction}from'@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
 import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
-
-const footballStyles=['Serio','Barrio','Gracioso','Competitivo'];
 
 function footballCode(value:string){
   const stop=new Set(['de','del','la','las','los','el','fc','cf','club']);
@@ -21,15 +19,24 @@ function footballCode(value:string){
 
 export default function GeneratorPanel({mode,defaultValue}:{mode:'football'|'invisible';defaultValue:string}){
   const[seed,setSeed]=useState(defaultValue);
-  const[style,setStyle]=useState('Competitivo');
+  const[style,setStyle]=useState<FootballStyle>('Competitivo');
+  const[context,setContext]=useState<FootballContext>('Equipo');
   const[copied,setCopied]=useState('');
   const[favorites,setFavorites]=useState<string[]>([]);
 
   useEffect(()=>{setFavorites(readFavorites())},[]);
+  useEffect(()=>{
+    if(mode!=='football')return;
+    const params=new URLSearchParams(window.location.search);
+    const requestedStyle=params.get('style');
+    const requestedContext=params.get('context');
+    if(requestedStyle&&(footballStyles as readonly string[]).includes(requestedStyle))setStyle(requestedStyle as FootballStyle);
+    if(requestedContext&&(footballContexts as readonly string[]).includes(requestedContext))setContext(requestedContext as FootballContext);
+  },[mode]);
 
   const results=useMemo(
-    ()=>mode==='football'?generateFootballNames(seed,style):[],
-    [seed,style,mode]
+    ()=>mode==='football'?generateFootballNames(seed,style,context):[],
+    [seed,style,context,mode]
   );
 
   async function copy(value:string){
@@ -111,11 +118,18 @@ export default function GeneratorPanel({mode,defaultValue}:{mode:'football'|'inv
         </label>
 
         <div className="mt-5">
+          <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Escenario</span>
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
+            {footballContexts.map(item=><button key={item} onClick={()=>{setContext(item);trackProductAction('context-change','generator-panel')}} className={'min-h-10 shrink-0 rounded-full border px-3 text-[10px] font-semibold transition '+(context===item?'border-[var(--page-accent)] bg-[var(--page-accent)] text-white':'border-white/18 bg-white/[.07] text-[#e0e2ea] hover:border-[var(--page-accent)]')}>{item}</button>)}
+          </div>
+        </div>
+
+        {context==='Equipo'&&<div className="mt-5">
           <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.12em] text-[#9fa4b8]">Tono</span>
           <div className="flex flex-wrap gap-2">
             {footballStyles.map(item=><button key={item} onClick={()=>{setStyle(item);trackProductAction('style-change','generator-panel')}} className={'min-h-11 rounded-[9px] border px-3 text-[11px] font-semibold transition sm:min-h-0 sm:py-2 sm:text-[10px] '+(style===item?'border-[var(--page-accent)] bg-[var(--page-accent)] text-white':'border-white/18 bg-white/[.07] text-[#e0e2ea] hover:border-[var(--page-accent)] hover:bg-white/[.12]')}>{item}</button>)}
           </div>
-        </div>
+        </div>}
 
         <div className="mt-6 flex items-center gap-2 text-[10px] text-[#858a9d]"><RefreshCw size={12}/> Se actualiza mientras escribes</div>
       </div>
@@ -128,15 +142,15 @@ export default function GeneratorPanel({mode,defaultValue}:{mode:'football'|'inv
         <div className="grid gap-px bg-white/8 sm:grid-cols-2">
           {results.map(value=>{
             const saved=favorites.includes(value);
-            const teamCode=footballCode(value);
+            const teamCode=context==='Torneo'?'':footballCode(value);
             return <div key={value} className="group flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-2.5 transition hover:bg-[#1b2030] sm:px-5">
               <div className="min-w-0">
                 <span className="block break-all text-[13px] font-semibold">{value}</span>
-                <button
+                {teamCode&&<button
                   onClick={()=>copy(teamCode)}
                   aria-label={copied===teamCode?'TAG copiado':'Copiar TAG '+teamCode}
                   className="gdn-tech mt-1 inline-flex min-h-7 items-center gap-1 rounded-full border border-white/10 bg-white/[.05] px-2 text-[9px] font-bold tracking-[.12em] text-[#8fa8cf] transition hover:border-[var(--page-accent)] hover:text-white"
-                ><Copy size={9}/>{copied===teamCode?'COPIADO':'TAG '+teamCode}</button>
+                ><Copy size={9}/>{copied===teamCode?'COPIADO':'TAG '+teamCode}</button>}
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
                 <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[var(--page-accent)] bg-white/[.08] text-[var(--page-accent)]':'border-white/10 text-[#9297a9] hover:border-[var(--page-accent)] hover:text-[var(--page-accent)]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>

@@ -1,7 +1,7 @@
 import{keywordPages}from'../src/data/keywordMaster';
 import{getNamesForPath}from'../src/data/nameDataset';
 import{alphabetRoutes,getAlphabetDirectoryEntries}from'../src/data/alphabetDirectory';
-import{generateFootballNames}from'../src/lib/generator';
+import{footballContexts,footballStyles,generateFootballNames}from'../src/lib/generator';
 import{brandChannels,brandIndustries,brandLanguages,brandStyles,generateBrandNames}from'../src/lib/brandGenerator';
 import{invisibleCharacters}from'../src/data/invisibleCharacters';
 
@@ -81,12 +81,13 @@ for(const entry of alphabetEntries){
   if(entry.names.length!==Math.min(entry.count,18))errors.push('Alphabet quick view preview count mismatch: '+entry.letter);
 }
 
-const footballStyles=['Serio','Barrio','Gracioso','Competitivo'];
-for(const style of footballStyles){
-  const results=generateFootballNames('Horizonte',style);
-  if(results.length<12)errors.push('Football generator too thin for '+style+': '+results.length);
-  if(new Set(results).size!==results.length)errors.push('Football generator duplicates output for '+style);
-  if(results.some(value=>!value.includes('Horizonte')))errors.push('Football generator lost the seed for '+style);
+let footballCases=0;
+for(const context of footballContexts)for(const style of footballStyles){
+  footballCases++;
+  const results=generateFootballNames('Horizonte',style,context);
+  if(results.length<12)errors.push('Football generator too thin for '+context+' / '+style+': '+results.length);
+  if(new Set(results).size!==results.length)errors.push('Football generator duplicates output for '+context+' / '+style);
+  if(results.some(value=>!value.includes('Horizonte')))errors.push('Football generator lost the seed for '+context+' / '+style);
 }
 
 let brandCases=0;
@@ -123,5 +124,5 @@ console.log(
   '[Product Readiness] PASS — '+
   routesWithResults.length+' result-backed routes + '+
   dedicatedNoList.size+' dedicated non-list routes; '+
-  totalResults+' route-level result slots; '+brandCases+' brand configurations, '+footballStyles.length+' football styles and '+invisibleCharacters.length+' invisible characters validated.'
+  totalResults+' route-level result slots; '+brandCases+' brand configurations, '+footballCases+' football configurations and '+invisibleCharacters.length+' invisible characters validated.'
 );
