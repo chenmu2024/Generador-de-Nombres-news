@@ -1,8 +1,9 @@
-import Link from 'next/link';
 import {ArrowRight,Baby,CheckCircle2,Gamepad2,Landmark,Leaf,PawPrint,ShieldCheck,Store,Zap} from 'lucide-react';
 import IntentRouter from '@/components/IntentRouter';
 import HomeFreeFireStudio from '@/components/HomeFreeFireStudio';
 import HomeSavedNames from '@/components/HomeSavedNames';
+import TrackedLink from '@/components/TrackedLink';
+import {EXPERIMENTS} from '@/data/experiments';
 
 const heroCards=[
   {label:'Juegos',desc:'Free Fire, Roblox, Instagram y más',href:'/nombres-free-fire',image:'https://images.unsplash.com/photo-1700087322375-8bdb366b6c60?auto=format&fit=crop&w=720&q=76',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
@@ -50,7 +51,7 @@ export default function HomePage(){
           {heroCards.map((item,index)=>{
             const Icon=item.icon;
             const area=index===0?'col-span-2 sm:col-span-7 sm:row-span-5':index===1?'col-span-1 sm:col-span-5 sm:row-span-5':index===2?'col-span-1 sm:col-span-4 sm:row-span-5':index===3?'col-span-1 sm:col-span-4 sm:row-span-5':'col-span-1 sm:col-span-4 sm:row-span-5';
-            return <Link key={item.href} href={item.href} className={'group relative overflow-hidden rounded-[22px] border-2 border-white shadow-[0_16px_38px_rgba(58,48,112,.14)] '+area}>
+            return <TrackedLink key={item.href} href={item.href} placement="home-hero-cards" role={'hero-card-'+item.label.toLowerCase()} experimentId={EXPERIMENTS.homeHero} className={'group relative overflow-hidden rounded-[22px] border-2 border-white shadow-[0_16px_38px_rgba(58,48,112,.14)] '+area}>
               <img src={item.image} alt="" width="900" height="700" loading={index===0?'eager':'lazy'} fetchPriority={index===0?'high':'auto'} decoding="async" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"/>
               <div className="absolute inset-x-2.5 bottom-2.5 rounded-[13px] sm:inset-x-3 sm:bottom-3 bg-white/94 p-2.5 shadow-[0_8px_20px_rgba(27,25,52,.14)] backdrop-blur">
                 <div className="flex items-center gap-2">
@@ -61,7 +62,7 @@ export default function HomePage(){
                   </div>
                 </div>
               </div>
-            </Link>;
+            </TrackedLink>;
           })}
         </div>
       </div>
@@ -85,14 +86,14 @@ export default function HomePage(){
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {popular.map(item=>{
           const Icon=item.icon;
-          return <Link key={item.href} href={item.href} className="group flex min-h-[86px] items-center gap-3 rounded-[15px] border border-[#e6e4ee] bg-white p-3.5 shadow-[0_8px_24px_rgba(55,49,91,.05)] transition hover:-translate-y-0.5 hover:border-[#d7d1f0] hover:shadow-[0_14px_30px_rgba(55,49,91,.09)]">
+          return <TrackedLink key={item.href} href={item.href} placement="home-popular-tools" role={'popular-'+item.href.slice(1)} experimentId={EXPERIMENTS.homePopular} className="group flex min-h-[86px] items-center gap-3 rounded-[15px] border border-[#e6e4ee] bg-white p-3.5 shadow-[0_8px_24px_rgba(55,49,91,.05)] transition hover:-translate-y-0.5 hover:border-[#d7d1f0] hover:shadow-[0_14px_30px_rgba(55,49,91,.09)]">
             <span className={'grid size-12 shrink-0 place-items-center rounded-[14px] '+item.tone}><Icon size={21}/></span>
             <div className="min-w-0 flex-1">
               <p className="font-serif text-[14px] font-bold text-[#292a37]">{item.label}</p>
               <p className="mt-1 text-[10px] leading-4 text-[#86899a]">{item.desc}</p>
             </div>
             <ArrowRight size={15} className="shrink-0 text-[#7e82a0] transition group-hover:translate-x-0.5 group-hover:text-[#6558f5]"/>
-          </Link>;
+          </TrackedLink>;
         })}
       </div>
     </section>

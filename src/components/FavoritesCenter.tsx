@@ -1,7 +1,8 @@
 'use client';
 
 import {useEffect,useState} from 'react';
-import Link from 'next/link';
+import TrackedLink from './TrackedLink';
+import {EXPERIMENTS} from '@/data/experiments';
 import {Copy,Download,Heart,Trash2,X} from 'lucide-react';
 import CopyButton from './CopyButton';
 
@@ -22,10 +23,10 @@ export default function FavoritesCenter(){
         {href:'/nombres-de-mujer',label:'Personas',desc:'Nombres, significados y estilos'},
         {href:'/nombres-gatos',label:'Mascotas',desc:'Gatos, perros y otras ideas'},
         {href:'/nombres-free-fire',label:'Juegos',desc:'Nicknames y nombres para jugar'},
-      ].map(item=><Link key={item.href} href={item.href} className="rounded-[14px] border border-[#e2deef] bg-[#faf9ff] p-4 text-left transition hover:border-[#cbc4f7] hover:bg-[#f6f3ff]">
+      ].map(item=><TrackedLink key={item.href} href={item.href} placement="empty-favorites" role={'discover-'+item.href.slice(1)} experimentId={EXPERIMENTS.emptyFavorites} className="rounded-[14px] border border-[#e2deef] bg-[#faf9ff] p-4 text-left transition hover:border-[#cbc4f7] hover:bg-[#f6f3ff]">
         <span className="block text-[11px] font-bold text-[#414354]">{item.label}</span>
         <span className="mt-1 block text-[10px] leading-4 text-[#858899]">{item.desc}</span>
-      </Link>)}
+      </TrackedLink>)}
     </div>
   </div>;
 

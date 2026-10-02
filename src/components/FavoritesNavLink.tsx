@@ -1,8 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import {Heart} from 'lucide-react';
 import {useEffect,useState} from 'react';
+import TrackedLink from './TrackedLink';
+import {EXPERIMENTS} from '@/data/experiments';
 
 function readCount(){
   try{
@@ -25,14 +26,14 @@ export default function FavoritesNavLink({mobile=false}:{mobile?:boolean}){
     };
   },[]);
 
-  if(mobile)return <Link href="/favoritos" className="mt-1 flex items-center justify-between gap-2 border-t border-[#eceaf3] px-3 py-3 text-[12px] font-semibold text-[#5b4df5]">
+  if(mobile)return <TrackedLink href="/favoritos" placement="header-favorites" role="mobile-favorites" experimentId={EXPERIMENTS.favoritesNav} className="mt-1 flex items-center justify-between gap-2 border-t border-[#eceaf3] px-3 py-3 text-[12px] font-semibold text-[#5b4df5]">
     <span className="flex items-center gap-2"><Heart size={14}/>Favoritos</span>
     {count>0&&<span className="grid min-w-6 place-items-center rounded-full bg-[#f0edff] px-1.5 py-1 text-[9px] font-black text-[#5b4df5]">{count}</span>}
-  </Link>;
+  </TrackedLink>;
 
-  return <Link href="/favoritos" className="hidden h-10 items-center gap-2 rounded-full border border-[#e4e1ee] bg-white px-4 text-[12px] font-semibold text-[#282939] shadow-[0_2px_10px_rgba(50,43,100,.04)] transition hover:border-[#d1cbed] sm:inline-flex">
+  return <TrackedLink href="/favoritos" placement="header-favorites" role="desktop-favorites" experimentId={EXPERIMENTS.favoritesNav} className="hidden h-10 items-center gap-2 rounded-full border border-[#e4e1ee] bg-white px-4 text-[12px] font-semibold text-[#282939] shadow-[0_2px_10px_rgba(50,43,100,.04)] transition hover:border-[#d1cbed] sm:inline-flex">
     <Heart size={15} className="text-[#ff4f80]"/>
     <span>Favoritos</span>
     {count>0&&<span aria-label={count+' favoritos guardados'} className="grid min-w-5 place-items-center rounded-full bg-[#f0edff] px-1.5 py-0.5 text-[9px] font-black text-[#5b4df5]">{count}</span>}
-  </Link>
+  </TrackedLink>
 }

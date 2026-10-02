@@ -1,6 +1,7 @@
 'use client';
 
-import Link from 'next/link';
+import TrackedLink from './TrackedLink';
+import {EXPERIMENTS} from '@/data/experiments';
 import {ArrowRight,Heart} from 'lucide-react';
 import {useEffect,useState} from 'react';
 
@@ -42,9 +43,9 @@ export default function HomeSavedNames(){
           {preview.map(name=><span key={name} className="max-w-[160px] truncate rounded-full border border-[#dfdbef] bg-white px-3 py-1.5 text-[10px] font-semibold text-[#505263]">{name}</span>)}
         </div>
       </div>
-      <Link href="/favoritos" className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-[11px] bg-[#5b4df5] px-4 text-[11px] font-semibold text-white shadow-[0_8px_22px_rgba(91,77,245,.2)] transition hover:bg-[#5044de]">
+      <TrackedLink href="/favoritos" placement="home-resume" role="resume-favorites" experimentId={EXPERIMENTS.homeResume} className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-[11px] bg-[#5b4df5] px-4 text-[11px] font-semibold text-white shadow-[0_8px_22px_rgba(91,77,245,.2)] transition hover:bg-[#5044de]">
         Ver mis favoritos <ArrowRight size={13}/>
-      </Link>
+      </TrackedLink>
     </div>
   </section>
 }

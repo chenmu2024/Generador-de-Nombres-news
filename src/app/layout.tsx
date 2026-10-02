@@ -3,6 +3,7 @@ import'./globals.css';
 import Header from'@/components/Header';
 import Footer from'@/components/Footer';
 import AdsenseScript from'@/components/AdsenseScript';
+import PageArrivalTracker from'@/components/PageArrivalTracker';
 
 export const metadata:Metadata={
   metadataBase:new URL('https://generadordenombres.net'),
@@ -17,6 +18,7 @@ export default function RootLayout({children}:Readonly<{children:React.ReactNode
     <head><link rel="preconnect" href="https://images.unsplash.com"/><link rel="dns-prefetch" href="https://images.unsplash.com"/></head>
     <body>
       <AdsenseScript/>
+      <PageArrivalTracker/>
       <Header/>
       <main>{children}</main>
       <Footer/>

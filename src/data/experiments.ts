@@ -1,0 +1,13 @@
+export const EXPERIMENTS={
+  homeHero:'home-entry-v1',
+  homePopular:'home-popular-v1',
+  homeResume:'home-resume-v1',
+  nextStep:'next-intent-v1',
+  related:'related-links-v1',
+  emptyFavorites:'favorites-empty-v1',
+  nav:'nav-core-v1',
+  favoritesNav:'favorites-nav-v1',
+  searchRoute:'search-route-v1',
+} as const;
+
+export type ExperimentId=(typeof EXPERIMENTS)[keyof typeof EXPERIMENTS];
