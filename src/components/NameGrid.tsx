@@ -154,7 +154,28 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
             {label:'Elegantes',personality:'elegant'},
             {label:'Juguetonas',personality:'playful'},
           ]
-          :[];
+          :pagePath==='/nombres-perros-machos'
+            ?[
+              {label:'Fuertes',personality:'strong'},
+              {label:'Pequeños',size:'small'},
+              {label:'Grandes',size:'large'},
+              {label:'Juguetones',personality:'playful'},
+            ]
+            :pagePath==='/nombres-caballos'
+              ?[
+                {label:'Fuertes',personality:'strong'},
+                {label:'Elegantes',personality:'elegant'},
+                {label:'Tranquilos',personality:'calm'},
+                {label:'Grandes',size:'large'},
+              ]
+              :pagePath==='/nombres-peluches'
+                ?[
+                  {label:'Tiernos',personality:'cute'},
+                  {label:'Kawaii',personality:'kawaii'},
+                  {label:'Pequeños',size:'small'},
+                  {label:'Juguetones',personality:'playful'},
+                ]
+                :[];
 
   function applyQuickPreset(preset:QuickPreset){
     setQuery('');
@@ -336,7 +357,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
             </FacetRow>}
 
             {origins.length>=3&&<FacetRow label="Origen">
-              <select value={originFilter} onChange={e=>setOriginFilter(e.target.value)} className="gdn-input h-10 min-w-[210px] rounded-full px-3 text-[10px] font-semibold">
+              <select aria-label="Filtrar por origen" value={originFilter} onChange={e=>setOriginFilter(e.target.value)} className="gdn-input h-10 min-w-[210px] rounded-full px-3 text-[10px] font-semibold">
                 <option value="">Todos los orígenes</option>
                 {origins.map(origin=><option key={origin} value={origin}>{origin}</option>)}
               </select>
