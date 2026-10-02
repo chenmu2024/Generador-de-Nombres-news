@@ -1,5 +1,6 @@
 import type { KeywordPage, ToolMode } from './keywordMaster';
 import{getPageBlueprint}from'./pageBlueprints';
+import{explainKeywordIntent}from'@/lib/keywordPlacement';
 
 export interface PageFaq {
   question: string;
@@ -171,10 +172,27 @@ const specificFaqs: Record<string, PageFaq[]> = {
   ],
 };
 
+function longTailQuestion(keyword:string){
+  const value=keyword.trim();
+  if(/^generador\b/i.test(value))return '¿Cómo aprovechar '+value+' sin complicar el proceso?';
+  if(/significado/i.test(value))return '¿Cómo interpretar '+value+' con más contexto?';
+  if(/3 letras|4 letras|cort/i.test(value))return '¿Cómo encontrar '+value+' sin revisar toda la lista?';
+  if(/mujer|mujeres|femenin|hembra|niña/i.test(value))return '¿Cómo filtrar '+value+' dentro de esta página?';
+  if(/hombre|hombres|masculin|macho|niño/i.test(value))return '¿Cómo filtrar '+value+' dentro de esta página?';
+  if(/kanji|hangul|hanzi|fonetica|pronunciacion|romanizacion|transliteracion/i.test(value))return '¿Qué conviene revisar al buscar '+value+'?';
+  return '¿Qué debo tener en cuenta al buscar '+value+'?';
+}
+
 export function getFaqs(page: KeywordPage): PageFaq[] {
   const blueprintFaq=getPageBlueprint(page.path)?.faq;
   const specific=specificFaqs[page.path]??[];
-  const merged=blueprintFaq?[blueprintFaq,...specific,...sharedFaqs[page.tool]]:[...specific,...sharedFaqs[page.tool]];
+  const longTail=page.secondaryKeywords.slice(0,4).map(keyword=>({
+    question:longTailQuestion(keyword),
+    answer:explainKeywordIntent(keyword,page),
+  }));
+  const merged=blueprintFaq
+    ?[blueprintFaq,...specific,...longTail,...sharedFaqs[page.tool]]
+    :[...specific,...longTail,...sharedFaqs[page.tool]];
   const seen=new Set<string>();
   return merged.filter(faq=>{
     const key=faq.question.toLocaleLowerCase('es');

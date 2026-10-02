@@ -1,6 +1,7 @@
 import{readFileSync}from'node:fs';
 import{keywordPages}from'../src/data/keywordMaster';
 import{pageBlueprints}from'../src/data/pageBlueprints';
+import{getFaqs}from'../src/data/contentModules';
 
 const errors:string[]=[];
 const pages=keywordPages.filter(page=>page.path!=='/');
@@ -17,6 +18,9 @@ for(const page of pages){
     if(!card.title.trim()||card.body.trim().length<35)errors.push('Thin guide card: '+page.path+' -> '+card.title);
   }
   if(!blueprint.faq.question.trim()||blueprint.faq.answer.trim().length<45)errors.push('Missing page-specific FAQ: '+page.path);
+  const faqs=getFaqs(page);
+  if(faqs.length<4)errors.push('Topic page must expose at least 4 FAQs: '+page.path+' -> '+faqs.length);
+  if(new Set(faqs.map(item=>item.question.toLocaleLowerCase('es'))).size!==faqs.length)errors.push('Duplicate rendered FAQ: '+page.path);
 }
 for(const path of actual)if(!expected.has(path))errors.push('Blueprint points to unknown/non-topic route: '+path);
 
