@@ -1,9 +1,35 @@
+import type{Metadata}from'next';
 import {ArrowRight,Baby,CheckCircle2,Gamepad2,Landmark,Leaf,PawPrint,ShieldCheck,Store,Zap} from 'lucide-react';
 import IntentRouter from '@/components/IntentRouter';
 import HomeFreeFireStudio from '@/components/HomeFreeFireStudio';
 import HomeSavedNames from '@/components/HomeSavedNames';
 import TrackedLink from '@/components/TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
+import{keywordPageByPath}from'@/data/keywordMaster';
+
+const homeSeo=keywordPageByPath.get('/')!;
+
+export const metadata:Metadata={
+  title:homeSeo.title,
+  description:homeSeo.description,
+  alternates:{canonical:'/'},
+  openGraph:{
+    title:homeSeo.title,
+    description:homeSeo.description,
+    url:'/',
+    type:'website',
+  },
+};
+
+const websiteSchema={
+  '@context':'https://schema.org',
+  '@type':'WebSite',
+  name:'GeneradorDeNombres.net',
+  alternateName:'GDN',
+  url:'https://generadordenombres.net/',
+  description:homeSeo.description,
+  inLanguage:'es',
+};
 
 const heroCards=[
   {label:'Juegos',desc:'Free Fire, Roblox, Instagram y más',href:'/nombres-free-fire',image:'https://images.unsplash.com/photo-1700087322375-8bdb366b6c60?auto=format&fit=crop&w=720&q=76',icon:Gamepad2,tone:'bg-[#eef0ff] text-[#5146d6]'},
@@ -24,6 +50,7 @@ const popular=[
 
 export default function HomePage(){
   return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(websiteSchema)}}/>
     <section className="home-hero">
       <div className="gdn-shell grid items-center gap-9 py-10 sm:py-14 lg:grid-cols-[1.03fr_.97fr] lg:py-16">
         <div className="max-w-[620px]">
