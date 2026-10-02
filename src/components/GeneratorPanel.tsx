@@ -1,7 +1,7 @@
 'use client';
 
-import {useMemo,useState} from 'react';
-import {Copy,RefreshCw,Sparkles} from 'lucide-react';
+import {useEffect,useMemo,useState} from 'react';
+import {Copy,Heart,RefreshCw,Sparkles} from 'lucide-react';
 import type{ToolMode} from '@/data/keywordMaster';
 import {generateFootballNames,generateStoreNames} from '@/lib/generator';
 import {trackProductAction} from '@/lib/analytics';
@@ -22,6 +22,9 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
   const[font,setFont]=useState<UnicodeStyleId>(mode==='gaming'?'bold':'plain');
   const[frame,setFrame]=useState(mode==='gaming'?'pro':'none');
   const[copied,setCopied]=useState('');
+  const[favorites,setFavorites]=useState<string[]>([]);
+
+  useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
 
   const isStyled=mode==='gaming'||mode==='general';
 
@@ -52,6 +55,15 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
     trackProductAction('copy-generated','generator-panel');
     setCopied(value);
     window.setTimeout(()=>setCopied(''),1200);
+  }
+
+  function toggleFavorite(value:string){
+    const removing=favorites.includes(value);
+    const next=removing?favorites.filter(item=>item!==value):Array.from(new Set([...favorites,value]));
+    setFavorites(next);
+    localStorage.setItem('gdn-favorites',JSON.stringify(next));
+    window.dispatchEvent(new Event('gdn:favorites-updated'));
+    trackProductAction(removing?'favorite-remove':'favorite-add','generator-panel');
   }
 
   if(mode==='invisible'){
@@ -130,11 +142,16 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
           <span className="rounded-full bg-white/6 px-2.5 py-1 text-[9px] font-semibold text-[#898ea0]">{results.length} opciones</span>
         </div>
         <div className="grid gap-px bg-white/8 sm:grid-cols-2">
-          {results.slice(0,12).map(value=><button key={value} onClick={()=>copy(value)} className="group flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-5 text-left transition hover:bg-[#1b2030]">
-            <span className="min-w-0 break-all text-[13px] font-semibold">{value}</span>
-            <span className="grid size-11 shrink-0 place-items-center rounded-[9px] border border-white/10 text-[#9297a9] transition group-hover:border-[#756aff] group-hover:text-[#bcb7ff] sm:size-8"><Copy size={13}/></span>
-            {copied===value&&<span className="sr-only">Copiado</span>}
-          </button>)}
+          {results.slice(0,12).map(value=>{
+            const saved=favorites.includes(value);
+            return <div key={value} className="group flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-2.5 transition hover:bg-[#1b2030] sm:px-5">
+              <span className="min-w-0 break-all text-[13px] font-semibold">{value}</span>
+              <div className="flex shrink-0 items-center gap-1.5">
+                <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#9297a9] hover:border-[#756aff] hover:text-[#bcb7ff]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>
+                <button onClick={()=>copy(value)} aria-label={copied===value?'Copiado':'Copiar '+value} className="grid size-11 place-items-center rounded-[9px] border border-white/10 text-[#9297a9] transition hover:border-[#756aff] hover:text-[#bcb7ff] sm:size-8"><Copy size={13}/></button>
+              </div>
+            </div>;
+          })}
         </div>
       </div>
     </div>
