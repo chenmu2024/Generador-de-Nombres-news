@@ -5,7 +5,7 @@ const read=(path:string)=>readFileSync(new URL('../'+path,import.meta.url),'utf8
 
 const home=read('src/app/page.tsx');
 if(home.includes('images.unsplash.com'))errors.push('Homepage must not depend on Unsplash hero images');
-for(const asset of['/visuals/hero-gaming.webp','/visuals/hero-people.webp','/visuals/hero-pets.webp','/visuals/hero-culture.svg','/visuals/hero-business.svg']){
+for(const asset of['/visuals/hero-gaming.svg','/visuals/hero-people.svg','/visuals/hero-pets.webp','/visuals/hero-culture.svg','/visuals/hero-business.svg']){
   if(!home.includes(asset))errors.push('Missing local homepage hero asset: '+asset);
 }
 const studioIndex=home.indexOf('<HomeFreeFireStudio/>');
