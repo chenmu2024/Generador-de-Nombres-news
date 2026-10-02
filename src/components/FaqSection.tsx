@@ -12,7 +12,7 @@ export default function FaqSection({page}:{page:KeywordPage}){
     :page.tool==='store'?'Preguntas antes de usar un nombre comercial'
     :page.tool==='football'?'Preguntas antes de elegir el nombre del equipo'
     :'Dudas antes de elegir';
-  return <section className="mt-16">
+  return <section id="preguntas" className="mt-16 scroll-mt-24">
     <p className="gdn-eyebrow">Preguntas frecuentes</p>
     <h2 className="gdn-display mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">{heading}</h2>
     <div className="mt-5 divide-y divide-[#eceaf3] overflow-hidden rounded-[20px] border border-[#e5e2ef] bg-white shadow-[0_10px_28px_rgba(55,49,91,.04)]">

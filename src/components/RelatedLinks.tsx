@@ -8,7 +8,7 @@ export default function RelatedLinks({currentPath}:{currentPath:string}){
   const related=getInternalLinkSuggestions(currentPath,8).filter(item=>!excluded.has(item.page.path)).slice(0,4);
   if(!related.length)return null;
 
-  return <section className="mt-16">
+  return <section id="relacionados" className="mt-16 scroll-mt-24">
     <p className="gdn-eyebrow">Sigue explorando</p>
     <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
       <h2 className="gdn-display mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">Herramientas relacionadas</h2>

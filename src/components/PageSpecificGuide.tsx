@@ -13,7 +13,7 @@ export default function PageSpecificGuide({page,items}:{page:KeywordPage;items:N
     :[0,Math.floor((items.length-1)/3),Math.floor((items.length-1)*2/3),items.length-1];
   const examples=Array.from(new Set(sampleIndexes)).map(index=>items[index]).filter((item):item is NameRecord=>Boolean(item));
 
-  return <section className="mt-12 rounded-[22px] border border-[#e4e1ed] bg-white p-5 shadow-[0_10px_30px_rgba(55,49,91,.04)] sm:p-6">
+  return <section id="guia" className="mt-12 scroll-mt-24 rounded-[22px] border border-[#e4e1ed] bg-white p-5 shadow-[0_10px_30px_rgba(55,49,91,.04)] sm:p-6">
     <div className="flex flex-col gap-4 border-b border-[#ece9f2] pb-5 sm:flex-row sm:items-end sm:justify-between">
       <div className="max-w-3xl">
         <p className="gdn-eyebrow">Guía de esta página</p>

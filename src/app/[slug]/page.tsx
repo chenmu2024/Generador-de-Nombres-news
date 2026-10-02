@@ -22,6 +22,8 @@ import PlushAdoptionTool from'@/components/PlushAdoptionTool';
 import CompoundNameTool from'@/components/CompoundNameTool';
 import KoreanContextTool from'@/components/KoreanContextTool';
 import TopicSubnav from'@/components/TopicSubnav';
+import PageSectionNav from'@/components/PageSectionNav';
+import PageDataBrief from'@/components/PageDataBrief';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -107,8 +109,9 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structuredData)}}/>
     <PageIntro page={page}/>
     <TopicSubnav page={page}/>
+    <PageSectionNav page={page} hasPrimaryTool={hasPrimaryTool} hasResultCollection={hasResultCollection}/>
 
-    {hasPrimaryTool&&<div id="herramienta" className="scroll-mt-20">
+    {hasPrimaryTool&&<div id="herramienta" className="scroll-mt-24">
       {isRoblox&&<PlatformNameTool platform="roblox"/>}
       {isInstagram&&<PlatformNameTool platform="instagram"/>}
       {isAnime&&<AnimeNameTool/>}

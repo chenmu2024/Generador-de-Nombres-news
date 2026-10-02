@@ -12,7 +12,7 @@ function displayKeyword(value:string){
 export default function KeywordIntentCoverage({page}:{page:KeywordPage}){
   const placements=getKeywordPlacements(page);
   if(!placements.length)return null;
-  return <section className="mt-10 rounded-[22px] border border-[#e5e2ef] bg-[#fbfaff] p-5 sm:p-6" aria-labelledby={'keyword-intents-'+page.id}>
+  return <section id="busquedas" className="mt-10 scroll-mt-24 rounded-[22px] border border-[#e5e2ef] bg-[#fbfaff] p-5 sm:p-6" aria-labelledby={'keyword-intents-'+page.id}>
     <div className="max-w-3xl">
       <p className="gdn-eyebrow">Búsquedas concretas</p>
       <h2 id={'keyword-intents-'+page.id} className="gdn-display mt-2 text-[30px] font-bold tracking-[-.035em] text-[#1d1e2c] sm:text-[34px]">Qué puedes resolver en esta página</h2>

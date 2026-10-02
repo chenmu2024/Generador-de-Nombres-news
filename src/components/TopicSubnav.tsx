@@ -23,7 +23,7 @@ export default function TopicSubnav({page}:{page:KeywordPage}){
         ?<span key={item.path} aria-current="page" className="inline-flex min-h-8 shrink-0 items-center rounded-full border border-[var(--page-border)] bg-[var(--page-soft)] px-3 text-[9px] font-bold text-[var(--page-accent)]">{label(item.primaryKeyword)}</span>
         :<TrackedLink key={item.path} href={item.path} placement="topic-subnav" role={page.cluster+'-'+(index+1)} experimentId={EXPERIMENTS.nav} className="inline-flex min-h-8 shrink-0 items-center rounded-full border border-[#e0ddea] bg-white px-3 text-[9px] font-semibold text-[#6d7080] transition hover:border-[var(--page-border)] hover:bg-[var(--page-soft)] hover:text-[var(--page-accent)]">{label(item.primaryKeyword)}</TrackedLink>
       )}
-      <TrackedLink href="/#todas-las-herramientas" placement="topic-subnav" role="all-topics" experimentId={EXPERIMENTS.nav} className="inline-flex min-h-8 shrink-0 items-center rounded-full border border-dashed border-[#d7d2e4] px-3 text-[9px] font-semibold text-[#858899] transition hover:border-[var(--page-border)] hover:text-[var(--page-accent)]">Todas</TrackedLink>
+      <TrackedLink href="/directorio" placement="topic-subnav" role="all-topics" experimentId={EXPERIMENTS.nav} className="inline-flex min-h-8 shrink-0 items-center rounded-full border border-dashed border-[#d7d2e4] px-3 text-[9px] font-semibold text-[#858899] transition hover:border-[var(--page-border)] hover:text-[var(--page-accent)]">Todas</TrackedLink>
     </div>
   </nav>
 }
