@@ -78,7 +78,7 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
         <div className="flex items-center gap-3">
           <span className="grid size-9 place-items-center rounded-[11px] bg-[#5b4df5] text-white"><AtSign size={15}/></span>
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-[.14em] text-[#8177e9]">{platform==='roblox'?'Roblox':'Instagram'}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[.14em] text-[#8177e9]">{platform==='roblox'?'Roblox':'Instagram'}</p>
             <h2 className="brand-serif text-[24px] font-bold text-[#292a39]">{platform==='roblox'?'Crea y revisa tu nombre':'Username y nombre visible'}</h2>
           </div>
         </div>
@@ -105,13 +105,13 @@ export default function PlatformNameTool({platform}:{platform:Platform}){
           {issues.length?<ShieldAlert size={14}/>:<BadgeCheck size={14}/>}<span>{issues.length?issues[0]:'El formato cumple las comprobaciones locales.'}</span>
         </div>}
 
-        {platform==='instagram'&&<p className="mt-3 text-[9px] leading-4 text-[#8a8d9e]">{mode==='username'?'El username se genera en formato simple y fácil de copiar.':'El nombre visible admite variantes Unicode; comprueba cómo se renderiza en tu dispositivo antes de usarlo.'}</p>}
+        {platform==='instagram'&&<p className="mt-3 text-[10px] leading-4 text-[#8a8d9e]">{mode==='username'?'El username se genera en formato simple y fácil de copiar.':'El nombre visible admite variantes Unicode; comprueba cómo se renderiza en tu dispositivo antes de usarlo.'}</p>}
       </div>
 
       <div>
         <div className="flex items-center justify-between border-b border-[#eceaf3] bg-white px-5 py-3">
           <p className="text-[10px] font-bold uppercase tracking-[.12em] text-[#8b8e9d]">Resultados</p>
-          <span className="text-[9px] font-semibold text-[#9a9cab]">{suggestions.length} opciones</span>
+          <span className="text-[10px] font-semibold text-[#9a9cab]">{suggestions.length} opciones</span>
         </div>
         <div className="divide-y divide-[#eceaf3]">
           {suggestions.map(value=>{
