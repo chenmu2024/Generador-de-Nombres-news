@@ -26,11 +26,27 @@ export default function DatasetTrustNote({items,mode}:{items:NameRecord[];mode:T
     </aside>
   }
 
-  return <aside className="mt-6 flex gap-3 rounded-[17px] border border-[#e3def5] bg-[#faf9ff] px-5 py-4">
-    <span className="gdn-theme-chip mt-0.5 grid size-9 shrink-0 place-items-center rounded-full border"><Tags size={15}/></span>
-    <div>
-      <p className="text-[11px] font-bold text-[#424456]">Cómo interpretar los filtros de mascotas</p>
-      <p className="mt-1 text-[11px] leading-5 text-[#777a8c]">Color, tamaño y personalidad son etiquetas editoriales para ayudarte a encontrar nombres que encajen con una mascota. No describen una propiedad objetiva del nombre ni una regla de comportamiento animal.</p>
+  const colorTags=new Set(['black','orange','white','gray','brown']);
+  const sizeTags=new Set(['small','large']);
+  const personalityTags=new Set(['cute','playful','calm','strong','elegant','mystic','kawaii']);
+  const colorCoverage=items.filter(item=>item.tags.some(tag=>colorTags.has(tag))).length;
+  const sizeCoverage=items.filter(item=>item.tags.some(tag=>sizeTags.has(tag))).length;
+  const personalityCoverage=items.filter(item=>item.tags.some(tag=>personalityTags.has(tag))).length;
+
+  return <aside className="mt-6 overflow-hidden rounded-[17px] border border-[var(--page-border)] bg-[var(--page-soft)]">
+    <div className="grid gap-px bg-[var(--page-border)] sm:grid-cols-3">
+      <div className="bg-white/85 p-4">
+        <div className="flex items-center gap-2 gdn-theme-accent"><Tags size={14}/><span className="gdn-tech text-[10px] font-black uppercase tracking-[.1em]">Personalidad</span></div>
+        <p className="mt-2 text-[11px] leading-5 text-[#747789]">{personalityCoverage} de {items.length} nombres tienen al menos una etiqueta como tierno, juguetón, fuerte o tranquilo.</p>
+      </div>
+      <div className="bg-white/85 p-4">
+        <div className="flex items-center gap-2 gdn-theme-accent"><Info size={14}/><span className="gdn-tech text-[10px] font-black uppercase tracking-[.1em]">Tamaño</span></div>
+        <p className="mt-2 text-[11px] leading-5 text-[#747789]">{sizeCoverage} de {items.length} registros están clasificados como pequeños o grandes para facilitar la exploración.</p>
+      </div>
+      <div className="bg-white/85 p-4">
+        <div className="flex items-center gap-2 gdn-theme-accent"><BadgeCheck size={14}/><span className="gdn-tech text-[10px] font-black uppercase tracking-[.1em]">Color</span></div>
+        <p className="mt-2 text-[11px] leading-5 text-[#747789]">{colorCoverage} de {items.length} incluyen una asociación editorial de color. Estas etiquetas son ayudas de búsqueda, no propiedades objetivas del nombre.</p>
+      </div>
     </div>
   </aside>
 }
