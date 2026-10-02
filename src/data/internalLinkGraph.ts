@@ -1,6 +1,6 @@
 import{keywordPages,keywordPageByPath,type KeywordPage}from'./keywordMaster';
 
-export type InternalLinkRole='next-intent'|'sibling';
+export type InternalLinkRole='next-intent'|'priority'|'sibling';
 export interface InternalLinkSuggestion{page:KeywordPage;role:InternalLinkRole}
 
 export const internalLinkPriority:Record<string,string[]>={
@@ -76,8 +76,9 @@ export function getInternalLinkSuggestions(currentPath:string,limit=6):InternalL
   const current=keywordPageByPath.get(currentPath);
   if(!current)return[];
 
-  const results:InternalLinkSuggestion[]=getPriorityPaths(currentPath)
-    .map(path=>({page:keywordPageByPath.get(path)!,role:'next-intent' as const}));
+  const priority=getPriorityPaths(currentPath);
+  const results:InternalLinkSuggestion[]=priority
+    .map((path,index)=>({page:keywordPageByPath.get(path)!,role:index<2?'next-intent' as const:'priority' as const}));
 
   for(const page of keywordPages){
     if(page.path===currentPath||page.cluster!==current.cluster||results.some(item=>item.page.path===page.path))continue;
