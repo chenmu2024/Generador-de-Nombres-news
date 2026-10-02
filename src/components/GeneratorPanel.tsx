@@ -177,14 +177,19 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
         <div className="grid gap-px bg-white/8 sm:grid-cols-2">
           {results.slice(0,12).map(value=>{
             const saved=favorites.includes(value);
+            const teamCode=mode==='football'?footballCode(value):'';
             return <div key={value} className="group flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-2.5 transition hover:bg-[#1b2030] sm:px-5">
               <div className="min-w-0">
                 <span className="block break-all text-[13px] font-semibold">{value}</span>
-                {mode==='football'&&<span className="gdn-tech mt-1 inline-flex rounded-full border border-white/10 bg-white/[.05] px-2 py-0.5 text-[9px] font-bold tracking-[.12em] text-[#8fa8cf]">TAG {footballCode(value)}</span>}
+                {mode==='football'&&<button
+                  onClick={()=>copy(teamCode)}
+                  aria-label={copied===teamCode?'TAG copiado':'Copiar TAG '+teamCode}
+                  className="gdn-tech mt-1 inline-flex min-h-7 items-center gap-1 rounded-full border border-white/10 bg-white/[.05] px-2 text-[9px] font-bold tracking-[.12em] text-[#8fa8cf] transition hover:border-[var(--page-accent)] hover:text-white"
+                ><Copy size={9}/>{copied===teamCode?'COPIADO':'TAG '+teamCode}</button>}
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
-                <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#9297a9] hover:border-[#756aff] hover:text-[#bcb7ff]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>
-                <button onClick={()=>copy(value)} aria-label={copied===value?'Copiado':'Copiar '+value} className="grid size-11 place-items-center rounded-[9px] border border-white/10 text-[#9297a9] transition hover:border-[#756aff] hover:text-[#bcb7ff] sm:size-8"><Copy size={13}/></button>
+                <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-8 '+(saved?'border-[var(--page-accent)] bg-white/[.08] text-[var(--page-accent)]':'border-white/10 text-[#9297a9] hover:border-[var(--page-accent)] hover:text-[var(--page-accent)]')}><Heart size={13} fill={saved?'currentColor':'none'}/></button>
+                <button onClick={()=>copy(value)} aria-label={copied===value?'Copiado':'Copiar '+value} className="grid size-11 place-items-center rounded-[9px] border border-white/10 text-[#9297a9] transition hover:border-[var(--page-accent)] hover:text-[var(--page-accent)] sm:size-8"><Copy size={13}/></button>
               </div>
             </div>;
           })}
