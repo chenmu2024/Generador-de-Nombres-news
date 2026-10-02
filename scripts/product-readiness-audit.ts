@@ -12,6 +12,14 @@ const dedicatedNoList=new Map<string,string>([
 const specialMinimums:Record<string,number>={
   '/nombres-con-en':5,
   '/nombres-mayas':18,
+  '/nombres-japoneses':18,
+  '/nombres-coreanos':17,
+  '/nombres-franceses':16,
+  '/nombres-italianos':17,
+  '/nombres-rusos':17,
+  '/nombres-ingles':16,
+  '/nombres-chinos':16,
+  '/nombres-griegos':17,
 };
 
 function minimumFor(path:string,tool:string){
