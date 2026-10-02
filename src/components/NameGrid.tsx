@@ -1,10 +1,11 @@
 'use client';
 
-import {useEffect,useMemo,useState} from 'react';
+import {useEffect,useMemo,useRef,useState} from 'react';
 import {Check,ClipboardCopy,Heart,HeartPlus,RotateCcw,Scale,Search,Shuffle,SlidersHorizontal,X} from 'lucide-react';
 import type{NameRecord} from '@/data/nameDataset';
 import type{ToolMode} from '@/data/keywordMaster';
 import CopyButton from './CopyButton';
+import {trackProductAction} from '@/lib/analytics';
 
 const internalTags=new Set(['cat','dog','pet','horse','plush','gaming','freefire','roblox','instagram','female','male','unisex','enye','clan']);
 const tagLabels:Record<string,string>={
@@ -57,14 +58,22 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const[actionFeedback,setActionFeedback]=useState('');
   const[compareNames,setCompareNames]=useState<string[]>([]);
   const[limit,setLimit]=useState(18);
+  const filterTrackingReady=useRef(false);
 
   useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
 
+  useEffect(()=>{
+    if(!filterTrackingReady.current){filterTrackingReady.current=true;return;}
+    trackProductAction('filter-change','name-grid');
+  },[gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter]);
+
   function toggle(name:string){
-    const next=favorites.includes(name)?favorites.filter(x=>x!==name):[...favorites,name];
+    const removing=favorites.includes(name);
+    const next=removing?favorites.filter(x=>x!==name):[...favorites,name];
     setFavorites(next);
     localStorage.setItem('gdn-favorites',JSON.stringify(next));
     window.dispatchEvent(new Event('gdn:favorites-updated'));
+    trackProductAction(removing?'favorite-remove':'favorite-add','name-grid');
   }
 
   const inferredGender=(item:NameRecord):'F'|'M'|'U'|undefined=>
@@ -161,6 +170,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
     Boolean(originFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter);
 
   function clearFilters(){
+    trackProductAction('filter-clear','name-grid');
     setQuery('');
     setGender('ALL');
     setActiveTag('');
@@ -181,6 +191,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
   function pickRandom(){
     if(!filtered.length)return;
+    trackProductAction('random-pick','name-grid');
     const chosen=filtered[Math.floor(Math.random()*filtered.length)].name;
     setRandomPick(chosen);
     flash('Nombre elegido');
@@ -189,12 +200,14 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   async function copyFiltered(){
     if(!filtered.length)return;
     await navigator.clipboard.writeText(filtered.map(item=>item.name).join('\n'));
+    trackProductAction('copy-filtered','name-grid');
     setRandomPick('');
     flash(filtered.length+' nombres copiados');
   }
 
   function saveFiltered(){
     if(!filtered.length||!hasActiveFilters)return;
+    trackProductAction('save-filtered','name-grid');
     const next=Array.from(new Set([...favorites,...filtered.map(item=>item.name)]));
     setFavorites(next);
     localStorage.setItem('gdn-favorites',JSON.stringify(next));
@@ -205,6 +218,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
 
   function toggleCompare(name:string){
     if(compareNames.includes(name)){
+      trackProductAction('compare-remove','name-grid');
       setCompareNames(compareNames.filter(item=>item!==name));
       return;
     }
@@ -213,10 +227,12 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
       flash('Puedes comparar hasta 4 nombres');
       return;
     }
+    trackProductAction('compare-add','name-grid');
     setCompareNames([...compareNames,name]);
   }
 
   function clearCompare(){
+    trackProductAction('compare-clear','name-grid');
     setCompareNames([]);
   }
 
@@ -468,8 +484,8 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               </div>
 
               <div className="mt-4 flex flex-wrap gap-2">
-                <CopyButton value={item.name} label={mode==='culture'&&item.script?'Copiar nombre':'Copiar'}/>
-                {mode==='culture'&&item.script&&<CopyButton value={item.script} label="Copiar escritura"/>}
+                <CopyButton value={item.name} label={mode==='culture'&&item.script?'Copiar nombre':'Copiar'} analyticsRole={mode==='culture'?'copy-romanized-name':'copy-name'}/>
+                {mode==='culture'&&item.script&&<CopyButton value={item.script} label="Copiar escritura" analyticsRole="copy-original-script"/>}
                 {(mode==='people'||mode==='pet')&&<button
                   onClick={()=>toggleCompare(item.name)}
                   aria-pressed={compareNames.includes(item.name)}

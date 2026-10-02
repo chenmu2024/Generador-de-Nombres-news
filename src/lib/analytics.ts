@@ -1,4 +1,4 @@
-export type AnalyticsEventName='link_impression'|'link_click'|'page_arrival';
+export type AnalyticsEventName='link_impression'|'link_click'|'page_arrival'|'tool_action';
 
 export interface AnalyticsEventPayload{
   event:AnalyticsEventName;
@@ -77,4 +77,17 @@ export function emitAnalyticsEvent(payload:AnalyticsEventPayload){
       }
     }catch{}
   }
+}
+
+export function trackProductAction(role:string,placement='product'){
+  if(typeof window==='undefined')return;
+  emitAnalyticsEvent({
+    event:'tool_action',
+    placement,
+    role,
+    experimentId:'product-actions-v1',
+    sourcePath:window.location.pathname,
+    targetPath:window.location.pathname,
+    ts:Date.now(),
+  });
 }

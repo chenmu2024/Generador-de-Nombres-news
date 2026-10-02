@@ -3,6 +3,7 @@
 import {useEffect,useMemo,useState} from 'react';
 import Link from 'next/link';
 import {Check,Copy,Gamepad2,Heart,Sparkles} from 'lucide-react';
+import {trackProductAction} from '@/lib/analytics';
 
 const styles=['Insano','Dark','Pro','Aesthetic','Minimal','Cortos','Clanes'] as const;
 type Style=(typeof styles)[number];
@@ -55,15 +56,18 @@ export default function HomeFreeFireStudio(){
 
   async function copy(value:string){
     await navigator.clipboard.writeText(value);
+    trackProductAction('copy-generated','home-freefire');
     setCopied(value);
     window.setTimeout(()=>setCopied(''),1000);
   }
 
   function toggleFavorite(value:string){
-    const next=favorites.includes(value)?favorites.filter(item=>item!==value):[...favorites,value];
+    const removing=favorites.includes(value);
+    const next=removing?favorites.filter(item=>item!==value):[...favorites,value];
     setFavorites(next);
     localStorage.setItem('gdn-favorites',JSON.stringify(next));
     window.dispatchEvent(new Event('gdn:favorites-updated'));
+    trackProductAction(removing?'favorite-remove':'favorite-add','home-freefire');
   }
 
   return <section className="gdn-studio overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_26px_65px_rgba(27,24,55,.18)]">
@@ -85,23 +89,23 @@ export default function HomeFreeFireStudio(){
         <div className="mt-4">
           <span className="mb-2 block text-[11px] font-semibold text-[#d1d4df]">Estilo</span>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-3">
-            {styles.map(item=><button key={item} onClick={()=>setStyle(item)} aria-pressed={style===item} className={'h-11 rounded-[8px] border text-[12px] font-medium transition sm:h-9 sm:text-[11px] '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/16 bg-[#1a1f2e] text-[#d8dbe5] hover:border-[#665ce0] hover:bg-[#22283a]')}>{item}</button>)}
+            {styles.map(item=><button key={item} onClick={()=>{setStyle(item);trackProductAction('style-change','home-freefire')}} aria-pressed={style===item} className={'h-11 rounded-[8px] border text-[12px] font-medium transition sm:h-9 sm:text-[11px] '+(style===item?'border-[#7469ff] bg-[#5b4df5] text-white':'border-white/16 bg-[#1a1f2e] text-[#d8dbe5] hover:border-[#665ce0] hover:bg-[#22283a]')}>{item}</button>)}
           </div>
         </div>
 
         <div className="mt-5 space-y-3">
-          <button onClick={()=>setSymbols(v=>!v)} aria-pressed={symbols} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+          <button onClick={()=>{setSymbols(v=>!v);trackProductAction('toggle-symbols','home-freefire')}} aria-pressed={symbols} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
             <span>Usar símbolos</span><span className={'relative h-6 w-10 rounded-full transition '+(symbols?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(symbols?'left-5':'left-1')}/></span>
           </button>
-          <button onClick={()=>setInvisible(v=>!v)} aria-pressed={invisible} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+          <button onClick={()=>{setInvisible(v=>!v);trackProductAction('toggle-invisible','home-freefire')}} aria-pressed={invisible} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
             <span>Incluir espacios invisibles</span><span className={'relative h-6 w-10 rounded-full transition '+(invisible?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(invisible?'left-5':'left-1')}/></span>
           </button>
-          <button onClick={()=>setShortOnly(v=>!v)} aria-pressed={shortOnly} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
+          <button onClick={()=>{setShortOnly(v=>!v);trackProductAction('toggle-short','home-freefire')}} aria-pressed={shortOnly} className="flex w-full items-center justify-between text-[12px] text-[#d7d9e2]">
             <span>Solo nombres cortos</span><span className={'relative h-6 w-10 rounded-full transition '+(shortOnly?'bg-[#5b4df5]':'bg-[#303546]')}><span className={'absolute top-1 size-4 rounded-full bg-white transition '+(shortOnly?'left-5':'left-1')}/></span>
           </button>
         </div>
 
-        <button onClick={()=>setBatch(value=>value+1)} className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#5b4df5] text-[13px] font-semibold shadow-[0_10px_30px_rgba(91,77,245,.3)] transition hover:bg-[#4f43db]">
+        <button onClick={()=>{setBatch(value=>value+1);trackProductAction('generate-batch','home-freefire')}} className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#5b4df5] text-[13px] font-semibold shadow-[0_10px_30px_rgba(91,77,245,.3)] transition hover:bg-[#4f43db]">
           <Sparkles size={15}/> Generar otra tanda
         </button>
       </div>

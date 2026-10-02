@@ -3,6 +3,7 @@
 import {useEffect,useMemo,useState} from 'react';
 import {Heart,Store} from 'lucide-react';
 import CopyButton from './CopyButton';
+import {trackProductAction} from '@/lib/analytics';
 
 const styles=['Premium','Minimal','Juvenil','Artesanal'] as const;
 const industries=['Ropa','Belleza','Comida','Hogar','Tecnología','General'] as const;
@@ -35,7 +36,7 @@ export default function BrandNameTool(){
     return Array.from(new Set(names)).map(name=>({name,handle:handleFrom(name),chars:name.length,words:name.trim().split(/\s+/).length}));
   },[seed,style,industry,channel,language]);
 
-  function save(name:string){const current=JSON.parse(localStorage.getItem('gdn-favorites')||'[]') as string[];const next=Array.from(new Set([...current,name]));localStorage.setItem('gdn-favorites',JSON.stringify(next));setFavorites(next)}
+  function save(name:string){const current=JSON.parse(localStorage.getItem('gdn-favorites')||'[]') as string[];const next=Array.from(new Set([...current,name]));localStorage.setItem('gdn-favorites',JSON.stringify(next));setFavorites(next);window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-add','brand-tool')}
 
   return <section className="overflow-hidden rounded-[22px] border border-[#e2dfec] bg-white shadow-[0_14px_38px_rgba(55,49,91,.06)]">
     <div className="flex items-center gap-3 border-b border-[#eceaf3] bg-[#faf9ff] px-6 py-5">
@@ -60,7 +61,7 @@ export default function BrandNameTool(){
             <button onClick={()=>save(item.name)} aria-label="Guardar nombre" className={'grid size-9 place-items-center rounded-full border '+(saved?'border-[#cfc8fb] bg-[#f0edff] text-[#5b4df5]':'border-[#e0ddea] bg-white text-[#8c8e9d]')}><Heart size={14} fill={saved?'currentColor':'none'}/></button>
           </div>
           <p className="mt-4 text-[10px] text-[#87899a]">{item.chars} caracteres · {item.words} palabras · @{item.handle}</p>
-          <div className="mt-4 flex flex-wrap gap-2"><CopyButton value={item.name}/><CopyButton value={'@'+item.handle}/></div>
+          <div className="mt-4 flex flex-wrap gap-2"><CopyButton value={item.name} analyticsRole="copy-brand-name"/><CopyButton value={'@'+item.handle} analyticsRole="copy-brand-handle"/></div>
         </article>
       })}
     </div>
