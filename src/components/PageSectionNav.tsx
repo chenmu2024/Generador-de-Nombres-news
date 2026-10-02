@@ -11,6 +11,7 @@ export default function PageSectionNav({
   const sections=[
     hasPrimaryTool?{href:'#herramienta',label:'Herramienta',Icon:Sparkles}:null,
     {href:'#guia',label:'Guía',Icon:BookOpenCheck},
+    {href:'#criterios',label:'Criterios',Icon:ListChecks},
     hasResultCollection?{href:'#coleccion',label:'Colección',Icon:Layers3}:null,
     {href:'#busquedas',label:'Búsquedas',Icon:SearchCheck},
     {href:'#preguntas',label:'Preguntas',Icon:HelpCircle},

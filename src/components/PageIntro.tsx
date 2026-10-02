@@ -4,6 +4,7 @@ import type{KeywordPage} from '@/data/keywordMaster';
 import{topicClusters}from'@/data/topicClusters';
 import{getPageBlueprint}from'@/data/pageBlueprints';
 import PageHeroVisual from'./PageHeroVisual';
+import PageIntroActions from'./PageIntroActions';
 
 export default function PageIntro({page}:{page:KeywordPage}){
   const cluster=topicClusters[page.cluster];
@@ -23,6 +24,7 @@ export default function PageIntro({page}:{page:KeywordPage}){
         <span className="gdn-theme-chip inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-bold"><Sparkles size={12}/>{cluster.label}</span>
         <h1 className="gdn-display mt-5 max-w-4xl text-[40px] font-bold leading-[1.01] tracking-[-.045em] text-[#171827] md:text-[61px]">{page.h1}</h1>
         <p className="mt-5 max-w-3xl text-[15px] leading-7 text-[#6b6e80] md:text-[16px]">{page.description}</p>
+        <PageIntroActions page={page}/>
         <aside className="gdn-theme-panel mt-5 rounded-[14px] border px-4 py-3 lg:hidden">
           <div className="flex items-start gap-3">
             <span className="gdn-theme-chip grid size-8 shrink-0 place-items-center rounded-full border"><Sparkles size={12}/></span>

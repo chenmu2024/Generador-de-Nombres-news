@@ -288,15 +288,34 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesMeaning&&matchesCulture&&matchesCultureKind;
   }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,originContainsFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly]);
 
+  function pageIntentBoost(item:NameRecord){
+    const path=pagePath??'';
+    const nameLength=Array.from(item.name.replace(/[^\p{L}]/gu,'')).length;
+    if(path==='/nombres-de-nina')return(item.tags.includes('modern')?4:0)+(item.tags.includes('rare')?3:0)+(nameLength<=4?3:0);
+    if(path==='/nombres-de-nino')return(item.tags.includes('modern')?4:0)+(item.tags.includes('rare')?3:0)+(nameLength<=5?2:0);
+    if(path==='/nombres-raros')return(item.tags.includes('rare')?7:0)+(item.gender==='U'?2:0)+(nameLength<=4?1:0);
+    if(path==='/nombres-unisex')return(item.verified===true?3:0)+(item.meaning?2:0);
+    if(path.startsWith('/nombres-con-'))return(item.verified===true?3:0)+(item.meaning?2:0)+(nameLength<=5?1:0);
+    if(path==='/nombres-gatos-negros')return(item.tags.includes('mystic')?5:0)+(item.tags.includes('black')?4:0);
+    if(path==='/nombres-gatos-machos')return(item.tags.includes('male')?4:0)+(nameLength<=5?2:0);
+    if(path==='/nombres-perritas')return(item.tags.includes('cute')?3:0)+(item.tags.includes('small')?2:0);
+    if(path==='/nombres-perros-machos')return(item.tags.includes('strong')?3:0)+(item.tags.includes('male')?2:0);
+    if(path==='/perritas-chihuahua')return(item.tags.includes('small')?5:0)+(item.tags.includes('cute')?3:0);
+    if(path==='/nombres-caballos')return(item.tags.includes('elegant')?4:0)+(item.tags.includes('strong')?2:0);
+    if(path==='/nombres-peluches')return(item.tags.includes('kawaii')?5:0)+(item.tags.includes('cute')?4:0);
+    return 0;
+  }
+
   function recommendationScore(item:NameRecord){
+    const intentBoost=pageIntentBoost(item);
     if(mode==='culture'){
-      return (item.verified===true?8:0)+(item.sourceUrl?5:0)+(item.script?4:0)+(item.pronunciation?3:0)+(item.meaning?2:0);
+      return intentBoost+(item.verified===true?8:0)+(item.sourceUrl?5:0)+(item.script?4:0)+(item.pronunciation?3:0)+(item.meaning?2:0);
     }
     if(mode==='people'){
-      return (item.verified===true&&item.sourceUrl?7:0)+(item.meaning?4:0)+(item.origin?2:0)+item.tags.filter(tag=>personStyles.includes(tag as typeof personStyles[number])).length;
+      return intentBoost+(item.verified===true&&item.sourceUrl?7:0)+(item.meaning?4:0)+(item.origin?2:0)+item.tags.filter(tag=>personStyles.includes(tag as typeof personStyles[number])).length;
     }
     if(mode==='pet'){
-      return item.tags.filter(tag=>petColors.includes(tag as typeof petColors[number])||petSizes.includes(tag as typeof petSizes[number])||petPersonalities.includes(tag as typeof petPersonalities[number])).length;
+      return intentBoost+item.tags.filter(tag=>petColors.includes(tag as typeof petColors[number])||petSizes.includes(tag as typeof petSizes[number])||petPersonalities.includes(tag as typeof petPersonalities[number])).length;
     }
     return 0;
   }
@@ -353,7 +372,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
               aria-label="Ordenar resultados"
               className="gdn-input h-11 min-w-[160px] rounded-[11px] px-3 text-[11px] font-semibold"
             >
-              <option value="recommended">Orden recomendado</option>
+              <option value="recommended">Mejor ajuste a esta página</option>
               <option value="az">A–Z</option>
               <option value="short">Más cortos</option>
             </select>

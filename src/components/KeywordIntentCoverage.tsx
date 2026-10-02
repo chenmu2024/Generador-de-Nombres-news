@@ -18,10 +18,10 @@ export default function KeywordIntentCoverage({page}:{page:KeywordPage}){
       <h2 id={'keyword-intents-'+page.id} className="gdn-display mt-2 text-[30px] font-bold tracking-[-.035em] text-[#1d1e2c] sm:text-[34px]">Qué puedes resolver en esta página</h2>
       <p className="mt-3 text-[11px] leading-5 text-[#797c8d]">Elige la búsqueda que más se parezca a lo que necesitas y salta directamente al filtro, resultado o herramienta correspondiente.</p>
     </div>
-    <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+    <div className="mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] md:grid md:grid-cols-2 md:overflow-visible md:pb-0 xl:grid-cols-3">
       {placements.map(({keyword,description})=>{
         const action=getKeywordAction(page,keyword);
-        return <article key={keyword} className="flex min-h-[156px] flex-col rounded-[16px] border border-[#e5e1ef] bg-white p-4 shadow-[0_8px_24px_rgba(55,49,91,.035)]">
+        return <article key={keyword} className="flex min-h-[156px] min-w-[82vw] snap-start flex-col rounded-[16px] sm:min-w-[360px] md:min-w-0 border border-[#e5e1ef] bg-white p-4 shadow-[0_8px_24px_rgba(55,49,91,.035)]">
         <div className="flex items-start gap-2.5">
           <span className="gdn-theme-chip mt-0.5 grid size-8 shrink-0 place-items-center rounded-full border"><SearchCheck size={13}/></span>
           <div className="min-w-0">

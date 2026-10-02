@@ -24,6 +24,7 @@ import KoreanContextTool from'@/components/KoreanContextTool';
 import TopicSubnav from'@/components/TopicSubnav';
 import PageSectionNav from'@/components/PageSectionNav';
 import PageDataBrief from'@/components/PageDataBrief';
+import PageDecisionChecklist from'@/components/PageDecisionChecklist';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -123,6 +124,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
 
     <PageSpecificGuide page={page} items={items}/>
     <PageDataBrief page={page} items={items}/>
+    <PageDecisionChecklist page={page}/>
 
     {page.tool==='culture'&&items.length>0&&<CultureDataNote items={items}/>}
     {isKorean&&<KoreanContextTool items={items}/>}
