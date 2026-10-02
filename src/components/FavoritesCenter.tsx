@@ -3,7 +3,7 @@
 import {useEffect,useState} from 'react';
 import TrackedLink from './TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
-import {Copy,Download,Heart,Search,Trash2,X} from 'lucide-react';
+import {Copy,Download,Heart,Search,Trash2,X,Clock3,ArrowUpAZ} from 'lucide-react';
 import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
 
@@ -11,6 +11,7 @@ export default function FavoritesCenter(){
   const[items,setItems]=useState<string[]>([]);
   const[query,setQuery]=useState('');
   const[sort,setSort]=useState<'recent'|'az'>('recent');
+  const[layout,setLayout]=useState<'grid'|'compact'>('grid');
   const[confirmClear,setConfirmClear]=useState(false);
   useEffect(()=>{try{setItems(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
   function remove(name:string){const next=items.filter(i=>i!==name);setItems(next);localStorage.setItem('gdn-favorites',JSON.stringify(next));window.dispatchEvent(new Event('gdn:favorites-updated'));trackProductAction('favorite-remove','favorites-center')}
@@ -39,9 +40,10 @@ export default function FavoritesCenter(){
 
   return <section className="overflow-hidden rounded-[20px] border border-[#e4e1ed] bg-white shadow-[0_10px_28px_rgba(55,49,91,.04)]">
     <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#eceaf3] bg-[#faf9ff] px-5 py-5">
-      <div><p className="gdn-eyebrow">Guardados en este dispositivo</p><h2 className="gdn-editorial mt-1 text-[28px] font-bold text-[#292a39]">{items.length} favoritos</h2></div>
+      <div><p className="gdn-eyebrow">Guardados en este dispositivo</p><h2 className="gdn-display mt-1 text-[30px] font-bold text-[#292a39]">{items.length} favoritos</h2><p className="mt-1 text-[10px] text-[#8c8f9f]">Tu lista personal de nombres para volver, comparar y exportar.</p></div>
       <div className="flex flex-wrap gap-2">
-        <button onClick={()=>setSort(value=>value==='recent'?'az':'recent')} aria-label={sort==='recent'?'Ordenar alfabéticamente':'Volver al orden guardado'} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#dfdbea] bg-white px-4 text-[10px] font-semibold text-[#626576]">{sort==='recent'?'A–Z':'Recientes'}</button>
+        <button onClick={()=>setSort(value=>value==='recent'?'az':'recent')} aria-label={sort==='recent'?'Ordenar alfabéticamente':'Volver al orden guardado'} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#dfdbea] bg-white px-4 text-[10px] font-semibold text-[#626576]">{sort==='recent'?<><ArrowUpAZ size={13}/>A–Z</>:<><Clock3 size={13}/>Recientes</>}</button>
+        <button onClick={()=>setLayout(value=>value==='grid'?'compact':'grid')} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#dfdbea] bg-white px-4 text-[10px] font-semibold text-[#626576]">{layout==='grid'?'Compacto':'Tarjetas'}</button>
         <button onClick={copyAll} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#dfdbea] bg-white px-4 text-[10px] font-semibold text-[#626576]"><Copy size={13}/>Copiar todos</button>
         <button onClick={exportTxt} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#dfdbea] bg-white px-4 text-[10px] font-semibold text-[#626576]"><Download size={13}/>TXT</button>
         <button onClick={clear} onBlur={()=>setConfirmClear(false)} className="inline-flex h-10 items-center gap-2 rounded-[10px] border border-[#f0d9de] bg-[#fff4f6] px-4 text-[10px] font-semibold text-[#a35465]"><Trash2 size={13}/>{confirmClear?'Confirmar vaciado':'Vaciar'}</button>
@@ -54,9 +56,9 @@ export default function FavoritesCenter(){
       </label>
       <p className="gdn-tech mt-2 text-[9px] text-[#9294a4]">{visible.length} de {items.length} favoritos visibles · {sort==='az'?'orden A–Z':'orden guardado'}</p>
     </div>}
-    {visible.length?<div className="grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3">{visible.map(name=><div key={name} className="bg-white p-5">
-      <div className="flex items-center justify-between gap-3"><p className="gdn-editorial truncate text-[23px] font-bold text-[#2a2b39]">{name}</p><button onClick={()=>remove(name)} aria-label="Quitar" className="grid size-9 place-items-center rounded-full border border-[#e0ddea] text-[#8c8e9e] hover:bg-[#f7f5ff]"><X size={13}/></button></div>
-      <div className="mt-4"><CopyButton value={name} analyticsRole="copy-favorite-name"/></div>
+    {visible.length?<div className={layout==='grid'?'grid gap-px bg-[#eceaf3] md:grid-cols-2 lg:grid-cols-3':'divide-y divide-[#eceaf3] bg-white'}>{visible.map(name=><div key={name} className={layout==='grid'?'bg-white p-5':'flex items-center justify-between gap-3 bg-white px-4 py-3 sm:px-5'}>
+      <div className="flex min-w-0 flex-1 items-center justify-between gap-3"><p className={'gdn-editorial truncate font-bold text-[#2a2b39] '+(layout==='grid'?'text-[23px]':'text-[18px]')}>{name}</p><button onClick={()=>remove(name)} aria-label="Quitar" className="grid size-9 shrink-0 place-items-center rounded-full border border-[#e0ddea] text-[#8c8e9e] hover:bg-[#f7f5ff]"><X size={13}/></button></div>
+      <div className={layout==='grid'?'mt-4':'shrink-0'}><CopyButton value={name} analyticsRole="copy-favorite-name"/></div>
     </div>)}</div>:<div className="px-6 py-12 text-center">
       <p className="text-[12px] font-semibold text-[#55586a]">No hay favoritos que coincidan con “{query}”.</p>
       <button onClick={()=>setQuery('')} className="mt-3 text-[10px] font-semibold text-[#5b4df5] hover:underline">Limpiar búsqueda</button>
