@@ -30,8 +30,8 @@ for(const item of nameDataset){
   if(item.type==='culture'&&(item.meaning||item.script)&&!item.source){
     warnings.push('Cultural record with meaning/script still needs a source: '+item.name);
   }
-  if(item.type==='person'&&item.verified!==true&&item.confidence!=='needs-review'){
-    errors.push('Unsourced person record must be explicitly marked needs-review: '+item.name);
+  if(item.type==='person'&&item.verified!==true){
+    errors.push('Every person record must be source-verified: '+item.name);
   }
 }
 
@@ -209,7 +209,7 @@ if(incompleteUnisex.length){
 const sourcedPeopleChecks=[
   {label:'people / sourced female meanings',items:getNamesForPath('/nombres-de-mujer'),min:87},
   {label:'people / sourced girl meanings',items:getNamesForPath('/nombres-de-nina'),min:41},
-  {label:'people / sourced male meanings',items:getNamesForPath('/nombres-de-nino'),min:76},
+  {label:'people / sourced male meanings',items:getNamesForPath('/nombres-de-nino'),min:77},
   {label:'people / sourced unisex meanings',items:getNamesForPath('/nombres-unisex'),min:22},
 ];
 
@@ -224,11 +224,11 @@ function sourceCoverage(items:ReturnType<typeof getNamesForPath>){
 }
 
 const peopleSourceCoverageChecks=[
-  {label:'women',path:'/nombres-de-mujer',min:.94},
-  {label:'girls',path:'/nombres-de-nina',min:.95},
-  {label:'boys',path:'/nombres-de-nino',min:.90},
+  {label:'women',path:'/nombres-de-mujer',min:1},
+  {label:'girls',path:'/nombres-de-nina',min:1},
+  {label:'boys',path:'/nombres-de-nino',min:1},
   {label:'unisex',path:'/nombres-unisex',min:1},
-  {label:'rare',path:'/nombres-raros',min:.90},
+  {label:'rare',path:'/nombres-raros',min:1},
 ];
 
 for(const check of peopleSourceCoverageChecks){
