@@ -61,6 +61,19 @@ function petFitSummary(tags:string[]){
   return labels.length?labels.join(' · '):'Prueba cómo suena al llamarlo en voz alta.';
 }
 
+function collectionCopy(mode:ToolMode,pagePath:string|undefined,pageLabel:string|undefined){
+  if(pagePath==='/nombres-de-mujer')return{eyebrow:'Compara con contexto',heading:'Nombres de mujer por origen, estilo y significado',sub:'Filtra la colección y abre las fuentes cuando el significado sea importante para tu decisión.',empty:'No hay nombres de mujer que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-de-nina')return{eyebrow:'Reduce la lista',heading:'Nombres de niña cortos, modernos y poco comunes',sub:'Combina longitud, estilo y origen hasta quedarte con una lista corta que puedas comparar.',empty:'No hay nombres de niña que coincidan con esa combinación.'};
+  if(pagePath==='/nombres-de-nino')return{eyebrow:'Filtra y compara',heading:'Nombres de niño con significado y contexto de origen',sub:'Prioriza las fichas con fuente si vas a usar el significado como criterio de elección.',empty:'No hay nombres de niño que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-unisex')return{eyebrow:'Compara uso y origen',heading:'Nombres unisex para revisar con más contexto',sub:'El uso puede cambiar según idioma y región; revisa la ficha antes de asumir que un nombre es neutro en todos los países.',empty:'No hay nombres unisex que coincidan con esos filtros.'};
+  if(pagePath==='/nombres-raros')return{eyebrow:'Explora sin asumir frecuencia',heading:'Nombres poco comunes para comparar con calma',sub:'“Poco común” es una etiqueta de exploración; no equivale a una estadística oficial de rareza.',empty:'No hay nombres poco comunes que coincidan con esos filtros.'};
+  if(pagePath?.startsWith('/nombres-con-'))return{eyebrow:'Explora esta inicial',heading:'Compara '+(pageLabel??'nombres por inicial'),sub:'Usa la letra como primera criba y después compara longitud, género, origen y significado.',empty:'No hay nombres de esta inicial que coincidan con esos filtros.'};
+  if(mode==='culture')return{eyebrow:'Lee el contexto antes de elegir',heading:'Escritura, lectura, origen y fuente en una sola ficha',sub:'La forma latina, la escritura original y la pronunciación se muestran por separado cuando están documentadas.',empty:'No hay registros culturales que coincidan con esos filtros.'};
+  if(mode==='pet')return{eyebrow:'Prueba cómo suena',heading:'Nombres para mascota organizados por rasgos prácticos',sub:'Las etiquetas de color, tamaño y personalidad son ayudas editoriales para explorar ideas.',empty:'No hay nombres de mascota que coincidan con esos filtros.'};
+  if(mode==='gaming'||mode==='general')return{eyebrow:'Bases listas para copiar',heading:'Ideas que puedes llevar al generador y personalizar',sub:'Copia una base o vuelve a la herramienta para probar símbolos, estilos y variantes.',empty:'No hay bases que coincidan con ese filtro.'};
+  return{eyebrow:'Explora resultados',heading:pageLabel?'Explora '+pageLabel:'Resultados',sub:'Ajusta los filtros hasta encontrar opciones que encajen con tu objetivo.',empty:'No encontramos resultados con esa combinación.'};
+}
+
 function FacetRow({label,children}:{label:string;children:React.ReactNode}){
   return <div className="grid gap-2 border-t border-[#eceaf3] pt-3 sm:grid-cols-[92px_1fr] sm:items-center">
     <span className="text-[10px] font-black uppercase tracking-[.12em] text-[#9294a5]">{label}</span>
@@ -159,12 +172,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
   const hasNonMythologicalCulture=hasCultureFacets&&items.some(item=>!item.tags.includes('mythology'));
 
   const quickPresets=getQuickPresets(pagePath);
-  const collectionHeading=pageLabel
-    ?'Explora '+pageLabel
-    :mode==='people'?'Nombres para comparar'
-      :mode==='pet'?'Nombres para tu mascota'
-        :mode==='culture'?'Nombres, escritura y origen'
-          :'Resultados';
+  const collection=collectionCopy(mode,pagePath,pageLabel);
 
   function applyQuickPreset(preset:QuickPreset){
     setQuery('');
@@ -368,8 +376,9 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
   return <section id="resultados" ref={resultsRef} className="mt-8 scroll-mt-20 sm:mt-10 md:mt-12">
     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
       <div>
-        <p className="gdn-eyebrow">{pagePath?.startsWith('/nombres-con-')?'Explora esta inicial':mode==='pet'?'Explora por rasgos':mode==='culture'?'Explora por origen y datos':mode==='people'?'Filtra y compara':'Explora resultados'}</p>
-        <h2 className="gdn-display mt-2 text-[31px] font-bold tracking-[-.035em] text-[#1b1c2b] sm:text-[35px]">{collectionHeading}</h2>
+        <p className="gdn-eyebrow">{collection.eyebrow}</p>
+        <h2 className="gdn-display mt-2 text-[31px] font-bold tracking-[-.035em] text-[#1b1c2b] sm:text-[35px]">{collection.heading}</h2>
+        <p className="mt-2 max-w-2xl text-[10px] leading-5 text-[#858899] sm:text-[11px]">{collection.sub}</p>
       </div>
       <div className="text-left sm:text-right">
         <span aria-live="polite" className="block text-[11px] font-semibold text-[#747789]">{hasActiveFilters?`${filtered.length} de ${items.length} disponibles`:`${items.length} disponibles`}</span>
@@ -613,7 +622,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
 
       {filtered.length===0
         ?<div className="px-6 py-14 text-center">
-          <p className="text-[13px] font-semibold text-[#5c5f70]">No encontramos resultados con esa combinación.</p>
+          <p className="text-[13px] font-semibold text-[#5c5f70]">{collection.empty}</p>
           <button onClick={clearFilters} className="gdn-theme-chip mt-3 inline-flex min-h-10 items-center gap-2 rounded-full border px-4 text-[10px] font-semibold"><RotateCcw size={12}/>Restablecer filtros</button>
         </div>
         :<div className={'grid gap-px bg-[#eceaf3] md:grid-cols-2 '+(mode==='culture'?'xl:grid-cols-2':'lg:grid-cols-3')}>
@@ -709,6 +718,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
               <div className="mt-3 flex flex-wrap gap-2 sm:mt-4">
                 <CopyButton value={item.name} label={mode==='culture'&&item.script?'Copiar nombre':'Copiar'} analyticsRole={mode==='culture'?'copy-romanized-name':'copy-name'}/>
                 {mode==='culture'&&item.script&&<CopyButton value={item.script} label="Copiar escritura" analyticsRole="copy-original-script"/>}
+                {(mode==='gaming'||mode==='general')&&<a href="#herramienta" className="inline-flex min-h-11 items-center rounded-[10px] border border-[var(--page-border)] bg-[var(--page-soft)] px-4 text-[12px] font-semibold text-[var(--page-accent)] transition hover:brightness-[.98] sm:min-h-8 sm:px-3 sm:text-[10px]">Personalizar</a>}
                 {(mode==='people'||mode==='pet'||mode==='culture')&&<button
                   onClick={()=>toggleCompare(item.name)}
                   aria-pressed={compareNames.includes(item.name)}
