@@ -11,6 +11,7 @@ const slugPage=read('src/app/[slug]/page.tsx');
 const home=read('src/app/page.tsx');
 const platform=read('src/components/PlatformNameTool.tsx');
 const freeFire=read('src/components/FreeFireNameTool.tsx');
+const anime=read('src/components/AnimeNameTool.tsx');
 
 if(!slugPage.includes('id="herramienta"'))errors.push('Missing #herramienta target in slug page');
 if(!home.includes('id="studio-nombres"'))errors.push('Missing #studio-nombres target on homepage');
@@ -19,6 +20,8 @@ if(!nameGridSource.includes('id="resultados"'))errors.push('Missing #resultados 
 if(!nameGridSource.includes("mode==='people'||mode==='pet'||mode==='culture'"))errors.push('Culture collections must keep compare support');
 if(!platform.includes("params.get('intent')")||!platform.includes("params.get('mode')"))errors.push('Platform tool no longer consumes intent/mode query handoff');
 if(!freeFire.includes("get('shortcut')"))errors.push('Free Fire tool no longer consumes shortcut query handoff');
+if(!anime.includes("get('intent')"))errors.push('Anime tool no longer consumes intent query handoff');
+if(!slugPage.includes('<AnimeNameTool/>'))errors.push('Anime route must render AnimeNameTool');
 
 function routeFromHref(href:string){
   const withoutHash=href.split('#')[0]||'';

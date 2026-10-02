@@ -18,6 +18,7 @@ import EnyeGuide from'@/components/EnyeGuide';
 import KeywordIntentCoverage from'@/components/KeywordIntentCoverage';
 import PageSpecificGuide from'@/components/PageSpecificGuide';
 import CollectionSnapshot from'@/components/CollectionSnapshot';
+import AnimeNameTool from'@/components/AnimeNameTool';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -56,13 +57,14 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const cluster=topicClusters[page.cluster];
   const isRoblox=page.path==='/nombres-roblox';
   const isInstagram=page.path==='/nombres-instagram';
+  const isAnime=page.path==='/nombres-anime';
   const isAlphabet=page.path==='/nombres-por-letra';
   const isStore=page.path==='/nombres-para-tiendas';
   const isEnye=page.path==='/nombres-con-en';
   const isFreeFire=page.cluster==='freeFire'&&page.path!=='/espacios-invisible-ff';
-  const isToolPage=isRoblox||isInstagram||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
-  const showGenerator=!isRoblox&&!isInstagram&&!isAlphabet&&!isStore&&!isFreeFire&&['general','gaming','invisible','store','football'].includes(page.tool);
-  const hasPrimaryTool=isRoblox||isInstagram||isAlphabet||isStore||isFreeFire||showGenerator;
+  const isToolPage=isRoblox||isInstagram||isAnime||isStore||isFreeFire||['general','gaming','invisible','store','football'].includes(page.tool);
+  const showGenerator=!isRoblox&&!isInstagram&&!isAnime&&!isAlphabet&&!isStore&&!isFreeFire&&['general','gaming','invisible','store','football'].includes(page.tool);
+  const hasPrimaryTool=isRoblox||isInstagram||isAnime||isAlphabet||isStore||isFreeFire||showGenerator;
   const hasResultCollection=!isAlphabet&&items.length>0;
 
   const alphabetPages=keywordPages.filter(item=>item.path.startsWith('/nombres-con-'));
@@ -100,6 +102,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     {hasPrimaryTool&&<div id="herramienta" className="scroll-mt-20">
       {isRoblox&&<PlatformNameTool platform="roblox"/>}
       {isInstagram&&<PlatformNameTool platform="instagram"/>}
+      {isAnime&&<AnimeNameTool/>}
       {isAlphabet&&<AlphabetMatrix/>}
       {isStore&&<BrandNameTool/>}
       {isFreeFire&&<FreeFireNameTool variant={freeFireVariant(page.path)}/>}

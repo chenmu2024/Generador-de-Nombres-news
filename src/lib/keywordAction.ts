@@ -36,6 +36,13 @@ export function getKeywordAction(page:KeywordPage,keyword:string):KeywordAction{
     if(value.includes('usuario')||value.includes('username')||value.includes('validador'))return{href:page.path+'?mode=username#herramienta',label:'Crear username'};
   }
 
+  if(page.path==='/nombres-anime'){
+    if(value.includes('discord'))return{href:page.path+'?intent=discord#herramienta',label:'Usar modo Discord'};
+    if(value.includes('genshin'))return{href:page.path+'?intent=genshin#herramienta',label:'Usar modo Genshin'};
+    if(value.includes('blox fruits'))return{href:page.path+'?intent=blox#herramienta',label:'Usar modo Blox Fruits'};
+    if(value.includes('roblox'))return{href:page.path+'?intent=roblox#herramienta',label:'Usar modo Roblox'};
+  }
+
   if(page.cluster==='freeFire'){
     if(value.includes('espacio')||value.includes('letra invisible')||value.includes('unicode u+3000')){
       return{href:'/espacios-invisible-ff#herramienta',label:'Abrir caracteres invisibles'};
