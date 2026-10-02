@@ -1,8 +1,6 @@
 name: Corrección o problema del sitio
 description: Reporta un dato, compatibilidad o problema de navegación en GeneradorDeNombres.net
 title: "[Corrección] "
-labels:
-  - correction
 body:
   - type: markdown
     attributes:
