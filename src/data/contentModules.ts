@@ -120,6 +120,30 @@ const specificFaqs: Record<string, PageFaq[]> = {
     {question:'¿Todos estos nombres pertenecen a la misma tradición mitológica?',answer:'No. La colección reúne varias tradiciones y cada nombre debe interpretarse dentro de su propio contexto cultural.'},
     {question:'¿Un nombre de una deidad puede usarse como nombre personal?',answer:'El uso real depende del idioma, la tradición y la época. La presencia en esta colección indica origen mitológico, no que sea un nombre personal habitual en todos los contextos.'},
   ],
+  '/nombres-franceses': [
+    {question:'¿Conviene conservar los acentos de un nombre francés?',answer:'Sí cuando forman parte de la grafía documentada. La versión sin acento puede seguir siendo legible, pero no siempre representa la forma estándar del nombre en francés.'},
+    {question:'¿La pronunciación francesa se puede deducir como si fuera español?',answer:'No. Aunque ambos idiomas usan alfabeto latino, sus reglas de pronunciación son distintas. Por eso mostramos una guía solo cuando la base la documenta.'},
+  ],
+  '/nombres-italianos': [
+    {question:'¿Un nombre italiano puede tener una forma equivalente en español?',answer:'Sí. Muchos nombres europeos comparten una raíz histórica y tienen formas propias en distintos idiomas. La ficha conserva la forma usada en italiano en lugar de sustituirla automáticamente.'},
+    {question:'¿Debo cambiar la escritura para pronunciarlo en español?',answer:'No necesariamente. Conviene mantener la grafía documentada y consultar la pronunciación cuando esté disponible, en vez de modificar el nombre para aproximarlo al español.'},
+  ],
+  '/nombres-rusos': [
+    {question:'¿Por qué aparece una forma en cirílico y otra con letras latinas?',answer:'El ruso usa alfabeto cirílico. La forma latina es una transliteración o romanización para facilitar la lectura, y puede variar según la convención utilizada.'},
+    {question:'¿Una transliteración distinta significa que sea otro nombre?',answer:'No necesariamente. Dos grafías latinas pueden representar el mismo nombre ruso si proceden de sistemas de transliteración diferentes.'},
+  ],
+  '/nombres-griegos': [
+    {question:'¿La forma griega y la forma latinizada son siempre idénticas?',answer:'No. Algunos nombres tienen una escritura griega original y una forma latinizada o adaptada usada en otros idiomas. La fuente ayuda a distinguirlas.'},
+    {question:'¿Los nombres de origen mitológico y los nombres griegos actuales son la misma categoría?',answer:'No. Puede haber relación histórica, pero una figura mitológica y un nombre de uso moderno necesitan contexto distinto. La colección intenta conservar esa diferencia.'},
+  ],
+  '/nombres-ingles': [
+    {question:'¿“Nombre inglés” significa que el nombre nació en Inglaterra?',answer:'No siempre. Esta colección incluye formas usadas en inglés; algunas proceden históricamente de otras lenguas y fueron adoptadas o adaptadas al uso inglés.'},
+    {question:'¿La pronunciación inglesa es igual en todos los países?',answer:'Puede variar entre regiones y variedades del inglés. Cuando se incluye pronunciación, debe interpretarse como una guía documentada y no como la única realización posible.'},
+  ],
+  '/nombres-turcos': [
+    {question:'¿Importan letras como ı, İ, ş, ç, ö, ü o ğ en los nombres turcos?',answer:'Sí. Son letras propias del alfabeto turco y no deben tratarse simplemente como adornos. Cuando la forma documentada las contiene, conviene conservarlas.'},
+    {question:'¿Puedo escribir el nombre sin signos diacríticos?',answer:'En algunos contextos técnicos puede hacerse una simplificación, pero la forma resultante no es idéntica a la grafía turca original. La ficha prioriza la forma documentada.'},
+  ],
   '/nombres-de-mujer': [
     {question:'¿Cómo puedo comparar nombres de mujer con significado?',answer:'Usa los filtros de estilo, longitud y origen, guarda tus candidatos y da más peso a los significados que incluyen una fuente verificada. El comparador permite revisar varios nombres juntos.'},
     {question:'¿Qué significa que un nombre tenga “significado orientativo”?',answer:'Indica que la ficha puede incluir una explicación editorial todavía no respaldada por una fuente verificada dentro de la base. Se muestra de forma separada para no confundirla con un dato documentado.'},
