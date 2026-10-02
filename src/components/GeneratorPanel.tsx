@@ -6,6 +6,7 @@ import type{ToolMode} from '@/data/keywordMaster';
 import {generateFootballNames,generateStoreNames} from '@/lib/generator';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
+import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import NameFramePicker from './NameFramePicker';
 import {
@@ -34,7 +35,7 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
   const[copied,setCopied]=useState('');
   const[favorites,setFavorites]=useState<string[]>([]);
 
-  useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
+  useEffect(()=>{setFavorites(readFavorites())},[]);
 
   const isStyled=mode==='gaming'||mode==='general';
 
@@ -69,12 +70,9 @@ export default function GeneratorPanel({mode,defaultValue='Nova'}:{mode:ToolMode
   }
 
   function toggleFavorite(value:string){
-    const removing=favorites.includes(value);
-    const next=removing?favorites.filter(item=>item!==value):Array.from(new Set([...favorites,value]));
+    const{items:next,removed}=toggleStoredFavorite(value,favorites);
     setFavorites(next);
-    localStorage.setItem('gdn-favorites',JSON.stringify(next));
-    window.dispatchEvent(new Event('gdn:favorites-updated'));
-    trackProductAction(removing?'favorite-remove':'favorite-add','generator-panel');
+    trackProductAction(removed?'favorite-remove':'favorite-add','generator-panel');
   }
 
   if(mode==='invisible'){
