@@ -125,6 +125,18 @@ for(const check of coverageChecks){
   if(count<check.min)errors.push('Intent coverage too thin: '+check.label+' has '+count+', expected at least '+check.min);
 }
 
+for(const [path,requiredTag,forbiddenTag] of [
+  ['/nombres-roblox','roblox','instagram'],
+  ['/nombres-instagram','instagram','roblox'],
+] as const){
+  const items=getNamesForPath(path);
+  const missing=items.filter(item=>!item.tags.includes(requiredTag));
+  if(missing.length)errors.push('Route-specific dataset leaked into '+path+': '+missing.map(item=>item.name).join(', '));
+  const forbidden=items.filter(item=>item.tags.includes(forbiddenTag));
+  if(forbidden.length)errors.push('Cross-platform dataset contamination on '+path+': '+forbidden.map(item=>item.name).join(', '));
+}
+
+
 const sourcedPeopleChecks=[
   {label:'people / sourced female meanings',items:getNamesForPath('/nombres-de-mujer'),min:24},
   {label:'people / sourced girl meanings',items:getNamesForPath('/nombres-de-nina'),min:12},
