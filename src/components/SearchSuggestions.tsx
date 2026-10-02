@@ -12,7 +12,7 @@ export default function SearchSuggestions({
   compact=false,
   listboxId,
 }:{results:SearchResult[];loading:boolean;activeIndex:number;onHover:(index:number)=>void;onSelect:(item:SearchResult,index:number)=>void;compact?:boolean;listboxId:string}){
-  return <div id={listboxId} role="listbox" aria-label="Resultados de búsqueda" className={'absolute left-0 right-0 z-[70] overflow-hidden rounded-[14px] border border-[#e5e3ec] bg-white p-1.5 shadow-[0_18px_44px_rgba(37,32,70,.14)] '+(compact?'top-[50px]':'top-[64px]')}>
+  return <div id={listboxId} role="listbox" aria-label="Resultados de búsqueda" className={'absolute left-0 right-0 z-[70] max-h-[min(420px,calc(100dvh-120px))] overflow-y-auto overscroll-contain rounded-[14px] border border-[#e5e3ec] bg-white p-1.5 shadow-[0_18px_44px_rgba(37,32,70,.14)] sm:max-h-[460px] '+(compact?'top-[50px]':'top-[118px] sm:top-[64px]')}>
     {loading&&results.length===0&&<div role="status" className="flex items-center gap-2 px-3 py-3 text-[11px] text-[#888a9a]"><LoaderCircle size={13} className="animate-spin"/>Buscando nombres y herramientas…</div>}
     {!loading&&results.length===0&&<div role="status" className="px-3 py-3"><p className="text-[11px] font-semibold text-[#4f5161]">No encontramos coincidencias.</p><p className="mt-1 text-[10px] leading-4 text-[#9092a2]">Prueba un nombre, una categoría o algo como “gato”, “japonés” o “Free Fire”.</p></div>}
     {results.map((item,index)=><button
@@ -33,7 +33,7 @@ export default function SearchSuggestions({
           <span className="truncate text-[12px] font-semibold text-[#2b2c38]">{item.title}</span>
           <span className="shrink-0 rounded-full bg-[#f4f2f8] px-2 py-0.5 text-[8px] font-black uppercase tracking-[.08em] text-[#8a8c9d]">{item.kind==='page'?'Herramienta':'Nombre'}</span>
         </span>
-        <span className="mt-0.5 block truncate text-[10px] text-[#8a8c9b]">{item.subtitle}</span>
+        <span className="mt-0.5 block line-clamp-2 text-[10px] leading-4 text-[#8a8c9b]">{item.subtitle}</span>
       </span>
     </button>)}
   </div>

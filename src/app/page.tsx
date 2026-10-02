@@ -31,7 +31,22 @@ export const metadata:Metadata={
     description:homeSeo.description,
     url:'/',
     type:'website',
+    images:[{url:'/opengraph-image',width:1200,height:630,alt:'Generador de nombres en español — GeneradorDeNombres.net'}],
   },
+  twitter:{card:'summary_large_image',title:homeSeo.title,description:homeSeo.description,images:['/opengraph-image']},
+};
+
+const homeStructuredData={
+  '@context':'https://schema.org',
+  '@type':'WebApplication',
+  name:'Generador de Nombres',
+  url:'https://generadordenombres.net/',
+  description:homeSeo.description,
+  inLanguage:'es',
+  applicationCategory:'UtilityApplication',
+  operatingSystem:'All',
+  isAccessibleForFree:true,
+  offers:{'@type':'Offer',price:'0',priceCurrency:'USD'},
 };
 
 const heroCards=[
@@ -53,12 +68,13 @@ const popular=[
 
 export default function HomePage(){
   return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(homeStructuredData)}}/>
     <section className="home-hero">
       <div className="gdn-shell grid items-center gap-9 py-10 sm:py-14 lg:grid-cols-[1.03fr_.97fr] lg:py-16">
         <div className="max-w-[620px]">
           <p className="gdn-tech text-[11px] font-black uppercase tracking-[.28em] text-[#695cff]">Generador de nombres en español</p>
           <h1 className="gdn-display mt-4 text-[40px] font-bold leading-[.98] tracking-[-.045em] text-[#171827] sm:text-[58px] lg:text-[64px]">
-            Encuentra un nombre que <span className="text-[#6558f5]">realmente</span> quieras usar.
+            Generador de nombres para encontrar uno que <span className="text-[#6558f5]">realmente</span> quieras usar.
           </h1>
           <p className="mt-5 max-w-[590px] text-[16px] leading-7 text-[#66697b]">
             Genera y explora nombres para juegos, personas, mascotas y negocios. Compara origen y significado cuando están documentados, sin registro y listo para copiar.

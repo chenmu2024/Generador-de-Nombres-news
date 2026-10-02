@@ -90,12 +90,12 @@ export default function HomeQuickGenerator({
       </div>
 
       <div className="min-w-0">
-        <div className="flex items-center justify-between gap-3 border-b border-[#eceaf3] px-4 py-3 sm:px-5">
+        <div className="flex flex-col items-start gap-3 border-b border-[#eceaf3] px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
           <div>
             <p className="gdn-tech text-[9px] font-black uppercase tracking-[.1em] text-[#8d8f9f]">{config.label}</p>
             <p className="mt-0.5 text-[11px] text-[#777a8a]">6 ideas rápidas</p>
           </div>
-          <TrackedLink href={config.href} placement="home-quick-generator" role={'open-'+mode+'-hub'} experimentId={EXPERIMENTS.homeQuick} className="inline-flex min-h-10 items-center gap-1.5 rounded-full border px-3 text-[10px] font-semibold transition hover:brightness-[.98]" style={{borderColor:config.accent,background:config.soft,color:config.accent}}>
+          <TrackedLink href={config.href} placement="home-quick-generator" role={'open-'+mode+'-hub'} experimentId={EXPERIMENTS.homeQuick} className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-full border px-3 text-[10px] font-semibold transition hover:brightness-[.98] sm:w-auto" style={{borderColor:config.accent,background:config.soft,color:config.accent}}>
             Ver herramienta completa <ArrowRight size={11}/>
           </TrackedLink>
         </div>

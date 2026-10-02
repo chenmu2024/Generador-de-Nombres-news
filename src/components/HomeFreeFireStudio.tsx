@@ -34,16 +34,25 @@ export default function HomeFreeFireStudio(){
     const base=shortOnly?raw.slice(0,6):raw;
     const gap=invisible?'ㅤ':'';
     const suffixPools=[
-      ['99','X','7','God','Pro','YT','Z','Max'],
-      ['47','FX','8','King','GG','TV','K','One'],
-      ['21','RX','9','Boss','Elite','Live','Q','Prime'],
+      ['X','7','99','Pro','YT','OP','V','RX'],
+      ['Z','47','8','GG','TV','FX','Q','One'],
+      ['K','21','9','Max','Live','EX','R','Prime'],
     ];
     const suffixes=suffixPools[batch%suffixPools.length];
-    const roots=[base,...suffixes.map(s=>base+s)];
-    return Array.from(new Set(roots.map(item=>{
-      const spaced=invisible?item.split('').join(gap):item;
-      return applyNameFrame(applyUnicodeStyle(spaced,font),frame);
-    }))).slice(0,10);
+    const roots=[
+      base,
+      base.toUpperCase(),
+      base+suffixes[0],
+      base+gap+suffixes[1],
+      suffixes[2]+gap+base,
+      'x'+base+'x',
+      base+suffixes[3],
+      base+gap+suffixes[4],
+      suffixes[5]+gap+base,
+      base+suffixes[6],
+      base+gap+suffixes[7],
+    ];
+    return Array.from(new Set(roots.map(item=>applyNameFrame(applyUnicodeStyle(item,font),frame)))).slice(0,10);
   },[seed,font,frame,invisible,shortOnly,batch]);
 
   const selectedFont=unicodeStyleById.get(font)??unicodeStyles[0];
@@ -121,13 +130,13 @@ export default function HomeFreeFireStudio(){
         <div className="divide-y divide-white/7">
           {results.map((value,index)=>{
             const saved=favorites.includes(value);
-            return <div key={value} className="grid grid-cols-[26px_minmax(0,1fr)_auto] items-center gap-2 px-4 py-2.5 hover:bg-white/[.025]">
+            return <div key={value} className="grid grid-cols-[26px_minmax(0,1fr)] items-center gap-2 px-4 py-3 hover:bg-white/[.025] sm:grid-cols-[26px_minmax(0,1fr)_auto] sm:py-2.5">
               <span className="grid size-6 place-items-center rounded-full bg-white/[.045] text-[10px] text-[#8c91a4]">{index+1}</span>
               <div className="min-w-0">
-                <p className="truncate text-[12px] font-medium">{value}</p>
-                <div className="mt-1 flex gap-1"><span className="rounded-full bg-[#3e2f71] px-2 py-0.5 text-[10px] text-[#cfc8ff]">{selectedFont.label}</span><span className="rounded-full bg-[#123d3d] px-2 py-0.5 text-[10px] text-[#7fe0cc]">{index%2?'Popular':'Único'}</span></div>
+                <p className="break-all text-[12px] font-medium sm:truncate">{value}</p>
+                <div className="mt-1 flex flex-wrap gap-1"><span className="rounded-full bg-[#3e2f71] px-2 py-0.5 text-[10px] text-[#cfc8ff]">{selectedFont.label}</span><span className="rounded-full bg-[#123d3d] px-2 py-0.5 text-[10px] text-[#7fe0cc]">{invisible&&value.includes('ㅤ')?'Espacio invisible':shortOnly?'Base corta':'Variación '+(index+1)}</span></div>
               </div>
-              <div className="flex items-center gap-1.5">
+              <div className="col-start-2 mt-1 flex items-center gap-1.5 sm:col-start-auto sm:mt-0">
                 <button onClick={()=>toggleFavorite(value)} aria-pressed={saved} className={'grid size-11 place-items-center rounded-[9px] border transition sm:size-7 sm:rounded-[7px] '+(saved?'border-[#8e84ff] bg-[#5b4df5]/20 text-[#c7c2ff]':'border-white/10 text-[#aeb2c1] hover:bg-white/[.05]')} aria-label={saved?'Quitar de favoritos':'Guardar en favoritos'}><Heart size={12} fill={saved?'currentColor':'none'}/></button>
                 <button onClick={()=>copy(value)} className="inline-flex h-11 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[11px] text-[#d3d6df] hover:bg-white/[.05] sm:h-7 sm:rounded-[7px] sm:px-2 sm:text-[10px]">
                   {copied===value?<Check size={11}/>:<Copy size={11}/>} {copied===value?'Copiado':copied==='__error__'?'Reintentar':'Copiar'}
@@ -138,10 +147,10 @@ export default function HomeFreeFireStudio(){
         </div>
       </div>
 
-      <div className="relative min-h-[360px] overflow-hidden">
+      <div className="relative min-h-[260px] overflow-hidden sm:min-h-[320px] lg:min-h-[360px]">
         <img src="/visuals/hero-gaming.webp" alt="" width="900" height="1200" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center"/>
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,12,22,.08),rgba(10,12,22,.86))]"/>
-        <div className="relative z-10 flex h-full min-h-[360px] flex-col justify-between p-5">
+        <div className="relative z-10 flex h-full min-h-[260px] flex-col justify-between p-5 sm:min-h-[320px] lg:min-h-[360px]">
           <p className="gdn-tech text-[10px] font-black tracking-[.34em] text-white/90">FREE FIRE</p>
           <div>
             <h3 className="gdn-editorial max-w-[190px] text-[31px] font-bold leading-[1.02]">Nombres únicos para tu estilo</h3>

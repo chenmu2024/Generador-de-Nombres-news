@@ -38,13 +38,20 @@ export function preloadSiteSearch(){
 }
 
 function score(item:SearchResult,query:string){
-  if(item.titleKey===query)return 120;
-  if(item.titleKey.startsWith(query))return 95;
-  if(item.titleKey.includes(query))return 80;
   const tokens=query.split(' ').filter(Boolean);
-  if(tokens.length>1&&tokens.every(token=>item.searchText.includes(token)))return 65;
-  if(item.searchText.includes(query))return 50;
-  return 0;
+  let value=0;
+  if(item.titleKey===query)value=140;
+  else if(item.titleKey.startsWith(query))value=110;
+  else if(item.titleKey.includes(query))value=90;
+  else if(item.searchText.includes(query))value=58;
+  else{
+    const matched=tokens.filter(token=>item.searchText.includes(token)).length;
+    if(tokens.length>1&&matched===tokens.length)value=72;
+    else if(matched)value=38+matched*8;
+  }
+  if(!value)return 0;
+  if(item.kind==='page')value+=12;
+  return value;
 }
 
 export function useSiteSearch(query:string,limit=8){

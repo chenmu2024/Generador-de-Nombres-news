@@ -51,7 +51,7 @@ export default function IntentRouter(){
   }
 
   return <div className="relative">
-    <form onSubmit={submit} className="flex items-center gap-3 rounded-[15px] border border-[#e1e2ea] bg-white p-2 shadow-[0_14px_38px_rgba(84,72,158,.09)]">
+    <form onSubmit={submit} className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-2 gap-y-2 rounded-[15px] border border-[#e1e2ea] bg-white p-2 shadow-[0_14px_38px_rgba(84,72,158,.09)] sm:flex sm:gap-3">
       <Search size={19} className="ml-2 text-[#181a2a]"/>
       <input
         value={q}
@@ -72,7 +72,7 @@ export default function IntentRouter(){
         aria-controls={listboxId}
         aria-activedescendant={focused&&results[activeIndex]?listboxId+'-option-'+activeIndex:undefined}
       />
-      <button type="submit" disabled={!results.length} className="inline-flex h-11 items-center gap-3 rounded-[11px] bg-[#5b4df5] px-6 text-[13px] font-semibold text-white shadow-[0_8px_22px_rgba(91,77,245,.28)] transition hover:bg-[#4d40e0] disabled:cursor-not-allowed disabled:bg-[#aaa5d9]">
+      <button type="submit" disabled={!results.length} className="col-span-2 inline-flex h-11 w-full items-center justify-center gap-3 rounded-[11px] bg-[#5b4df5] px-5 text-[13px] font-semibold text-white shadow-[0_8px_22px_rgba(91,77,245,.28)] transition hover:bg-[#4d40e0] disabled:cursor-not-allowed disabled:bg-[#aaa5d9] sm:col-span-1 sm:w-auto sm:px-6">
         Buscar <ArrowRight size={14}/>
       </button>
     </form>
