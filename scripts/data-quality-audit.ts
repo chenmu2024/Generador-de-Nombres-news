@@ -195,8 +195,8 @@ if(incompleteUnisex.length){
 }
 
 const sourcedPeopleChecks=[
-  {label:'people / sourced female meanings',items:getNamesForPath('/nombres-de-mujer'),min:67},
-  {label:'people / sourced girl meanings',items:getNamesForPath('/nombres-de-nina'),min:32},
+  {label:'people / sourced female meanings',items:getNamesForPath('/nombres-de-mujer'),min:77},
+  {label:'people / sourced girl meanings',items:getNamesForPath('/nombres-de-nina'),min:35},
   {label:'people / sourced male meanings',items:getNamesForPath('/nombres-de-nino'),min:68},
   {label:'people / sourced unisex meanings',items:getNamesForPath('/nombres-unisex'),min:22},
 ];
