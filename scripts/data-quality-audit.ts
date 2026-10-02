@@ -132,6 +132,9 @@ for(const path of [
   if(notVerified.length)errors.push('Sourced cultural page has unverified records: '+path+' -> '+notVerified.map(item=>item.name).join(', '));
 }
 
+const chineseMasculine=getNamesForPath('/nombres-chinos').filter(item=>item.gender==='M');
+if(chineseMasculine.length<10)errors.push('Chinese masculine coverage too thin: '+chineseMasculine.length+', expected at least 10');
+
 const coverageChecks=[
   {label:'cats / cute',items:getNamesForPath('/nombres-gatos'),tag:'cute',min:12},
   {label:'cats / black',items:getNamesForPath('/nombres-gatos'),tag:'black',min:12},

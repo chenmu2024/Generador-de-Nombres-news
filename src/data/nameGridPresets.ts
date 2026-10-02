@@ -177,6 +177,7 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
     {label:'Con significado',meaning:true},
   ],
   '/nombres-chinos':[
+    {label:'Masculinos',gender:'M'},
     {label:'Unisex',gender:'U'},
     {label:'Hanzi',cultureFacet:'script'},
     {label:'Con pronunciación',cultureFacet:'pronunciation'},
