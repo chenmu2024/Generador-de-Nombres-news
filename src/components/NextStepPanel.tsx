@@ -13,7 +13,7 @@ export default function NextStepPanel({page}:{page:KeywordPage}){
       <div className="max-w-[540px]">
         <p className="gdn-eyebrow">Siguiente paso</p>
         <h2 className="brand-serif mt-2 text-[27px] font-bold tracking-[-.03em] text-[#252634]">No pierdas los nombres que ya te gustaron.</h2>
-        <p className="mt-2 text-[11px] leading-5 text-[#787b8d]">Guárdalos para comparar después o continúa con la siguiente búsqueda más cercana a tu intención actual.</p>
+        <p className="mt-2 text-[11px] leading-5 text-[#787b8d]">Guárdalos para revisarlos después o continúa con la siguiente búsqueda más cercana a tu intención actual.</p>
         <TrackedLink href="/favoritos" placement="next-step" role="open-favorites" experimentId={EXPERIMENTS.nextStep} className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full bg-[#5b4df5] px-4 text-[10px] font-semibold text-white transition hover:bg-[#5044de]">
           <Heart size={12}/> Abrir mis favoritos
         </TrackedLink>
