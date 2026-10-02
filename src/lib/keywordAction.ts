@@ -23,36 +23,45 @@ function presetAction(page:KeywordPage,value:string):KeywordAction|null{
     return null;
   };
 
-  if(/mujer|mujeres|nina|femenin|hembra/.test(value))return pick(['Femeninos','Hembras']);
-  if(/hombre|hombres|nino|masculin|macho/.test(value))return pick(['Masculinos','Machos']);
-  if(/unisex|neutro|sin genero|androg/.test(value))return pick(['Unisex']);
-  if(/3 letras|4 letras|corto|corta|cortos|cortas|cortito/.test(value))return pick(['Cortos','3–4 letras']);
-  if(/modern/.test(value))return pick(['Modernos']);
-  if(/clasico|clasicos|clasica/.test(value))return pick(['Clásicos']);
-  if(/raro|raros|poco comun|poco comunes|exotic|extravag/.test(value))return pick(['Poco comunes']);
-  if(/negro|negra|negros|negras|pantera/.test(value))return pick(['Negros']);
-  if(/naranja|naranjas/.test(value))return pick(['Naranjas']);
-  if(/pequena|pequeno|pequenas|pequenos/.test(value))return pick(['Pequeñas','Pequeños']);
-  if(/grande|grandes/.test(value))return pick(['Grandes']);
-  if(/tierno|tierna|tiernos|tiernas|bonito|bonita|bonitos|bonitas/.test(value))return pick(['Tiernos']);
-  if(/jugueton|juguetona|juguetones|juguetonas/.test(value))return pick(['Juguetones']);
-  if(/fuerte|fuertes/.test(value))return pick(['Fuertes']);
-  if(/elegante|elegantes/.test(value))return pick(['Elegantes']);
-  if(/mistico|mistica|misticos|misticas|bruja|brujas/.test(value))return pick(['Místicos']);
-  if(/kawaii|squishmallow/.test(value))return pick(['Kawaii']);
-  if(/mitolog|dioses|diosas/.test(value))return pick(['Mitología']);
-  if(/significado/.test(value))return pick(['Con significado']);
-  if(/pronunciacion|fonetica/.test(value))return pick(['Con pronunciación']);
-  if(/griego/.test(value))return pick(['Griegos']);
-  if(/nordic/.test(value))return pick(['Nórdicos']);
-  if(/vasco/.test(value))return pick(['Vascos']);
-  if(/kanji/.test(value))return pick(['Kanji','Con escritura']);
-  if(/hangul/.test(value))return pick(['Hangul','Con escritura']);
-  if(/cirilico/.test(value))return pick(['Cirílico','Con escritura']);
-  if(/hanzi/.test(value))return pick(['Hanzi','Con escritura']);
-  if(/escritura/.test(value))return pick(['Con escritura']);
-  if(/yegua/.test(value))return pick(['Yeguas','Hembras']);
+  const rules:Array<[RegExp,string[]]>= [
+    [/griego/,['Griegos']],
+    [/nordic/,['Nórdicos']],
+    [/diosa|diosas/,['Diosas','Femeninos']],
+    [/\bdios\b|\bdioses\b/,['Dioses','Mitología']],
+    [/mujer|mujeres|nina|femenin|hembra/,['Femeninos','Hembras']],
+    [/hombre|hombres|nino|masculin|macho/,['Masculinos','Machos']],
+    [/unisex|neutro|sin genero|androg/,['Unisex']],
+    [/3 letras|4 letras|corto|corta|cortos|cortas|cortito/,['Cortos','3–4 letras']],
+    [/modern/,['Modernos']],
+    [/clasico|clasicos|clasica/,['Clásicos']],
+    [/raro|raros|poco comun|poco comunes|exotic|extravag/,['Poco comunes']],
+    [/negro|negra|negros|negras|pantera/,['Negros']],
+    [/naranja|naranjas/,['Naranjas']],
+    [/pequena|pequeno|pequenas|pequenos/,['Pequeñas','Pequeños']],
+    [/grande|grandes/,['Grandes']],
+    [/tierno|tierna|tiernos|tiernas|bonito|bonita|bonitos|bonitas/,['Tiernos']],
+    [/jugueton|juguetona|juguetones|juguetonas/,['Juguetones']],
+    [/fuerte|fuertes/,['Fuertes']],
+    [/elegante|elegantes/,['Elegantes']],
+    [/mistico|mistica|misticos|misticas|bruja|brujas/,['Místicos']],
+    [/kawaii|squishmallow/,['Kawaii']],
+    [/mitolog/,['Mitología']],
+    [/significado/,['Con significado']],
+    [/pronunciacion|fonetica/,['Con pronunciación']],
+    [/vasco/,['Vascos']],
+    [/kanji/,['Kanji','Con escritura']],
+    [/hangul/,['Hangul','Con escritura']],
+    [/cirilico/,['Cirílico','Con escritura']],
+    [/hanzi/,['Hanzi','Con escritura']],
+    [/escritura/,['Con escritura']],
+    [/yegua/,['Yeguas','Hembras']],
+  ];
 
+  for(const[pattern,labels]of rules){
+    if(!pattern.test(value))continue;
+    const match=pick(labels);
+    if(match)return match;
+  }
   return null;
 }
 

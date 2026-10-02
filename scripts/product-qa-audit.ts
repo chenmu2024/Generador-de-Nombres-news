@@ -47,6 +47,17 @@ if(!korean.includes("get('context')"))errors.push('Korean context tool must cons
 if(!korean.includes('no indican popularidad')||!korean.includes('no clasificación cultural ni medición de popularidad'))errors.push('Korean context tool must keep non-popularity disclaimer');
 if(!slugPage.includes('<KoreanContextTool items={items}/>'))errors.push('Korean route must render context tool');
 
+const deityPage=keywordPageByPath.get('/nombres-de-dioses');
+if(!deityPage)errors.push('Missing deity keyword page');
+else{
+  const greekAction=getKeywordAction(deityPage,'nombres de dioses griegos');
+  const nordicAction=getKeywordAction(deityPage,'nombres de dioses nordicos');
+  const goddessAction=getKeywordAction(deityPage,'nombres de diosas');
+  if(!greekAction.href.includes('preset=Griegos'))errors.push('Greek deity intent must open Griegos preset');
+  if(!nordicAction.href.includes('preset=N%C3%B3rdicos'))errors.push('Nordic deity intent must open Nórdicos preset');
+  if(!goddessAction.href.includes('preset=Diosas'))errors.push('Goddess intent must open Diosas preset');
+}
+
 function routeFromHref(href:string){
   const withoutHash=href.split('#')[0]||'';
   return(withoutHash.split('?')[0]||'').trim();
