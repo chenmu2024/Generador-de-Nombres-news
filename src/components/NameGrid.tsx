@@ -530,13 +530,13 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="gdn-tech text-[10px] font-black uppercase tracking-[.1em] text-[var(--page-accent)]">Comparador</p>
-            <p className="mt-1 text-[11px] text-[#77798b]">{compareRecords.length} de 4 nombres seleccionados</p>
+            <p className="mt-1 text-[11px] text-[#77798b]">{compareRecords.length} de 4 nombres seleccionados <span className="sm:hidden">· desliza para comparar</span></p>
           </div>
-          <button onClick={clearCompare} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-[#ddd8ee] bg-white px-3 text-[10px] font-semibold text-[#696b7d] hover:border-[#cfc8fb] hover:text-[#5146d6]"><X size={11}/>Limpiar comparación</button>
+          <button onClick={clearCompare} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-[var(--page-border)] bg-white px-3 text-[10px] font-semibold text-[#696b7d] hover:bg-[var(--page-soft)] hover:text-[var(--page-accent)]"><X size={11}/>Limpiar comparación</button>
         </div>
 
-        <div className="overflow-x-auto pb-1">
-          <div className="flex min-w-max gap-3">
+        <div className="overflow-x-auto pb-2 [scrollbar-width:thin]">
+          <div className="flex min-w-max snap-x snap-mandatory gap-3">
             {compareRecords.map(item=>{
               const itemGender=inferredGender(item);
               const personStyle=item.tags.find(tag=>personStyles.includes(tag as typeof personStyles[number]));
@@ -563,7 +563,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
                   ['Género',itemGender==='F'?'Hembra':itemGender==='M'?'Macho':itemGender==='U'?'Unisex':'No documentado'],
                 ];
 
-              return <article key={item.name} className="w-[230px] shrink-0 rounded-[16px] border border-[var(--page-border)] bg-white p-4 shadow-[0_8px_22px_rgba(69,58,129,.05)]">
+              return <article key={item.name} className="w-[230px] shrink-0 snap-start rounded-[16px] border border-[var(--page-border)] bg-white p-4 shadow-[0_8px_22px_rgba(69,58,129,.05)]">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="gdn-editorial truncate text-[21px] font-bold text-[#292a3a]">{item.name}</h3>
                   <button onClick={()=>toggleCompare(item.name)} aria-label={'Quitar '+item.name+' de la comparación'} className="grid size-7 shrink-0 place-items-center rounded-full border border-[#e3dfec] text-[#8a8c9b] hover:bg-[#f7f5ff]"><X size={11}/></button>
