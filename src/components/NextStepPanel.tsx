@@ -7,16 +7,21 @@ import{EXPERIMENTS}from'@/data/experiments';
 export default function NextStepPanel({page}:{page:KeywordPage}){
   const links=getNextIntentPages(page.path,2);
   if(!links.length)return null;
+  const supportsFavorites=page.tool!=='invisible';
+  const heading=supportsFavorites?'No pierdas los nombres que ya te gustaron.':'Sigue probando tu nickname antes de decidir.';
+  const description=supportsFavorites
+    ?'Guárdalos para revisarlos después o continúa con la siguiente búsqueda más cercana a tu intención actual.'
+    :'Copia una variante, pruébala dentro del juego y vuelve a otra herramienta si necesitas cambiar símbolos, nombre base o estilo.';
 
   return <section className="mt-8 rounded-[20px] border border-[#ded9f5] bg-[#faf9ff] p-5 sm:p-6">
     <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
       <div className="max-w-[540px]">
         <p className="gdn-eyebrow">Siguiente paso</p>
-        <h2 className="brand-serif mt-2 text-[27px] font-bold tracking-[-.03em] text-[#252634]">No pierdas los nombres que ya te gustaron.</h2>
-        <p className="mt-2 text-[11px] leading-5 text-[#787b8d]">Guárdalos para revisarlos después o continúa con la siguiente búsqueda más cercana a tu intención actual.</p>
-        <TrackedLink href="/favoritos" placement="next-step" role="open-favorites" experimentId={EXPERIMENTS.nextStep} className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full bg-[#5b4df5] px-4 text-[10px] font-semibold text-white transition hover:bg-[#5044de]">
+        <h2 className="brand-serif mt-2 text-[27px] font-bold tracking-[-.03em] text-[#252634]">{heading}</h2>
+        <p className="mt-2 text-[11px] leading-5 text-[#787b8d]">{description}</p>
+        {supportsFavorites&&<TrackedLink href="/favoritos" placement="next-step" role="open-favorites" experimentId={EXPERIMENTS.nextStep} className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full bg-[#5b4df5] px-4 text-[10px] font-semibold text-white transition hover:bg-[#5044de]">
           <Heart size={12}/> Abrir mis favoritos
-        </TrackedLink>
+        </TrackedLink>}
       </div>
 
       <div className="grid min-w-0 flex-1 gap-2 sm:grid-cols-2 lg:max-w-[560px]">
