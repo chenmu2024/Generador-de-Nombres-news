@@ -2,10 +2,11 @@ import{keywordPages}from'../src/data/keywordMaster';
 import{getNamesForPath}from'../src/data/nameDataset';
 
 const errors:string[]=[];
-const toolOnly=new Set([
-  '/espacios-invisible-ff',
-  '/nombres-equipos-futbol',
-  '/nombres-para-tiendas',
+const dedicatedNoList=new Map<string,string>([
+  ['/espacios-invisible-ff','invisible'],
+  ['/nombres-equipos-futbol','football'],
+  ['/nombres-para-tiendas','store'],
+  ['/nombres-por-letra','people'],
 ]);
 
 const specialMinimums:Record<string,number>={
@@ -26,9 +27,10 @@ for(const page of keywordPages){
   if(page.path==='/')continue;
   const items=getNamesForPath(page.path);
 
-  if(toolOnly.has(page.path)){
-    if(items.length!==0)errors.push('Tool-only route unexpectedly exposes list records: '+page.path);
-    if(!['invisible','football','store'].includes(page.tool))errors.push('Tool-only route has wrong tool mode: '+page.path+' -> '+page.tool);
+  if(dedicatedNoList.has(page.path)){
+    if(items.length!==0)errors.push('Dedicated non-list route unexpectedly exposes list records: '+page.path);
+    const expectedTool=dedicatedNoList.get(page.path);
+    if(page.tool!==expectedTool)errors.push('Dedicated non-list route has wrong tool mode: '+page.path+' -> '+page.tool+', expected '+expectedTool);
     continue;
   }
 
@@ -43,7 +45,7 @@ for(const page of keywordPages){
   if(page.path==='/nombres-peluches'&&items.some(item=>!item.tags.includes('plush')))errors.push('Plush route contains non-plush records');
 }
 
-const routesWithResults=keywordPages.filter(page=>page.path!=='/'&&!toolOnly.has(page.path));
+const routesWithResults=keywordPages.filter(page=>page.path!=='/'&&!dedicatedNoList.has(page.path));
 const totalResults=routesWithResults.reduce((sum,page)=>sum+getNamesForPath(page.path).length,0);
 
 if(errors.length){
@@ -55,6 +57,6 @@ if(errors.length){
 console.log(
   '[Product Readiness] PASS — '+
   routesWithResults.length+' result-backed routes + '+
-  toolOnly.size+' dedicated tool routes; '+
+  dedicatedNoList.size+' dedicated non-list routes; '+
   totalResults+' route-level result slots validated.'
 );
