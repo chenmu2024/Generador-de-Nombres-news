@@ -18,6 +18,7 @@ import KeywordIntentCoverage from'@/components/KeywordIntentCoverage';
 import PageSpecificGuide from'@/components/PageSpecificGuide';
 import CollectionSnapshot from'@/components/CollectionSnapshot';
 import AnimeNameTool from'@/components/AnimeNameTool';
+import TopicSubnav from'@/components/TopicSubnav';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -98,6 +99,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   return <div className="gdn-shell gdn-page" data-tool={page.tool} data-theme={pageTheme}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structuredData)}}/>
     <PageIntro page={page}/>
+    <TopicSubnav page={page}/>
 
     {hasPrimaryTool&&<div id="herramienta" className="scroll-mt-20">
       {isRoblox&&<PlatformNameTool platform="roblox"/>}
