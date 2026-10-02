@@ -1,4 +1,4 @@
-const ALLOWED_EVENTS=new Set(['link_impression','link_click','page_arrival','tool_action','session_depth','web_vital']);
+const ALLOWED_EVENTS=new Set(['link_impression','link_click','page_arrival','tool_action','session_depth','web_vital','page_view']);
 
 function cleanString(value,max){
   if(typeof value!=='string')return'';
