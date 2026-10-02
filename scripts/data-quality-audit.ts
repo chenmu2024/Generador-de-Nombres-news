@@ -30,6 +30,9 @@ for(const item of nameDataset){
   if(item.type==='culture'&&(item.meaning||item.script)&&!item.source){
     warnings.push('Cultural record with meaning/script still needs a source: '+item.name);
   }
+  if(item.type==='person'&&item.verified!==true&&item.confidence!=='needs-review'){
+    errors.push('Unsourced person record must be explicitly marked needs-review: '+item.name);
+  }
 }
 
 const intentionalDataFreeRoutes=new Set([
