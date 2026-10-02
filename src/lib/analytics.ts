@@ -68,7 +68,7 @@ export function emitAnalyticsEvent(payload:AnalyticsEventPayload){
     gdn_value:payload.value,
   });
 
-  const endpoint=process.env.NEXT_PUBLIC_ANALYTICS_ENDPOINT;
+  const endpoint=process.env.NEXT_PUBLIC_ANALYTICS_ENDPOINT||'/api/analytics';
   if(endpoint){
     try{
       const body=JSON.stringify(payload);
