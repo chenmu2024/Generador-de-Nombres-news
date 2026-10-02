@@ -1,5 +1,6 @@
 'use client';
 
+import{useState}from'react';
 import type{UnicodeStyleId}from'@/lib/styledText';
 import{applyUnicodeStyle,unicodeStyles}from'@/lib/styledText';
 
@@ -27,6 +28,7 @@ export default function UnicodeStylePicker({
   dark?:boolean;
   compact?:boolean;
 }){
+  const[galleryOpen,setGalleryOpen]=useState(false);
   const selected=unicodeStyles.find(style=>style.id===value)??unicodeStyles[0];
   const quick=quickIds.slice(0,compact?6:quickIds.length).map(id=>unicodeStyles.find(style=>style.id===id)!).filter(Boolean);
 
@@ -71,12 +73,12 @@ export default function UnicodeStylePicker({
       >{style.shortLabel}</button>)}
     </div>
 
-    {!compact&&<details className={'mt-3 overflow-hidden rounded-[11px] border '+(dark?'border-white/10 bg-white/[.025]':'border-[#e5e2ed] bg-[#fcfbff]')}>
+    {!compact&&<details onToggle={event=>setGalleryOpen(event.currentTarget.open)} className={'mt-3 overflow-hidden rounded-[11px] border '+(dark?'border-white/10 bg-white/[.025]':'border-[#e5e2ed] bg-[#fcfbff]')}>
       <summary className={'flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-3 text-[10px] font-bold '+(dark?'text-[#c3c7d4]':'text-[#626576]')}>
         <span>Explorar todos los estilos</span>
         <span className={'gdn-tech rounded-full px-2 py-1 text-[9px] '+(dark?'bg-white/[.06] text-[#8f95a8]':'bg-white text-[#8b8d9d]')}>{styleGroups.length} familias · {unicodeStyles.length} estilos</span>
       </summary>
-      <div className={'border-t p-3 '+(dark?'border-white/8':'border-[#ece9f2]')}>
+      {galleryOpen&&<div className={'border-t p-3 '+(dark?'border-white/8':'border-[#ece9f2]')}>
         <div className="space-y-4">
           {styleGroups.map(group=><section key={group.label}>
             <div className="mb-2 flex items-center justify-between gap-3">
@@ -106,7 +108,7 @@ export default function UnicodeStylePicker({
             </div>
           </section>)}
         </div>
-      </div>
+      </div>}
     </details>}
   </div>
 }
