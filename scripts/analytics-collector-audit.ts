@@ -1,5 +1,6 @@
 import{readFileSync}from'node:fs';
 
+async function main(){
 const source=readFileSync(new URL('../functions/api/analytics.js',import.meta.url),'utf8');
 const moduleUrl='data:text/javascript;base64,'+Buffer.from(source).toString('base64');
 const collector=await import(moduleUrl) as {
@@ -76,3 +77,10 @@ const statusJson=await status.json() as {storage?:string};
 assert(statusJson.storage==='unbound','Unbound collector must report unbound storage');
 
 console.log('[Analytics Collector] PASS — payload, origin, schema and unbound fallback verified.');
+}
+
+main().catch(error=>{
+  console.error('[Analytics Collector] FAILED');
+  console.error(error);
+  process.exit(1);
+});
