@@ -7,6 +7,7 @@ import {emitAnalyticsEvent,rememberTrackedNavigation} from '@/lib/analytics';
 import {EXPERIMENTS} from '@/data/experiments';
 import{useSiteSearch,type SearchResult}from'@/hooks/useSiteSearch';
 import SearchSuggestions from './SearchSuggestions';
+import{rememberNameSearch}from'@/lib/searchHandoff';
 
 export default function HeaderSearch({mobile=false}:{mobile?:boolean}){
   const router=useRouter();
@@ -38,6 +39,7 @@ export default function HeaderSearch({mobile=false}:{mobile?:boolean}){
       targetPath:item.path,
       ts:Date.now(),
     });
+    if(item.kind==='name')rememberNameSearch(item.title,item.path);
     setQ('');
     setFocused(false);
     router.push(item.path);

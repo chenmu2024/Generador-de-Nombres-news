@@ -6,6 +6,7 @@ import type{NameRecord} from '@/data/nameDataset';
 import type{ToolMode} from '@/data/keywordMaster';
 import CopyButton from './CopyButton';
 import {trackProductAction} from '@/lib/analytics';
+import{consumeNameSearch}from'@/lib/searchHandoff';
 
 const internalTags=new Set(['cat','dog','pet','horse','plush','gaming','freefire','roblox','instagram','female','male','unisex','enye','clan']);
 const tagLabels:Record<string,string>={
@@ -61,6 +62,17 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const filterTrackingReady=useRef(false);
 
   useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
+
+  useEffect(()=>{
+    if(!pagePath)return;
+    const pending=consumeNameSearch(pagePath);
+    if(!pending)return;
+    const match=items.find(item=>item.name.toLocaleLowerCase('es')===pending.toLocaleLowerCase('es'));
+    if(match){
+      setQuery(match.name);
+      setLimit(18);
+    }
+  },[items,pagePath]);
 
   useEffect(()=>{
     if(!filterTrackingReady.current){filterTrackingReady.current=true;return;}
