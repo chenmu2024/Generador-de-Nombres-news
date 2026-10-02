@@ -6,7 +6,6 @@ import {Check,Copy,Gamepad2,Heart,Sparkles} from 'lucide-react';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
 import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
-import{copyText}from'@/lib/clipboard';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import NameFramePicker from './NameFramePicker';
 import {
@@ -17,7 +16,6 @@ import {
   unicodeStyles,
   type UnicodeStyleId,
 } from '@/lib/styledText';
-import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 
 export default function HomeFreeFireStudio(){
   const[seed,setSeed]=useState('Nova');
