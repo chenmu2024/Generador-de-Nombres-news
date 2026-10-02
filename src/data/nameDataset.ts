@@ -517,6 +517,30 @@ export const nameDataset:NameRecord[]=[
 {name:'Kumo',type:'pet',tags:['plush','cute','small']},
 {name:'LumiBear',type:'pet',tags:['plush','kawaii','calm','small']},
 
+{name:'Federico',origin:'Germánico / Español',gender:'M',type:'person',tags:['f','male','classic']},
+{name:'Felipe',origin:'Griego / Español',gender:'M',type:'person',tags:['f','male','classic']},
+{name:'Francisco',origin:'Latino / Español',gender:'M',type:'person',tags:['f','male','classic']},
+{name:'Fausto',origin:'Latino',gender:'M',type:'person',tags:['f','male','rare']},
+{name:'Fermín',origin:'Latino / Español',gender:'M',type:'person',tags:['f','male','rare']},
+{name:'Francisca',origin:'Latino / Español',gender:'F',type:'person',tags:['f','female','classic']},
+{name:'Frida',origin:'Germánico / Nórdico',gender:'F',type:'person',tags:['f','female','short','modern']},
+{name:'Fiorella',origin:'Italiano',gender:'F',type:'person',tags:['f','female','modern']},
+{name:'Francesca',origin:'Italiano',gender:'F',type:'person',tags:['f','female','classic']},
+{name:'Flavia',origin:'Latino / Romano',gender:'F',type:'person',tags:['f','female','classic']},
+
+{name:'VantaX',type:'game',tags:['gaming','freefire','unique','dark']},
+{name:'Zyro',type:'game',tags:['gaming','freefire','unique','short']},
+{name:'KairoX',type:'game',tags:['gaming','freefire','unique','strong']},
+{name:'RiftX',type:'game',tags:['gaming','freefire','unique','dark']},
+{name:'Aero7',type:'game',tags:['gaming','freefire','unique','short']},
+{name:'Kryon',type:'game',tags:['gaming','freefire','unique','strong']},
+{name:'AXIS',type:'game',tags:['gaming','freefire','clan','unique','strong','short']},
+{name:'RAID',type:'game',tags:['gaming','freefire','clan','unique','strong','short']},
+{name:'ECHO',type:'game',tags:['gaming','freefire','clan','unique','short']},
+{name:'ZENX',type:'game',tags:['gaming','freefire','clan','unique','short']},
+{name:'RIFT',type:'game',tags:['gaming','freefire','clan','unique','dark','short']},
+{name:'KNGS',type:'game',tags:['gaming','freefire','clan','unique','strong','short']},
+
 ];
 const has=(x:NameRecord,t:string)=>x.tags.includes(t);
 export function getNamesForPath(path:string){if(path==='/espacios-invisible-ff'||path==='/nombres-para-tiendas'||path==='/nombres-equipos-futbol')return [];if(path.includes('gatos-negros'))return nameDataset.filter(x=>x.type==='pet'&&has(x,'cat')&&has(x,'black'));if(path.includes('gatos-machos'))return nameDataset.filter(x=>x.type==='pet'&&has(x,'cat')&&has(x,'male'));if(path==='/nombres-gatos')return nameDataset.filter(x=>x.type==='pet'&&has(x,'cat'));if(path.includes('perritas-chihuahua'))return nameDataset.filter(x=>x.type==='pet'&&has(x,'chihuahua'));if(path.includes('perritas'))return nameDataset.filter(x=>x.type==='pet'&&has(x,'dog')&&has(x,'female'));if(path.includes('perros-machos'))return nameDataset.filter(x=>x.type==='pet'&&has(x,'dog')&&has(x,'male'));if(path.includes('caballos'))return nameDataset.filter(x=>x.type==='pet'&&has(x,'horse'));if(path.includes('peluches'))return nameDataset.filter(x=>x.type==='pet'&&has(x,'plush'));if(path==='/nombres-con-en')return nameDataset.filter(x=>x.type==='person'&&has(x,'enye'));for(const [s,t] of [['japoneses','japanese'],['coreanos','korean'],['franceses','french'],['italianos','italian'],['mayas','maya'],['rusos','russian'],['griegos','greek'],['ingles','english'],['turcos','turkish'],['chinos','chinese'],['dioses','mythology']] as const)if(path.includes(s))return nameDataset.filter(x=>x.type==='culture'&&has(x,t));const m=path.match(/nombres-con-([a-z])/);if(m)return nameDataset.filter(x=>x.type==='person'&&x.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().startsWith(m[1]));if(path.includes('unisex'))return nameDataset.filter(x=>x.gender==='U'&&x.type==='person');if(path==='/nombres-de-nina')return nameDataset.filter(x=>x.gender==='F'&&x.type==='person'&&(has(x,'short')||has(x,'modern')||has(x,'rare')));if(path==='/nombres-de-mujer')return nameDataset.filter(x=>x.gender==='F'&&x.type==='person');if(path.includes('nino'))return nameDataset.filter(x=>x.gender==='M'&&x.type==='person');if(path.includes('anime'))return nameDataset.filter(x=>has(x,'anime')||has(x,'japanese'));if(path==='/nombres-ff-mujeres')return nameDataset.filter(x=>x.type==='game'&&has(x,'freefire')&&has(x,'female'));if(path==='/nombres-clanes-ff')return nameDataset.filter(x=>x.type==='game'&&has(x,'freefire')&&has(x,'clan'));if(path==='/nombres-ff-unicos')return nameDataset.filter(x=>x.type==='game'&&has(x,'freefire')&&has(x,'unique'));if(path.includes('free-fire')||path.includes('ff-')||path.includes('clanes'))return nameDataset.filter(x=>x.type==='game'&&has(x,'freefire'));if(path.includes('roblox'))return nameDataset.filter(x=>x.type==='game'&&has(x,'roblox')&&!has(x,'instagram'));if(path.includes('instagram'))return nameDataset.filter(x=>x.type==='game'&&has(x,'instagram')&&!has(x,'roblox'));if(path.includes('raros'))return nameDataset.filter(x=>x.type==='person'&&(has(x,'rare')||x.name.length<=4||x.gender==='U'));return nameDataset.filter(x=>x.type==='person').slice(0,12)}
