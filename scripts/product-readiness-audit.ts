@@ -17,7 +17,7 @@ const specialMinimums:Record<string,number>={
   '/nombres-con-en':5,
   '/nombres-mayas':22,
   '/nombres-japoneses':18,
-  '/nombres-coreanos':17,
+  '/nombres-coreanos':22,
   '/nombres-franceses':20,
   '/nombres-italianos':22,
   '/nombres-rusos':17,
