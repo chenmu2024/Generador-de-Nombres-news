@@ -28,7 +28,14 @@ export async function generateMetadata({params}:{params:Promise<{slug:string}>})
   const{slug}=await params;
   const page=keywordPageBySlug.get(slug);
   if(!page)return{title:'Página no encontrada',robots:{index:false,follow:false}};
-  return{title:page.title,description:page.description,alternates:{canonical:page.path},openGraph:{title:page.title,description:page.description,url:page.path,type:'website'}};
+  const socialImage={url:'/opengraph-image',width:1200,height:630,alt:'GeneradorDeNombres.net — nombres para juegos, personas, mascotas, culturas y negocios'};
+  return{
+    title:page.title,
+    description:page.description,
+    alternates:{canonical:page.path},
+    openGraph:{title:page.title,description:page.description,url:page.path,type:'website',images:[socialImage]},
+    twitter:{card:'summary_large_image',title:page.title,description:page.description,images:[socialImage.url]},
+  };
 }
 
 function freeFireVariant(path:string):'general'|'unique'|'women'|'clan'{
