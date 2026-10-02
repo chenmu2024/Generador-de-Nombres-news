@@ -143,7 +143,7 @@ export default function HomeFreeFireStudio(){
           <p className="text-[10px] font-black tracking-[.42em] text-white/90">FREE FIRE</p>
           <div>
             <h3 className="brand-serif max-w-[190px] text-[31px] font-bold leading-[1.02]">Nombres únicos para tu estilo</h3>
-            <div className="mt-4 space-y-2 text-[11px] text-white/90">{['22 fuentes Unicode','12 marcos','Espacios invisibles','100% gratis'].map(item=><p key={item} className="flex items-center gap-2"><span className="grid size-5 place-items-center rounded-full bg-white/14"><Check size={11}/></span>{item}</p>)}</div>
+            <div className="mt-4 space-y-2 text-[11px] text-white/90">{[unicodeStyles.length+' fuentes Unicode',nameFrames.length+' marcos','Espacios invisibles','100% gratis'].map(item=><p key={item} className="flex items-center gap-2"><span className="grid size-5 place-items-center rounded-full bg-white/14"><Check size={11}/></span>{item}</p>)}</div>
             <Link href="/nombres-free-fire" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-[9px] bg-[#5b4df5] px-4 py-3 text-[11px] font-semibold text-white">Explorar todas →</Link>
           </div>
         </div>
