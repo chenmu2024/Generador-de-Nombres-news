@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect,useMemo,useState} from 'react';
-import {Copy,Gamepad2,Heart,Layers3,Scissors,Shuffle,Sparkles,Space,Type} from 'lucide-react';
+import {Copy,Gamepad2,Heart,Layers3,RefreshCw,Scissors,Shuffle,Sparkles,Space,Type} from 'lucide-react';
 import CopyButton from './CopyButton';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import NameFramePicker from './NameFramePicker';
@@ -42,6 +42,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   const[short,setShort]=useState(variant==='unique');
   const[view,setView]=useState<ResultView>('mix');
   const[compatibility,setCompatibility]=useState<CompatibilityFilter>('all');
+  const[batch,setBatch]=useState(0);
   const[feedback,setFeedback]=useState('');
   const[favorites,setFavorites]=useState<string[]>([]);
 
@@ -62,6 +63,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
     const nextFrame=nameFrames[(currentFrameIndex+2+Math.floor(Math.random()*5))%nameFrames.length];
     setFont(nextFont.id);
     setFrame(nextFrame.id);
+    setBatch(value=>value+1);
     setFeedback(nextFont.label+' + '+nextFrame.label);
     trackProductAction('surprise-style','freefire-tool');
     window.setTimeout(()=>setFeedback(''),1400);
@@ -88,15 +90,34 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
       }));
     }
 
-    const source=variant==='clan'
-      ?[clanBase,clanBase+'GG',clanBase+'X',clanBase+'7',clanBase+'PRO',clanBase+'MAX']
-      :[base,base.toUpperCase(),base.replace(/a/gi,'4'),base+'7',base+'X',base+'ツ',base+'99',base+'Pro'];
+    const generalPools=[
+      [base,base.toUpperCase(),base.replace(/a/gi,'4'),base+'7',base+'X',base+'ツ',base+'99',base+'Pro'],
+      ['x'+base+'x','Its'+base,base+'GG',base+'YT',base+'Max',base+'77',base+'FX',base+'One'],
+      ['The'+base,'Mr'+base,base+'OP',base+'V2',base+'King',base+'Live',base+'亗',base+'彡'],
+    ];
+    const womenPools=[
+      [base,base+'X',base+'♡',base+'ツ','Lady'+base,base+'07',base+'Queen',base+'99'],
+      ['Miss'+base,base+'Glow',base+'Moon',base+'GG',base+'X7','Its'+base,base+'彡',base+'V2'],
+      ['Queen'+base,base+'Star',base+'Angel',base+'OP',base+'Live','x'+base+'x',base+'亗',base+'77'],
+    ];
+    const uniquePools=[
+      [base,base+'亗',base+'彡',base+'メ',base+'〆',base+'X',base+'7',base+'99'],
+      ['乂'+base,base+'ツ','x'+base+'x',base+'V2',base+'FX',base+'OP',base+'77',base+'Max'],
+      ['The'+base,base+'One',base+'King',base+'GG',base+'Live',base+'YT',base+'X7',base+'Pro'],
+    ];
+    const clanPools=[
+      [clanBase,clanBase+'GG',clanBase+'X',clanBase+'7',clanBase+'PRO',clanBase+'MAX'],
+      ['TEAM'+clanBase,clanBase+'FX',clanBase+'OP',clanBase+'99','X'+clanBase,clanBase+'ONE'],
+      [clanBase+'ELITE',clanBase+'V2',clanBase+'77',clanBase+'GGX','THE'+clanBase,clanBase+'PROX'],
+    ];
+    const pools=variant==='clan'?clanPools:variant==='women'?womenPools:variant==='unique'?uniquePools:generalPools;
+    const source=pools[batch%pools.length];
 
     return Array.from(new Set(source.map(name=>{
       const spaced=invisible?name.split('').join(join):name;
       return applyNameFrame(applyUnicodeStyle(spaced,font),frame);
     }))).map(value=>({value,label:'Combinación',compatibility:(unicodeStyles.find(style=>style.id===font)?.compatibility??'media') as 'alta'|'media'|'experimental'}));
-  },[seed,font,frame,invisible,short,variant,view,compatibility]);
+  },[seed,font,frame,invisible,short,variant,view,compatibility,batch]);
 
   return <section className="overflow-hidden rounded-[22px] border border-[#23263a] bg-[#111421] text-white shadow-[0_24px_66px_rgba(27,24,55,.16)]">
     <div className="grid lg:grid-cols-[360px_1fr]">
@@ -155,6 +176,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
               <button onClick={()=>setView('mix')} aria-pressed={view==='mix'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='mix'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Layers3 size={11}/>Combinaciones</button>
               <button onClick={()=>setView('fonts')} aria-pressed={view==='fonts'} className={'inline-flex min-h-9 items-center gap-1.5 rounded-[7px] px-3 text-[10px] font-bold '+(view==='fonts'?'bg-[#5b4df5] text-white':'text-[#9da2b5]')}><Type size={11}/>{unicodeStyles.length} fuentes</button>
             </div>
+            {view==='mix'&&<button onClick={()=>{setBatch(value=>value+1);trackProductAction('generate-batch','freefire-tool')}} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><RefreshCw size={11}/>Otra tanda</button>}
             <button onClick={surprise} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Shuffle size={11}/>Sorpresa</button>
             <button onClick={copyAll} className="inline-flex min-h-10 items-center gap-1.5 rounded-[9px] border border-white/10 px-3 text-[10px] font-bold text-[#c4c7d2] hover:bg-white/[.05]"><Copy size={11}/>Copiar todo</button>
           </div>
