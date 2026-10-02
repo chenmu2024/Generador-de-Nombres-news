@@ -42,7 +42,7 @@ const sharedFaqs: Record<ToolMode, PageFaq[]> = {
   ],
   culture: [
     {question:'¿Por qué un nombre puede aparecer con distintas escrituras?',answer:'La escritura, romanización y pronunciación pueden variar según idioma, región y convención. Las fichas deben interpretarse dentro de ese contexto.'},
-    {question:'¿Cómo se revisan los datos culturales?',answer:'La estructura de datos separa fuente, estado de verificación, confianza y fecha de revisión para que una futura ampliación pueda distinguir datos confirmados de datos pendientes.'},
+    {question:'¿Cómo se revisan los datos culturales?',answer:'Mostramos la fuente, el estado de verificación y la fecha de revisión por separado para que puedas distinguir los datos documentados de los que necesitan más contexto.'},
   ],
 };
 
@@ -56,7 +56,7 @@ const specificFaqs: Record<string, PageFaq[]> = {
     {question:'¿Username y nombre visible deben tener el mismo formato?',answer:'No. La herramienta los separa: el username se mantiene simple, mientras el nombre visible puede probar variantes Unicode.'},
   ],
   '/nombres-por-letra': [
-    {question:'¿Por qué algunas letras tienen página propia y otras no?',answer:'Solo se crea una página independiente cuando existe suficiente demanda y valor propio. Las demás letras permanecen dentro del directorio general.'},
+    {question:'¿Por qué algunas letras tienen página propia y otras no?',answer:'Algunas letras tienen una guía propia con más opciones y filtros. Las demás se pueden explorar directamente desde el directorio A–Z sin salir de la página.'},
   ],
   '/nombres-para-tiendas': [
     {question:'¿Puedo usar directamente uno de los nombres generados?',answer:'Úsalo primero como candidato. Antes de adoptarlo comercialmente revisa marcas, dominios, redes sociales y posibles conflictos legales.'},
@@ -165,7 +165,7 @@ const specificFaqs: Record<string, PageFaq[]> = {
   ],
   '/espacios-invisible-ff': [
     {question:'¿Puedo probar el espacio invisible con mi propio nickname?',answer:'Sí. Escribe tu nombre en el campo de prueba y compara cómo queda con distintas alternativas Unicode antes de copiar el resultado.'},
-    {question:'¿Puedo copiar dos o tres espacios invisibles de una vez?',answer:'Sí. La herramienta incluye accesos rápidos para copiar uno, dos o tres caracteres de espacio popular, además de ejemplos insertados entre palabras.'},
+    {question:'¿Puedo copiar dos o tres espacios invisibles de una vez?',answer:'Sí. La herramienta incluye accesos rápidos para copiar uno, dos o tres caracteres invisibles, además de ejemplos insertados entre palabras.'},
   ],
   '/nombres-ff-mujeres': [
     {question:'¿Puedo combinar un nombre femenino con fuentes y marcos?',answer:'Sí. El estudio de Free Fire permite aplicar estilos Unicode, marcos decorativos, versión corta y espacio invisible sobre una base femenina.'},

@@ -7,7 +7,7 @@ export default function PageIntro({page}:{page:KeywordPage}){
   const cluster=topicClusters[page.cluster];
   const showClusterLink=cluster.hubPath!==page.path;
   const helper=page.path==='/nombres-mayas'
-    ?{eyebrow:'Colección curada',title:'Pocos registros, mejor documentados.',body:'Esta colección prioriza nombres con una referencia clara. No ampliamos la lista con atribuciones dudosas solo para aumentar el volumen.'}
+    ?{eyebrow:'Colección curada',title:'Selección documentada antes que volumen.',body:'Priorizamos registros con una referencia clara y señalamos cuándo se trata de una figura mitológica, histórica o de uso personal.'}
     :page.tool==='culture'
       ?{eyebrow:'Datos comprobables',title:'Origen, escritura y fuentes.',body:'Busca por origen y filtra los registros con escritura, pronunciación o fuente verificada.'}
     :page.tool==='people'||page.tool==='pet'
