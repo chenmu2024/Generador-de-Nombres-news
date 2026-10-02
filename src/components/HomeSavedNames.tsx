@@ -4,13 +4,7 @@ import TrackedLink from './TrackedLink';
 import {EXPERIMENTS} from '@/data/experiments';
 import {ArrowRight,Heart} from 'lucide-react';
 import {useEffect,useState} from 'react';
-
-function readFavorites(){
-  try{
-    const items=JSON.parse(localStorage.getItem('gdn-favorites')||'[]');
-    return Array.isArray(items)?items.filter((item):item is string=>typeof item==='string'):[];
-  }catch{return []}
-}
+import{readFavorites}from'@/lib/favorites';
 
 export default function HomeSavedNames(){
   const[items,setItems]=useState<string[]>([]);
