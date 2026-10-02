@@ -53,6 +53,19 @@ if(getNamesForPath('/__unknown-route__').length!==0){
   errors.push('Unknown routes must not receive a generic fallback dataset');
 }
 
+function routeGender(item:ReturnType<typeof getNamesForPath>[number]){
+  return item.gender??(item.tags.includes('female')?'F':item.tags.includes('male')?'M':item.tags.includes('unisex')?'U':'?');
+}
+for(const page of keywordPages){
+  if(page.path==='/'||intentionalDataFreeRoutes.has(page.path))continue;
+  const seenRouteRecords=new Set<string>();
+  for(const item of getNamesForPath(page.path)){
+    const key=item.name.trim().toLocaleLowerCase('es')+'|'+routeGender(item);
+    if(seenRouteRecords.has(key))errors.push('Duplicate visible route record: '+page.path+' -> '+item.name+' ('+routeGender(item)+')');
+    seenRouteRecords.add(key);
+  }
+}
+
 const minimums:Record<string,number>={
   '/nombres-free-fire':20,
   '/nombres-ff-unicos':18,
