@@ -54,13 +54,13 @@ const minimums:Record<string,number>={
   '/nombres-coreanos':15,
   '/nombres-franceses':15,
   '/nombres-italianos':15,
-  '/nombres-rusos':12,
-  '/nombres-griegos':10,
-  '/nombres-turcos':12,
+  '/nombres-rusos':15,
+  '/nombres-griegos':15,
+  '/nombres-turcos':15,
   '/nombres-chinos':15,
   '/nombres-mayas':12,
-  '/nombres-ingles':12,
-  '/nombres-de-dioses':12,
+  '/nombres-ingles':15,
+  '/nombres-de-dioses':15,
 };
 
 for(const [path,min] of Object.entries(minimums)){
