@@ -63,11 +63,11 @@ export default function HomePage(){
           </div>
         </div>
 
-        <div className="grid grid-cols-2 auto-rows-[160px] gap-3 sm:min-h-[390px] sm:grid-cols-12 sm:grid-rows-10 sm:auto-rows-auto">
+        <nav aria-label="Categorías principales" className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] sm:grid sm:min-h-[390px] sm:grid-cols-12 sm:grid-rows-10 sm:overflow-visible sm:pb-0">
           {heroCards.map((item,index)=>{
             const Icon=item.icon;
             const area=index===0?'col-span-2 sm:col-span-7 sm:row-span-5':index===1?'col-span-1 sm:col-span-5 sm:row-span-5':index===2?'col-span-1 sm:col-span-4 sm:row-span-5':index===3?'col-span-1 sm:col-span-4 sm:row-span-5':'col-span-1 sm:col-span-4 sm:row-span-5';
-            return <TrackedLink key={item.href} href={item.href} placement="home-hero-cards" role={'hero-card-'+item.label.toLowerCase()} experimentId={EXPERIMENTS.homeHero} className={'group relative overflow-hidden rounded-[22px] border-2 border-white shadow-[0_16px_38px_rgba(58,48,112,.14)] '+area}>
+            return <TrackedLink key={item.href} href={item.href} placement="home-hero-cards" role={'hero-card-'+item.label.toLowerCase()} experimentId={EXPERIMENTS.homeHero} className={'group relative h-[152px] min-w-[232px] snap-start overflow-hidden rounded-[22px] border-2 border-white shadow-[0_16px_38px_rgba(58,48,112,.14)] sm:h-auto sm:min-w-0 '+area}>
               <img src={item.image} alt="" width="900" height="700" loading={index===0?'eager':'lazy'} fetchPriority={index===0?'high':'auto'} decoding="async" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"/>
               <div className="absolute inset-x-2.5 bottom-2.5 rounded-[13px] sm:inset-x-3 sm:bottom-3 bg-white/94 p-2.5 shadow-[0_8px_20px_rgba(27,25,52,.14)] backdrop-blur">
                 <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ export default function HomePage(){
               </div>
             </TrackedLink>;
           })}
-        </div>
+        </nav>
       </div>
     </section>
 
