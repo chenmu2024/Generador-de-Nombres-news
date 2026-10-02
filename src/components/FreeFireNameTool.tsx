@@ -6,6 +6,7 @@ import CopyButton from './CopyButton';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import NameFramePicker from './NameFramePicker';
 import {trackProductAction} from '@/lib/analytics';
+import{copyText}from'@/lib/clipboard';
 import {
   applyNameFrame,
   applyUnicodeStyle,
@@ -46,7 +47,8 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
 
   async function copyAll(){
-    await navigator.clipboard.writeText(results.map(item=>item.value).join('\n'));
+    const ok=await copyText(results.map(item=>item.value).join('\n'));
+    if(!ok)return;
     setFeedback(results.length+' resultados copiados');
     trackProductAction('copy-all-generated','freefire-tool');
     window.setTimeout(()=>setFeedback(''),1400);
