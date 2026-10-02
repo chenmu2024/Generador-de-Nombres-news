@@ -19,7 +19,7 @@ const specialMinimums:Record<string,number>={
   '/nombres-japoneses':18,
   '/nombres-coreanos':17,
   '/nombres-franceses':20,
-  '/nombres-italianos':17,
+  '/nombres-italianos':22,
   '/nombres-rusos':17,
   '/nombres-ingles':16,
   '/nombres-chinos':16,
