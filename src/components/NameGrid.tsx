@@ -63,6 +63,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
   const[randomPick,setRandomPick]=useState('');
   const[actionFeedback,setActionFeedback]=useState('');
   const[compareNames,setCompareNames]=useState<string[]>([]);
+  const[advancedOpen,setAdvancedOpen]=useState(false);
   const[limit,setLimit]=useState(18);
   const filterTrackingReady=useRef(false);
 
@@ -443,9 +444,17 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
           >{preset.label}</button>)}
         </div>}
 
-        {(hasPersonFacets||hasPetFacets||hasCultureFacets)&&<div className="mt-4 rounded-[14px] border border-[#e6e2f3] bg-white/75 p-3">
-          <div className="mb-2 flex items-center gap-2 text-[10px] font-bold text-[#6f7190]"><SlidersHorizontal size={13} className="text-[var(--page-accent)]"/>Filtros avanzados</div>
-
+        {(hasPersonFacets||hasPetFacets||hasCultureFacets)&&<div className="mt-4 overflow-hidden rounded-[14px] border border-[#e6e2f3] bg-white/75">
+          <button
+            type="button"
+            onClick={()=>setAdvancedOpen(value=>!value)}
+            aria-expanded={advancedOpen}
+            className="flex min-h-11 w-full items-center justify-between gap-3 px-3 text-left transition hover:bg-[var(--page-soft)]"
+          >
+            <span className="flex items-center gap-2 text-[10px] font-bold text-[#6f7190]"><SlidersHorizontal size={13} className="text-[var(--page-accent)]"/>Filtros avanzados</span>
+            <span className="gdn-tech rounded-full bg-[var(--page-soft)] px-2 py-1 text-[9px] font-bold text-[var(--page-ink)]">{advancedOpen?'Ocultar':'Mostrar'}</span>
+          </button>
+          {advancedOpen&&<div className="border-t border-[#eceaf3] p-3">
           {hasPersonFacets&&<>
             <FacetRow label="Longitud">
               {(Object.keys(lengthLabels) as LengthFilter[]).map(value=>
@@ -513,6 +522,7 @@ export default function NameGrid({items,mode,pagePath}:{items:NameRecord[];mode:
               >{label}</button>)}
             </FacetRow>
           </>}
+          </div>}
         </div>}
 
         {!hasPersonFacets&&!hasPetFacets&&!hasCultureFacets&&availableTags.length>0&&
