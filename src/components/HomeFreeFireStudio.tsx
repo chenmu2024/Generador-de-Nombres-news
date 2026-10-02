@@ -148,7 +148,7 @@ export default function HomeFreeFireStudio(){
       </div>
 
       <div className="relative min-h-[260px] overflow-hidden sm:min-h-[320px] lg:min-h-[360px]">
-        <img src="/visuals/hero-gaming.webp" alt="" width="900" height="1200" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center"/>
+        <img src="/visuals/hero-gaming.svg" alt="" width="900" height="1200" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center"/>
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,12,22,.08),rgba(10,12,22,.86))]"/>
         <div className="relative z-10 flex h-full min-h-[260px] flex-col justify-between p-5 sm:min-h-[320px] lg:min-h-[360px]">
           <p className="gdn-tech text-[10px] font-black tracking-[.34em] text-white/90">FREE FIRE</p>

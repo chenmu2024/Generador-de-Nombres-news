@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-labelledby="title desc">
+  <title id="title">Ilustración editorial de nombres para juegos</title>
+  <desc id="desc">Composición abstracta con un mando, símbolos y luces violetas.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#171a2b"/>
+      <stop offset=".56" stop-color="#28294f"/>
+      <stop offset="1" stop-color="#4b3fa4"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".72" cy=".22" r=".72">
+      <stop offset="0" stop-color="#8578ff" stop-opacity=".72"/>
+      <stop offset="1" stop-color="#8578ff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="28" stdDeviation="30" flood-color="#080914" flood-opacity=".42"/>
+    </filter>
+  </defs>
+  <rect width="900" height="700" fill="url(#bg)"/>
+  <rect width="900" height="700" fill="url(#glow)"/>
+  <circle cx="118" cy="114" r="168" fill="#6d61ff" opacity=".16"/>
+  <circle cx="810" cy="620" r="230" fill="#9c74ff" opacity=".13"/>
+  <g opacity=".28" fill="#fff">
+    <circle cx="118" cy="246" r="5"/><circle cx="764" cy="158" r="5"/><circle cx="704" cy="516" r="4"/>
+    <rect x="170" y="566" width="54" height="5" rx="2.5"/><rect x="680" y="250" width="74" height="5" rx="2.5"/>
+  </g>
+  <g filter="url(#shadow)">
+    <path d="M252 258c42-34 92-48 198-48s156 14 198 48c35 28 64 92 86 157 17 50-33 91-74 58l-77-62H317l-77 62c-41 33-91-8-74-58 22-65 51-129 86-157z" fill="#f7f7ff" stroke="#ffffff" stroke-width="4"/>
+    <path d="M282 274c33-23 72-32 168-32s135 9 168 32" fill="none" stroke="#ddd9ff" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="572" cy="322" r="23" fill="#5b4df5"/><circle cx="626" cy="366" r="23" fill="#8a7cff"/>
+    <circle cx="626" cy="322" r="12" fill="#c9c4ff"/><circle cx="572" cy="366" r="12" fill="#c9c4ff"/>
+    <rect x="291" y="309" width="100" height="28" rx="14" fill="#272a44"/>
+    <rect x="327" y="273" width="28" height="100" rx="14" fill="#272a44"/>
+    <circle cx="449" cy="351" r="14" fill="#d9d6eb"/><circle cx="495" cy="351" r="14" fill="#d9d6eb"/>
+  </g>
+  <g fill="none" stroke="#b9b1ff" stroke-width="9" stroke-linecap="round" opacity=".86">
+    <path d="M210 176l18-22 18 22"/><path d="M700 456l18-22 18 22"/>
+  </g>
+</svg>

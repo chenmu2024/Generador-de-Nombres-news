@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-labelledby="title desc">
+  <title id="title">Ilustración editorial de nombres para personas</title>
+  <desc id="desc">Composición abstracta con retratos suaves y tarjetas de nombres.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff1ec"/>
+      <stop offset=".55" stop-color="#f8d9d2"/>
+      <stop offset="1" stop-color="#efb7ad"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#7e4e49" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <rect width="900" height="700" fill="url(#bg)"/>
+  <circle cx="792" cy="92" r="160" fill="#ffffff" opacity=".26"/>
+  <circle cx="105" cy="600" r="210" fill="#f07b68" opacity=".08"/>
+  <g filter="url(#shadow)">
+    <rect x="130" y="112" width="640" height="476" rx="48" fill="#fff" fill-opacity=".82" stroke="#fff" stroke-width="3"/>
+  </g>
+  <g>
+    <rect x="178" y="160" width="252" height="336" rx="34" fill="#fff8f5" stroke="#f2d8d1"/>
+    <circle cx="304" cy="280" r="66" fill="#f0b7a9"/>
+    <path d="M238 277c6-70 126-84 137 0-25-25-49-35-70-35-24 0-47 11-67 35z" fill="#3f3743"/>
+    <path d="M222 452c14-83 72-126 82-126s68 43 82 126" fill="#ef7462"/>
+    <circle cx="282" cy="286" r="5" fill="#4d4042"/><circle cx="326" cy="286" r="5" fill="#4d4042"/>
+    <path d="M287 313c12 10 22 10 34 0" fill="none" stroke="#ad5d56" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="470" y="206" width="252" height="290" rx="34" fill="#fffaf8" stroke="#f2d8d1"/>
+    <circle cx="596" cy="306" r="58" fill="#e9b096"/>
+    <path d="M540 296c8-55 98-67 113-4-17-16-36-24-57-24-20 0-39 8-56 28z" fill="#5c463e"/>
+    <path d="M526 449c16-66 57-102 70-102s55 36 70 102" fill="#6558f5"/>
+    <circle cx="578" cy="308" r="5" fill="#4d4042"/><circle cx="615" cy="308" r="5" fill="#4d4042"/>
+    <path d="M584 332c10 8 20 8 30 0" fill="none" stroke="#a75e52" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g fill="#d97060" opacity=".72">
+    <circle cx="207" cy="535" r="7"/><circle cx="236" cy="535" r="7"/><circle cx="265" cy="535" r="7"/>
+  </g>
+  <rect x="494" y="535" width="180" height="12" rx="6" fill="#d8cdd1"/>
+  <rect x="494" y="558" width="116" height="9" rx="4.5" fill="#eadfe1"/>
+</svg>

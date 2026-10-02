@@ -9,8 +9,13 @@ const keywordPaths=new Set(keywordPages.map(page=>page.path));
 const staticPaths=new Set<string>(staticAppRoutes);
 const validPaths=new Set<string>([...keywordPaths,...staticPaths]);
 
+function routePart(path:string){
+  const base=(path.split('#')[0]||'/').split('?')[0]||'/';
+  return base||'/';
+}
 function assertRoute(path:string,context:string){
-  if(!validPaths.has(path))errors.push(context+' points to unknown route: '+path);
+  const route=routePart(path);
+  if(!validPaths.has(route))errors.push(context+' points to unknown route: '+path);
 }
 
 const primarySeen=new Set<string>();
@@ -44,6 +49,7 @@ for(const cluster of Object.values(topicClusters)){
 }
 
 const home=readFileSync(new URL('../src/app/page.tsx',import.meta.url),'utf8');
+if(!home.includes('id="todas-las-herramientas"')&&!readFileSync(new URL('../src/components/SiteDirectory.tsx',import.meta.url),'utf8').includes('id="todas-las-herramientas"'))errors.push('Missing #todas-las-herramientas directory target');
 const homeRoutes=[...home.matchAll(/href:'(\/[^']*)'/g)].map(match=>match[1]);
 for(const href of homeRoutes)assertRoute(href,'Homepage card');
 

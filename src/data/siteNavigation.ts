@@ -5,6 +5,7 @@ export const primaryNavigation=[
   {label:'Culturas',href:'/nombres-japoneses'},
   {label:'Negocios',href:'/nombres-para-tiendas'},
   {label:'Recursos',href:'/nombres-por-letra'},
+  {label:'Todas',href:'/#todas-las-herramientas'},
 ] as const;
 
 export const footerNavigationGroups=[
@@ -50,6 +51,7 @@ export const footerNavigationGroups=[
       ['Tiendas y negocios','/nombres-para-tiendas'],
       ['Equipos de fútbol','/nombres-equipos-futbol'],
       ['Nombres por letra','/nombres-por-letra'],
+      ['Todas las herramientas','/#todas-las-herramientas'],
       ['Mis favoritos','/favoritos'],
     ],
   },
