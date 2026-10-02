@@ -32,14 +32,14 @@ export default function NameFramePicker({
   return <div>
     <div className="mb-2 flex items-center justify-between gap-3">
       <span className={'gdn-tech text-[10px] font-bold uppercase tracking-[.1em] '+(dark?'text-[#9fa4b8]':'text-[#858899]')}>Marco decorativo</span>
-      <span className={'rounded-full px-2 py-1 text-[9px] font-black uppercase tracking-[.06em] '+(dark?'bg-white/[.07] text-[#aeb2c1]':'bg-[#f0edff] text-[#6558f5]')}>{nameFrames.length} estilos</span>
+      <span className={'rounded-full px-2 py-1 text-[9px] font-black uppercase tracking-[.06em] '+(dark?'bg-white/[.07] text-[#aeb2c1]':'bg-[var(--page-soft,#f0edff)] text-[var(--page-ink,#6558f5)]')}>{nameFrames.length} estilos</span>
     </div>
 
     <select
       value={value}
       onChange={event=>onChange(event.target.value)}
       aria-label="Elegir marco decorativo"
-      className={'h-11 w-full rounded-[10px] border px-3 text-[11px] outline-none transition '+(dark?'border-white/14 bg-[#181c2a] text-white focus:border-[#776cff]':'border-[#dedbe8] bg-white text-[#4f5162] focus:border-[#8e83ff]')}
+      className={'h-11 w-full rounded-[10px] border px-3 text-[11px] outline-none transition '+(dark?'border-white/14 bg-[#181c2a] text-white focus:border-[#776cff]':'border-[#dedbe8] bg-white text-[#4f5162] focus:border-[var(--page-accent,#8e83ff)]')}
     >
       {frameGroups.map(group=><optgroup key={group.label} label={group.label}>
         {group.ids.map(id=>{
@@ -62,8 +62,8 @@ export default function NameFramePicker({
         aria-pressed={value===frame.id}
         title={frame.label}
         className={'min-h-9 shrink-0 rounded-[8px] border px-2.5 text-[11px] font-semibold transition '+(value===frame.id
-          ?dark?'border-[#7469ff] bg-[#5b4df5] text-white':'border-[#c9c1ff] bg-[#f0edff] text-[#5146d6]'
-          :dark?'border-white/12 bg-white/[.04] text-[#d6d9e3] hover:bg-white/[.08]':'border-[#e3e0eb] bg-white text-[#66697a] hover:bg-[#f7f5ff]')}
+          ?dark?'border-[#7469ff] bg-[#5b4df5] text-white':'border-[var(--page-border,#c9c1ff)] bg-[var(--page-soft,#f0edff)] text-[var(--page-ink,#5146d6)]'
+          :dark?'border-white/12 bg-white/[.04] text-[#d6d9e3] hover:bg-white/[.08]':'border-[#e3e0eb] bg-white text-[#66697a] hover:border-[var(--page-border,#d8d2f0)] hover:bg-[var(--page-soft,#f7f5ff)]')}
       >{frame.transform('N')}</button>)}
     </div>
 
@@ -90,8 +90,8 @@ export default function NameFramePicker({
                   onClick={()=>onChange(frame.id)}
                   aria-pressed={active}
                   className={'rounded-[9px] border px-3 py-2 text-left transition '+(active
-                    ?dark?'border-[#7469ff] bg-[#5b4df5]/20':'border-[#c9c1ff] bg-[#f0edff]'
-                    :dark?'border-white/8 bg-white/[.025] hover:bg-white/[.06]':'border-[#e8e5ef] bg-white hover:border-[#d8d2f4]')}
+                    ?dark?'border-[#7469ff] bg-[#5b4df5]/20':'border-[var(--page-border,#c9c1ff)] bg-[var(--page-soft,#f0edff)]'
+                    :dark?'border-white/8 bg-white/[.025] hover:bg-white/[.06]':'border-[#e8e5ef] bg-white hover:border-[var(--page-border,#d8d2f4)]')}
                 >
                   <span className={'block break-all text-[13px] font-semibold '+(dark?'text-white':'text-[#313241]')}>{frame.transform(preview||'Nova')}</span>
                   <span className={'mt-1 block text-[9px] '+(dark?'text-[#7f8498]':'text-[#9698a7]')}>{frame.label}</span>
