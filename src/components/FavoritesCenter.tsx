@@ -27,11 +27,13 @@ export default function FavoritesCenter(){
     <span className="mx-auto grid size-12 place-items-center rounded-full bg-[#f0edff] text-[#5b4df5]"><Heart size={19}/></span>
     <h2 className="gdn-editorial mt-5 text-[28px] font-bold text-[#292a39]">Aún no has guardado nombres</h2>
     <p className="mx-auto mt-2 max-w-md text-[12px] leading-6 text-[#7e8192]">Pulsa el corazón en cualquier tarjeta. Tus favoritos se guardan solo en este navegador.</p>
-    <div className="mx-auto mt-6 grid max-w-[620px] gap-2 sm:grid-cols-3">
+    <div className="mx-auto mt-6 grid max-w-[820px] gap-2 sm:grid-cols-2 lg:grid-cols-5">
       {[
-        {href:'/nombres-de-mujer',label:'Personas',desc:'Nombres, significados y estilos'},
+        {href:'/nombres-de-mujer',label:'Personas',desc:'Origen, significado y estilos'},
         {href:'/nombres-gatos',label:'Mascotas',desc:'Gatos, perros y otras ideas'},
-        {href:'/nombres-free-fire',label:'Juegos',desc:'Nicknames y nombres para jugar'},
+        {href:'/nombres-free-fire',label:'Juegos',desc:'Nicknames, símbolos y estilos'},
+        {href:'/nombres-japoneses',label:'Culturas',desc:'Escritura, origen y fuentes'},
+        {href:'/nombres-para-tiendas',label:'Negocios',desc:'Marcas, tiendas y proyectos'},
       ].map(item=><TrackedLink key={item.href} href={item.href} placement="empty-favorites" role={'discover-'+item.href.slice(1)} experimentId={EXPERIMENTS.emptyFavorites} className="rounded-[14px] border border-[#e2deef] bg-[#faf9ff] p-4 text-left transition hover:border-[#cbc4f7] hover:bg-[#f6f3ff]">
         <span className="block text-[11px] font-bold text-[#414354]">{item.label}</span>
         <span className="mt-1 block text-[10px] leading-4 text-[#858899]">{item.desc}</span>
