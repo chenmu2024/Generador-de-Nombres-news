@@ -5,6 +5,7 @@ import Link from 'next/link';
 import {Check,Copy,Gamepad2,Heart,Sparkles} from 'lucide-react';
 import {trackProductAction} from '@/lib/analytics';
 import UnicodeStylePicker from './UnicodeStylePicker';
+import NameFramePicker from './NameFramePicker';
 import {
   applyNameFrame,
   applyUnicodeStyle,
@@ -90,12 +91,15 @@ export default function HomeFreeFireStudio(){
           />
         </div>
 
-        <label className="mt-4 block">
-          <span className="mb-2 flex items-center justify-between text-[11px] font-semibold text-[#d1d4df]"><span>Marco</span><span className="text-[10px] font-medium text-[#7f8498]">{nameFrames.length} opciones</span></span>
-          <select value={frame} onChange={e=>{setFrame(e.target.value);trackProductAction('frame-change','home-freefire')}} className="h-11 w-full rounded-[9px] border border-white/13 bg-[#181c2a] px-3 text-[11px] text-white outline-none focus:border-[#6d61ff]">
-            {nameFrames.map(item=><option key={item.id} value={item.id}>{item.label} · {item.transform('Nova')}</option>)}
-          </select>
-        </label>
+        <div className="mt-4">
+          <NameFramePicker
+            value={frame}
+            onChange={value=>{setFrame(value);trackProductAction('frame-change','home-freefire')}}
+            preview={seed}
+            dark
+            compact
+          />
+        </div>
 
         <div className="mt-4 space-y-1">
           <button role="switch" aria-checked={invisible} onClick={()=>{setInvisible(v=>!v);trackProductAction('toggle-invisible','home-freefire')}} className="flex min-h-11 w-full items-center justify-between py-1 text-[12px] text-[#d7d9e2]">
