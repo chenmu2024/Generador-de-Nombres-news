@@ -145,7 +145,7 @@ export default function GeneratorPanel({mode,defaultValue}:{mode:'football'|'inv
             const teamCode=context==='Torneo'?'':footballCode(value);
             return <div key={value} className="group flex min-h-[72px] items-center justify-between gap-3 bg-[#151927] px-4 py-2.5 transition hover:bg-[#1b2030] sm:px-5">
               <div className="min-w-0">
-                <span className="block break-all text-[13px] font-semibold">{value}</span>
+                <span className="block break-words text-[13px] font-semibold">{value}</span>
                 {teamCode&&<button
                   onClick={()=>copy(teamCode)}
                   aria-label={copied===teamCode?'TAG copiado':'Copiar TAG '+teamCode}

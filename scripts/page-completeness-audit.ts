@@ -34,6 +34,8 @@ for(const [path,blueprint]of Object.entries(pageBlueprints)){
 const slug=readFileSync(new URL('../src/app/[slug]/page.tsx',import.meta.url),'utf8');
 const guideMarker='<PageSpecificGuide page={page} items={items}/>';
 if(!slug.includes(guideMarker))errors.push('Slug template does not render PageSpecificGuide');
+const guideSource=readFileSync(new URL('../src/components/PageSpecificGuide.tsx',import.meta.url),'utf8');
+if(!guideSource.includes('Ejemplos de esta colección'))errors.push('PageSpecificGuide must expose representative collection examples');
 const guideIndex=slug.indexOf(guideMarker);
 const collectionIndex=slug.indexOf('<CollectionSnapshot');
 if(guideIndex<0||collectionIndex<0||guideIndex>collectionIndex)errors.push('PageSpecificGuide must appear before result collections');

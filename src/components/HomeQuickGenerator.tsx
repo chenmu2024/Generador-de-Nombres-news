@@ -73,7 +73,7 @@ export default function HomeQuickGenerator({
           {modes.map(item=>{
             const Icon=item.icon;
             const active=mode===item.id;
-            return <button key={item.id} onClick={()=>changeMode(item.id)} aria-pressed={active} className="flex min-h-12 items-center gap-2 rounded-[11px] border px-3 text-left text-[11px] font-semibold transition" style={active?{borderColor:item.accent,background:item.soft,color:item.accent}:{borderColor:'#e5e2ec',background:'#fff',color:'#66697a'}}>
+            return <button key={item.id} onClick={()=>changeMode(item.id)} aria-pressed={active} className={'flex min-h-12 items-center gap-2 rounded-[11px] border px-3 text-left text-[11px] font-semibold transition '+(item.id==='store'?'col-span-2':'')} style={active?{borderColor:item.accent,background:item.soft,color:item.accent}:{borderColor:'#e5e2ec',background:'#fff',color:'#66697a'}}>
               <Icon size={14}/>{item.label}
             </button>;
           })}
