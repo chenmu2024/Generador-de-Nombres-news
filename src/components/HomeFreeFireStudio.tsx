@@ -4,6 +4,7 @@ import {useEffect,useMemo,useState} from 'react';
 import Link from 'next/link';
 import {Check,Copy,Gamepad2,Heart,Sparkles} from 'lucide-react';
 import {trackProductAction} from '@/lib/analytics';
+import{copyText}from'@/lib/clipboard';
 import UnicodeStylePicker from './UnicodeStylePicker';
 import NameFramePicker from './NameFramePicker';
 import {
@@ -50,7 +51,8 @@ export default function HomeFreeFireStudio(){
   const selectedFrame=nameFrames.find(item=>item.id===frame)??nameFrames[0];
 
   async function copy(value:string){
-    await navigator.clipboard.writeText(value);
+    const ok=await copyText(value);
+    if(!ok)return;
     trackProductAction('copy-generated','home-freefire');
     setCopied(value);
     window.setTimeout(()=>setCopied(''),1000);
