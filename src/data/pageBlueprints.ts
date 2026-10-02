@@ -242,7 +242,7 @@ export const pageBlueprints:Record<string,PageBlueprint>={
       {title:'Romanización',body:'Puede variar según la convención; no significa que sean nombres diferentes.'},
       {title:'Hanja',body:'Cuando se documenta, puede aportar información relevante para el significado.'},
     ]},
-    faq:{question:'¿Por qué un nombre coreano puede aparecer romanizado de más de una forma?',answer:'Porque existen distintas convenciones de romanización. La forma en Hangul ayuda a reconocer que varias grafías latinas pueden referirse al mismo nombre.'},
+    faq:{question:'¿Qué significan los modos K-pop, Dorama y Aesthetic de esta página?',answer:'Son modos de presentación para probar cómo se ve un nombre coreano documentado en distintos contextos visuales. No indican que el nombre pertenezca a un artista, personaje real o que sea más popular.'},
   },
   '/nombres-franceses':{
     hero:{eyebrow:'Francés',title:'Conserva grafía y acentos antes de simplificar el nombre.',body:'La página prioriza la forma francesa documentada y añade pronunciación cuando la base la incluye.'},

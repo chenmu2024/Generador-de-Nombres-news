@@ -86,6 +86,12 @@ export function getKeywordAction(page:KeywordPage,keyword:string):KeywordAction{
     if(value.includes('usuario')||value.includes('username')||value.includes('validador'))return{href:page.path+'?mode=username#herramienta',label:'Crear username'};
   }
 
+  if(page.path==='/nombres-coreanos'){
+    if(value.includes('kpop'))return{href:page.path+'?context=kpop#contexto-coreano',label:'Probar modo K-pop'};
+    if(value.includes('dorama'))return{href:page.path+'?context=dorama#contexto-coreano',label:'Probar modo Dorama'};
+    if(value.includes('estetic'))return{href:page.path+'?context=aesthetic#contexto-coreano',label:'Probar modo Aesthetic'};
+  }
+
   if(page.path==='/nombres-anime'){
     if(value.includes('discord'))return{href:page.path+'?intent=discord#herramienta',label:'Usar modo Discord'};
     if(value.includes('genshin'))return{href:page.path+'?intent=genshin#herramienta',label:'Usar modo Genshin'};

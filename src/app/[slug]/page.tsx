@@ -20,6 +20,7 @@ import CollectionSnapshot from'@/components/CollectionSnapshot';
 import AnimeNameTool from'@/components/AnimeNameTool';
 import PlushAdoptionTool from'@/components/PlushAdoptionTool';
 import CompoundNameTool from'@/components/CompoundNameTool';
+import KoreanContextTool from'@/components/KoreanContextTool';
 import TopicSubnav from'@/components/TopicSubnav';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
@@ -63,6 +64,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
   const isAlphabet=page.path==='/nombres-por-letra';
   const isStore=page.path==='/nombres-para-tiendas';
   const isPlush=page.path==='/nombres-peluches';
+  const isKorean=page.path==='/nombres-coreanos';
   const isCompoundFemale=page.path==='/nombres-de-mujer'||page.path==='/nombres-de-nina';
   const isCompoundMale=page.path==='/nombres-de-nino';
   const isEnye=page.path==='/nombres-con-en';
@@ -119,6 +121,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     <PageSpecificGuide page={page} items={items}/>
 
     {page.tool==='culture'&&items.length>0&&<CultureDataNote items={items}/>}
+    {isKorean&&<KoreanContextTool items={items}/>}
     {hasResultCollection&&<CollectionSnapshot items={items} mode={page.tool} pagePath={page.path}/>}
     {hasResultCollection&&<NameGrid items={items} mode={page.tool} pagePath={page.path} pageLabel={page.primaryKeyword}/>}
     {hasResultCollection&&<DatasetTrustNote items={items} mode={page.tool}/>} 

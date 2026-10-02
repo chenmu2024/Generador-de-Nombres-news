@@ -17,6 +17,7 @@ const generatorPanel=read('src/components/GeneratorPanel.tsx');
 const plush=read('src/components/PlushAdoptionTool.tsx');
 const enye=read('src/components/EnyeGuide.tsx');
 const compound=read('src/components/CompoundNameTool.tsx');
+const korean=read('src/components/KoreanContextTool.tsx');
 
 if(!slugPage.includes('id="herramienta"'))errors.push('Missing #herramienta target in slug page');
 if(!home.includes('id="studio-nombres"'))errors.push('Missing #studio-nombres target on homepage');
@@ -42,6 +43,9 @@ if(!enye.includes('no mostramos una sección inca'))errors.push('Ñ guide must d
 if(!compound.includes('no una afirmación de frecuencia, tradición o registro oficial'))errors.push('Compound tool must keep generated-combination disclaimer');
 if(!slugPage.includes('<CompoundNameTool'))errors.push('People pages must render compound-name tool');
 if(!slugPage.includes("item.verified===true&&Boolean(item.sourceUrl)"))errors.push('Compound tool suggestions must come from verified sourced records');
+if(!korean.includes("get('context')"))errors.push('Korean context tool must consume context handoff');
+if(!korean.includes('no indican popularidad')||!korean.includes('no clasificación cultural ni medición de popularidad'))errors.push('Korean context tool must keep non-popularity disclaimer');
+if(!slugPage.includes('<KoreanContextTool items={items}/>'))errors.push('Korean route must render context tool');
 
 function routeFromHref(href:string){
   const withoutHash=href.split('#')[0]||'';
@@ -61,10 +65,11 @@ for(const page of keywordPages){
     const targetPath=route||page.path;
 
     if(route&&route!=='/'&&!routePaths.has(route))errors.push('Keyword action points to unknown route: '+page.path+' -> '+keyword+' -> '+action.href);
-    if(fragment&&!['#herramienta','#resultados','#studio-nombres','#adopcion','#compuestos'].includes(fragment))errors.push('Keyword action uses unknown fragment: '+action.href);
+    if(fragment&&!['#herramienta','#resultados','#studio-nombres','#adopcion','#compuestos','#contexto-coreano'].includes(fragment))errors.push('Keyword action uses unknown fragment: '+action.href);
     if(fragment==='#studio-nombres'&&targetPath!=='/')errors.push('studio-nombres fragment must target homepage: '+action.href);
     if(fragment==='#adopcion'&&targetPath!=='/nombres-peluches')errors.push('adopcion fragment must target plush route: '+action.href);
     if(fragment==='#compuestos'&&!['/nombres-de-mujer','/nombres-de-nino'].includes(targetPath))errors.push('compuestos fragment must target supported people routes: '+action.href);
+    if(fragment==='#contexto-coreano'&&targetPath!=='/nombres-coreanos')errors.push('contexto-coreano fragment must target Korean route: '+action.href);
 
     if(fragment==='#resultados'){
       const target=keywordPageByPath.get(targetPath);
