@@ -7,6 +7,7 @@ import UnicodeStylePicker from './UnicodeStylePicker';
 import NameFramePicker from './NameFramePicker';
 import {trackProductAction} from '@/lib/analytics';
 import{copyText}from'@/lib/clipboard';
+import{readFavorites,toggleFavorite as toggleStoredFavorite}from'@/lib/favorites';
 import {
   applyNameFrame,
   applyUnicodeStyle,
@@ -44,7 +45,7 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   const[feedback,setFeedback]=useState('');
   const[favorites,setFavorites]=useState<string[]>([]);
 
-  useEffect(()=>{try{setFavorites(JSON.parse(localStorage.getItem('gdn-favorites')||'[]'))}catch{}},[]);
+  useEffect(()=>{setFavorites(readFavorites())},[]);
 
   async function copyAll(){
     const ok=await copyText(results.map(item=>item.value).join('\n'));
@@ -67,12 +68,9 @@ export default function FreeFireNameTool({variant='general'}:{variant?:Variant})
   }
 
   function toggleFavorite(value:string){
-    const removing=favorites.includes(value);
-    const next=removing?favorites.filter(item=>item!==value):Array.from(new Set([...favorites,value]));
+    const{items:next,removed}=toggleStoredFavorite(value,favorites);
     setFavorites(next);
-    localStorage.setItem('gdn-favorites',JSON.stringify(next));
-    window.dispatchEvent(new Event('gdn:favorites-updated'));
-    trackProductAction(removing?'favorite-remove':'favorite-add','freefire-tool');
+    trackProductAction(removed?'favorite-remove':'favorite-add','freefire-tool');
   }
 
   const results=useMemo(()=>{
