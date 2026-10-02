@@ -11,6 +11,7 @@ export type QuickPreset={
   tag?:string;
   cultureFacet?:'ALL'|'script'|'pronunciation'|'verified';
   cultureKind?:'ALL'|'names'|'mythology';
+  meaning?:true;
 };
 
 export const quickPresetsByPath:Record<string,QuickPreset[]>={
@@ -19,23 +20,31 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
     {label:'Modernos',style:'modern'},
     {label:'Clásicos',style:'classic'},
     {label:'Poco comunes',style:'rare'},
+    {label:'Con significado',meaning:true},
+    {label:'Con fuente',cultureFacet:'verified'},
   ],
   '/nombres-de-nina':[
     {label:'3–4 letras',length:'short'},
     {label:'Modernos',style:'modern'},
     {label:'Poco comunes',style:'rare'},
+    {label:'Con significado',meaning:true},
+    {label:'Con fuente',cultureFacet:'verified'},
   ],
   '/nombres-de-nino':[
     {label:'Cortos',length:'short'},
     {label:'Modernos',style:'modern'},
     {label:'Clásicos',style:'classic'},
     {label:'Poco comunes',style:'rare'},
+    {label:'Con significado',meaning:true},
+    {label:'Con fuente',cultureFacet:'verified'},
   ],
   '/nombres-raros':[
     {label:'Cortos',length:'short'},
     {label:'Modernos',style:'modern'},
     {label:'Poco comunes',style:'rare'},
     {label:'Unisex',gender:'U'},
+    {label:'Con significado',meaning:true},
+    {label:'Con fuente',cultureFacet:'verified'},
   ],
   '/nombres-con-a':[
     {label:'Femeninos',gender:'F'},
@@ -95,76 +104,94 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Unisex',gender:'U'},
+    {label:'Kanji',cultureFacet:'script'},
     {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-coreanos':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Unisex',gender:'U'},
+    {label:'Hangul',cultureFacet:'script'},
     {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con significado',meaning:true},
   ],
   '/nombres-franceses':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Unisex',gender:'U'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
+    {label:'Con significado',meaning:true}
   ],
   '/nombres-italianos':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Con pronunciación',cultureFacet:'pronunciation'},
-    {label:'7+ letras',length:'long'},
+    {label:'7+ letras',length:'long'},,
+    {label:'Con significado',meaning:true}
   ],
   '/nombres-mayas':[
     {label:'Nombres',cultureKind:'names'},
     {label:'Mitología',cultureKind:'mythology'},
     {label:'Femeninos',gender:'F'},
-    {label:'Masculinos',gender:'M'},
+    {label:'Masculinos',gender:'M'},,
+    {label:'Con significado',meaning:true}
   ],
   '/nombres-de-dioses':[
     {label:'Diosas',gender:'F'},
     {label:'Dioses',gender:'M'},
     {label:'Con escritura',cultureFacet:'script'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
+    {label:'Con significado',meaning:true}
   ],
   '/nombres-rusos':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Cirílico',cultureFacet:'script'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
+    {label:'Con significado',meaning:true}
   ],
   '/nombres-griegos':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Mitología',cultureKind:'mythology'},
-    {label:'Nombres',cultureKind:'names'},
+    {label:'Nombres',cultureKind:'names'},,
+    {label:'Con significado',meaning:true}
   ],
   '/nombres-ingles':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Cortos',length:'short'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
+    {label:'Con significado',meaning:true}
   ],
   '/nombres-turcos':[
     {label:'Femeninos',gender:'F'},
     {label:'Masculinos',gender:'M'},
     {label:'Cortos',length:'short'},
-    {label:'Con pronunciación',cultureFacet:'pronunciation'},
+    {label:'Con pronunciación',cultureFacet:'pronunciation'},,
+    {label:'Con significado',meaning:true}
   ],
   '/nombres-chinos':[
     {label:'Unisex',gender:'U'},
     {label:'Hanzi',cultureFacet:'script'},
     {label:'Con pronunciación',cultureFacet:'pronunciation'},
-    {label:'Cortos',length:'short'},
+    {label:'Cortos',length:'short'},,
+    {label:'Con significado',meaning:true}
   ],
   '/nombres-gatos':[
     {label:'Negros',color:'black'},
     {label:'Naranjas',color:'orange'},
+    {label:'Pequeños',size:'small'},
+    {label:'Cortos',length:'short'},
+    {label:'Hembras',gender:'F'},
+    {label:'Machos',gender:'M'},
     {label:'Tiernos',personality:'cute'},
     {label:'Juguetones',personality:'playful'},
   ],
   '/nombres-perritas':[
     {label:'Pequeñas',size:'small'},
+    {label:'Cortos',length:'short'},
     {label:'Tiernas',personality:'cute'},
     {label:'Elegantes',personality:'elegant'},
     {label:'Juguetonas',personality:'playful'},
@@ -181,6 +208,8 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
     {label:'Tranquilos',personality:'calm'},
     {label:'Negros',color:'black'},
     {label:'Grandes',size:'large'},
+    {label:'Yeguas',gender:'F'},
+    {label:'Machos',gender:'M'},
   ],
   '/nombres-peluches':[
     {label:'Tiernos',personality:'cute'},
@@ -221,6 +250,8 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
     {label:'Cortos',length:'short'},
     {label:'Modernos',style:'modern'},
     {label:'Poco comunes',style:'rare'},
+    {label:'Con significado',meaning:true},
+    {label:'Con fuente',cultureFacet:'verified'},
   ],
   '/nombres-ff-mujeres':[
     {label:'Aesthetic',tag:'aesthetic'},
@@ -277,6 +308,7 @@ export function matchesQuickPreset(item:NameRecord,preset:QuickPreset){
     (!preset.personality||item.tags.includes(preset.personality))&&
     (!preset.gender||preset.gender==='ALL'||inferredGender(item)===preset.gender)&&
     (!preset.tag||item.tags.includes(preset.tag))&&
+    (!preset.meaning||Boolean(item.meaning))&&
     (!preset.cultureFacet||preset.cultureFacet==='ALL'||
       (preset.cultureFacet==='script'&&Boolean(item.script))||
       (preset.cultureFacet==='pronunciation'&&Boolean(item.pronunciation))||

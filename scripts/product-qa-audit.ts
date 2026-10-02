@@ -21,6 +21,7 @@ const nameGridSource=read('src/components/NameGrid.tsx');
 if(!nameGridSource.includes('id="resultados"'))errors.push('Missing #resultados target in NameGrid');
 if(!nameGridSource.includes("mode==='people'||mode==='pet'||mode==='culture'"))errors.push('Culture collections must keep compare support');
 if(!nameGridSource.includes("get('preset')"))errors.push('NameGrid must consume preset query handoff');
+if(!nameGridSource.includes('Con significado')||!nameGridSource.includes('Fuente verificada'))errors.push('People/culture data facets must remain visible');
 if(!platform.includes("params.get('intent')")||!platform.includes("params.get('mode')"))errors.push('Platform tool no longer consumes intent/mode query handoff');
 if(!freeFire.includes("get('shortcut')"))errors.push('Free Fire tool no longer consumes shortcut query handoff');
 if(!anime.includes("get('intent')"))errors.push('Anime tool no longer consumes intent query handoff');

@@ -60,6 +60,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
   const[personalityFilter,setPersonalityFilter]=useState('');
   const[cultureFacet,setCultureFacet]=useState<'ALL'|'script'|'pronunciation'|'verified'>('ALL');
   const[cultureKind,setCultureKind]=useState<'ALL'|'names'|'mythology'>('ALL');
+  const[meaningOnly,setMeaningOnly]=useState(false);
   const[sortMode,setSortMode]=useState<SortMode>('recommended');
   const[favorites,setFavorites]=useState<string[]>([]);
   const[randomPick,setRandomPick]=useState('');
@@ -89,7 +90,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
   useEffect(()=>{
     if(!filterTrackingReady.current){filterTrackingReady.current=true;return;}
     trackProductAction('filter-change','name-grid');
-  },[gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind]);
+  },[gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly]);
 
   function toggle(name:string){
     const{items:next,removed}=toggleStoredFavorite(name,favorites);
@@ -156,6 +157,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     setPersonalityFilter(preset.personality??'');
     setCultureFacet(preset.cultureFacet??'ALL');
     setCultureKind(preset.cultureKind??'ALL');
+    setMeaningOnly(Boolean(preset.meaning));
     setRandomPick('');
     setActionFeedback('');
   }
@@ -179,12 +181,13 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
       sizeFilter===(preset.size??'')&&
       personalityFilter===(preset.personality??'')&&
       cultureFacet===(preset.cultureFacet??'ALL')&&
-      cultureKind===(preset.cultureKind??'ALL');
+      cultureKind===(preset.cultureKind??'ALL')&&
+      meaningOnly===Boolean(preset.meaning);
   }
 
   const hasActiveFilters=
     Boolean(query)||gender!=='ALL'||Boolean(activeTag)||lengthFilter!=='ALL'||Boolean(styleFilter)||
-    Boolean(originFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter)||cultureFacet!=='ALL'||cultureKind!=='ALL';
+    Boolean(originFilter)||Boolean(colorFilter)||Boolean(sizeFilter)||Boolean(personalityFilter)||cultureFacet!=='ALL'||cultureKind!=='ALL'||meaningOnly;
 
   function clearFilters(){
     trackProductAction('filter-clear','name-grid');
@@ -199,6 +202,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     setPersonalityFilter('');
     setCultureFacet('ALL');
     setCultureKind('ALL');
+    setMeaningOnly(false);
     setRandomPick('');
     setActionFeedback('');
   }
@@ -256,7 +260,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
 
   useEffect(()=>{
     setLimit(18);
-  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,sortMode]);
+  },[query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly,sortMode]);
 
   const filtered=useMemo(()=>items.filter(item=>{
     const haystack=[item.name,item.origin,item.meaning,item.script,item.pronunciation,item.source,...item.tags].filter(Boolean).join(' ').toLocaleLowerCase('es');
@@ -269,6 +273,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     const matchesColor=!colorFilter||item.tags.includes(colorFilter);
     const matchesSize=!sizeFilter||item.tags.includes(sizeFilter);
     const matchesPersonality=!personalityFilter||item.tags.includes(personalityFilter);
+    const matchesMeaning=!meaningOnly||Boolean(item.meaning);
     const matchesCulture=cultureFacet==='ALL'||
       (cultureFacet==='script'&&Boolean(item.script))||
       (cultureFacet==='pronunciation'&&Boolean(item.pronunciation))||
@@ -276,8 +281,8 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     const matchesCultureKind=cultureKind==='ALL'||
       (cultureKind==='mythology'&&item.tags.includes('mythology'))||
       (cultureKind==='names'&&!item.tags.includes('mythology'));
-    return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesCulture&&matchesCultureKind;
-  }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind]);
+    return matchesQuery&&matchesGender&&matchesTag&&matchesLength&&matchesStyle&&matchesOrigin&&matchesColor&&matchesSize&&matchesPersonality&&matchesMeaning&&matchesCulture&&matchesCultureKind;
+  }),[items,query,gender,activeTag,lengthFilter,styleFilter,originFilter,colorFilter,sizeFilter,personalityFilter,cultureFacet,cultureKind,meaningOnly]);
 
   function recommendationScore(item:NameRecord){
     if(mode==='culture'){
@@ -397,6 +402,11 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
                 {origins.map(origin=><option key={origin} value={origin}>{origin}</option>)}
               </select>
             </FacetRow>}
+            <FacetRow label="Datos">
+              <button onClick={()=>{setMeaningOnly(false);setCultureFacet('ALL')}} aria-pressed={!meaningOnly&&cultureFacet==='ALL'} data-active={!meaningOnly&&cultureFacet==='ALL'} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Todos</button>
+              <button onClick={()=>{setMeaningOnly(true);setCultureFacet('ALL')}} aria-pressed={meaningOnly} data-active={meaningOnly} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Con significado</button>
+              <button onClick={()=>{setMeaningOnly(false);setCultureFacet('verified')}} aria-pressed={cultureFacet==='verified'} data-active={cultureFacet==='verified'} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Fuente verificada</button>
+            </FacetRow>
           </>}
 
           {hasPetFacets&&<>
@@ -443,16 +453,17 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
               >{label}</button>)}
             </FacetRow>}
             <FacetRow label="Datos">
+              <button onClick={()=>{setMeaningOnly(false);setCultureFacet('ALL')}} aria-pressed={!meaningOnly&&cultureFacet==='ALL'} data-active={!meaningOnly&&cultureFacet==='ALL'} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Todos</button>
+              <button onClick={()=>{setMeaningOnly(true);setCultureFacet('ALL')}} aria-pressed={meaningOnly} data-active={meaningOnly} className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold">Con significado</button>
               {([
-                ['ALL','Todos'],
                 ['script','Con escritura'],
                 ['pronunciation','Con pronunciación'],
                 ['verified','Fuente verificada'],
               ] as const).map(([value,label])=><button
                 key={value}
-                onClick={()=>setCultureFacet(value)}
-                aria-pressed={cultureFacet===value}
-                data-active={cultureFacet===value}
+                onClick={()=>{setMeaningOnly(false);setCultureFacet(value)}}
+                aria-pressed={!meaningOnly&&cultureFacet===value}
+                data-active={!meaningOnly&&cultureFacet===value}
                 className="gdn-chip min-h-10 shrink-0 rounded-full px-3.5 text-[10px] font-semibold"
               >{label}</button>)}
             </FacetRow>

@@ -41,10 +41,14 @@ function presetAction(page:KeywordPage,value:string):KeywordAction|null{
   if(/mistico|mistica|misticos|misticas|bruja|brujas/.test(value))return pick(['Místicos']);
   if(/kawaii/.test(value))return pick(['Kawaii']);
   if(/mitolog|dioses|diosas/.test(value))return pick(['Mitología']);
+  if(/significado/.test(value))return pick(['Con significado']);
   if(/pronunciacion|fonetica/.test(value))return pick(['Con pronunciación']);
-  if(/cirilico/.test(value))return pick(['Cirílico']);
-  if(/hanzi/.test(value))return pick(['Hanzi']);
+  if(/kanji/.test(value))return pick(['Kanji','Con escritura']);
+  if(/hangul/.test(value))return pick(['Hangul','Con escritura']);
+  if(/cirilico/.test(value))return pick(['Cirílico','Con escritura']);
+  if(/hanzi/.test(value))return pick(['Hanzi','Con escritura']);
   if(/escritura/.test(value))return pick(['Con escritura']);
+  if(/yegua/.test(value))return pick(['Yeguas','Hembras']);
 
   return null;
 }
