@@ -98,14 +98,14 @@ export default function HomePage(){
     </section>
 
     <section className="gdn-shell mt-2">
-      <HomeQuickGenerator people={quickPeople} pets={quickPets} games={quickGames} cultures={quickCultures}/>
-    </section>
-
-    <section className="gdn-shell mt-6">
       <HomeFreeFireStudio/>
     </section>
 
     <HomeSavedNames/>
+
+    <section className="gdn-shell mt-6">
+      <HomeQuickGenerator people={quickPeople} pets={quickPets} games={quickGames} cultures={quickCultures}/>
+    </section>
 
     <section className="gdn-shell grid gap-7 py-12 lg:grid-cols-[220px_1fr] lg:items-start">
       <div>
