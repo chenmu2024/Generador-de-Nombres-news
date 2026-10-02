@@ -46,9 +46,9 @@ const popular=[
   {label:'Nombres para Roblox',desc:'Username y Display Name en flujos separados',href:'/nombres-roblox',icon:Gamepad2,tone:'bg-[#edf2ff] text-[#3d70db]'},
   {label:'Nombres para Instagram',desc:'Username simple y nombre visible con estilos',href:'/nombres-instagram',icon:AtSign,tone:'bg-[#fff0f4] text-[#b85a78]'},
   {label:'Nombres de niña',desc:'Compara opciones cortas, modernas y poco comunes',href:'/nombres-de-nina',icon:Baby,tone:'bg-[#fff0ed] text-[#e36e55]'},
-  {label:'Nombres para perros',desc:'Filtra por tamaño, personalidad y uso diario',href:'/nombres-perros-machos',icon:PawPrint,tone:'bg-[#fff2e9] text-[#b97442]'},
+  {label:'Nombres para perros machos',desc:'Filtra por tamaño, personalidad y uso diario',href:'/nombres-perros-machos',icon:PawPrint,tone:'bg-[#fff2e9] text-[#b97442]'},
   {label:'Nombres japoneses',desc:'Escritura, pronunciación y fuentes verificadas',href:'/nombres-japoneses',icon:Landmark,tone:'bg-[#f8edff] text-[#8d5ab8]'},
-  {label:'Nombres para equipos',desc:'Ideas para fútbol con tono serio, barrio o competitivo',href:'/nombres-equipos-futbol',icon:Trophy,tone:'bg-[#eef6ff] text-[#3373b8]'},
+  {label:'Nombres para equipos de fútbol',desc:'Ideas con tono serio, de barrio o competitivo',href:'/nombres-equipos-futbol',icon:Trophy,tone:'bg-[#eef6ff] text-[#3373b8]'},
 ];
 
 export default function HomePage(){
