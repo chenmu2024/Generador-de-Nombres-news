@@ -99,9 +99,15 @@ function groupsFor(page:KeywordPage):GroupDef[]{
 export default function IntentCollections({page,items}:{page:KeywordPage;items:NameRecord[]}){
   const groups=groupsFor(page).map(g=>({...g,items:items.filter(g.match).slice(0,6)})).filter(g=>g.items.length>=2);
   if(!groups.length)return null;
+  const heading=page.tool==='people'?'Compara estilos de nombre'
+    :page.tool==='pet'?'Explora por rasgos y personalidad'
+    :page.tool==='gaming'?'Prueba bases antes de decorarlas'
+    :page.tool==='culture'?'Explora por contexto y origen'
+    :'Compara grupos antes de elegir';
+  const eyebrow=page.tool==='gaming'?'Bases para empezar':page.tool==='pet'?'Explora por intención':page.tool==='people'?'Atajos de comparación':'Explora por intención';
   return <section className="mt-14">
-    <p className="gdn-eyebrow">Explora por intención</p>
-    <h2 className="gdn-display mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">Compara grupos antes de elegir</h2>
+    <p className="gdn-eyebrow">{eyebrow}</p>
+    <h2 className="gdn-display mt-2 text-[35px] font-bold tracking-[-.035em] text-[#1b1c2b]">{heading}</h2>
     <div className="mt-5 grid gap-4 lg:grid-cols-3">
       {groups.map(group=><article key={group.title} className="overflow-hidden rounded-[20px] border border-[#e4e1ed] bg-white shadow-[0_8px_24px_rgba(55,49,91,.04)]">
         <div className="border-b border-[var(--page-border)] bg-[var(--page-soft)] px-5 py-4">
