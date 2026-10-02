@@ -1,5 +1,5 @@
 import type{Metadata}from'next';
-import {ArrowRight,AtSign,Baby,CheckCircle2,Gamepad2,Landmark,Leaf,PawPrint,ShieldCheck,Store,Trophy,Zap} from 'lucide-react';
+import {ArrowRight,AtSign,Baby,CheckCircle2,Gamepad2,Heart,Landmark,PawPrint,ShieldCheck,Store,Trophy,Zap} from 'lucide-react';
 import IntentRouter from '@/components/IntentRouter';
 import HomeFreeFireStudio from '@/components/HomeFreeFireStudio';
 import HomeQuickGenerator from '@/components/HomeQuickGenerator';
@@ -61,7 +61,7 @@ export default function HomePage(){
             Encuentra un nombre que <span className="text-[#6558f5]">realmente</span> quieras usar.
           </h1>
           <p className="mt-5 max-w-[590px] text-[16px] leading-7 text-[#66697b]">
-            Genera nombres únicos y con significado para juegos, personas, mascotas, negocios y muchas más ideas. Gratis, sin registro y listos para copiar.
+            Genera y explora nombres para juegos, personas, mascotas y negocios. Compara origen y significado cuando están documentados, sin registro y listo para copiar.
           </p>
 
           <div className="mt-6">
@@ -72,7 +72,7 @@ export default function HomePage(){
             <span className="flex items-center gap-2"><span className="grid size-7 place-items-center rounded-full bg-[#e9fbf0] text-[#24a362]"><ShieldCheck size={14}/></span>100% gratis</span>
             <span className="flex items-center gap-2"><span className="grid size-7 place-items-center rounded-full bg-[#f0edff] text-[#6558f5]"><Zap size={14}/></span>Sin registro</span>
             <span className="flex items-center gap-2"><span className="grid size-7 place-items-center rounded-full bg-[#eef2ff] text-[#4967dc]"><CheckCircle2 size={14}/></span>Al instante</span>
-            <span className="flex items-center gap-2"><span className="grid size-7 place-items-center rounded-full bg-[#fff0f4] text-[#ff5c88]"><Leaf size={14}/></span>Favoritos</span>
+            <span className="flex items-center gap-2"><span className="grid size-7 place-items-center rounded-full bg-[#fff0f4] text-[#ff5c88]"><Heart size={14}/></span>Favoritos</span>
           </div>
         </div>
 
