@@ -21,7 +21,7 @@ const specialMinimums:Record<string,number>={
   '/nombres-con-z':20,
   '/nombres-con-en':5,
   '/nombres-mayas':20,
-  '/nombres-japoneses':18,
+  '/nombres-japoneses':24,
   '/nombres-coreanos':22,
   '/nombres-franceses':20,
   '/nombres-italianos':22,

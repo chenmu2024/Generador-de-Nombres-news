@@ -96,7 +96,7 @@ const minimums:Record<string,number>={
   '/nombres-unisex':20,
   '/nombres-raros':40,
   '/nombres-con-en':4,
-  '/nombres-japoneses':15,
+  '/nombres-japoneses':24,
   '/nombres-coreanos':22,
   '/nombres-franceses':20,
   '/nombres-italianos':22,
