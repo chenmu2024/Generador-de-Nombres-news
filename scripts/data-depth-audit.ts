@@ -81,14 +81,32 @@ for(const page of keywordPages){
         verifiedRate>=.7,
       ]
       :page.tool==='pet'
-        ?[
-          petGenderIntent?petGenderPurity:genderKinds>=2,
-          petColorIntent?petColorPurity:colorKinds>=2,
-          petSizeIntent?petSizePurity:sizeKinds>=2,
-          personalityKinds>=3,
-          lengthKinds>=2,
-          short>=Math.min(5,Math.ceil(items.length*.15)),
-        ]
+        ?page.path==='/nombres-caballos'
+          ?[
+            genderKinds>=2,
+            colorKinds>=2,
+            items.every(item=>item.type==='pet'&&item.tags.includes('horse')),
+            personalityKinds>=3,
+            lengthKinds>=2,
+            short>=3,
+          ]
+          :page.path==='/nombres-peluches'
+            ?[
+              items.every(item=>item.type==='pet'&&item.tags.includes('plush')),
+              items.filter(item=>item.tags.includes('cute')).length>=18,
+              items.filter(item=>item.tags.includes('kawaii')).length>=10,
+              items.filter(item=>item.tags.includes('calm')||item.tags.includes('playful')).length>=10,
+              lengthKinds>=2,
+              short>=5,
+            ]
+            :[
+              petGenderIntent?petGenderPurity:genderKinds>=2,
+              petColorIntent?petColorPurity:colorKinds>=2,
+              petSizeIntent?petSizePurity:sizeKinds>=2,
+              personalityKinds>=3,
+              lengthKinds>=2,
+              short>=Math.min(5,Math.ceil(items.length*.15)),
+            ]
         :[
           gameStyleKinds>=3,
           lengthKinds>=2,
