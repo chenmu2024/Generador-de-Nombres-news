@@ -196,6 +196,7 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
   ],
   '/nombres-perritas':[
     {label:'Pequeñas',size:'small'},
+    {label:'Grandes',size:'large'},
     {label:'Cortos',length:'short'},
     {label:'Tiernas',personality:'cute'},
     {label:'Elegantes',personality:'elegant'},
