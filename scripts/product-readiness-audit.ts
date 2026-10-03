@@ -28,7 +28,7 @@ const specialMinimums:Record<string,number>={
   '/nombres-rusos':20,
   '/nombres-ingles':20,
   '/nombres-chinos':16,
-  '/nombres-griegos':17,
+  '/nombres-griegos':22,
   '/nombres-free-fire':50,
   '/generador-free-fire':50,
   '/nombres-ff-unicos':25,

@@ -101,7 +101,7 @@ const minimums:Record<string,number>={
   '/nombres-franceses':20,
   '/nombres-italianos':22,
   '/nombres-rusos':20,
-  '/nombres-griegos':15,
+  '/nombres-griegos':22,
   '/nombres-turcos':20,
   '/nombres-chinos':15,
   '/nombres-mayas':20,
