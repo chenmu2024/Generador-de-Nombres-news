@@ -39,6 +39,21 @@ for(const page of keywordPages){
   const styleKinds=new Set(items.flatMap(item=>item.tags.filter(tag=>['modern','classic','rare'].includes(tag)))).size;
   const gameStyleKinds=new Set(items.flatMap(item=>item.tags.filter(tag=>['short','dark','strong','unique','aesthetic','anime'].includes(tag)))).size;
 
+  const petGenderIntent=page.path.includes('perritas')||page.path.includes('machos');
+  const petColorIntent=page.path.includes('gatos-negros');
+  const petSizeIntent=page.path.includes('chihuahua');
+  const petGenderPurity=page.path.includes('perritas')
+    ?items.every(item=>(item.gender??(item.tags.includes('female')?'F':undefined))==='F')
+    :page.path.includes('machos')
+      ?items.every(item=>(item.gender??(item.tags.includes('male')?'M':undefined))==='M')
+      :genderKinds>=2;
+  const petColorPurity=petColorIntent
+    ?items.every(item=>item.tags.includes('black'))
+    :colorKinds>=2;
+  const petSizePurity=petSizeIntent
+    ?items.every(item=>item.tags.includes('small')&&item.tags.includes('chihuahua'))
+    :sizeKinds>=2;
+
   const dimensionFlags=page.tool==='culture'
     ?[
       genderKinds>=2,
@@ -59,9 +74,9 @@ for(const page of keywordPages){
       ]
       :page.tool==='pet'
         ?[
-          genderKinds>=2,
-          colorKinds>=2,
-          sizeKinds>=2,
+          petGenderIntent?petGenderPurity:genderKinds>=2,
+          petColorIntent?petColorPurity:colorKinds>=2,
+          petSizeIntent?petSizePurity:sizeKinds>=2,
           personalityKinds>=3,
           lengthKinds>=2,
           short>=Math.min(5,Math.ceil(items.length*.15)),
@@ -108,7 +123,7 @@ for(const row of rows){
   if(row.tool==='culture'&&row.verifiedRate<.9)errors.push('Cultural route source coverage below 90%: '+row.path+' -> '+Math.round(row.verifiedRate*100)+'%');
   if(row.path.startsWith('/nombres-con-')&&row.path!=='/nombres-con-en'&&row.verifiedRate<.5)errors.push('Letter route source coverage below 50%: '+row.path+' -> '+Math.round(row.verifiedRate*100)+'%');
   if(row.count>=18&&row.dimensions<2)errors.push('Large route has too few useful filter dimensions: '+row.path+' -> '+row.dimensions);
-  if(row.tool==='pet'&&row.count>=20&&row.dimensions<3)errors.push('Pet route lacks practical filtering depth: '+row.path+' -> '+row.dimensions+' dimensions');
+  if(row.tool==='pet'&&row.count>=20&&row.dimensions<4)errors.push('Pet route lacks practical filtering depth: '+row.path+' -> '+row.dimensions+' dimensions');
   if((row.tool==='gaming'||row.tool==='general')&&row.count>=20&&row.dimensions<3)errors.push('Gaming/social route lacks style or length depth: '+row.path+' -> '+row.dimensions+' dimensions');
 }
 if(errors.length){
