@@ -204,6 +204,8 @@ for(const check of coverageChecks){
 const practicalShortChecks=[
   {label:'Roblox real 3–4 letter bases',items:getNamesForPath('/nombres-roblox'),min:6},
   {label:'Instagram real 3–4 letter bases',items:getNamesForPath('/nombres-instagram'),min:6},
+  {label:'Horse real 3–4 letter names',items:getNamesForPath('/nombres-caballos'),min:6},
+  {label:'Plush real 3–4 letter names',items:getNamesForPath('/nombres-peluches'),min:5},
 ];
 for(const check of practicalShortChecks){
   const count=check.items.filter(item=>Array.from(item.name.replace(/[^\p{L}]/gu,'')).length<=4).length;
