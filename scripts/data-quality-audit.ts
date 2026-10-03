@@ -159,6 +159,8 @@ const coverageChecks=[
   {label:'black cats / mystic',items:getNamesForPath('/nombres-gatos-negros'),tag:'mystic',min:10},
   {label:'black cats / female',items:getNamesForPath('/nombres-gatos-negros'),tag:'female',min:3},
   {label:'black cats / male',items:getNamesForPath('/nombres-gatos-negros'),tag:'male',min:3},
+  {label:'chihuahua / white',items:getNamesForPath('/perritas-chihuahua'),tag:'white',min:1},
+  {label:'chihuahua / brown',items:getNamesForPath('/perritas-chihuahua'),tag:'brown',min:2},
   {label:'female dogs / small',items:getNamesForPath('/nombres-perritas'),tag:'small',min:15},
   {label:'female dogs / large',items:getNamesForPath('/nombres-perritas'),tag:'large',min:7},
   {label:'female dogs / white',items:getNamesForPath('/nombres-perritas'),tag:'white',min:1},

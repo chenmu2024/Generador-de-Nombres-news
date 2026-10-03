@@ -225,6 +225,8 @@ export const quickPresetsByPath:Record<string,QuickPreset[]>={
   ],
   '/perritas-chihuahua':[
     {label:'Cortos',length:'short'},
+    {label:'Blancas',color:'white'},
+    {label:'Marrones',color:'brown'},
     {label:'Tiernos',personality:'cute'},
     {label:'Juguetones',personality:'playful'},
   ],

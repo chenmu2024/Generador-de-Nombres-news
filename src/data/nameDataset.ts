@@ -134,7 +134,7 @@ export const nameDataset:NameRecord[]=[
 {name:'Mora',type:'pet',tags:['cat','black','female','cute']},
 {name:'Pixel',type:'pet',tags:['cat','male','modern','playful','small']},
 {name:'Tigre',type:'pet',tags:['cat','male','strong']},
-{name:'Canela',type:'pet',tags:['cat','dog','female','cute','small','chihuahua']},
+{name:'Canela',type:'pet',tags:['cat','dog','female','cute','small','chihuahua','brown']},
 {name:'Duna',type:'pet',tags:['horse','female','elegant']},
 {name:'Trueno',type:'pet',tags:['horse','male','strong']},
 {name:'Azabache',type:'pet',tags:['horse','cat','black','male','mystic','elegant']},
@@ -769,7 +769,7 @@ export const nameDataset:NameRecord[]=[
 {name:'Tuli',type:'pet',tags:['dog','female','chihuahua','small','playful','short']},
 {name:'Nela',type:'pet',tags:['dog','female','chihuahua','small','elegant','calm','short']},
 {name:'Cuca',type:'pet',tags:['dog','female','chihuahua','small','playful','cute','short']},
-{name:'Miel',type:'pet',tags:['dog','female','chihuahua','small','cute','kawaii','short']},
+{name:'Miel',type:'pet',tags:['dog','female','chihuahua','small','cute','kawaii','short','brown']},
 
 {name:'Blox',type:'game',tags:['gaming','roblox','short','unique']},
 {name:'Kubi',type:'game',tags:['gaming','roblox','short','aesthetic']},
