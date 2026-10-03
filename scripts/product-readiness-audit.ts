@@ -14,6 +14,7 @@ const dedicatedNoList=new Map<string,string>([
 ]);
 
 const specialMinimums:Record<string,number>={
+  '/nombres-con-a':22,
   '/nombres-con-b':20,
   '/nombres-con-e':20,
   '/nombres-con-m':20,

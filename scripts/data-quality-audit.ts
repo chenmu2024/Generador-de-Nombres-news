@@ -84,7 +84,7 @@ const minimums:Record<string,number>={
   '/nombres-peluches':20,
   '/nombres-de-mujer':48,
   '/nombres-de-nina':28,
-  '/nombres-con-a':18,
+  '/nombres-con-a':22,
   '/nombres-con-b':20,
   '/nombres-con-c':18,
   '/nombres-con-e':20,
