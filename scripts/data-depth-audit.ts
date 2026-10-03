@@ -54,13 +54,21 @@ for(const page of keywordPages){
     ?items.every(item=>item.tags.includes('small')&&item.tags.includes('chihuahua'))
     :sizeKinds>=2;
 
+  const cultureUsesDistinctScript=[
+    '/nombres-japoneses','/nombres-coreanos','/nombres-rusos','/nombres-griegos','/nombres-chinos',
+  ].includes(page.path);
+  const cultureNeedsMixedOrigins=page.path==='/nombres-de-dioses';
+  const cultureRoutePurity=items.every(item=>item.type==='culture');
+  const cultureMeaningTarget=Math.min(5,Math.ceil(items.length*.25));
+  const culturePronunciationTarget=Math.min(5,Math.ceil(items.length*.2));
+
   const dimensionFlags=page.tool==='culture'
     ?[
       genderKinds>=2,
-      origins>=2,
-      scripts>=3,
-      pronunciations>=3,
-      meanings>=Math.min(5,Math.ceil(items.length*.25)),
+      cultureNeedsMixedOrigins?origins>=3:cultureRoutePurity,
+      cultureUsesDistinctScript?scripts>=Math.min(5,Math.ceil(items.length*.3)):lengthKinds>=2,
+      pronunciations>=culturePronunciationTarget,
+      meanings>=cultureMeaningTarget,
       verifiedRate>=.9,
     ]
     :page.tool==='people'
