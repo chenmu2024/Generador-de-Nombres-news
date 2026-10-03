@@ -27,6 +27,10 @@ const petPersonalities=['cute','playful','calm','strong','elegant','mystic','kaw
 type LengthFilter='ALL'|'short'|'medium'|'long';
 type SortMode='recommended'|'az'|'short';
 
+function recordKey(item:NameRecord){
+  return [item.type,item.name,item.origin??'',item.gender??'',item.script??''].join('|');
+}
+
 function lengthBucket(name:string):Exclude<LengthFilter,'ALL'>{
   const length=Array.from(name.replace(/[^\p{L}]/gu,'')).length;
   if(length<=4)return 'short';
@@ -323,10 +327,11 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
     flash(sortedFiltered.length+' nombres guardados');
   }
 
-  function toggleCompare(name:string){
-    if(compareNames.includes(name)){
+  function toggleCompare(item:NameRecord){
+    const key=recordKey(item);
+    if(compareNames.includes(key)){
       trackProductAction('compare-remove','name-grid');
-      setCompareNames(compareNames.filter(item=>item!==name));
+      setCompareNames(compareNames.filter(value=>value!==key));
       return;
     }
     if(compareNames.length>=4){
@@ -335,7 +340,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
       return;
     }
     trackProductAction('compare-add','name-grid');
-    setCompareNames([...compareNames,name]);
+    setCompareNames([...compareNames,key]);
   }
 
   function clearCompare(){
@@ -418,9 +423,18 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
   },[filtered,sortMode,mode,items,pagePath]);
 
   const compareRecords=useMemo(
-    ()=>compareNames.map(name=>items.find(item=>item.name===name)).filter((item):item is NameRecord=>Boolean(item)),
+    ()=>compareNames.map(key=>items.find(item=>recordKey(item)===key)).filter((item):item is NameRecord=>Boolean(item)),
     [compareNames,items]
   );
+
+  const sameSpellingNames=useMemo(()=>{
+    const counts=new Map<string,number>();
+    for(const item of items){
+      const key=item.name.trim().toLocaleLowerCase('es');
+      counts.set(key,(counts.get(key)??0)+1);
+    }
+    return new Set(Array.from(counts.entries()).filter(([,count])=>count>1).map(([name])=>name));
+  },[items]);
 
   if(!items.length)return null;
   const genderOptions=new Set(items.map(item=>inferredGender(item)).filter(Boolean));
@@ -652,10 +666,10 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
                     ['Género',itemGender==='F'?'Hembra':itemGender==='M'?'Macho':itemGender==='U'?'Unisex':'No documentado'],
                   ];
 
-              return <article key={item.name} className="w-[230px] shrink-0 snap-start rounded-[16px] border border-[var(--page-border)] bg-white p-4 shadow-[0_8px_22px_rgba(69,58,129,.05)]">
+              return <article key={recordKey(item)} className="w-[230px] shrink-0 snap-start rounded-[16px] border border-[var(--page-border)] bg-white p-4 shadow-[0_8px_22px_rgba(69,58,129,.05)]">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="gdn-editorial truncate text-[21px] font-bold text-[#292a3a]">{item.name}</h3>
-                  <button onClick={()=>toggleCompare(item.name)} aria-label={'Quitar '+item.name+' de la comparación'} className="grid size-7 shrink-0 place-items-center rounded-full border border-[#e3dfec] text-[#8a8c9b] hover:bg-[#f7f5ff]"><X size={11}/></button>
+                  <button onClick={()=>toggleCompare(item)} aria-label={'Quitar '+item.name+' de la comparación'} className="grid size-7 shrink-0 place-items-center rounded-full border border-[#e3dfec] text-[#8a8c9b] hover:bg-[#f7f5ff]"><X size={11}/></button>
                 </div>
                 <dl className="mt-3 divide-y divide-[#efedf5]">
                   {rows.map(([label,value])=><div key={label} className="flex items-start justify-between gap-3 py-2">
@@ -711,6 +725,7 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
                   {(item.origin||genderLabel)&&<div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1 text-[10px] font-semibold text-[#9294a4] sm:text-[10px]">
                     {item.origin&&<span><span className="font-black uppercase tracking-[.08em]">Origen:</span> {item.origin}</span>}
                     {genderLabel&&<span>{genderLabel}</span>}
+                    {sameSpellingNames.has(item.name.trim().toLocaleLowerCase('es'))&&<span className="rounded-full border border-[#e5dcf7] bg-[#f8f4ff] px-2 py-0.5 font-bold text-[#7561b8]">Mismo nombre · origen distinto</span>}
                     {isMythological&&<span className="rounded-full border border-[#ead8f5] bg-[#faf1ff] px-2 py-0.5 font-bold text-[#7b4ca5]">Figura mitológica</span>}
                   </div>}
                 </div>
@@ -773,11 +788,11 @@ export default function NameGrid({items,mode,pagePath,pageLabel}:{items:NameReco
                 {mode==='culture'&&item.script&&<CopyButton value={item.script} label="Copiar escritura" analyticsRole="copy-original-script"/>}
                 {(mode==='gaming'||mode==='general')&&<a href="#herramienta" className="inline-flex min-h-11 items-center rounded-[10px] border border-[var(--page-border)] bg-[var(--page-soft)] px-4 text-[12px] font-semibold text-[var(--page-accent)] transition hover:brightness-[.98] sm:min-h-8 sm:px-3 sm:text-[10px]">Personalizar</a>}
                 {(mode==='people'||mode==='pet'||mode==='culture')&&<button
-                  onClick={()=>toggleCompare(item.name)}
-                  aria-pressed={compareNames.includes(item.name)}
-                  disabled={compareNames.length>=4&&!compareNames.includes(item.name)}
-                  className={'inline-flex min-h-11 items-center gap-1.5 rounded-[10px] border px-4 text-[12px] font-semibold transition sm:min-h-8 sm:px-3 sm:text-[10px] '+(compareNames.includes(item.name)?'border-[var(--page-border)] bg-[var(--page-soft)] text-[var(--page-accent)]':'border-[#d9d5e6] bg-white text-[#5f6273] hover:border-[var(--page-border)] hover:text-[var(--page-accent)] disabled:cursor-not-allowed disabled:opacity-40')}
-                ><Scale size={12}/>{compareNames.includes(item.name)?'Comparando':'Comparar'}</button>}
+                  onClick={()=>toggleCompare(item)}
+                  aria-pressed={compareNames.includes(recordKey(item))}
+                  disabled={compareNames.length>=4&&!compareNames.includes(recordKey(item))}
+                  className={'inline-flex min-h-11 items-center gap-1.5 rounded-[10px] border px-4 text-[12px] font-semibold transition sm:min-h-8 sm:px-3 sm:text-[10px] '+(compareNames.includes(recordKey(item))?'border-[var(--page-border)] bg-[var(--page-soft)] text-[var(--page-accent)]':'border-[#d9d5e6] bg-white text-[#5f6273] hover:border-[var(--page-border)] hover:text-[var(--page-accent)] disabled:cursor-not-allowed disabled:opacity-40')}
+                ><Scale size={12}/>{compareNames.includes(recordKey(item))?'Comparando':'Comparar'}</button>}
               </div>
             </article>;
           })}
