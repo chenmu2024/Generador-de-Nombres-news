@@ -86,7 +86,7 @@ const minimums:Record<string,number>={
   '/nombres-de-nina':28,
   '/nombres-con-a':22,
   '/nombres-con-b':22,
-  '/nombres-con-c':18,
+  '/nombres-con-c':22,
   '/nombres-con-e':22,
   '/nombres-con-f':18,
   '/nombres-con-m':22,
