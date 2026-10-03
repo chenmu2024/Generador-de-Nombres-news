@@ -51,7 +51,7 @@ export default function HeaderSearch({mobile=false}:{mobile?:boolean}){
     if(results[activeIndex])go(results[activeIndex],activeIndex,'submit');
   }
 
-  return <div className={mobile?'relative block w-full lg:hidden':'relative hidden w-[290px] lg:block'}>
+  return <div className={mobile?'relative block w-full lg:hidden':'relative hidden lg:block lg:w-[190px] xl:w-[230px] 2xl:w-[290px]'}>
     <form onSubmit={submit} className={'flex items-center gap-2 border border-[#e4e1ee] bg-[#fbfaff] px-3.5 py-2.5 '+(mobile?'rounded-[11px]':'rounded-full')}>
       <Search size={15} className="text-[#81859a]"/>
       <input

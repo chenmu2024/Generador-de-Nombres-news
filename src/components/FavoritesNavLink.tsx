@@ -27,9 +27,9 @@ export default function FavoritesNavLink({mobile=false}:{mobile?:boolean}){
     {count>0&&<span className="grid min-w-6 place-items-center rounded-full bg-[#f0edff] px-1.5 py-1 text-[9px] font-black text-[#5b4df5]">{count}</span>}
   </TrackedLink>;
 
-  return <TrackedLink href="/favoritos" placement="header-favorites" role="desktop-favorites" experimentId={EXPERIMENTS.favoritesNav} className="hidden h-10 items-center gap-2 rounded-full border border-[#e4e1ee] bg-white px-4 text-[12px] font-semibold text-[#282939] shadow-[0_2px_10px_rgba(50,43,100,.04)] transition hover:border-[#d1cbed] sm:inline-flex">
+  return <TrackedLink href="/favoritos" placement="header-favorites" role="desktop-favorites" experimentId={EXPERIMENTS.favoritesNav} className="hidden h-10 items-center gap-2 rounded-full border border-[#e4e1ee] bg-white px-3 text-[12px] font-semibold text-[#282939] shadow-[0_2px_10px_rgba(50,43,100,.04)] transition hover:border-[#d1cbed] sm:inline-flex xl:px-4">
     <Heart size={15} className="text-[#ff4f80]"/>
-    <span>Favoritos</span>
+    <span className="hidden xl:inline">Favoritos</span>
     {count>0&&<span aria-label={count+' favoritos guardados'} className="grid min-w-5 place-items-center rounded-full bg-[#f0edff] px-1.5 py-0.5 text-[9px] font-black text-[#5b4df5]">{count}</span>}
   </TrackedLink>
 }

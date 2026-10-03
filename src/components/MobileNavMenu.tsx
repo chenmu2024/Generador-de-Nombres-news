@@ -38,7 +38,7 @@ export default function MobileNavMenu({items}:{items:readonly{readonly label:str
     };
   },[]);
 
-  return <details ref={detailsRef} className="relative xl:hidden">
+  return <details ref={detailsRef} className="relative lg:hidden">
     <summary aria-label="Menú de navegación" className="grid size-10 cursor-pointer list-none place-items-center rounded-full border border-[#e4e1ee] bg-white text-[#5b5d70]"><Menu size={17}/></summary>
     <nav aria-label="Navegación móvil" className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-[14px] border border-[#e5e2ed] bg-white p-1.5 shadow-[0_18px_50px_rgba(43,39,74,.16)]">
       <div className="p-1.5"><HeaderSearch mobile/></div>
