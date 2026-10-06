@@ -19,27 +19,32 @@ export const metadata:Metadata={
   openGraph:{type:'website',siteName:'GeneradorDeNombres.net',locale:'es_ES'}
 };
 
-const siteStructuredData=[
-  {
-    '@context':'https://schema.org',
-    '@type':'Organization',
-    '@id':'https://generadordenombres.net/#organization',
-    name:'GeneradorDeNombres.net',
-    url:'https://generadordenombres.net/',
-    logo:'https://generadordenombres.net/favicon.svg',
-  },
-  {
-    '@context':'https://schema.org',
-    '@type':'WebSite',
-    '@id':'https://generadordenombres.net/#website',
-    name:'GeneradorDeNombres.net',
-    alternateName:'GDN',
-    url:'https://generadordenombres.net/',
-    description:'Generador de nombres, apodos e ideas para juegos, redes, bebés, mascotas y negocios.',
-    inLanguage:'es',
-    publisher:{'@id':'https://generadordenombres.net/#organization'},
-  },
-];
+const siteStructuredData={
+  '@context':'https://schema.org',
+  '@graph':[
+    {
+      '@type':'Organization',
+      '@id':'https://generadordenombres.net/#organization',
+      name:'GeneradorDeNombres.net',
+      url:'https://generadordenombres.net/',
+      logo:{
+        '@type':'ImageObject',
+        '@id':'https://generadordenombres.net/#logo',
+        url:'https://generadordenombres.net/favicon.svg',
+      },
+    },
+    {
+      '@type':'WebSite',
+      '@id':'https://generadordenombres.net/#website',
+      name:'GeneradorDeNombres.net',
+      alternateName:'GDN',
+      url:'https://generadordenombres.net/',
+      description:'Generador de nombres, apodos e ideas para juegos, redes, bebés, mascotas y negocios.',
+      inLanguage:'es',
+      publisher:{'@id':'https://generadordenombres.net/#organization'},
+    },
+  ],
+};
 
 export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){
   const buildVersion=(process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||'local').slice(0,12);

@@ -18,22 +18,33 @@ export const metadata:Metadata={
   },
 };
 
+const directoryUrl='https://generadordenombres.net/directorio';
 const structuredData={
   '@context':'https://schema.org',
-  '@type':'CollectionPage',
-  name:'Directorio de generadores y nombres',
-  url:'https://generadordenombres.net/directorio',
-  inLanguage:'es',
-  mainEntity:{
-    '@type':'ItemList',
-    numberOfItems:pages.length,
-    itemListElement:pages.map((page,index)=>({
-      '@type':'ListItem',
-      position:index+1,
-      name:page.h1,
-      url:'https://generadordenombres.net'+page.path,
-    })),
-  },
+  '@graph':[
+    {
+      '@type':'CollectionPage',
+      '@id':directoryUrl+'#webpage',
+      name:'Directorio de generadores y nombres',
+      description:'Todas las herramientas y páginas de GeneradorDeNombres.net organizadas por tema.',
+      url:directoryUrl,
+      inLanguage:'es',
+      isPartOf:{'@id':'https://generadordenombres.net/#website'},
+      publisher:{'@id':'https://generadordenombres.net/#organization'},
+      mainEntity:{'@id':directoryUrl+'#items'},
+    },
+    {
+      '@type':'ItemList',
+      '@id':directoryUrl+'#items',
+      numberOfItems:pages.length,
+      itemListElement:pages.map((page,index)=>({
+        '@type':'ListItem',
+        position:index+1,
+        name:page.h1,
+        url:'https://generadordenombres.net'+page.path,
+      })),
+    },
+  ],
 };
 
 export default function DirectoryPage(){

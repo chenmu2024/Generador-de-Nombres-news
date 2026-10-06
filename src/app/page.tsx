@@ -40,15 +40,34 @@ export const metadata:Metadata={
 
 const homeStructuredData={
   '@context':'https://schema.org',
-  '@type':'WebApplication',
-  name:'Generador de Nombres',
-  url:'https://generadordenombres.net/',
-  description:homeSeo.description,
-  inLanguage:'es',
-  applicationCategory:'UtilityApplication',
-  operatingSystem:'All',
-  isAccessibleForFree:true,
-  offers:{'@type':'Offer',price:'0',priceCurrency:'USD'},
+  '@graph':[
+    {
+      '@type':'WebPage',
+      '@id':'https://generadordenombres.net/#webpage',
+      url:'https://generadordenombres.net/',
+      name:homeSeo.h1,
+      description:homeSeo.description,
+      inLanguage:'es',
+      isPartOf:{'@id':'https://generadordenombres.net/#website'},
+      publisher:{'@id':'https://generadordenombres.net/#organization'},
+      mainEntity:{'@id':'https://generadordenombres.net/#application'},
+    },
+    {
+      '@type':'WebApplication',
+      '@id':'https://generadordenombres.net/#application',
+      name:'Generador de Nombres',
+      url:'https://generadordenombres.net/',
+      description:homeSeo.description,
+      inLanguage:'es',
+      applicationCategory:'UtilityApplication',
+      operatingSystem:'All',
+      isAccessibleForFree:true,
+      isPartOf:{'@id':'https://generadordenombres.net/#website'},
+      provider:{'@id':'https://generadordenombres.net/#organization'},
+      mainEntityOfPage:{'@id':'https://generadordenombres.net/#webpage'},
+      offers:{'@type':'Offer',price:'0',priceCurrency:'USD'},
+    },
+  ],
 };
 
 const heroCards=[

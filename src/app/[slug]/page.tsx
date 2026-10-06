@@ -80,29 +80,76 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
 
   const alphabetPages=keywordPages.filter(item=>item.path.startsWith('/nombres-con-'));
   const faqs=getFaqs(page);
-  const primarySchema=isToolPage
-    ? {'@context':'https://schema.org','@type':'WebApplication',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,inLanguage:'es',applicationCategory:'UtilityApplication',operatingSystem:'All',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}}
-    : isAlphabet
-      ? {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,inLanguage:'es',mainEntity:{'@type':'ItemList',itemListElement:alphabetPages.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.h1,url:'https://generadordenombres.net'+item.path}))}}
-      : {'@context':'https://schema.org','@type':'CollectionPage',name:page.h1,description:page.description,url:'https://generadordenombres.net'+page.path,inLanguage:'es',mainEntity:{'@type':'ItemList',itemListElement:items.slice(0,12).map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name}))}};
+  const pageUrl='https://generadordenombres.net'+page.path;
+  const pageNodeId=pageUrl+'#webpage';
+  const mainEntityId=pageUrl+(isToolPage?'#application':'#items');
+  const collectionItems=isAlphabet
+    ? alphabetPages.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.h1,url:'https://generadordenombres.net'+item.path}))
+    : items.slice(0,12).map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name}));
+
+  const pageSchema={
+    '@type':isToolPage?'WebPage':'CollectionPage',
+    '@id':pageNodeId,
+    url:pageUrl,
+    name:page.h1,
+    description:page.description,
+    inLanguage:'es',
+    isPartOf:{'@id':'https://generadordenombres.net/#website'},
+    publisher:{'@id':'https://generadordenombres.net/#organization'},
+    breadcrumb:{'@id':pageUrl+'#breadcrumb'},
+    ...((isToolPage||isAlphabet||items.length>0)?{mainEntity:{'@id':mainEntityId}}:{}),
+  };
+  const mainEntitySchema=isToolPage
+    ? {
+        '@type':'WebApplication',
+        '@id':mainEntityId,
+        name:page.h1,
+        description:page.description,
+        url:pageUrl,
+        inLanguage:'es',
+        applicationCategory:'UtilityApplication',
+        operatingSystem:'All',
+        isAccessibleForFree:true,
+        isPartOf:{'@id':'https://generadordenombres.net/#website'},
+        provider:{'@id':'https://generadordenombres.net/#organization'},
+        mainEntityOfPage:{'@id':pageNodeId},
+        offers:{'@type':'Offer',price:'0',priceCurrency:'USD'},
+      }
+    : (isAlphabet||items.length>0)
+      ? {
+          '@type':'ItemList',
+          '@id':mainEntityId,
+          numberOfItems:collectionItems.length,
+          itemListElement:collectionItems,
+        }
+      : null;
 
   const breadcrumbItems=[
     {'@type':'ListItem',position:1,name:'Inicio',item:'https://generadordenombres.net/'},
     ...(cluster.hubPath!==page.path?[{'@type':'ListItem',position:2,name:cluster.label,item:'https://generadordenombres.net'+cluster.hubPath}]:[]),
-    {'@type':'ListItem',position:cluster.hubPath!==page.path?3:2,name:page.h1,item:'https://generadordenombres.net'+page.path},
+    {'@type':'ListItem',position:cluster.hubPath!==page.path?3:2,name:page.h1,item:pageUrl},
   ];
-  const breadcrumbSchema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:breadcrumbItems};
+  const breadcrumbSchema={
+    '@type':'BreadcrumbList',
+    '@id':pageUrl+'#breadcrumb',
+    itemListElement:breadcrumbItems,
+  };
   const faqSchema=faqs.length?{
-    '@context':'https://schema.org',
     '@type':'FAQPage',
+    '@id':pageUrl+'#faq',
+    url:pageUrl+'#preguntas',
     inLanguage:'es',
+    isPartOf:{'@id':pageNodeId},
     mainEntity:faqs.map(faq=>({
       '@type':'Question',
       name:faq.question,
       acceptedAnswer:{'@type':'Answer',text:faq.answer},
     })),
   }:null;
-  const structuredData=faqSchema?[primarySchema,breadcrumbSchema,faqSchema]:[primarySchema,breadcrumbSchema];
+  const structuredData={
+    '@context':'https://schema.org',
+    '@graph':[pageSchema,...(mainEntitySchema?[mainEntitySchema]:[]),breadcrumbSchema,...(faqSchema?[faqSchema]:[])],
+  };
 
   const pageTheme=isInstagram?'instagram':isRoblox?'roblox':page.tool;
 
