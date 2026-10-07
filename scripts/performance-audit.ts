@@ -30,6 +30,9 @@ if(!adSlot.includes('minHeight:250')||!adSlot.includes('min-h-[286px]')){
   errors.push('Ad slot must reserve layout space to limit CLS');
 }
 
+const directAnswer=read('src/components/PageDirectAnswer.tsx');
+if(directAnswer.includes("'use client'")||directAnswer.includes('"use client"'))errors.push('PageDirectAnswer must stay server-rendered for raw-HTML GEO extractability');
+
 const alphabetMatrix=read('src/components/AlphabetMatrix.tsx');
 const alphabetExplorer=read('src/components/AlphabetExplorer.tsx');
 if(alphabetMatrix.includes("'use client'")||alphabetMatrix.includes('"use client"')){
@@ -44,4 +47,4 @@ if(errors.length){
   for(const error of errors)console.error(' - '+error);
   process.exit(1);
 }
-console.log('[Performance] PASS — local media, deferred ads, CLS reserves, Web Vitals and server/client boundaries verified.');
+console.log('[Performance] PASS — local media, deferred ads, CLS reserves, Web Vitals and server-rendered answer/content boundaries verified.');

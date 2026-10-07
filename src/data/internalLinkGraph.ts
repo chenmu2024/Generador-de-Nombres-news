@@ -1,4 +1,5 @@
 import{keywordPages,keywordPageByPath,type KeywordPage}from'./keywordMaster';
+import{topicClusters}from'./topicClusters';
 
 export type InternalLinkRole='next-intent'|'priority'|'sibling';
 export interface InternalLinkSuggestion{page:KeywordPage;role:InternalLinkRole}
@@ -79,6 +80,12 @@ export function getInternalLinkSuggestions(currentPath:string,limit=6):InternalL
   const priority=getPriorityPaths(currentPath);
   const results:InternalLinkSuggestion[]=priority
     .map((path,index)=>({page:keywordPageByPath.get(path)!,role:index<2?'next-intent' as const:'priority' as const}));
+
+  const hubPath=topicClusters[current.cluster].hubPath;
+  if(hubPath!==currentPath&&!results.some(item=>item.page.path===hubPath)){
+    const hub=keywordPageByPath.get(hubPath);
+    if(hub)results.splice(Math.min(2,results.length),0,{page:hub,role:'priority'});
+  }
 
   for(const page of keywordPages){
     if(page.path===currentPath||page.cluster!==current.cluster||results.some(item=>item.page.path===page.path))continue;

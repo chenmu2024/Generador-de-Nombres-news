@@ -9,6 +9,7 @@ export default function PageSectionNav({
   hasResultCollection,
 }:{page:KeywordPage;hasPrimaryTool:boolean;hasResultCollection:boolean}){
   const sections=[
+    {href:'#respuesta',label:'Respuesta',Icon:SearchCheck},
     hasPrimaryTool?{href:'#herramienta',label:'Herramienta',Icon:Sparkles}:null,
     {href:'#guia',label:'Guía',Icon:BookOpenCheck},
     {href:'#criterios',label:'Criterios',Icon:ListChecks},

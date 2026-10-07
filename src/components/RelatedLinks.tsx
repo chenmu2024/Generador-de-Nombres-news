@@ -3,10 +3,12 @@ import {ArrowRight} from 'lucide-react';
 import{getInternalLinkSuggestions,getNextIntentPages}from'@/data/internalLinkGraph';
 import{keywordPageByPath,type KeywordPage}from'@/data/keywordMaster';
 import{EXPERIMENTS}from'@/data/experiments';
+import{topicClusters}from'@/data/topicClusters';
 
 function relationLabel(current:KeywordPage|undefined,target:KeywordPage,role:string){
   if(role==='next-intent')return'Siguiente paso';
   if(!current)return'Más opciones';
+  if(target.path===topicClusters[current.cluster].hubPath&&target.path!==current.path)return'Guía principal';
   if(current.cluster==='letras'&&target.cluster==='letras')return'Cambia de inicial';
   if(current.cluster==='culturas'&&target.cluster==='culturas')return'Compara otra tradición';
   if(current.cluster==='mascotas'&&target.cluster==='mascotas')return'Otra búsqueda de mascotas';

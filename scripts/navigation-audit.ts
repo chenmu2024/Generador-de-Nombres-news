@@ -1,6 +1,6 @@
 import{readFileSync}from'node:fs';
 import{keywordPages}from'../src/data/keywordMaster';
-import{internalLinkPriority}from'../src/data/internalLinkGraph';
+import{getInternalLinkSuggestions,internalLinkPriority}from'../src/data/internalLinkGraph';
 import{topicClusters}from'../src/data/topicClusters';
 import{footerNavigationGroups,indexableStaticRoutes,legalNavigation,noindexStaticRoutes,primaryNavigation,staticAppRoutes}from'../src/data/siteNavigation';
 
@@ -47,6 +47,13 @@ if(!favoritesSource.includes('index:false')||!favoritesSource.includes('follow:t
 for(const cluster of Object.values(topicClusters)){
   if(!keywordPaths.has(cluster.hubPath))errors.push('Topic cluster hub is not a keyword route: '+cluster.hubPath);
 }
+for(const page of keywordPages){
+  if(page.path==='/')continue;
+  const hubPath=topicClusters[page.cluster].hubPath;
+  if(page.path===hubPath)continue;
+  const suggestions=getInternalLinkSuggestions(page.path,8);
+  if(!suggestions.some(item=>item.page.path===hubPath))errors.push('Topic page does not surface its cluster hub: '+page.path+' -> '+hubPath);
+}
 
 const home=readFileSync(new URL('../src/app/page.tsx',import.meta.url),'utf8');
 if(!home.includes('id="todas-las-herramientas"')&&!readFileSync(new URL('../src/components/SiteDirectory.tsx',import.meta.url),'utf8').includes('id="todas-las-herramientas"'))errors.push('Missing #todas-las-herramientas directory target');
@@ -78,4 +85,4 @@ if(errors.length){
   process.exit(1);
 }
 
-console.log('[Navigation Audit] PASS — '+keywordPages.length+' keyword routes are reachable from home; '+primaryNavigation.length+' primary, '+footerSeen.size+' footer and '+legalNavigation.length+' legal routes validated.');
+console.log('[Navigation Audit] PASS — '+keywordPages.length+' keyword routes are reachable from home and every non-hub topic surfaces its cluster hub; '+primaryNavigation.length+' primary, '+footerSeen.size+' footer and '+legalNavigation.length+' legal routes validated.');

@@ -25,6 +25,7 @@ import TopicSubnav from'@/components/TopicSubnav';
 import PageSectionNav from'@/components/PageSectionNav';
 import PageDataBrief from'@/components/PageDataBrief';
 import PageDecisionChecklist from'@/components/PageDecisionChecklist';
+import PageDirectAnswer from'@/components/PageDirectAnswer';
 import{keywordPageBySlug,keywordPages}from'@/data/keywordMaster';
 import{getNamesForPath}from'@/data/nameDataset';
 import{topicClusters}from'@/data/topicClusters';
@@ -158,6 +159,7 @@ export default async function KeywordPageView({params}:{params:Promise<{slug:str
     <PageIntro page={page}/>
     <TopicSubnav page={page}/>
     <PageSectionNav page={page} hasPrimaryTool={hasPrimaryTool} hasResultCollection={hasResultCollection}/>
+    <PageDirectAnswer page={page} items={items}/>
 
     {hasPrimaryTool&&<div id="herramienta" className="scroll-mt-24">
       {isRoblox&&<PlatformNameTool platform="roblox"/>}
